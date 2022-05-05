@@ -21,7 +21,7 @@ THREADS=$(nproc)
 SYNTHESIS=`pwd`
 PREREQUISITES=$SYNTHESIS/prerequisites
 DOWNLOADS=$PREREQUISITES/downloads
-TACAS_DEPENDENCIES=$PREREQUISITES/tacas-dependencies
+TACAS_DEPENDENCIES=$PREREQUISITES/offline-dependencies
 SYNTHESIS_ENV=$SYNTHESIS/env
 
 # unzip downloaded prerequisites
