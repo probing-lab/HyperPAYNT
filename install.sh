@@ -29,7 +29,7 @@ cd $PREREQUISITES
 unzip $DOWNLOADS/carl.zip
 mv carl-master14 carl
 unzip $DOWNLOADS/pycarl.zip
-mv pycarl-master pycarl
+mv pycarl-2.0.5 pycarl
 cd $SYNTHESIS
 
 # dependencies
