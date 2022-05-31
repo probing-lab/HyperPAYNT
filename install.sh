@@ -23,13 +23,6 @@ PREREQUISITES=$SYNTHESIS/prerequisites
 DOWNLOADS=$PREREQUISITES/downloads
 TACAS_DEPENDENCIES=$PREREQUISITES/tacas-dependencies
 SYNTHESIS_ENV=$SYNTHESIS/env
-
-# unzip downloaded prerequisites
-cd $PREREQUISITES
-unzip $DOWNLOADS/carl.zip
-mv carl-master14 carl
-unzip $DOWNLOADS/pycarl.zip
-mv pycarl-2.0.5 pycarl
 cd $SYNTHESIS
 
 # dependencies
