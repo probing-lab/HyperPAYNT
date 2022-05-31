@@ -42,28 +42,11 @@ def setup_logger(log_path = None):
 @click.option("--sketch", default="sketch.templ", help="name of the sketch file")
 @click.option("--properties", default="sketch.props", help="name of the properties file")
 @click.option("--constants", default="", help="constant assignment string", )
-@click.argument("method", type=click.Choice(['onebyone', 'cegis', 'ar', 'hybrid'], case_sensitive=False), default="ar")
-
-@click.option("--export-jani", is_flag=True, default=False, help="export JANI model to 'output.jani' and abort")
-
-@click.option("--incomplete-search", is_flag=True, default=False, help="use incomplete search during the synthesis")
-
-@click.option("--fsc-synthesis", is_flag=True, default=False, help="enable incremental synthesis of FSCs for a POMDP")
-@click.option("--pomdp-memory-size", default=1, help="implicit memory size for POMDP FSCs")
-
-@click.option("--hyperproperty", is_flag=True, default=False, help="enable synthesis of an MDP scheduler wrt a hyperproperty")
 
 def paynt(
-        project, sketch, properties, constants, method, export_jani,
-        incomplete_search, fsc_synthesis, pomdp_memory_size,
-        hyperproperty
+        project, sketch, properties, constants
 ):
     logger.info("This is Paynt version {}.".format(version()))
-
-    Sketch.export_jani = export_jani
-    Sketch.hyperproperty_synthesis = hyperproperty
-    Synthesizer.incomplete_search = incomplete_search
-    POMDPQuotientContainer.pomdp_memory_size = pomdp_memory_size
 
     # parse sketch
     if not os.path.isdir(project):
@@ -71,26 +54,9 @@ def paynt(
     sketch_path = os.path.join(project, sketch)
     properties_path = os.path.join(project, properties)
     sketch = Sketch(sketch_path, properties_path, constants)
-
-    # choose synthesis method
-    if sketch.is_pomdp and fsc_synthesis:
-        synthesizer = SynthesizerPOMDP(sketch, method)
-    elif method == "onebyone":
-        synthesizer = Synthesizer1By1(sketch)
-    elif method == "cegis":
-        synthesizer = SynthesizerCEGIS(sketch)
-    elif method == "ar":
-        synthesizer = SynthesizerAR(sketch)
-    elif method == "hybrid":
-        synthesizer = SynthesizerHybrid(sketch)
-    elif method == "evo":
-        raise NotImplementedError
-    else:
-        assert None
-
-    # run synthesis
+    logger.info("Synthetizing an MDP scheduler wrt a hyperproperty")
+    synthesizer = SynthesizerHybrid(sketch)
     synthesizer.run()
-
 
 def main():
     # setup_logger("paynt.log")
