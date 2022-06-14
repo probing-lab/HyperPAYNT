@@ -40,11 +40,9 @@ def setup_logger(log_path = None):
 @click.command()
 @click.option("--project", required=True, help="root", )
 @click.option("--sketch", default="sketch.templ", help="name of the sketch file")
-@click.option("--properties", default="sketch.props", help="name of the properties file")
-@click.option("--constants", default="", help="constant assignment string", )
 
 def paynt(
-        project, sketch, properties, constants
+        project, sketch
 ):
     logger.info("This is Paynt version {}.".format(version()))
 
@@ -52,8 +50,7 @@ def paynt(
     if not os.path.isdir(project):
         raise ValueError(f"The project folder {project} is not a directory")
     sketch_path = os.path.join(project, sketch)
-    properties_path = os.path.join(project, properties)
-    sketch = Sketch(sketch_path, properties_path, constants)
+    sketch = Sketch(sketch_path)
     logger.info("Synthetizing an MDP scheduler wrt a hyperproperty")
     synthesizer = SynthesizerHybrid(sketch)
     synthesizer.run()
