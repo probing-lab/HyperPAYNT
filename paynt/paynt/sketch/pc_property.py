@@ -68,18 +68,13 @@ class Specification:
         properties = [c.L_property for c in self.constraints] + [c.R_property for c in self.constraints]
         return properties
 
-    def stormpy_formulae(self):
-        mc_formulae = [c.L_formula for c in self.constraints] + [c.R_formula for c in self.constraints]
-        return mc_formulae
-
     @classmethod
     def string_formulae(cls):
-        fs = ["P=? [F \"die1\"", "P=? [F \"die2\"", "P=? [F \"die3\"",
-              "P=? [F \"die4\"", "P=? [F \"die5\"", "P=? [F \"die6\""]
-        return fs
+        return ["P=? [F \"die1\"", "P=? [F \"die2\"", "P=? [F \"die3\"",
+                "P=? [F \"die4\"", "P=? [F \"die5\"", "P=? [F \"die6\""]
+
 
 # TODO: refactor this as well (I have no idea whether we need it at the moment)
-
 class SpecificationResult:
     def __init__(self, constraints_result, optimality_result):
         self.constraints_result = constraints_result
