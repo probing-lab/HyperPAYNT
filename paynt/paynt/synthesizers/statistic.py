@@ -69,10 +69,6 @@ class Statistic:
         time_estimate = round(time_estimate,1)
         iters = (self.iterations_mdp,self.iterations_dtmc)
         avg_size_mdp = safe_division(self.acc_size_mdp, self.iterations_mdp)
-        optimum = "-"
-        spec = self.sketch.specification
-        if spec.has_optimality and spec.optimality.optimum is not None:
-            optimum = round(spec.optimality.optimum,3)
         
         # sat_size = "-"
         # ds = self.synthesizer.sketch.design_space
@@ -81,7 +77,7 @@ class Statistic:
         # elif ds.use_python_z3:
         #     sat_size = len(ds.solver.assertions())
 
-        return f"> Progress {percentage_rejected}%, elapsed {time_elapsed} s, iters = {iters}, opt = {optimum}"
+        return f"> Progress {percentage_rejected}%, elapsed {time_elapsed} s, iters = {iters}"
 
     def print_status(self):
         if not self.synthesis_time.read() > self.status_horizon:
@@ -101,9 +97,6 @@ class Statistic:
         if assignment is not None:
             self.feasible = True
             self.assignment = str(assignment)
-        self.optimum = None
-        if self.sketch.specification.has_optimality:
-            self.optimum = self.sketch.specification.optimality.optimum
 
         self.avg_size_dtmc = safe_division(self.acc_size_dtmc, self.iterations_dtmc)
         self.avg_size_mdp = safe_division(self.acc_size_mdp, self.iterations_mdp)
@@ -111,7 +104,6 @@ class Statistic:
     def get_summary(self):
         spec = self.sketch.specification
         specification = "\n".join([f"constraint {i + 1}: {str(f)}" for i,f in enumerate(spec.constraints)]) + "\n"
-        specification += f"optimality objective: {str(spec.optimality)}\n" if spec.has_optimality else ""
 
         fraction_explored = int((self.synthesizer.explored / self.sketch.design_space.size) * 100)
         explored = f"explored: {fraction_explored} %"
@@ -131,7 +123,7 @@ class Statistic:
             family_stats += f"{cegis_stats}\n"
 
         feasible = "yes" if self.feasible else "no"
-        result = f"feasible: {feasible}" if self.optimum is None else f"optimal: {round(self.optimum, 6)}"
+        result = f"feasible: {feasible}"
         # assignment = f"hole assignment: {str(self.assignment)}\n" if self.assignment else ""
         assignment = ""
 
