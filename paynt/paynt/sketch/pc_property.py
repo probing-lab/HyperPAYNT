@@ -30,15 +30,15 @@ class PC_Property:
         self.L_state_var = "s1"
         self.R_state_var = "s2"
 
-        # each property specifies an equality between two probabilities
+        # each pc_property specifies an equality between two probabilities
         self.property = prop
         self.op = operator.eq
-
         self.formula = prop.raw_formula
 
     def __str__(self):
         return str(self.formula) + " = " + str(self.formula)
 
+    # TODO: refactor this, we don't need it so abstract (and introduce confidence intervals)
     def meets_op(self, a, b):
         return self.op(a, b)
 
@@ -48,8 +48,6 @@ class PC_Property:
 # a specification is just
 #    - a set of properties (i.e. all the equalities)
 #    - the dictionary to retrive the state quantifications
-
-
 class Specification:
 
     def __init__(self, constraints):
@@ -62,11 +60,11 @@ class Specification:
         return f"constraints: {constraints}"
 
     def all_constraint_indices(self):
-        return [i for i, _ in enumerate(self.constraints)]
+        return [1,2,3,4,5,6]
 
     def stormpy_properties(self):
-        properties = [c.L_property for c in self.constraints] + [c.R_property for c in self.constraints]
-        return properties
+        #Left or Right does not matter, they are the same
+        return [c.L_property for c in self.constraints]
 
     @classmethod
     def string_formulae(cls):
@@ -75,44 +73,36 @@ class Specification:
 
 
 # TODO: refactor this as well (I have no idea whether we need it at the moment)
-class SpecificationResult:
-    def __init__(self, constraints_result, optimality_result):
-        self.constraints_result = constraints_result
-        self.optimality_result = optimality_result
+
+class PropertyResult:
+    def __init__(self, prop, result, value_left, value_right):
+        self.property = prop
+        self.result = result
+        self.value_left = value_left
+        self.value_right = value_right
+        self.sat = prop.satisfies_threshold(value_left, value_right)
 
     def __str__(self):
-        return str(self.constraints_result) + " : " + str(self.optimality_result)
+        return str(self.value_left) + " vs " + str(self.value_right)
 
-    def improving(self, family):
-        ''' Interpret MDP specification result. '''
+class SpecificationResult:
+    '''
+    A list of property results.
+    Note: some results might be None (not evaluated).
+    '''
+    def __init__(self, results):
+        self.results = results
+        self.all_sat = True
+        for result in results:
+            if result is not None and result.sat == False:
+                self.all_sat = False
+                break
 
-        cr = self.constraints_result
-        opt = self.optimality_result
-
-        if cr.feasibility == True:
-            # either no constraints or constraints were satisfied
-            if opt is not None:
-                return opt.improving_assignment, opt.improving_value, opt.can_improve
-            else:
-                improving_assignment = family.pick_any()
-                return improving_assignment, None, False
-
-        if cr.feasibility == False:
-            return None, None, False
-
-        # constraints undecided: try to push optimality assignment
-        if opt is not None:
-            can_improve = opt.improving_value is None and opt.can_improve
-            return opt.improving_assignment, opt.improving_value, can_improve
-        else:
-            return None, None, True
-
-    def undecided_result(self):
-        if self.optimality_result is not None and self.optimality_result.can_improve:
-            return self.optimality_result
-        return self.constraints_result.results[self.constraints_result.undecided_constraints[0]]
+    def __str__(self):
+        return ",".join([str(result) for result in self.results])
 
 
+# TODO: refactor this as well ( I have no idea at the moment)
 class MdpPropertyResult:
     def __init__(self,
                  prop, primary, secondary, feasibility,
