@@ -22,13 +22,10 @@ class Hole:
       this order must be preserved in the refining process.
     '''
 
-    def __init__(self, name, options, original_size=None):
+    def __init__(self, name, options, option_labels):
         self.name = name
         self.options = options
-        if original_size is not None:
-            self.original_size = original_size
-        else:
-            self.original_size = original_size
+        self.option_labels = option_labels
 
     @property
     def size(self):
@@ -40,13 +37,14 @@ class Hole:
 
     @property
     def is_unrefined(self):
-        return self.size == self.original_size
+        return self.size == len(self.option_labels)
 
     def __str__(self):
+        labels = [self.option_labels[option] for option in self.options]
         if self.size == 1:
-            return "{}={}".format(self.name, self.options[0])
+            return"{}={}".format(self.name,labels[0])
         else:
-            return self.name + ": {" + ",".join(self.options) + "}"
+            return self.name + ": {" + ",".join(labels) + "}"
 
     def assume_options(self, options):
         assert len(options) > 0
@@ -56,7 +54,7 @@ class Hole:
         # TODO: is this true? I'm not an expert of Python pass-by-reference or pass-by-value rules
         # note that the copy is shallow, but after assuming some options
         # the options pointer points to the new list, hence the original hole is not modified.
-        return Hole(self.name, self.options, self.original_size)
+        return Hole(self.name, self.options, self.option_labels)
 
 
 class Holes(list):
@@ -187,7 +185,7 @@ class DesignSpace(Holes):
     # whether hints will be stored for subsequent MDP model checking
     store_hints = True
 
-    def __init__(self, holes=[], parent_info=None):
+    def __init__(self, holes = [], parent_info = None):
         super().__init__(holes)
 
         self.mdp = None
