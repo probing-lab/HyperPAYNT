@@ -85,7 +85,7 @@ class PropertyResult:
     def __str__(self):
         return str(self.value_left) + " vs " + str(self.value_right)
 
-class SpecificationResult:
+class ConstraintsResult:
     '''
     A list of property results.
     Note: some results might be None (not evaluated).
