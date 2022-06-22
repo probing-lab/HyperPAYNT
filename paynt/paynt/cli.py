@@ -6,8 +6,6 @@ from . import version
 
 from .sketch.sketch import Sketch
 from .synthesizers.synthesizer import *
-from .synthesizers.quotient import POMDPQuotientContainer
-from .synthesizers.pomdp import SynthesizerPOMDP
 
 import logging
 # logger = logging.getLogger(__name__)
