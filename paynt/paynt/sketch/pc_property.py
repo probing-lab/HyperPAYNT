@@ -178,15 +178,16 @@ class MdpConstraintsResult:
     def improving(self, family):
         ''' Interpret MDP constraints result. '''
 
+        # constraints were satisfied
         if self.feasibility == True:
-            # either no constraints or constraints were satisfied
             improving_assignment = family.pick_any()
             return improving_assignment, False
 
+        # constraints not satisfied
         if self.feasibility == False:
             return None,False
 
-        # constraints undecided: try to push optimality assignment
+        # constraints undecided
         return None, True
 
     def __str__(self):

@@ -57,7 +57,6 @@ class Synthesizer:
         return Synthesizer.use_optimum_update_timeout and self.since_last_optimum_update > Synthesizer.optimum_update_iters_limit
             
 
-        
 class Synthesizer1By1(Synthesizer):
     
     @property
