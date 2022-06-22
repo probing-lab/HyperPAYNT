@@ -72,6 +72,9 @@ class PC_Property:
     def satisfies_threshold(self, value_left, value_right):
         return self.meets_op(value_left, value_right)
 
+    def set_threshold(self, threshold):
+        self.threshold = threshold
+
 
 # a specification is just a set of properties (i.e. all the equalities)
 class Specification:
