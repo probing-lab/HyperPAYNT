@@ -2,7 +2,7 @@
 
 set -ex
 
-INSTALL_DEPENDENCIES=false
+INSTALL_DEPENDENCIES=true
 
 if [ "$INSTALL_DEPENDENCIES" = true ]; then
     if [[ ! $(sudo echo 0) ]]; then echo "sudo authentication failed"; exit; fi
