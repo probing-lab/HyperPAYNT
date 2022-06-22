@@ -102,8 +102,8 @@ class Specification:
 
     @classmethod
     def string_formulae(cls):
-        return ['P=? [F \"die1\"]', 'P=? [F \"die2\"]', 'P=? [F \"die3\"]',
-                'P=? [F \"die4\"]', 'P=? [F \"die5\"]', 'P=? [F \"die6\"]']
+        return ["P=? [F \"die1\"]", "P=? [F \"die2\"]", "P=? [F \"die3\"]",
+                "P=? [F \"die4\"]", "P=? [F \"die5\"]", "P=? [F \"die6\"]"]
 
 
 class PropertyResult:
