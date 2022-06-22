@@ -52,14 +52,14 @@ mkdir -p $SYNTHESIS/storm/build
 cd $SYNTHESIS/storm/build
 cmake ..
 make storm-main storm-synthesis --jobs $THREADS
-make check --jobs $THREADS
+#make check --jobs $THREADS
 cd $SYNTHESIS
 
 # stormpy
 cd $SYNTHESIS/stormpy
 source $SYNTHESIS_ENV/bin/activate
 python3 setup.py build_ext --jobs $THREADS develop
-python3 setup.py test
+#python3 setup.py test
 deactivate
 cd $SYNTHESIS
 
