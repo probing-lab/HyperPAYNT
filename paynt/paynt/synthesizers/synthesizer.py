@@ -44,7 +44,7 @@ class Synthesizer:
 
         if assignment is not None:
             dtmc = self.sketch.quotient.build_chain(assignment)
-            spec = dtmc.check_constraints(self.sketch.specification)
+            spec = dtmc.check_constraints(self.sketch.specification.constraints)
             logger.info("Double-checking specification satisfiability: {}".format(spec))
         
         self.print_stats()
@@ -82,12 +82,8 @@ class Synthesizer1By1(Synthesizer):
 
             if not result.constraints_result.all_sat:
                 continue
-            if not self.sketch.specification.has_optimality:
-                satisfying_assignment = assignment
-                break
-            if result.optimality_result.improves_optimum:
-                self.sketch.specification.optimality.update_optimum(result.optimality_result.value)
-                satisfying_assignment = assignment
+
+            satisfying_assignment = assignment
 
         self.stat.finished(satisfying_assignment)
         Profiler.stop()
@@ -114,15 +110,11 @@ class SynthesizerAR(Synthesizer):
         self.sketch.quotient.build(family)
         self.stat.iteration_mdp(family.mdp.states)
 
-        res = family.mdp.check_constraints(self.sketch.specification, property_indices = family.property_indices, short_evaluation = True)
+        res = family.mdp.check_constraints(self.sketch.specification.constraints, property_indices = family.property_indices, short_evaluation = True)
         family.analysis_result = res
         Profiler.resume()
 
-        improving_assignment,improving_value,can_improve = res.improving(family)
-        # print(improving_value, can_improve)
-        if improving_value is not None:
-            self.sketch.specification.optimality.update_optimum(improving_value)
-            self.since_last_optimum_update = 0
+        improving_assignment, can_improve = res.improving(family)
 
         return can_improve, improving_assignment
     
@@ -202,19 +194,13 @@ class SynthesizerCEGIS(Synthesizer):
         self.stat.iteration_dtmc(dtmc.states)
         
         # model check all properties
-        spec = dtmc.check_constraints(self.sketch.specification,
+        spec = dtmc.check_constraints(self.sketch.specification.constraints,
             property_indices = family.property_indices, short_evaluation = False)
 
         # analyze model checking results
-        improving = False
         if spec.constraints_result.all_sat:
-            if not self.sketch.specification.has_optimality:
-                Profiler.resume()
-                return True, True
-            if spec.optimality_result is not None and spec.optimality_result.improves_optimum:
-                self.sketch.specification.optimality.update_optimum(spec.optimality_result.value)
-                self.since_last_optimum_update = 0
-                improving = True
+            Profiler.resume()
+            return True, True
 
         # construct conflict wrt each unsatisfiable property
         # pack all unsatisfiable properties as well as their MDP results (if exists)
@@ -224,11 +210,6 @@ class SynthesizerCEGIS(Synthesizer):
                 continue
             prop = self.sketch.specification.constraints[index]
             property_result = family.analysis_result.constraints_result.results[index] if family.analysis_result is not None else None
-            conflict_requests.append( (index,prop,property_result) )
-        if self.sketch.specification.has_optimality:
-            index = len(self.sketch.specification.constraints)
-            prop = self.sketch.specification.optimality
-            property_result = family.analysis_result.optimality_result if family.analysis_result is not None else None
             conflict_requests.append( (index,prop,property_result) )
 
         # prepare DTMC for CE generation
@@ -261,7 +242,7 @@ class SynthesizerCEGIS(Synthesizer):
         Profiler.resume()
         
         Profiler.resume()
-        return False, improving
+        return False, False
 
     def synthesize(self, family):
 

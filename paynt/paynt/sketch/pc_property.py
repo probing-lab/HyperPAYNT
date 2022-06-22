@@ -72,8 +72,9 @@ class PC_Property:
     def meets_op(self, a, b):
         return not PC_Property.above_float_precision(a,b) or self.op(a,b)
 
-    def satisfies_threshold(self, value_left, value_right):
-        return self.meets_op(value_left, value_right)
+    def satisfies_threshold(self, value):
+        assert self.threshold is not None
+        return self.meets_op(value, self.threshold)
 
     def set_threshold(self, threshold):
         self.threshold = threshold
@@ -105,14 +106,12 @@ class Specification:
                 "P=? [F \"die4\"", "P=? [F \"die5\"", "P=? [F \"die6\""]
 
 
-# TODO: refactor this as well (I have no idea whether we need it at the moment)
 class PropertyResult:
-    def __init__(self, prop, result, value_left, value_right):
+    def __init__(self, prop, result, value):
         self.property = prop
         self.result = result
-        self.value_left = value_left
-        self.value_right = value_right
-        self.sat = prop.satisfies_threshold(value_left, value_right)
+        self.value = value
+        self.sat = prop.satisfies_threshold(value)
 
     def __str__(self):
         return str(self.value_left) + " vs " + str(self.value_right)
@@ -175,6 +174,20 @@ class MdpConstraintsResult:
                 break
             if result.feasibility == None:
                 self.feasibility = None
+
+    def improving(self, family):
+        ''' Interpret MDP constraints result. '''
+
+        if self.feasibility == True:
+            # either no constraints or constraints were satisfied
+            improving_assignment = family.pick_any()
+            return improving_assignment, False
+
+        if self.feasibility == False:
+            return None,False
+
+        # constraints undecided: try to push optimality assignment
+        return None, True
 
     def __str__(self):
         return ",".join([str(result) for result in self.results])
