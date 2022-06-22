@@ -1,6 +1,5 @@
 import stormpy
 import stormpy.synthesis
-import stormpy.pomdp
 
 import math
 import re
@@ -8,7 +7,6 @@ import itertools
 
 from .statistic import Statistic
 
-from ..sketch.jani import JaniUnfolder
 from ..sketch.holes import Hole,Holes,DesignSpace
 
 from .synthesizer import Synthesizer
@@ -27,7 +25,7 @@ class QuotientContainer:
         # model origin
         self.sketch = sketch
         
-        # qoutient MDP for the super-family
+        # quotient MDP for the super-family
         self.quotient_mdp = None
 
         # for each choice of the quotient MDP contains a set of hole-option labelings
@@ -45,14 +43,12 @@ class QuotientContainer:
         # (optional) counter of discarded assignments
         self.discarded = None
 
-    
     def compute_default_actions(self):
         self.default_actions = stormpy.BitVector(self.quotient_mdp.nr_choices, False)
         for choice in range(self.quotient_mdp.nr_choices):
             if not self.action_to_hole_options[choice]:
                 self.default_actions.set(choice)
 
-    
     def compute_state_to_holes(self):
         tm = self.quotient_mdp.transition_matrix
         self.state_to_holes = []
@@ -61,7 +57,6 @@ class QuotientContainer:
             for action in range(tm.get_row_group_start(state),tm.get_row_group_end(state)):
                 relevant_holes.update(set(self.action_to_hole_options[action].keys()))
             self.state_to_holes.append(relevant_holes)
-
 
     def select_actions(self, family):
         ''' Select non-default actions relevant in the provided design space. '''
@@ -468,20 +463,6 @@ class QuotientContainer:
         Profiler.resume()
         return design_subspaces
 
-    def double_check_assignment(self, assignment):
-        '''
-        Double-check whether this assignment truly improves optimum.
-        :return singleton family if the assignment truly improves optimum
-        '''
-        assert assignment.size == 1
-        dtmc = self.build_chain(assignment)
-        res = dtmc.check_specification(self.sketch.specification)
-        # opt_result = dtmc.model_check_property(opt_prop)
-        if res.constraints_result.all_sat and self.sketch.specification.optimality.improves_optimum(res.optimality_result.value):
-            return assignment, res.optimality_result.value
-        else:
-            return None, None
-
 
 class HyperPropertyQuotientContainer(QuotientContainer):
     def __init__(self, *args):
@@ -521,8 +502,8 @@ class HyperPropertyQuotientContainer(QuotientContainer):
                 labels = self.quotient_mdp.choice_labeling.get_labels_of_choice(choice)
                 hole_option_labels.append(labels)
                 self.action_to_hole_options.append({len(holes):offset})
-            hole_option_labels = [str(labels) for labels in hole_option_labels]
 
+            hole_option_labels = [str(labels) for labels in hole_option_labels]
 
             hole = Hole(hole_name, hole_options, hole_option_labels)
             holes.append(hole)
@@ -534,7 +515,6 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         self.compute_default_actions()
         self.compute_state_to_holes()
 
-        logger.info("Design space: {}".format(self.sketch.design_space.size))
 
 
 
