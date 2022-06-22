@@ -55,6 +55,9 @@ class Sketch:
         properties = []
         for f in fs:
             parsed = stormpy.parse_properties_for_prism_program(f, prism)
-            p = PC_Property(parsed)
+            # TODO: note that this works only for the PC_property, which has two initial states
+            p = PC_Property(parsed, 0)
             properties.append(p)
+            p1 = PC_Property(parsed, 1)
+            properties.append(p1)
         return Specification(properties)

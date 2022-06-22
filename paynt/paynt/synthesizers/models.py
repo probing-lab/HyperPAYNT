@@ -75,8 +75,8 @@ class MarkovChain:
         return self.model.nr_choices == self.model.nr_states
 
     @property
-    def initial_state(self):
-        return self.model.initial_states[0]
+    def initial_states(self):
+        return self.model.initial_states
 
     def model_check_formula(self, formula):
         result = stormpy.model_checking(
@@ -106,12 +106,21 @@ class MarkovChain:
             # hint = self.analysis_hints[prop]
 
         formula = prop.formula if not alt else prop.formula_alt
+        formula_alt = prop.formula_alt if not alt else prop.formula
         if hint is None:
             result = self.model_check_formula(formula)
+            result_alt = self.model_check_formula(formula_alt)
         else:
             result = self.model_check_formula_hint(formula, hint)
+            result_alt = self.model_check_formula_hint(formula_alt, hint)
 
-        value = result.at(self.initial_state)
+        # TODO: note that this works only with the PC experiment
+        quant_state = prop.state_quant
+        compare_state = 1 if prop.state_quant == 0 else 0
+
+        value = result.at(self.initial_state[quant_state])
+        threshold = result_alt.at(self.initial_state[compare_state])
+        prop.set_threshold(threshold)
         Profiler.resume()
         return PropertyResult(prop, result, value)
 

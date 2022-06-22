@@ -27,7 +27,7 @@ class PC_Property:
 
     ''' Wrapper over a stormpy property. '''
 
-    def __init__(self, prop):
+    def __init__(self, prop, state_quant):
         # TODO: maybe add the state identifier?
         self.property = prop
         rf = prop.raw_formula
@@ -50,6 +50,9 @@ class PC_Property:
         self.formula_alt.set_optimality_type(optimality_type)
 
         self.formula_str = rf
+
+        #set the state quantifier (either 0 or 1)
+        self.state_quant = state_quant
 
     @property
     def reward(self):
