@@ -350,9 +350,6 @@ class DesignSpace(Holes):
         for index in res.constraints_result.undecided_constraints:
             prop, hints = self.generalize_hints(res.constraints_result.results[index])
             analysis_hints[prop] = hints
-        if res.optimality_result is not None:
-            prop, hints = self.generalize_hints(res.optimality_result)
-            analysis_hints[prop] = hints
         Profiler.resume()
         return analysis_hints
 

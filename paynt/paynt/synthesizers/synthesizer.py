@@ -208,7 +208,7 @@ class SynthesizerCEGIS(Synthesizer):
             if spec.constraints_result.results[index].sat:
                 continue
             prop = self.sketch.specification.constraints[index]
-            property_result = family.analysis_result.constraints_result.results[index] if family.analysis_result is not None else None
+            property_result = family.analysis_result.results[index] if family.analysis_result is not None else None
             conflict_requests.append( (index,prop,property_result) )
 
         # prepare DTMC for CE generation
@@ -390,8 +390,6 @@ class SynthesizerHybrid(SynthesizerAR, SynthesizerCEGIS):
 
             # analyze the family
             can_improve,improving_assignment = self.analyze_family_ar(family)
-            if improving_assignment is not None:
-                satisfying_assignment = improving_assignment
             if improving_assignment is not None:
                 satisfying_assignment = improving_assignment
             if can_improve == False:
