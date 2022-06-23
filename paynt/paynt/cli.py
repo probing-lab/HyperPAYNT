@@ -50,8 +50,8 @@ def paynt(
     sketch_path = os.path.join(project, sketch)
     sketch = Sketch(sketch_path)
     logger.info("Synthetizing an MDP scheduler wrt a hyperproperty")
-    #synthesizer = SynthesizerHybrid(sketch)
-    synthesizer = Synthesizer1By1(sketch)
+    synthesizer = SynthesizerCEGIS(sketch)
+    #synthesizer = Synthesizer1By1(sketch)
     synthesizer.run()
 
 def main():

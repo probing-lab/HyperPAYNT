@@ -195,3 +195,6 @@ class MdpConstraintsResult:
 
     def __str__(self):
         return ",".join([str(result) for result in self.results])
+
+    def undecided_result(self):
+        return self.results[self.undecided_constraints[0]]

@@ -308,8 +308,11 @@ class DesignSpace(Holes):
                     counterexample_clauses.append(self.hole_clauses[hole_index])  # generalization step
                 pruning_estimate *= self[hole_index].size
 
-        assert len(counterexample_clauses) > 0  # TODO handle this
-        counterexample_encoding = z3.Not(z3.And(counterexample_clauses))
+        #assert len(counterexample_clauses) > 0  # TODO handle this
+        if (len(counterexample_clauses) > 0):
+            counterexample_encoding = z3.Not(z3.And(counterexample_clauses))
+        else:
+            counterexample_encoding = False
         DesignSpace.solver.add(counterexample_encoding)
 
         return pruning_estimate
@@ -347,8 +350,8 @@ class DesignSpace(Holes):
         Profiler.start("holes::collect_analysis_hints")
         res = self.analysis_result
         analysis_hints = dict()
-        for index in res.constraints_result.undecided_constraints:
-            prop, hints = self.generalize_hints(res.constraints_result.results[index])
+        for index in res.undecided_constraints:
+            prop, hints = self.generalize_hints(res.results[index])
             analysis_hints[prop] = hints
         Profiler.resume()
         return analysis_hints
@@ -383,7 +386,7 @@ class DesignSpace(Holes):
         pi.selected_actions = self.selected_actions
         pi.refinement_depth = self.refinement_depth
         pi.analysis_hints = self.collect_analysis_hints()
-        cr = self.analysis_result.constraints_result
+        cr = self.analysis_result
         pi.property_indices = cr.undecided_constraints if cr is not None else []
         pi.splitter = self.splitter
         pi.mdp = self.mdp

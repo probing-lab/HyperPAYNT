@@ -254,9 +254,6 @@ class SynthesizerCEGIS(Synthesizer):
         msg = "Cannot use CEGIS for maximizing reward formulae -- consider using AR or hybrid methods."
         for c in self.sketch.specification.constraints:
             assert not (c.reward and not c.minimizing), msg
-        if self.sketch.specification.has_optimality:
-            c = self.sketch.specification.optimality
-            assert not (c.reward and not c.minimizing), msg
 
         # build the quotient, map mdp states to hole indices
         self.sketch.quotient.build(family)
@@ -400,9 +397,9 @@ class SynthesizerHybrid(SynthesizerAR, SynthesizerCEGIS):
             self.stage_control.start_cegis()
 
             # construct priority subfamily that corresponds to primary scheduler
-            scheduler_selection = family.analysis_result.optimality_result.primary_selection
-            priority_subfamily = family.copy()
-            priority_subfamily.assume_options(scheduler_selection)
+            #scheduler_selection = family.analysis_result.optimality_result.primary_selection
+            #priority_subfamily = family.copy()
+            #priority_subfamily.assume_options(scheduler_selection)
 
             # explore family assignments
             sat = False
@@ -413,7 +410,7 @@ class SynthesizerHybrid(SynthesizerAR, SynthesizerCEGIS):
                     break
 
                 # pick assignment
-                assignment = family.pick_assignment_priority(priority_subfamily)
+                assignment = family.pick_assignment_priority(None)
                 if assignment is None:
                     break
                 
