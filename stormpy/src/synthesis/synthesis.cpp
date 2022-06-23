@@ -23,13 +23,14 @@ void define_synthesis(py::module& m) {
             "prepare_dtmc",
             &storm::synthesis::CounterexampleGenerator<>::prepareDtmc,
             "Prepare a DTMC for CE construction.",
-            py::arg("dtmc"), py::arg("quotient_state_map")
+            py::arg("dtmc"), py::arg("quotient_state_map"), py::arg("state_quant")
             )
         .def(
             "construct_conflict",
             &storm::synthesis::CounterexampleGenerator<>::constructConflict,
             "Construct a conflict to a prepared DTMC wrt a single formula.",
-            py::arg("formula_index"), py::arg("formula_bound"), py::arg("mdp_bounds"), py::arg("mdp_quotient_state_map")
+            py::arg("formula_index"), py::arg("formula_bound"), py::arg("mdp_bounds"), py::arg("mdp_quotient_state_map"),
+            py:.arg("state_quant")
             )
         .def(
             "print_profiling",

@@ -51,6 +51,7 @@ namespace storm {
             void prepareDtmc(
                 storm::models::sparse::Dtmc<ValueType> const& dtmc,
                 std::vector<uint_fast64_t> const& state_map
+                uint_fast64_t state_quant
                 );
             
             /*!
@@ -66,7 +67,8 @@ namespace storm {
                 uint_fast64_t formula_index,
                 ValueType formula_bound,
                 std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> mdp_bounds,
-                std::vector<StateType> const& mdp_quotient_state_map
+                std::vector<StateType> const& mdp_quotient_state_map,
+                uint_fast64_t state_quant
                 );
 
             /*!
@@ -119,6 +121,7 @@ namespace storm {
                 storm::models::sparse::StateLabeling const& labeling_subdtmc,
                 std::unordered_map<std::string,storm::models::sparse::StandardRewardModel<ValueType>> & reward_models_subdtmc,
                 std::vector<StateType> const& to_expand
+                uint_fast64_t state_quant
                 );
 
             // Quotient MDP

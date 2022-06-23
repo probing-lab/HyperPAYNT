@@ -211,15 +211,16 @@ class SynthesizerCEGIS(Synthesizer):
             property_result = family.analysis_result.results[index] if family.analysis_result is not None else None
             conflict_requests.append( (index,prop,property_result) )
 
-        # prepare DTMC for CE generation
-        ce_generator.prepare_dtmc(dtmc.model, dtmc.quotient_state_map)
-
         # construct conflict to each unsatisfiable property
         conflicts = []
         for request in conflict_requests:
             index,prop,property_result = request
 
             threshold = prop.threshold
+            state_quant = prop.state_quant
+
+            # prepare DTMC for CE generation
+            ce_generator.prepare_dtmc(dtmc.model, dtmc.quotient_state_map, state_quant)
 
             bounds = None
             scheduler_selection = None
@@ -228,7 +229,7 @@ class SynthesizerCEGIS(Synthesizer):
                 scheduler_selection = property_result.primary_selection
 
             Profiler.start("storm::construct_conflict")
-            conflict = ce_generator.construct_conflict(index, threshold, bounds, family.mdp.quotient_state_map)
+            conflict = ce_generator.construct_conflict(index, threshold, bounds, family.mdp.quotient_state_map, state_quant)
             Profiler.resume()
             conflict = self.generalize_conflict(assignment, conflict, scheduler_selection)
             conflicts.append(conflict)
