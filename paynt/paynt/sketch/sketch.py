@@ -52,9 +52,9 @@ class Sketch:
     @classmethod
     def parse_pc_specification(cls, prism):
         fs = Specification.string_formulae()
-        ps = stormpy.parse_properties_for_prism_program(fs, prism)
         properties = []
-        for p in ps:
+        for f in fs:
+            p = stormpy.parse_properties_for_prism_program(fs, prism)
             # TODO: note that this works only for the PC_property, which has two initial states
             p0 = PC_Property(p, 0)
             properties.append(p0)
