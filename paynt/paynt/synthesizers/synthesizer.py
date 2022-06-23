@@ -76,10 +76,10 @@ class Synthesizer1By1(Synthesizer):
             assignment = family.construct_assignment(hole_combination)
             chain = self.sketch.quotient.build_chain(assignment)
             self.stat.iteration_dtmc(chain.states)
-            result = chain.check_constraints(self.sketch.specification, short_evaluation = True)
+            result = chain.check_constraints(self.sketch.specification.constraints, short_evaluation = True)
             self.explore(assignment)
 
-            if not result.constraints_result.all_sat:
+            if not result.all_sat:
                 continue
 
             satisfying_assignment = assignment
@@ -197,7 +197,7 @@ class SynthesizerCEGIS(Synthesizer):
             property_indices = family.property_indices, short_evaluation = False)
 
         # analyze model checking results
-        if spec.constraints_result.all_sat:
+        if spec.all_sat:
             Profiler.resume()
             return True, True
 
@@ -205,7 +205,7 @@ class SynthesizerCEGIS(Synthesizer):
         # pack all unsatisfiable properties as well as their MDP results (if exists)
         conflict_requests = []
         for index in family.property_indices:
-            if spec.constraints_result.results[index].sat:
+            if spec.results[index].sat:
                 continue
             prop = self.sketch.specification.constraints[index]
             property_result = family.analysis_result.results[index] if family.analysis_result is not None else None

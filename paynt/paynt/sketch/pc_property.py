@@ -35,7 +35,7 @@ class PC_Property:
         # each pc_property specifies an equality between two probabilities,
         # but we resort to LEQ relations
         self.minimizing = True
-        self.op = stormpy.ComparisonType.LEQ
+        self.op = operator.le
 
         # the threshold is set at every model check query
         self.threshold = None
@@ -117,7 +117,7 @@ class PropertyResult:
         self.sat = prop.satisfies_threshold(value)
 
     def __str__(self):
-        return str(self.value_left) + " vs " + str(self.value_right)
+        return str(self.value)
 
 
 class ConstraintsResult:

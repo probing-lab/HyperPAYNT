@@ -118,8 +118,8 @@ class MarkovChain:
         quant_state = prop.state_quant
         compare_state = 1 if prop.state_quant == 0 else 0
 
-        value = result.at(self.initial_state[quant_state])
-        threshold = result_alt.at(self.initial_state[compare_state])
+        value = result.at(self.initial_states[quant_state])
+        threshold = result_alt.at(self.initial_states[compare_state])
         prop.set_threshold(threshold)
         Profiler.resume()
         return PropertyResult(prop, result, value)
