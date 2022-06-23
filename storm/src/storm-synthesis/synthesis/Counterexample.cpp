@@ -131,7 +131,7 @@ namespace storm {
             this->dtmc = std::make_shared<storm::models::sparse::Dtmc<ValueType>>(dtmc);
             this->state_map = state_map;
             uint_fast64_t dtmc_states = this->dtmc->getNumberOfStates();
-            StateType initial_state = *(*(this->dtmc->getInitialStates().begin() += state_quant));
+            StateType initial_state = *(this->dtmc->getInitialStates().begin());
             storm::storage::SparseMatrix<ValueType> const& transition_matrix = this->dtmc->getTransitionMatrix();
 
             // Mark all holes as unregistered
@@ -357,7 +357,7 @@ namespace storm {
             uint_fast64_t dtmc_states = this->dtmc->getNumberOfStates();
             storm::storage::SparseMatrix<ValueType> const& transition_matrix = this->dtmc->getTransitionMatrix();
             storm::storage::
-            StateType initial_state = *(*(this->dtmc->getInitialStates().begin() += state_quant));
+            StateType initial_state = *(this->dtmc->getInitialStates().begin());
             
             // Expand states from the new wave: 
             // - expand transition probabilities
