@@ -349,7 +349,7 @@ namespace storm {
             std::vector<std::vector<std::pair<StateType,ValueType>>> & matrix_subdtmc,
             storm::models::sparse::StateLabeling const& labeling_subdtmc,
             std::unordered_map<std::string,storm::models::sparse::StandardRewardModel<ValueType>> & reward_models_subdtmc,
-            std::vector<StateType> const& to_expand
+            std::vector<StateType> const& to_expand,
             uint_fast64_t state_quant
         ) {
             
