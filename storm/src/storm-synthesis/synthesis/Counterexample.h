@@ -12,8 +12,6 @@
 #include "storm/models/sparse/Dtmc.h"
 #include "storm/utility/Stopwatch.h"
 
-#include "storm/storage/BitVector.h"
-
 namespace storm {
     namespace synthesis {
 
