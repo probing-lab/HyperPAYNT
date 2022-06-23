@@ -119,7 +119,7 @@ namespace storm {
         template <typename ValueType, typename StateType>
         void CounterexampleGenerator<ValueType,StateType>::prepareDtmc(
             storm::models::sparse::Dtmc<ValueType> const& dtmc,
-            std::vector<uint_fast64_t> const& state_map
+            std::vector<uint_fast64_t> const& state_map,
             uint_fast64_t state_quant
             ) {
             
