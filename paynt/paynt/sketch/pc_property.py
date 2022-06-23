@@ -100,6 +100,9 @@ class Specification:
     def stormpy_properties(self):
         return [c.property for c in self.constraints]
 
+    def stormpy_formulae(self):
+        return [c.formula for c in self.constraints]
+
     @classmethod
     def string_formulae(cls):
         return ["P=? [F \"die1\"]", "P=? [F \"die2\"]", "P=? [F \"die3\"]",
