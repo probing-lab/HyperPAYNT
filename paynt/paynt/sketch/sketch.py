@@ -57,8 +57,11 @@ class Sketch:
             ps = stormpy.parse_properties_for_prism_program(f, prism)
             p = ps[0]
             # TODO: note that this works only for the PC_property, which has two initial states
-            p0 = PC_Property(p, 0)
-            properties.append(p0)
-            p1 = PC_Property(p, 1)
-            properties.append(p1)
+            p0_min = PC_Property(p, 0, minimizing=True)
+            p1_max = p0_min.double()
+
+            p1_min = PC_Property(p, 1, minimizing=True)
+            p0_max = p1_min.double()
+
+            properties.extend([p0_min, p1_max, p1_min, p0_max])
         return Specification(properties)

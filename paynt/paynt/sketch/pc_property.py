@@ -27,32 +27,39 @@ class PC_Property:
 
     ''' Wrapper over a stormpy property. '''
 
-    def __init__(self, prop, state_quant):
-        # TODO: maybe add the state identifier?
+    def __init__(self, prop, state_quant, minimizing):
         self.property = prop
         rf = prop.raw_formula
 
         # each pc_property specifies an equality between two probabilities,
-        # but we resort to LEQ relations
-        self.minimizing = True
-        self.op = operator.le
+        # but we resort to LEQ\GEQ relations
+        self.minimizing = minimizing
+        self.op = operator.le if minimizing else operator.ge
 
         # the threshold is set at every model check query
         self.threshold = None
 
         # set optimality type
         self.formula = rf.clone()
-        self.formula.set_optimality_type(stormpy.OptimizationDirection.Minimize)
+        optimality_type = stormpy.OptimizationDirection.Minimize if minimizing else stormpy.OptimizationDirection.Maximize
+        self.formula.set_optimality_type(optimality_type)
 
         # Construct alternative quantitative formula to use in AR.
         self.formula_alt = self.formula.clone()
-        optimality_type = stormpy.OptimizationDirection.Maximize
-        self.formula_alt.set_optimality_type(optimality_type)
+        optimality_type_alt = stormpy.OptimizationDirection.Maximize if minimizing else stormpy.OptimizationDirection.Minimize
+        self.formula_alt.set_optimality_type(optimality_type_alt)
 
         self.formula_str = rf
 
         #set the state quantifier (either 0 or 1)
         self.state_quant = state_quant
+
+    def double(self):
+        # TODO: this works only for the PC experiment, which has only two states
+        state_quant = 1 if self.state_quant == 0 else 0
+        minimizing = not self.minimizing
+        return PC_Property(self.property, state_quant, minimizing)
+
 
     @property
     def reward(self):

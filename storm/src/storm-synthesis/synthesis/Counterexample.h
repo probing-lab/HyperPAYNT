@@ -76,6 +76,9 @@ namespace storm {
              */
             void printProfiling();
 
+            // Reachability probability (over the threshold) induced by the safety CE
+            ValueType reach_prob;
+
         protected:
 
             /** Identify states of an MDP having some label. */

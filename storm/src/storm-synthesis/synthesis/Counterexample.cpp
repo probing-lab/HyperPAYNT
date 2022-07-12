@@ -356,7 +356,6 @@ namespace storm {
             // Get DTMC info
             uint_fast64_t dtmc_states = this->dtmc->getNumberOfStates();
             storm::storage::SparseMatrix<ValueType> const& transition_matrix = this->dtmc->getTransitionMatrix();
-            storm::storage::
             StateType initial_state = *(this->dtmc->getInitialStates().begin() += state_quant);
             
             // Expand states from the new wave: 
@@ -434,6 +433,9 @@ namespace storm {
             } else {
                 satisfied = result[initial_state] > formula_bound;
             }
+
+            // set the found reachability probability
+            this->reach_prob = result[initial_state]
 
             return satisfied;
         }
