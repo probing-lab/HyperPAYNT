@@ -435,7 +435,7 @@ namespace storm {
             }
 
             // set the found reachability probability
-            this->reach_prob = result[initial_state]
+            this->reach_prob = result[initial_state];
 
             return satisfied;
         }

@@ -95,7 +95,7 @@ class MarkovChain:
         result = stormpy.synthesis.model_check_with_hint(self.model, task, self.environment, hint)
         return result
 
-    def model_check_property(self, prop, alt = False,):
+    def model_check_property(self, prop, alt=False):
         direction = "prim" if not alt else "seco"
         Profiler.start(f"  MC {direction}")
         # get hint
