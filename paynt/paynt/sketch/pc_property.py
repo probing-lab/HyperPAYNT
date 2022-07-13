@@ -23,7 +23,7 @@ class PC_Property:
     # model checking precision
     mc_precision = 1e-4
     # precision for comparing floats
-    float_precision = 1e-10
+    float_precision = 1e-4
 
     ''' Wrapper over a stormpy property. '''
 
@@ -66,7 +66,8 @@ class PC_Property:
         return False
 
     def __str__(self):
-        return str(self.formula_str)
+        other_state_quant = 0 if self.state_quant == 1 else 1
+        return str(self.formula_str) + " " + str(self.state_quant) + " " + str(self.op) + " " + str(other_state_quant)
 
     @staticmethod
     def above_mc_precision(a, b):
