@@ -228,26 +228,26 @@ class SynthesizerCEGIS(Synthesizer):
                 bounds = property_result.primary.result
                 scheduler_selection = property_result.primary_selection
 
+            Profiler.start("storm::construct_conflict")
+            conflict = ce_generator.construct_conflict(index, threshold, bounds, family.mdp.quotient_state_map,
+                                                       state_quant)
             # handle the double property
             prop_double = prop.double()
             threshold_double = ce_generator.reachability_probability
+            prop_double.set_threshold(threshold_double)
             state_quant_double = prop_double.state_quant
 
             # prepare double DTMC for CE generation
             ce_generator.prepare_dtmc(dtmc.model, dtmc.quotient_state_map, state_quant_double)
 
-            Profiler.start("storm::construct_conflict")
-            conflict = ce_generator.construct_conflict(index, threshold, bounds, family.mdp.quotient_state_map,
-                                                       state_quant)
-
             conflict_double = ce_generator.construct_conflict(index, threshold_double, bounds,
                                                               family.mdp.quotient_state_map,
                                                               state_quant_double)
-            conflict = conflict.extend(conflict_double)
+            conflict = list(set(conflict + conflict_double))
             Profiler.resume()
             conflict = self.generalize_conflict(assignment, conflict, scheduler_selection)
             conflicts.append(conflict)
-        # print(conflicts)
+        #print(conflicts)
 
         # use conflicts to exclude the generalizations of this assignment
         Profiler.start("holes::exclude_assignment")
