@@ -429,9 +429,9 @@ namespace storm {
             storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType>& result = this->hint_result->asExplicitQuantitativeCheckResult<ValueType>();
             bool satisfied;
             if(this->formula_safety[index]) {
-                satisfied = result[initial_state] < formula_bound;
+                satisfied = (result[initial_state] <= formula_bound) || (abs(result[initial_state]) - formula_bound) < exp(-5);
             } else {
-                satisfied = result[initial_state] > formula_bound;
+                satisfied = (result[initial_state] >= formula_bound) || (abs(result[initial_state]) - formula_bound) < exp(-5);
             }
 
             // set the found reachability probability
