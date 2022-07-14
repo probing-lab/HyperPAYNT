@@ -103,7 +103,7 @@ class Specification:
         return False
 
     def all_constraint_indices(self):
-        return [1,2,3,4,5,6]
+        return [i for i in range(24)]
 
     def stormpy_properties(self):
         return [c.property for c in self.constraints]
