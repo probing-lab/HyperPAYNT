@@ -6,7 +6,7 @@ module prob_conformance
        s   : [0..6];
        f   : [0..1];
 
-       // the 6-sided die (f==0)
+        // the 6-sided die (f==0)
        [] (s=0)&(die=0)&(f=0) -> 1/6 : (die'=1) + 1/6 : (die'=2) + 1/6 : (die'=3) + 1/6 : (die'=4) + 1/6 : (die'=5) + 1/6 : (die'=6);
        [] (die!=0) -> true;
 
@@ -19,7 +19,7 @@ module prob_conformance
        [e] (s=0)&(die=0)&(f=1) -> 1/2 : (s'=0) + 1/2 : (s'=5);
        [f] (s=0)&(die=0)&(f=1) -> 1/2 : (s'=0) + 1/2 : (s'=6);
 
-       [g] (s=0)&(die=0)&(f=1) -> 1/2 : (s'=1) + 1/2 : (s'=2);
+       //[g] (s=0)&(die=0)&(f=1) -> 1/2 : (s'=1) + 1/2 : (s'=2); the action to synthesize
        [h] (s=0)&(die=0)&(f=1) -> 1/2 : (s'=1) + 1/2 : (s'=3);
        [i] (s=0)&(die=0)&(f=1) -> 1/2 : (s'=1) + 1/2 : (s'=4);
        [j] (s=0)&(die=0)&(f=1) -> 1/2 : (s'=1) + 1/2 : (s'=5);
@@ -127,7 +127,7 @@ module prob_conformance
        [n] (s=1)&(die=0)&(f=1) -> 1/2 : (s'=2) + 1/2 : (s'=5);
        [o] (s=1)&(die=0)&(f=1) -> 1/2 : (s'=2) + 1/2 : (s'=6);
 
-       [p] (s=1)&(die=0)&(f=1) -> 1/2 : (s'=3) + 1/2 : (s'=4);
+       // [p] (s=1)&(die=0)&(f=1) -> 1/2 : (s'=3) + 1/2 : (s'=4); the action to synthesize
        [q] (s=1)&(die=0)&(f=1) -> 1/2 : (s'=3) + 1/2 : (s'=5);
        [r] (s=1)&(die=0)&(f=1) -> 1/2 : (s'=3) + 1/2 : (s'=6);
 
@@ -216,10 +216,14 @@ module prob_conformance
 
        [] (s=6)&(die=0)&(f=1) -> 1/2 : (s'=2) + 1/2 : (s'=0)&(die'=6);
 
+
+
 endmodule
 
-// we have two initial states, either the 6-sided (0,0,0) or the 2-sided die (0,0,1)
 init  (s=0)&(die=0)  endinit
+
+label "start1" = (s=0)&(die=0)&(f=0);
+label "start2" = (s=0)&(die=0)&(f=1);
 
 label "die1" = (die=1);
 label "die2" = (die=2);
