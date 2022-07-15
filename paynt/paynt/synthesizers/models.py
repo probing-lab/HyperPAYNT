@@ -178,18 +178,8 @@ class MDP(MarkovChain):
         selection,choice_values,expected_visits,scores,consistent = self.quotient_container.scheduler_consistent(self, prop, primary.result)
         
         # regardless of whether it is consistent or not, we compute secondary direction to show that all SAT
-
         # compute secondary direction
         secondary = self.model_check_property(prop, alt = True)
-        if self.is_dtmc and primary.value != secondary.value:
-            dtmc = self.quotient_container.mdp_to_dtmc(self.model)
-            result = stormpy.model_checking(
-                dtmc, prop.formula, only_initial_states=False,
-                extract_scheduler=(not self.is_dtmc),
-                # extract_scheduler=True,
-                environment=self.environment
-            )
-            assert False
 
         feasibility = True if secondary.sat else None
         return MdpPropertyResult(prop, primary, secondary, feasibility, selection, choice_values, expected_visits, scores)
