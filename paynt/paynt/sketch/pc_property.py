@@ -57,8 +57,9 @@ class PC_Property:
 
     def double(self):
         state_quant = self.compare_state
+        compare_state = self.state_quant
         minimizing = not self.minimizing
-        return PC_Property(self.property, state_quant, minimizing)
+        return PC_Property(self.property, state_quant, compare_state, minimizing)
 
 
     @property
