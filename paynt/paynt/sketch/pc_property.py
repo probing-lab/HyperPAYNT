@@ -27,7 +27,7 @@ class PC_Property:
 
     ''' Wrapper over a stormpy property. '''
 
-    def __init__(self, prop, state_quant, minimizing):
+    def __init__(self, prop, state_quant, compare_state, minimizing):
         self.property = prop
         rf = prop.raw_formula
 
@@ -53,10 +53,10 @@ class PC_Property:
 
         #set the state quantifier (either 0 or 1)
         self.state_quant = state_quant
+        self.compare_state = compare_state
 
     def double(self):
-        # TODO: this works only for the PC experiment, which has only two states
-        state_quant = 1 if self.state_quant == 0 else 0
+        state_quant = self.compare_state
         minimizing = not self.minimizing
         return PC_Property(self.property, state_quant, minimizing)
 

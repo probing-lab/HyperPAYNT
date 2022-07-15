@@ -114,11 +114,10 @@ class MarkovChain:
             result = self.model_check_formula_hint(formula, hint)
             result_alt = self.model_check_formula_hint(formula_alt, hint)
 
-        # TODO: note that this works only with the PC experiment
-        quant_state = prop.state_quant
-        compare_state = 1 if prop.state_quant == 0 else 0
+        state_quant = prop.state_quant
+        compare_state = prop.compare_state
 
-        value = result.at(self.initial_states[quant_state])
+        value = result.at(self.initial_states[state_quant])
         threshold = result_alt.at(self.initial_states[compare_state])
         prop.set_threshold(threshold)
         Profiler.resume()
