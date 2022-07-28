@@ -7,6 +7,7 @@ from . import version
 from .sketch.sketch import Sketch
 from .sketch.pc_property import PC_Property
 from .synthesizers.synthesizer import *
+from .sketch.ta_property import TA_Property
 
 import logging
 # logger = logging.getLogger(__name__)
@@ -39,11 +40,11 @@ def setup_logger(log_path = None):
 @click.command()
 @click.option("--project", required=True, help="root", )
 @click.option("--sketch", default="sketch.templ", help="name of the sketch file")
-@click.argument("--method", type=click.Choice(['onebyone', 'cegis', 'ar', 'hybrid'], case_sensitive=False), default="ar")
-@click.argument("--hp", type=click.Choice(['pc', 'ta'], case_sensitive=False), default="pc")
+@click.option("--method", type=click.Choice(['onebyone', 'cegis', 'ar', 'hybrid'], case_sensitive=False), default="ar")
+@click.option("--hp", type=click.Choice(['pc', 'ta'], case_sensitive=False), default="pc")
 
 def paynt(
-        project, sketch, method, prop_name
+        project, sketch, method, hp
 ):
     logger.info("This is Paynt version {}.".format(version()))
 
@@ -53,9 +54,9 @@ def paynt(
     sketch_path = os.path.join(project, sketch)
 
     # choose experiment name
-    if prop_name == "ta":
+    if hp == "ta":
         prop = TA_Property
-    elif method == "pc":
+    elif hp == "pc":
         prop = PC_Property
 
     sketch = Sketch(sketch_path, prop)

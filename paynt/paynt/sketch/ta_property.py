@@ -108,7 +108,7 @@ class TA_Property:
         return Specification(properties, True)
 
     @classmethod
-    def parse_property(cls, sketch_path):
+    def parse_program(cls, sketch_path):
         with open(sketch_path, "a") as f:
             # add a global variable to distinguish two initial states
             # note: this does not work if the file is empty
@@ -120,7 +120,7 @@ class TA_Property:
         # remove the global variable to be clean
         with open(sketch_path, "r+") as f:
             lines = f.readlines()
-            lines = lines[:-1]
+            lines = lines[:-2]
             f.truncate(0)
             f.writelines(lines)
             f.close()

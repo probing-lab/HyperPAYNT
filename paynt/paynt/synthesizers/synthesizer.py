@@ -245,7 +245,7 @@ class SynthesizerCEGIS(Synthesizer):
 
             conflict_double = ce_generator.construct_conflict(index, threshold_double, bounds,
                                                               family.mdp.quotient_state_map,
-                                                              state_quant_double)
+                                                              state_quant_double, prop_double.strict)
             conflict = list(set(conflict + conflict_double))
 
             Profiler.resume()
