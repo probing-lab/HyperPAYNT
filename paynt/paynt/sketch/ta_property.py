@@ -23,7 +23,7 @@ logger = logging.getLogger(__name__)
 # (P(F die1(s2)) <= P(F die1(s1))) & (P(F die1(s1)) >= P(F die1(s2))) &
 
 
-class PC_Property:
+class TA_Property:
     ''' Wrapper over a stormpy property. '''
 
     def __init__(self, prop, state_quant, compare_state, minimizing):
@@ -33,8 +33,8 @@ class PC_Property:
         # each pc_property specifies an equality between two probabilities,
         # but we resort to LEQ\GEQ relations
         self.minimizing = minimizing
-        self.op = operator.le if minimizing else operator.ge
-        self.strict = False
+        self.op = operator.lt if minimizing else operator.gt
+        self.strict = True
 
         # the threshold is set at every model check query
         self.threshold = None
@@ -59,7 +59,7 @@ class PC_Property:
         state_quant = self.compare_state
         compare_state = self.state_quant
         minimizing = not self.minimizing
-        return PC_Property(self.property, state_quant, compare_state, minimizing)
+        return TA_Property(self.property, state_quant, compare_state, minimizing)
 
     @property
     def reward(self):
@@ -78,7 +78,7 @@ class PC_Property:
         return abs(a - b) > Specification.float_precision
 
     def meets_op(self, a, b):
-        return not PC_Property.above_float_precision(a, b) or self.op(a, b)
+        return TA_Property.above_float_precision(a, b) and self.op(a, b)
 
     def satisfies_threshold(self, value):
         assert self.threshold is not None
@@ -89,25 +89,41 @@ class PC_Property:
 
     @classmethod
     def string_formulae(cls):
-        return ["P=? [F \"die1\"]", "P=? [F \"die2\"]", "P=? [F \"die3\"]",
-                "P=? [F \"die4\"]", "P=? [F \"die5\"]", "P=? [F \"die6\"]"]
+        return ["P=? [F \"c0\"]"]
 
     @classmethod
     def parse_specification(cls, prism):
-        fs = PC_Property.string_formulae()
+        fs = TA_Property.string_formulae()
         properties = []
         for f in fs:
             ps = stormpy.parse_properties_for_prism_program(f, prism)
             p = ps[0]
-            p0_min = PC_Property(p, 0, 1, minimizing=True)
+            p0_min = TA_Property(p, 0, 1, minimizing=True)
             p1_max = p0_min.double()
 
-            p1_min = PC_Property(p, 1, 0, minimizing=True)
+            p1_min = TA_Property(p, 1, 0, minimizing=True)
             p0_max = p1_min.double()
 
             properties.extend([p0_min, p1_max, p1_min, p0_max])
-        return Specification(properties, False)
+        return Specification(properties, True)
 
     @classmethod
-    def parse_program(cls, sketch_path):
-        return stormpy.parse_prism_program(sketch_path, prism_compat=True)
+    def parse_property(cls, sketch_path):
+        with open(sketch_path, "a") as f:
+            # add a global variable to distinguish two initial states
+            # note: this does not work if the file is empty
+            f.write("\nglobal g : [0..1];")
+            f.close()
+
+        prism = stormpy.parse_prism_program(sketch_path, prism_compat=True)
+
+        # remove the global variable to be clean
+        with open(sketch_path, "r+") as f:
+            lines = f.readlines()
+            lines = lines[:-1]
+            f.truncate(0)
+            f.writelines(lines)
+            f.close()
+        return prism
+
+

@@ -1,6 +1,6 @@
 import stormpy
 
-from ..sketch.pc_property import *
+from ..sketch.spec import *
 from ..profiler import Profiler
 
 from collections import OrderedDict
@@ -26,7 +26,7 @@ class MarkovChain:
         se = cls.environment.solver_environment
 
         se.set_linear_equation_solver_type(stormpy.EquationSolverType.gmmxx)
-        se.minmax_solver_environment.precision = stormpy.Rational(PC_Property.mc_precision)
+        se.minmax_solver_environment.precision = stormpy.Rational(Specification.mc_precision)
         # se.minmax_solver_environment.method = stormpy.MinMaxMethod.policy_iteration
         se.minmax_solver_environment.method = stormpy.MinMaxMethod.value_iteration
         # se.minmax_solver_environment.method = stormpy.MinMaxMethod.sound_value_iteration
@@ -118,6 +118,7 @@ class MarkovChain:
         compare_state = prop.compare_state
 
         value = result.at(self.initial_states[state_quant])
+        # set the threshold
         threshold = result_alt.at(self.initial_states[compare_state])
         prop.set_threshold(threshold)
         Profiler.resume()

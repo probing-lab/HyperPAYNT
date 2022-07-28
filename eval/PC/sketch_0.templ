@@ -4,7 +4,7 @@ module prob_conformance
 
        die : [0..6];
        s   : [0..6];
-       f   : [0..1];
+       f   : [0..1]; // distinguish between the two initial states
 
        // the 6-sided die (f==0)
        [] (s=0)&(die=0)&(f=0) -> 1/6 : (die'=1) + 1/6 : (die'=2) + 1/6 : (die'=3) + 1/6 : (die'=4) + 1/6 : (die'=5) + 1/6 : (die'=6);

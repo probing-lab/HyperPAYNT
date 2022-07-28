@@ -1,6 +1,7 @@
 import stormpy
 
-from .pc_property import PC_Property, Specification
+from .pc_property import PC_Property
+from .spec import Specification
 from .holes import Hole, Holes, DesignSpace
 from ..synthesizers.models import MarkovChain
 from ..synthesizers.quotient import *
@@ -16,7 +17,7 @@ logger = logging.getLogger(__name__)
 
 class Sketch:
 
-    def __init__(self, sketch_path):
+    def __init__(self, sketch_path, prop):
 
         Profiler.initialize()
         Profiler.start("sketch")
@@ -31,11 +32,11 @@ class Sketch:
         # sketch loading
         logger.info(f"Loading sketch from {sketch_path}...")
         logger.info(f"Assuming a sketch in a PRISM format ...")
-        self.prism = stormpy.parse_prism_program(sketch_path, prism_compat=True)
+        self.prism = prop.parse_program(sketch_path)
 
-        #formulae loading (only PC formulae for proof of concept)
-        logger.info(f"Loading pc_properties ...")
-        self.specification = Sketch.parse_pc_specification(self.prism)
+        #formulae loading
+        logger.info(f"Loading properties ...")
+        self.specification = prop.parse_specification(self.prism)
         logger.info(f"Found the following specification: {self.specification}")
 
         # initializing the Model Checking options
@@ -48,20 +49,3 @@ class Sketch:
         logger.info(f"Design space size: {self.design_space.size}")
         logger.info(f"Sketch parsing complete.")
         Profiler.stop()
-
-    @classmethod
-    def parse_pc_specification(cls, prism):
-        fs = Specification.string_formulae()
-        properties = []
-        for f in fs:
-            ps = stormpy.parse_properties_for_prism_program(f, prism)
-            p = ps[0]
-            # TODO: note that this works only for the PC_property, which has two initial states
-            p0_min = PC_Property(p, 0, 1, minimizing=True)
-            p1_max = p0_min.double()
-
-            p1_min = PC_Property(p, 1, 0, minimizing=True)
-            p0_max = p1_min.double()
-
-            properties.extend([p0_min, p1_max, p1_min, p0_max])
-        return Specification(properties)
