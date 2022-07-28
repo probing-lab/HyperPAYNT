@@ -1,3 +1,5 @@
+from functools import reduce
+
 import stormpy.synthesis
 
 from .statistic import Statistic
@@ -213,6 +215,7 @@ class SynthesizerCEGIS(Synthesizer):
 
         # construct conflict to each unsatisfiable property
         conflicts = []
+        disjunct_conflict = []
         for request in conflict_requests:
             index, prop, property_result = request
 
@@ -230,7 +233,7 @@ class SynthesizerCEGIS(Synthesizer):
 
             Profiler.start("storm::construct_conflict")
             conflict = ce_generator.construct_conflict(index, threshold, bounds, family.mdp.quotient_state_map,
-                                                       state_quant)
+                                                       state_quant, prop.strict)
             # handle the double property
             prop_double = prop.double()
             threshold_double = ce_generator.reachability_probability
@@ -244,16 +247,22 @@ class SynthesizerCEGIS(Synthesizer):
                                                               family.mdp.quotient_state_map,
                                                               state_quant_double)
             conflict = list(set(conflict + conflict_double))
+
             Profiler.resume()
-            conflict = self.generalize_conflict(assignment, conflict, scheduler_selection)
-            conflicts.append(conflict)
+            if not self.sketch.specification.disjunct:
+                conflict = self.generalize_conflict(assignment, conflict, scheduler_selection)
+                conflicts.append(conflict)
+            else:
+                disjunct_conflict = list(set(disjunct_conflict + conflict))
         #print(conflicts)
 
         # use conflicts to exclude the generalizations of this assignment
         Profiler.start("holes::exclude_assignment")
-        for conflict in conflicts:
-            family.exclude_assignment(assignment, conflict)
-        Profiler.resume()
+        if not self.sketch.specification.disjunct:
+            for conflict in conflicts:
+                family.exclude_assignment(assignment, conflict)
+        else:
+                family.exclude_assignment(assignment, disjunct_conflict)
 
         Profiler.resume()
         return False, False

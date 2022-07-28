@@ -68,7 +68,8 @@ namespace storm {
                 ValueType formula_bound,
                 std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> mdp_bounds,
                 std::vector<StateType> const& mdp_quotient_state_map,
-                size_t state_quant
+                size_t state_quant,
+                bool strict
                 );
 
             /*!
@@ -124,7 +125,8 @@ namespace storm {
                 storm::models::sparse::StateLabeling const& labeling_subdtmc,
                 std::unordered_map<std::string,storm::models::sparse::StandardRewardModel<ValueType>> & reward_models_subdtmc,
                 std::vector<StateType> const& to_expand,
-                size_t state_quant
+                size_t state_quant,
+                bool strict
                 );
 
             // Quotient MDP

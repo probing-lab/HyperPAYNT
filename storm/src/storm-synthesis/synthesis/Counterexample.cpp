@@ -350,7 +350,8 @@ namespace storm {
             storm::models::sparse::StateLabeling const& labeling_subdtmc,
             std::unordered_map<std::string,storm::models::sparse::StandardRewardModel<ValueType>> & reward_models_subdtmc,
             std::vector<StateType> const& to_expand,
-            size_t state_quant
+            size_t state_quant,
+            bool strict
         ) {
             
             // Get DTMC info
@@ -428,10 +429,18 @@ namespace storm {
             this->timer_model_check.stop();
             storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType>& result = this->hint_result->asExplicitQuantitativeCheckResult<ValueType>();
             bool satisfied;
-            if(this->formula_safety[index]) {
+            if(this->formula_safety[index] && !strict) {
+                // the formula is of type P <= bound
                 satisfied = (result[initial_state] <= formula_bound) || (abs(result[initial_state]) - formula_bound) < exp(-5);
-            } else {
+            } else if (!strict){
+                // the formula is of type P >= bound
                 satisfied = (result[initial_state] >= formula_bound) || (abs(result[initial_state]) - formula_bound) < exp(-5);
+            } else if (this->formula_safety[index]) {
+                // the formula is of type P < bound
+                 satisfied = (result[initial_state] < formula_bound) && (abs(result[initial_state]) - formula_bound) > exp(-5);
+            } else {
+                // the formula is of type P > bound
+                satisfied = (result[initial_state] > formula_bound) && (abs(result[initial_state]) - formula_bound) > exp(-5);
             }
 
             // set the found reachability probability
@@ -446,7 +455,8 @@ namespace storm {
             ValueType formula_bound,
             std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> mdp_bounds,
             std::vector<StateType> const& mdp_quotient_state_map,
-            size_t state_quant
+            size_t state_quant,
+            bool strict
             ) {
             this->timer_conflict.start();
 
@@ -476,7 +486,7 @@ namespace storm {
             while(true) {
                 bool satisfied = this->expandAndCheck(
                     formula_index, formula_bound, matrix_subdtmc, labeling_subdtmc,
-                    reward_models_subdtmc, this->wave_states[wave], state_quant
+                    reward_models_subdtmc, this->wave_states[wave], state_quant, strict
                 );
                 // std::cout << "[storm] wave " << wave << "/" << wave_last << " : " << satisfied << std::endl;
                 if(!satisfied) {
