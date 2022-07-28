@@ -5,6 +5,7 @@ import os
 from . import version
 
 from .sketch.sketch import Sketch
+from .sketch.pc_property import PC_Property
 from .synthesizers.synthesizer import *
 
 import logging
@@ -38,9 +39,11 @@ def setup_logger(log_path = None):
 @click.command()
 @click.option("--project", required=True, help="root", )
 @click.option("--sketch", default="sketch.templ", help="name of the sketch file")
+@click.argument("method", type=click.Choice(['onebyone', 'cegis', 'ar', 'hybrid'], case_sensitive=False), default="ar")
+@click.argument("--hp", type=click.Choice(['pc', 'ta'], case_sensitive=False), default="pc")
 
 def paynt(
-        project, sketch
+        project, sketch, method, prop_name
 ):
     logger.info("This is Paynt version {}.".format(version()))
 
@@ -48,11 +51,31 @@ def paynt(
     if not os.path.isdir(project):
         raise ValueError(f"The project folder {project} is not a directory")
     sketch_path = os.path.join(project, sketch)
-    sketch = Sketch(sketch_path)
+
+    # choose experiment name
+    if prop_name == "ta":
+        prop = TA_Property
+    elif method == "pc":
+        prop = PC_Property
+
+    sketch = Sketch(sketch_path, prop)
     logger.info("Synthetizing an MDP scheduler wrt a hyperproperty")
-    synthesizer = SynthesizerCEGIS(sketch)
-    synthesizer.run()
-    synthesizer = Synthesizer1By1(sketch)
+
+
+    #choose synthesis method
+    if method == "onebyone":
+        synthesizer = Synthesizer1By1(sketch)
+    elif method == "cegis":
+        synthesizer = SynthesizerCEGIS(sketch)
+    elif method == "ar":
+        synthesizer = SynthesizerAR(sketch)
+    elif method == "hybrid":
+        synthesizer = SynthesizerHybrid(sketch)
+    elif method == "evo":
+        raise NotImplementedError
+    else:
+        assert None
+
     synthesizer.run()
 
 def main():
