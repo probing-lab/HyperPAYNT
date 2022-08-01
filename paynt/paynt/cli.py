@@ -42,7 +42,7 @@ def setup_logger(log_path = None):
 @click.option("--project", required=True, help="root", )
 @click.option("--sketch", default="sketch.templ", help="name of the sketch file")
 @click.option("--method", type=click.Choice(['onebyone', 'cegis', 'ar', 'hybrid'], case_sensitive=False), default="ar")
-@click.option("--hp", type=click.Choice(['pc', 'ta'], case_sensitive=False), default="pc")
+@click.option("--hp", type=click.Choice(['pc', 'ta', 'pw'], case_sensitive=False), default="pc")
 
 def paynt(
         project, sketch, method, hp

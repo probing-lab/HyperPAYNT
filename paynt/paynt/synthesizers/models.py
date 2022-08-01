@@ -143,16 +143,16 @@ class DTMC(MarkovChain):
         results = [None for prop in properties]
         grouped = Specification.or_group_indexes(property_indices)
         for group in grouped:
+            if not group:
+                continue
             unsat = True
             for index in group:
                 prop = properties[index]
                 result = self.model_check_property(prop)
                 results[index] = result
-                if result.sat is not False:
-                    unsat = False
+                unsat = False if result.sat else unsat
             if short_evaluation and unsat:
                 return ConstraintsResult(results)
-
         return ConstraintsResult(results)
 
 
@@ -195,14 +195,14 @@ class MDP(MarkovChain):
         results = [None for prop in properties]
         grouped = Specification.or_group_indexes(property_indices)
         for group in grouped:
+            if not group:
+                continue
             unfeasible = True
             for index in group:
                 prop = properties[index]
                 result = self.check_property(prop)
                 results[index] = result
-                if result.feasibility is not False:
-                    unfeasible = False
+                unfeasible = False if result.feasibility else unfeasible
             if short_evaluation and unfeasible:
                 return MdpConstraintsResult(results)
-
         return MdpConstraintsResult(results)
