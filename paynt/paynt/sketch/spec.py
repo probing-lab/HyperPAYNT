@@ -127,7 +127,7 @@ class MdpConstraintsResult:
         filtered_results = Specification.or_filter(feas_list)
 
         self.results = results
-        self.undecided_constraints = [index for index, result in enumerate(filtered_results) if
+        self.undecided_constraints = [index for index, result in enumerate(results) if
                                       result is not None and result.feasibility is None
                                       and filtered_results[index] is not True]
 
