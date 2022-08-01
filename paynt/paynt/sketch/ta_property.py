@@ -116,6 +116,10 @@ class TA_Property:
 
     @classmethod
     def parse_program(cls, sketch_path):
+        with open(sketch_path, "r") as f:
+            lines = f.readlines()
+            f.close()
+
         with open(sketch_path, "a") as f:
             # add a global variable to distinguish two initial states
             # note: this does not work if the file is empty
@@ -125,10 +129,7 @@ class TA_Property:
         prism = stormpy.parse_prism_program(sketch_path, prism_compat=True)
 
         # remove the global variable to be clean
-        with open(sketch_path, "r+") as f:
-            lines = f.readlines()
-            lines = lines[:-2]
-            f.truncate(0)
+        with open(sketch_path, "w") as f:
             f.writelines(lines)
             f.close()
         return prism

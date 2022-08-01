@@ -221,7 +221,10 @@ class SynthesizerCEGIS(Synthesizer):
         # construct conflict to each unsatisfiable property
         conflicts = []
         for group in grouped:
+            if not group:
+                continue
             overall_conflict = []
+            scheduler_selection = None
             for request in group:
                 (index, (prop, property_result)) = request
 
@@ -232,7 +235,6 @@ class SynthesizerCEGIS(Synthesizer):
                 ce_generator.prepare_dtmc(dtmc.model, dtmc.quotient_state_map, state_quant)
 
                 bounds = None
-                scheduler_selection = None
                 if property_result is not None:
                     bounds = property_result.primary.result
                     scheduler_selection = property_result.primary_selection
@@ -258,7 +260,7 @@ class SynthesizerCEGIS(Synthesizer):
                 Profiler.resume()
             overall_conflict = self.generalize_conflict(assignment, overall_conflict, scheduler_selection)
             conflicts.append(overall_conflict)
-        #print(conflicts)
+
 
         # use conflicts to exclude the generalizations of this assignment
         Profiler.start("holes::exclude_assignment")
