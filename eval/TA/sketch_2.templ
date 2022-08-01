@@ -1,6 +1,6 @@
 mdp
 
-const int n = 1; // bits for the encryption key
+const int n = 2; // bits for the encryption key
 
 module timing_attack
 
@@ -25,3 +25,5 @@ init  (h=n)&(pc=0)&(c=0)&(e=0)  endinit
 label "c0" = (c=0)&(e=1);
 label "c1" = (c=1)&(e=1);
 label "c2" = (c=2)&(e=1);
+label "c3" = (c=3)&(e=1);
+label "c4" = (c=4)&(e=1);

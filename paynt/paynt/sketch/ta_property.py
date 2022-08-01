@@ -89,7 +89,7 @@ class TA_Property:
 
     @classmethod
     def string_formulae(cls):
-        return ["P=? [F \"c0\"]"]
+        return ["P=? [F \"c0\"]", "P=? [F \"c1\"]", "P=? [F \"c2\"]"]
 
     @classmethod
     def parse_specification(cls, prism):
