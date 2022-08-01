@@ -8,6 +8,7 @@ from .sketch.sketch import Sketch
 from .sketch.pc_property import PC_Property
 from .synthesizers.synthesizer import *
 from .sketch.ta_property import TA_Property
+from .sketch.pw_property import PW_Property
 
 import logging
 # logger = logging.getLogger(__name__)
@@ -58,6 +59,8 @@ def paynt(
         prop = TA_Property
     elif hp == "pc":
         prop = PC_Property
+    elif hp == "pw":
+        prop = PW_Property
 
     sketch = Sketch(sketch_path, prop)
     logger.info("Synthetizing an MDP scheduler wrt a hyperproperty")
