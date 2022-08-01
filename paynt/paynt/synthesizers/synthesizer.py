@@ -219,7 +219,7 @@ class SynthesizerCEGIS(Synthesizer):
         grouped = Specification.or_group_dict(conflict_requests)
 
         # construct conflict to each unsatisfiable property
-        conflicts = {}
+        conflicts = []
         for group in grouped:
             overall_conflict = []
             for request in group:
@@ -256,8 +256,8 @@ class SynthesizerCEGIS(Synthesizer):
                 overall_conflict = list(set(overall_conflict + conflict))
 
                 Profiler.resume()
-            conflict = self.generalize_conflict(assignment, conflict, scheduler_selection)
-            conflicts.append(conflict)
+            overall_conflict = self.generalize_conflict(assignment, overall_conflict, scheduler_selection)
+            conflicts.append(overall_conflict)
         #print(conflicts)
 
         # use conflicts to exclude the generalizations of this assignment

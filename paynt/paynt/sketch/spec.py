@@ -32,8 +32,8 @@ class Specification:
     @classmethod
     def or_filter(cls, results):
         filtered = []
-        for sublist in Specification.disj_indexes:
-            slice = map(lambda x: results[x], sublist)
+        for sublist in Specification.disjoint_indexes:
+            slice = list(map(lambda x: results[x], sublist))
             if any(slice):
                 filtered.extend([True] * len(slice))
             else:
@@ -43,19 +43,19 @@ class Specification:
     @classmethod
     def or_group_indexes(cls, indexes):
         grouped = []
-        for sublist in Specification.disj_indexes:
-            filtered = filter(lambda x: x in indexes, sublist)
+        for sublist in Specification.disjoint_indexes:
+            filtered = list(filter(lambda x: x in indexes, sublist))
             grouped.append(filtered)
         return grouped
 
     @classmethod
     def or_group_dict(cls, dict):
-        keys = dict.keys().copy()
+        keys = dict.keys()
         grouped = []
-        for sublist in Specification.disj_indexes:
-            filtered = filter(lambda i: i in keys, sublist)
-            list = map(lambda i: (i, dict[i]), filtered)
-            grouped.append(list)
+        for sublist in Specification.disjoint_indexes:
+            filtered = list(filter(lambda i: i in keys, sublist))
+            res = list(map(lambda i: (i, dict[i]), filtered))
+            grouped.append(res)
         return grouped
 
 
@@ -79,7 +79,7 @@ class ConstraintsResult:
         self.results = results
         self.all_sat = True
 
-        sat_list = map(lambda x: None if x is None else x.sat, results)
+        sat_list = list(map(lambda x: None if x is None else x.sat, results))
         filtered_result = Specification.or_filter(sat_list)
 
         for result in filtered_result:
@@ -91,7 +91,7 @@ class ConstraintsResult:
         return ",".join([str(result) for result in self.results])
 
     def isSat(self, index):
-        sat_list = map(lambda x: None if x is None else x.sat, self.results)
+        sat_list = list(map(lambda x: None if x is None else x.sat, self.results))
         filtered_result = Specification.or_filter(sat_list)
         return filtered_result[index]
 
@@ -123,7 +123,7 @@ class MdpPropertyResult:
 # a wrapper for a list of MdpPropertyResults
 class MdpConstraintsResult:
     def __init__(self, results):
-        feas_list = map(lambda x: None if x is None else x.feasibility, results)
+        feas_list = list(map(lambda x: None if x is None else x.feasibility, results))
         filtered_results = Specification.or_filter(feas_list)
 
         self.results = results

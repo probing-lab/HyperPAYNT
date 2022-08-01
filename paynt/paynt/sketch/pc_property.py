@@ -105,7 +105,7 @@ class PC_Property:
             p1_min = PC_Property(p, 1, 0, minimizing=True)
             p0_max = p1_min.double()
 
-            properties.extend([[p0_min], [p1_max], [p1_min], [p0_max]])
+            properties.extend([p0_min, p1_max, p1_min, p0_max])
 
         for i,_ in enumerate(properties):
             disjoint_indexes.append([i])
