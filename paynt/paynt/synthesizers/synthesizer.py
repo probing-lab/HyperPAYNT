@@ -5,6 +5,8 @@ import stormpy.synthesis
 from .statistic import Statistic
 from ..profiler import Timer, Profiler
 
+from ..sketch.spec import Specification
+
 import logging
 
 logger = logging.getLogger(__name__)
@@ -205,64 +207,63 @@ class SynthesizerCEGIS(Synthesizer):
 
         # construct conflict wrt each unsatisfiable property
         # pack all unsatisfiable properties as well as their MDP results (if exists)
-        conflict_requests = []
+        conflict_requests = {}
         for index in family.property_indices:
-            if spec.results[index].sat:
+            if spec.isSat(index):
                 continue
             prop = self.sketch.specification.constraints[index]
             property_result = family.analysis_result.results[index] if family.analysis_result is not None else None
-            conflict_requests.append((index, prop, property_result))
+            conflict_requests[index]= (prop, property_result)
+
+        # group the conflicts based on the disjunctions
+        grouped = Specification.or_group_dict(conflict_requests)
 
         # construct conflict to each unsatisfiable property
-        conflicts = []
-        disjunct_conflict = []
-        for request in conflict_requests:
-            index, prop, property_result = request
+        conflicts = {}
+        for group in grouped:
+            overall_conflict = []
+            for request in group:
+                (index, (prop, property_result)) = request
 
-            threshold = prop.threshold
-            state_quant = prop.state_quant
+                threshold = prop.threshold
+                state_quant = prop.state_quant
 
-            # prepare DTMC for CE generation
-            ce_generator.prepare_dtmc(dtmc.model, dtmc.quotient_state_map, state_quant)
+                # prepare DTMC for CE generation
+                ce_generator.prepare_dtmc(dtmc.model, dtmc.quotient_state_map, state_quant)
 
-            bounds = None
-            scheduler_selection = None
-            if property_result is not None:
-                bounds = property_result.primary.result
-                scheduler_selection = property_result.primary_selection
+                bounds = None
+                scheduler_selection = None
+                if property_result is not None:
+                    bounds = property_result.primary.result
+                    scheduler_selection = property_result.primary_selection
 
-            Profiler.start("storm::construct_conflict")
-            conflict = ce_generator.construct_conflict(index, threshold, bounds, family.mdp.quotient_state_map,
-                                                       state_quant, prop.strict)
-            # handle the double property
-            prop_double = prop.double()
-            threshold_double = ce_generator.reachability_probability
-            prop_double.set_threshold(threshold_double)
-            state_quant_double = prop_double.state_quant
+                Profiler.start("storm::construct_conflict")
+                conflict = ce_generator.construct_conflict(index, threshold, bounds, family.mdp.quotient_state_map,
+                                                           state_quant, prop.strict)
+                # handle the double property
+                prop_double = prop.double()
+                threshold_double = ce_generator.reachability_probability
+                prop_double.set_threshold(threshold_double)
+                state_quant_double = prop_double.state_quant
 
-            # prepare double DTMC for CE generation
-            ce_generator.prepare_dtmc(dtmc.model, dtmc.quotient_state_map, state_quant_double)
+                # prepare double DTMC for CE generation
+                ce_generator.prepare_dtmc(dtmc.model, dtmc.quotient_state_map, state_quant_double)
 
-            conflict_double = ce_generator.construct_conflict(index, threshold_double, bounds,
-                                                              family.mdp.quotient_state_map,
-                                                              state_quant_double, prop_double.strict)
-            conflict = list(set(conflict + conflict_double))
+                conflict_double = ce_generator.construct_conflict(index, threshold_double, bounds,
+                                                                  family.mdp.quotient_state_map,
+                                                                  state_quant_double, prop_double.strict)
+                conflict = list(set(conflict + conflict_double))
+                overall_conflict = list(set(overall_conflict + conflict))
 
-            Profiler.resume()
-            if not self.sketch.specification.disjunct:
-                conflict = self.generalize_conflict(assignment, conflict, scheduler_selection)
-                conflicts.append(conflict)
-            else:
-                disjunct_conflict = list(set(disjunct_conflict + conflict))
+                Profiler.resume()
+            conflict = self.generalize_conflict(assignment, conflict, scheduler_selection)
+            conflicts.append(conflict)
         #print(conflicts)
 
         # use conflicts to exclude the generalizations of this assignment
         Profiler.start("holes::exclude_assignment")
-        if not self.sketch.specification.disjunct:
-            for conflict in conflicts:
-                family.exclude_assignment(assignment, conflict)
-        else:
-                family.exclude_assignment(assignment, disjunct_conflict)
+        for conflict in conflicts:
+            family.exclude_assignment(assignment, conflict)
 
         Profiler.resume()
         return False, False

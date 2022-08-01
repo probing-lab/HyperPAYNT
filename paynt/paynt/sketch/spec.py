@@ -1,7 +1,5 @@
 
 
-
-
 # a specification is just a set of properties
 class Specification:
     # model checking precision
@@ -9,9 +7,10 @@ class Specification:
     # precision for comparing floats
     float_precision = 1e-5
 
-    def __init__(self, constraints, disjunct):
+    disjoint_indexes = []
+
+    def __init__(self, constraints):
         self.constraints = constraints
-        self.disjuct = disjunct
 
     def __str__(self):
         constraints = ",".join([str(c) for c in self.constraints])
@@ -29,6 +28,36 @@ class Specification:
 
     def stormpy_formulae(self):
         return [c.formula for c in self.constraints]
+
+    @classmethod
+    def or_filter(cls, results):
+        filtered = []
+        for sublist in Specification.disj_indexes:
+            slice = map(lambda x: results[x], sublist)
+            if any(slice):
+                filtered.extend([True] * len(slice))
+            else:
+                filtered.extend(slice)
+        return filtered
+
+    @classmethod
+    def or_group_indexes(cls, indexes):
+        grouped = []
+        for sublist in Specification.disj_indexes:
+            filtered = filter(lambda x: x in indexes, sublist)
+            grouped.append(filtered)
+        return grouped
+
+    @classmethod
+    def or_group_dict(cls, dict):
+        keys = dict.keys().copy()
+        grouped = []
+        for sublist in Specification.disj_indexes:
+            filtered = filter(lambda i: i in keys, sublist)
+            list = map(lambda i: (i, dict[i]), filtered)
+            grouped.append(list)
+        return grouped
+
 
 class PropertyResult:
     def __init__(self, prop, result, value):
@@ -49,14 +78,22 @@ class ConstraintsResult:
     def __init__(self, results):
         self.results = results
         self.all_sat = True
-        for result in results:
-            if result is not None and result.sat == False:
+
+        sat_list = map(lambda x: None if x is None else x.sat, results)
+        filtered_result = Specification.or_filter(sat_list)
+
+        for result in filtered_result:
+            if result is not None and result == False:
                 self.all_sat = False
                 break
 
     def __str__(self):
         return ",".join([str(result) for result in self.results])
 
+    def isSat(self, index):
+        sat_list = map(lambda x: None if x is None else x.sat, self.results)
+        filtered_result = Specification.or_filter(sat_list)
+        return filtered_result[index]
 
 class MdpPropertyResult:
     def __init__(self,
@@ -86,18 +123,22 @@ class MdpPropertyResult:
 # a wrapper for a list of MdpPropertyResults
 class MdpConstraintsResult:
     def __init__(self, results):
+        feas_list = map(lambda x: None if x is None else x.feasibility, results)
+        filtered_results = Specification.or_filter(feas_list)
+
         self.results = results
-        self.undecided_constraints = [index for index, result in enumerate(results) if
-                                      result is not None and result.feasibility is None]
+        self.undecided_constraints = [index for index, result in enumerate(filtered_results) if
+                                      result is not None and result.feasibility is None
+                                      and filtered_results[index] is not True]
 
         self.feasibility = True
-        for result in results:
+        for result, filter in zip(results, filtered_results):
             if result is None:
                 continue
-            if result.feasibility == False:
+            if result.feasibility == False and filter == False:
                 self.feasibility = False
                 break
-            if result.feasibility == None:
+            if result.feasibility == None and filter == None:
                 self.feasibility = None
 
     def improving(self, family):

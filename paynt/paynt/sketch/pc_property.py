@@ -66,8 +66,7 @@ class PC_Property:
         return False
 
     def __str__(self):
-        other_state_quant = 0 if self.state_quant == 1 else 1
-        return str(self.formula_str) + " " + str(self.state_quant) + " " + str(self.op) + " " + str(other_state_quant)
+        return str(self.formula_str) + " " + str(self.state_quant) + " " + str(self.op) + " " + str(self.compare_state)
 
     @staticmethod
     def above_mc_precision(a, b):
@@ -96,6 +95,7 @@ class PC_Property:
     def parse_specification(cls, prism):
         fs = PC_Property.string_formulae()
         properties = []
+        disjoint_indexes = []
         for f in fs:
             ps = stormpy.parse_properties_for_prism_program(f, prism)
             p = ps[0]
@@ -105,8 +105,13 @@ class PC_Property:
             p1_min = PC_Property(p, 1, 0, minimizing=True)
             p0_max = p1_min.double()
 
-            properties.extend([p0_min, p1_max, p1_min, p0_max])
-        return Specification(properties, False)
+            properties.extend([[p0_min], [p1_max], [p1_min], [p0_max]])
+
+        for i,_ in enumerate(properties):
+            disjoint_indexes.append([i])
+
+        Specification.disjoint_indexes = disjoint_indexes
+        return Specification(properties)
 
     @classmethod
     def parse_program(cls, sketch_path):

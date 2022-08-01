@@ -139,15 +139,19 @@ class DTMC(MarkovChain):
         # implicitly, check all constraints
         if property_indices is None:
             property_indices = [index for index,_ in enumerate(properties)]
-        
-        # check selected properties
+
         results = [None for prop in properties]
-        for index in property_indices:
-            prop = properties[index]
-            result = self.model_check_property(prop)
-            results[index] = result
-            if short_evaluation and not result.sat:
-                break
+        grouped = Specification.or_group_indexes(property_indices)
+        for group in grouped:
+            unsat = True
+            for index in group:
+                prop = properties[index]
+                result = self.model_check_property(prop)
+                results[index] = result
+                if result.sat is not False:
+                    unsat = False
+            if short_evaluation and unsat:
+                return ConstraintsResult(results)
 
         return ConstraintsResult(results)
 
@@ -189,11 +193,16 @@ class MDP(MarkovChain):
             property_indices = [index for index,_ in enumerate(properties)]
 
         results = [None for prop in properties]
-        for index in property_indices:
-            prop = properties[index]
-            result = self.check_property(prop)
-            results[index] = result
-            if short_evaluation and result.feasibility == False:
-                break
+        grouped = Specification.or_group_indexes(property_indices)
+        for group in grouped:
+            unfeasible = True
+            for index in group:
+                prop = properties[index]
+                result = self.check_property(prop)
+                results[index] = result
+                if result.feasibility is not False:
+                    unfeasible = False
+            if short_evaluation and unfeasible:
+                return MdpConstraintsResult(results)
 
         return MdpConstraintsResult(results)
