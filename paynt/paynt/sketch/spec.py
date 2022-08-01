@@ -30,12 +30,12 @@ class Specification:
         return [c.formula for c in self.constraints]
 
     @classmethod
-    def or_filter(cls, results):
+    def or_filter(cls, results, sub):
         filtered = []
         for sublist in Specification.disjoint_indexes:
             slice = list(map(lambda x: results[x], sublist))
-            if any(slice):
-                filtered.extend([True] * len(slice))
+            if any(t is sub for t in slice):
+                filtered.extend([sub] * len(slice))
             else:
                 filtered.extend(slice)
         return filtered
@@ -80,7 +80,7 @@ class ConstraintsResult:
         self.all_sat = True
 
         sat_list = list(map(lambda x: None if x is None else x.sat, results))
-        filtered_result = Specification.or_filter(sat_list)
+        filtered_result = Specification.or_filter(sat_list, True)
 
         for result in filtered_result:
             if result is not None and result == False:
@@ -92,7 +92,7 @@ class ConstraintsResult:
 
     def isSat(self, index):
         sat_list = list(map(lambda x: None if x is None else x.sat, self.results))
-        filtered_result = Specification.or_filter(sat_list)
+        filtered_result = Specification.or_filter(sat_list, True)
         return filtered_result[index]
 
 class MdpPropertyResult:
@@ -124,21 +124,23 @@ class MdpPropertyResult:
 class MdpConstraintsResult:
     def __init__(self, results):
         feas_list = list(map(lambda x: None if x is None else x.feasibility, results))
-        filtered_results = Specification.or_filter(feas_list)
+        fr_True = Specification.or_filter(feas_list, True)
+        feas_list = list(map(lambda x: False if x is None else x.feasibility, results))
+        fr_None = Specification.or_filter(feas_list, None)
 
         self.results = results
         self.undecided_constraints = [index for index, result in enumerate(results) if
                                       result is not None and result.feasibility is None
-                                      and filtered_results[index] is not True]
+                                      and fr_True[index] is None]
 
         self.feasibility = True
-        for result, filter in zip(results, filtered_results):
+        for result, filter1, filter2 in zip(results, fr_True, fr_None):
             if result is None:
                 continue
-            if result.feasibility == False and filter == False:
+            if result.feasibility == False and filter1 == False and filter2 == False:
                 self.feasibility = False
                 break
-            if result.feasibility == None and filter == None:
+            if result.feasibility == None and filter1 == None:
                 self.feasibility = None
 
     def improving(self, family):
