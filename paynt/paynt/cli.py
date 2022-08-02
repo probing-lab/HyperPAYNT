@@ -9,6 +9,7 @@ from .sketch.pc_property import PC_Property
 from .synthesizers.synthesizer import *
 from .sketch.ta_property import TA_Property
 from .sketch.pw_property import PW_Property
+from .sketch.ts_property import TS_Property
 
 import logging
 # logger = logging.getLogger(__name__)
@@ -42,7 +43,7 @@ def setup_logger(log_path = None):
 @click.option("--project", required=True, help="root", )
 @click.option("--sketch", default="sketch.templ", help="name of the sketch file")
 @click.option("--method", type=click.Choice(['onebyone', 'cegis', 'ar', 'hybrid'], case_sensitive=False), default="ar")
-@click.option("--hp", type=click.Choice(['pc', 'ta', 'pw'], case_sensitive=False), default="pc")
+@click.option("--hp", type=click.Choice(['pc', 'ta', 'pw', 'ts'], case_sensitive=False), default="pc")
 
 def paynt(
         project, sketch, method, hp
@@ -61,6 +62,8 @@ def paynt(
         prop = PC_Property
     elif hp == "pw":
         prop = PW_Property
+    elif hp == 'ts':
+        prop = TS_Property
 
     sketch = Sketch(sketch_path, prop)
     logger.info("Synthetizing an MDP scheduler wrt a hyperproperty")
