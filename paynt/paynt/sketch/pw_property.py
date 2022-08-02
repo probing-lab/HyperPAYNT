@@ -10,19 +10,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-# Probabilistic conformance formula
-# overall formula: ES sh . A s1 . E s2 .
-#     (P(F die1(s1)) = P(F die1(s2)))
-#   & (P(F die2(s1)) = P(F die2(s2)))
-#   & (P(F die3(s1)) = P(F die3(s2)))
-#   & (P(F die4(s1)) = P(F die4(s2)))
-#   & (P(F die5(s1)) = P(F die5(s2)))
-#   & (P(F die6(s1)) = P(F die6(s2)))
-# these equivalences are converted into (e.g.)
-# (P(F die1(s1)) <= P(F die1(s2))) & (P(F die1(s2)) >= P(F die1(s1))) &
-# (P(F die1(s2)) <= P(F die1(s1))) & (P(F die1(s1)) >= P(F die1(s2))) &
-
-
+# Password Leakage formula
 class PW_Property:
     ''' Wrapper over a stormpy property. '''
 
