@@ -66,7 +66,7 @@ class TS_Property:
         return abs(a - b) > Specification.float_precision
 
     def meets_op(self, a, b):
-        return TA_Property.above_float_precision(a, b) and self.op(a, b)
+        return TS_Property.above_float_precision(a, b) and self.op(a, b)
 
     def satisfies_threshold(self, value):
         assert self.threshold is not None
@@ -104,22 +104,6 @@ class TS_Property:
 
     @classmethod
     def parse_program(cls, sketch_path):
-        with open(sketch_path, "r") as f:
-            lines = f.readlines()
-            f.close()
-
-        with open(sketch_path, "a") as f:
-            # add a global variable to distinguish two initial states
-            # note: this does not work if the file is empty
-            f.write("\nglobal g : [0..1];")
-            f.close()
-
-        prism = stormpy.parse_prism_program(sketch_path, prism_compat=True)
-
-        # remove the global variable to be clean
-        with open(sketch_path, "w") as f:
-            f.writelines(lines)
-            f.close()
-        return prism
+        return stormpy.parse_prism_program(sketch_path, prism_compat=True)
 
 
