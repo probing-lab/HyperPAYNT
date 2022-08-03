@@ -100,12 +100,10 @@ class PC_Property:
             ps = stormpy.parse_properties_for_prism_program(f, prism)
             p = ps[0]
             p0_min = PC_Property(p, 0, 1, minimizing=True)
-            p1_max = p0_min.double()
 
             p1_min = PC_Property(p, 1, 0, minimizing=True)
-            p0_max = p1_min.double()
 
-            properties.extend([p0_min, p1_max, p1_min, p0_max])
+            properties.extend([p0_min, p1_min])
 
         for i,_ in enumerate(properties):
             disjoint_indexes.append([i])

@@ -120,7 +120,8 @@ namespace storm {
         void CounterexampleGenerator<ValueType,StateType>::prepareDtmc(
             storm::models::sparse::Dtmc<ValueType> const& dtmc,
             std::vector<uint_fast64_t> const& state_map,
-            size_t state_quant
+            size_t state_quant,
+            size_t other_state_quant;
             ) {
             
             // Clear up previous DTMC metadata
@@ -132,6 +133,7 @@ namespace storm {
             this->state_map = state_map;
             uint_fast64_t dtmc_states = this->dtmc->getNumberOfStates();
             StateType initial_state = *(this->dtmc->getInitialStates().begin() += state_quant);
+            StateType other_initial_state = *(this->dtmc->getInitialStates().begin() += other_state_quant);
             storm::storage::SparseMatrix<ValueType> const& transition_matrix = this->dtmc->getTransitionMatrix();
 
             // Mark all holes as unregistered
@@ -160,7 +162,7 @@ namespace storm {
             bool blocking_candidate_set = false;
             StateType blocking_candidate;
 
-            // Round 0: encounter initial state first (important)
+            // Round 0: encounter initial states first (important)
             this->wave_states.push_back(std::vector<StateType>());
             reachable_flag.set(initial_state);
             if(unregistered_holes_count[initial_state] == 0) {
@@ -171,6 +173,19 @@ namespace storm {
                 state_horizon_blocking.push_back(initial_state);
                 blocking_candidate_set = true;
                 blocking_candidate = initial_state;
+            }
+            reachable_flag.set(other_initial_state);
+            if(unregistered_holes_count[other_initial_state] == 0) {
+                // non-blocking
+                state_horizon.push(other_initial_state);
+            } else {
+                // blocking
+                state_horizon_blocking.push_back(other_initial_state);
+                if(!blocking_candidate_set || unregistered_holes_count[other_initial_state] < unregistered_holes_count[blocking_candidate]) {
+                    // new blocking candidate
+                    blocking_candidate_set = true;
+                    blocking_candidate = other_initial_state;
+                }
             }
 
             // Explore the state space
@@ -345,12 +360,12 @@ namespace storm {
         template <typename ValueType, typename StateType>
         bool CounterexampleGenerator<ValueType,StateType>::expandAndCheck (
             uint_fast64_t index,
-            ValueType formula_bound,
             std::vector<std::vector<std::pair<StateType,ValueType>>> & matrix_subdtmc,
             storm::models::sparse::StateLabeling const& labeling_subdtmc,
             std::unordered_map<std::string,storm::models::sparse::StandardRewardModel<ValueType>> & reward_models_subdtmc,
             std::vector<StateType> const& to_expand,
             size_t state_quant,
+            size_t other_state_quant,
             bool strict
         ) {
             
@@ -358,6 +373,7 @@ namespace storm {
             uint_fast64_t dtmc_states = this->dtmc->getNumberOfStates();
             storm::storage::SparseMatrix<ValueType> const& transition_matrix = this->dtmc->getTransitionMatrix();
             StateType initial_state = *(this->dtmc->getInitialStates().begin() += state_quant);
+            StateType other_initial_state = *(this->dtmc->getInitialStates().begin() += other_state_quant);
             
             // Expand states from the new wave: 
             // - expand transition probabilities
@@ -429,18 +445,19 @@ namespace storm {
             this->timer_model_check.stop();
             storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType>& result = this->hint_result->asExplicitQuantitativeCheckResult<ValueType>();
             bool satisfied;
+
             if(this->formula_safety[index] && !strict) {
                 // the formula is of type P <= bound
-                satisfied = (result[initial_state] <= formula_bound) || (abs(result[initial_state]) - formula_bound) < exp(-5);
+                satisfied = (result[initial_state] <= result[other_initial_state]) || (abs(result[initial_state]) - result[other_initial_state]) < exp(-5);
             } else if (!strict){
                 // the formula is of type P >= bound
-                satisfied = (result[initial_state] >= formula_bound) || (abs(result[initial_state]) - formula_bound) < exp(-5);
+                satisfied = (result[initial_state] >= result[other_initial_state]) || (abs(result[initial_state]) - result[other_initial_state]) < exp(-5);
             } else if (this->formula_safety[index]) {
                 // the formula is of type P < bound
-                 satisfied = (result[initial_state] < formula_bound) && (abs(result[initial_state]) - formula_bound) > exp(-5);
+                 satisfied = (result[initial_state] < result[other_initial_state]) && (abs(result[initial_state]) - result[other_initial_state]) > exp(-5);
             } else {
                 // the formula is of type P > bound
-                satisfied = (result[initial_state] > formula_bound) && (abs(result[initial_state]) - formula_bound) > exp(-5);
+                satisfied = (result[initial_state] > result[other_initial_state]) && (abs(result[initial_state]) - result[other_initial_state]) > exp(-5);
             }
 
             // set the found reachability probability
@@ -452,10 +469,10 @@ namespace storm {
         template <typename ValueType, typename StateType>
         std::vector<uint_fast64_t> CounterexampleGenerator<ValueType,StateType>::constructConflict (
             uint_fast64_t formula_index,
-            ValueType formula_bound,
             std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> mdp_bounds,
             std::vector<StateType> const& mdp_quotient_state_map,
             size_t state_quant,
+            size_t other_state_quant,
             bool strict
             ) {
             this->timer_conflict.start();
@@ -485,8 +502,8 @@ namespace storm {
             std::cout << std::endl;*/
             while(true) {
                 bool satisfied = this->expandAndCheck(
-                    formula_index, formula_bound, matrix_subdtmc, labeling_subdtmc,
-                    reward_models_subdtmc, this->wave_states[wave], state_quant, strict
+                    formula_index, matrix_subdtmc, labeling_subdtmc,
+                    reward_models_subdtmc, this->wave_states[wave], state_quant, other_state_quant, strict
                 );
                 // std::cout << "[storm] wave " << wave << "/" << wave_last << " : " << satisfied << std::endl;
                 if(!satisfied) {

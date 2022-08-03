@@ -230,9 +230,10 @@ class SynthesizerCEGIS(Synthesizer):
 
                 threshold = prop.threshold
                 state_quant = prop.state_quant
+                other_state_quant = prop.compare_state
 
                 # prepare DTMC for CE generation
-                ce_generator.prepare_dtmc(dtmc.model, dtmc.quotient_state_map, state_quant)
+                ce_generator.prepare_dtmc(dtmc.model, dtmc.quotient_state_map, state_quant, other_state_quant)
 
                 bounds = None
                 if property_result is not None:
@@ -240,21 +241,9 @@ class SynthesizerCEGIS(Synthesizer):
                     scheduler_selection = property_result.primary_selection
 
                 Profiler.start("storm::construct_conflict")
-                conflict = ce_generator.construct_conflict(index, threshold, bounds, family.mdp.quotient_state_map,
-                                                           state_quant, prop.strict)
-                # handle the double property
-                prop_double = prop.double()
-                threshold_double = ce_generator.reachability_probability
-                prop_double.set_threshold(threshold_double)
-                state_quant_double = prop_double.state_quant
+                conflict = ce_generator.construct_conflict(index, bounds, family.mdp.quotient_state_map,
+                                                           state_quant, other_state_quant, prop.strict)
 
-                # prepare double DTMC for CE generation
-                ce_generator.prepare_dtmc(dtmc.model, dtmc.quotient_state_map, state_quant_double)
-
-                conflict_double = ce_generator.construct_conflict(index, threshold_double, bounds,
-                                                                  family.mdp.quotient_state_map,
-                                                                  state_quant_double, prop_double.strict)
-                conflict = list(set(conflict + conflict_double))
                 overall_conflict = list(set(overall_conflict + conflict))
 
                 Profiler.resume()

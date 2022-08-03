@@ -51,7 +51,8 @@ namespace storm {
             void prepareDtmc(
                 storm::models::sparse::Dtmc<ValueType> const& dtmc,
                 std::vector<uint_fast64_t> const& state_map,
-                size_t state_quant
+                size_t state_quant,
+                size_t other_state_quant
                 );
             
             /*!
@@ -65,10 +66,10 @@ namespace storm {
              */
             std::vector<uint_fast64_t> constructConflict(
                 uint_fast64_t formula_index,
-                ValueType formula_bound,
                 std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> mdp_bounds,
                 std::vector<StateType> const& mdp_quotient_state_map,
                 size_t state_quant,
+                size_t other_state_quant,
                 bool strict
                 );
 
