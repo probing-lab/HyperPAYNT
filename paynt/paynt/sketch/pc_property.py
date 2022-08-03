@@ -20,7 +20,7 @@ logger = logging.getLogger(__name__)
 #   & (P(F die6(s1)) = P(F die6(s2)))
 # these equivalences are converted into (e.g.)
 # (P(F die1(s1)) <= P(F die1(s2))) & (P(F die1(s2)) >= P(F die1(s1))) &
-# (P(F die1(s2)) <= P(F die1(s1))) & (P(F die1(s1)) >= P(F die1(s2))) &
+# (P(F die1(s2)) <= P(F die1(s1))) & (P(F die1(s1)) >= P(F die1(s2)))
 
 
 class PC_Property:

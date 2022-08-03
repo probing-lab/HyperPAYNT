@@ -18,8 +18,6 @@ class PW_Property:
         self.property = prop
         rf = prop.raw_formula
 
-        # each pc_property specifies an equality between two probabilities,
-        # but we resort to LEQ\GEQ relations
         self.minimizing = minimizing
         self.op = operator.lt if minimizing else operator.gt
         self.strict = True
