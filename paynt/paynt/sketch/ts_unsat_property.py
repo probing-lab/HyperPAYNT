@@ -89,7 +89,6 @@ class TS_Unsat_Property:
             p0_min = TS_Unsat_Property(p, 0, 1, minimizing=True)
             p1_min = TS_Unsat_Property(p, 1, 0, minimizing=True)
 
-
             properties.extend([p0_min, p1_min])
 
         # we have a conjunction of all properties

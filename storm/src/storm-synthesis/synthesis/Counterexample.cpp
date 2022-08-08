@@ -525,20 +525,22 @@ namespace storm {
                         reward_models_subdtmc, this->wave_states[wave], this->hint_result, state_quant, strict
                     );
 
-                    // std::cout << "[storm] wave " << wave << "/" << wave_last << " : " << satisfied << std::endl;
                     if(this->formula_safety[formula_index] && !strict) {
                         // the formula is of type P <= bound
-                        sat = (result <= formula_bound) || (abs(result) - formula_bound) < exp(-5);
+                        sat = (result <= formula_bound) || abs(result - formula_bound) < exp(-5);
                     } else if (!strict){
                         // the formula is of type P >= bound
-                        sat = (result >= formula_bound) || (abs(result) - formula_bound) < exp(-5);
+                        sat = (result >= formula_bound) || abs(result - formula_bound) < exp(-5);
                     } else if (this->formula_safety[formula_index]) {
                         // the formula is of type P < bound
-                         sat = (result < formula_bound) && (abs(result) - formula_bound) > exp(-5);
+                        sat = (result < formula_bound) && abs(result - formula_bound) > exp(-5);
+
                     } else {
                         // the formula is of type P > bound
-                        sat = (result > formula_bound) && (abs(result) - formula_bound) > exp(-5);
+                        sat = (result > formula_bound) && abs(result - formula_bound) > exp(-5);
                     }
+
+                    //std::cout << "[storm] wave " << wave << "/" << wave_last << " : " << sat << "\n";
                     if(!sat) {
                         break;
                     }
@@ -557,25 +559,27 @@ namespace storm {
                         other_reward_models_subdtmc, this->other_wave_states[other_wave], this->other_hint_result, other_state_quant, strict
                     );
 
-                    // std::cout << "[storm] wave " << wave << "/" << wave_last << " : " << satisfied << std::endl;
                     if(this->formula_safety[formula_index] && !strict) {
                         // the formula is of type P <= bound
-                        sat = (result <= formula_bound) || (abs(result) - formula_bound) < exp(-5);
+                        sat = (result <= formula_bound) || abs(result - formula_bound) < exp(-5);
                     } else if (!strict){
                         // the formula is of type P >= bound
-                        sat = (result >= formula_bound) || (abs(result) - formula_bound) < exp(-5);
+                        sat = (result >= formula_bound) || abs(result - formula_bound) < exp(-5);
                     } else if (this->formula_safety[formula_index]) {
                         // the formula is of type P < bound
-                         sat = (result < formula_bound) && (abs(result) - formula_bound) > exp(-5);
+                         sat = (result < formula_bound) && abs(result - formula_bound) > exp(-5);
                     } else {
                         // the formula is of type P > bound
-                        sat = (result > formula_bound) && (abs(result) - formula_bound) > exp(-5);
+                        sat = (result > formula_bound) && abs(result - formula_bound) > exp(-5);
                     }
+
+                    //std::cout << "[storm] other wave " << other_wave << "/" << other_wave_last << " : " << sat << std::endl;
                     if(!sat) {
                         break;
                     }
 
                     if(other_wave == other_wave_last) {
+                        other_wave_flag = false;
                     }else{
                         other_wave++;
                     }
@@ -591,6 +595,7 @@ namespace storm {
             std::vector<uint_fast64_t> critical_holes;
             for(uint_fast64_t hole = 0; hole < this->hole_count; hole++) {
                 uint_fast64_t wave_registered = this->hole_wave[hole];
+                // if 0, this hole is not reachable from an initial state
                 if(wave_registered > 0 && wave_registered <= wave) {
                     critical_holes.push_back(hole);
                 }
