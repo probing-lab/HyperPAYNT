@@ -236,12 +236,14 @@ class SynthesizerCEGIS(Synthesizer):
                 ce_generator.prepare_dtmc(dtmc.model, dtmc.quotient_state_map, state_quant, other_state_quant)
 
                 bounds = None
+                other_bounds = None
                 if property_result is not None:
                     bounds = property_result.primary.result
+                    other_bounds = property_result.secondary.result
                     scheduler_selection = property_result.primary_selection
 
                 Profiler.start("storm::construct_conflict")
-                conflict = ce_generator.construct_conflict(index, bounds, family.mdp.quotient_state_map,
+                conflict = ce_generator.construct_conflict(index, bounds, other_bounds, family.mdp.quotient_state_map,
                                                            state_quant, other_state_quant, prop.strict)
 
                 overall_conflict = list(set(overall_conflict + conflict))

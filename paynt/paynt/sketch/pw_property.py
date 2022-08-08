@@ -87,13 +87,12 @@ class PW_Property:
             ps = stormpy.parse_properties_for_prism_program(f, prism)
             p = ps[0]
             p0_min = PW_Property(p, 0, 1, minimizing=True)
-
             p1_min = PW_Property(p, 1, 0, minimizing=True)
 
             properties.extend([p0_min,  p1_min])
             # we have a disjunction of all these properties
-            disjoint_indexes.append([i, i+1,])
-            i = i+4
+            disjoint_indexes.append([i, i+1])
+            i = i+2
 
         Specification.disjoint_indexes = disjoint_indexes
         return Specification(properties)

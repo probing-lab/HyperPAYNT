@@ -100,7 +100,6 @@ class PC_Property:
             ps = stormpy.parse_properties_for_prism_program(f, prism)
             p = ps[0]
             p0_min = PC_Property(p, 0, 1, minimizing=True)
-
             p1_min = PC_Property(p, 1, 0, minimizing=True)
 
             properties.extend([p0_min, p1_min])

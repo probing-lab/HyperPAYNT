@@ -150,7 +150,7 @@ class DTMC(MarkovChain):
                 prop = properties[index]
                 result = self.model_check_property(prop)
                 results[index] = result
-                unsat = False if result.sat else unsat
+                unsat = False if result.sat is not False else unsat
             if short_evaluation and unsat:
                 return ConstraintsResult(results)
         return ConstraintsResult(results)
@@ -202,7 +202,7 @@ class MDP(MarkovChain):
                 prop = properties[index]
                 result = self.check_property(prop)
                 results[index] = result
-                unfeasible = False if result.feasibility else unfeasible
+                unfeasible = False if result.feasibility is not False else unfeasible
             if short_evaluation and unfeasible:
                 return MdpConstraintsResult(results)
         return MdpConstraintsResult(results)

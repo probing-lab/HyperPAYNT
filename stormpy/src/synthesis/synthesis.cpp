@@ -29,7 +29,7 @@ void define_synthesis(py::module& m) {
             "construct_conflict",
             &storm::synthesis::CounterexampleGenerator<>::constructConflict,
             "Construct a conflict to a prepared DTMC wrt a single formula.",
-            py::arg("formula_index"), py::arg("mdp_bounds"), py::arg("mdp_quotient_state_map"),
+            py::arg("formula_index"), py::arg("mdp_bounds"),py::arg("other_mdp_bounds"), py::arg("mdp_quotient_state_map"),
             py::arg("state_quant"), py::arg("other_state_quant"), py::arg("strict")
             )
         .def(
@@ -37,7 +37,6 @@ void define_synthesis(py::module& m) {
             &storm::synthesis::CounterexampleGenerator<>::printProfiling,
             "Print profiling stats."
             )
-        .def_property_readonly("reachability_probability", [](storm::synthesis::CounterexampleGenerator<>& ce_generator) {return ce_generator.reach_prob;}, "TODO")
         /*.def_property_readonly(
             "stats",
             [](storm::synthesis::CounterexampleGenerator<> & counterexample) {

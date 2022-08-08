@@ -81,21 +81,18 @@ class TA_Property:
     def parse_specification(cls, prism):
         fs = TA_Property.string_formulae()
         properties = []
-        i = 0;
+        i = 0
         disjoint_indexes = []
         for f in fs:
             ps = stormpy.parse_properties_for_prism_program(f, prism)
             p = ps[0]
             p0_min = TA_Property(p, 0, 1, minimizing=True)
-            p1_max = p0_min.double()
-
             p1_min = TA_Property(p, 1, 0, minimizing=True)
-            p0_max = p1_min.double()
 
-            properties.extend([p0_min, p1_max, p1_min, p0_max])
+            properties.extend([p0_min, p1_min])
             # we have a disjunction of all these properties
-            disjoint_indexes.append([i, i+1, i+2, i+3])
-            i = i+4
+            disjoint_indexes.append([i, i+1])
+            i = i+2
 
         Specification.disjoint_indexes = disjoint_indexes
         return Specification(properties)

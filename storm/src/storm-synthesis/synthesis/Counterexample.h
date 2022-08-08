@@ -67,6 +67,7 @@ namespace storm {
             std::vector<uint_fast64_t> constructConflict(
                 uint_fast64_t formula_index,
                 std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> mdp_bounds,
+                std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> other_mdp_bounds,
                 std::vector<StateType> const& mdp_quotient_state_map,
                 size_t state_quant,
                 size_t other_state_quant,
@@ -78,10 +79,13 @@ namespace storm {
              */
             void printProfiling();
 
-            // Reachability probability (over the threshold) induced by the safety CE
-            ValueType reach_prob;
-
         protected:
+
+            void exploreDtmc (
+                std::vector<uint_fast64_t> &hole_wave,
+                std::vector<std::vector<StateType>> &wave_states,
+                StateType initial_state
+                );
 
             /** Identify states of an MDP having some label. */
             std::shared_ptr<storm::modelchecker::ExplicitQualitativeCheckResult> labelStates(
@@ -100,13 +104,15 @@ namespace storm {
              *   investigated, this map will contain exactly one reward model
              *   for the initial sub-DTMC.
              */
-            void prepareSubdtmc(
+            ValueType prepareSubdtmc(
                 uint_fast64_t formula_index,
                 std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> mdp_bounds,
                 std::vector<StateType> const& mdp_quotient_state_map,
                 std::vector<std::vector<std::pair<StateType,ValueType>>> & matrix_subdtmc,
                 storm::models::sparse::StateLabeling & labeling_subdtmc,
-                std::unordered_map<std::string,storm::models::sparse::StandardRewardModel<ValueType>> & reward_models_subdtmc
+                std::unordered_map<std::string,storm::models::sparse::StandardRewardModel<ValueType>> & reward_models_subdtmc,
+                size_t state_quant,
+                bool isOther
                 );
 
             /**
@@ -119,13 +125,13 @@ namespace storm {
              * @param to_expand States expanded during this wave.
              * @return true if the rerouting still satisfies the formula
              */
-            bool expandAndCheck(
+            ValueType expandAndCheck(
                 uint_fast64_t index,
-                ValueType formula_bound,
                 std::vector<std::vector<std::pair<StateType,ValueType>>> & matrix_subdtmc,
                 storm::models::sparse::StateLabeling const& labeling_subdtmc,
                 std::unordered_map<std::string,storm::models::sparse::StandardRewardModel<ValueType>> & reward_models_subdtmc,
                 std::vector<StateType> const& to_expand,
+                std::shared_ptr<storm::modelchecker::CheckResult> hint_result,
                 size_t state_quant,
                 bool strict
                 );
@@ -164,8 +170,14 @@ namespace storm {
             // For each wave, a set of states that were expanded.
             std::vector<std::vector<StateType>> wave_states;
 
+
+            std::vector<uint_fast64_t> other_hole_wave;
+            std::vector<std::vector<StateType>> other_wave_states;
+
+
             // Hint for future model checking.
-            std::unique_ptr<storm::modelchecker::CheckResult> hint_result;
+            std::shared_ptr<storm::modelchecker::CheckResult> hint_result;
+            std::shared_ptr<storm::modelchecker::CheckResult> other_hint_result;
 
             // Profiling
             storm::utility::Stopwatch timer_conflict;

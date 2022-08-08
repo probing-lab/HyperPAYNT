@@ -114,38 +114,29 @@ namespace storm {
                 }
                 this->formula_modified.push_back(modified_formula);     
             }
+
         }
 
         template <typename ValueType, typename StateType>
-        void CounterexampleGenerator<ValueType,StateType>::prepareDtmc(
-            storm::models::sparse::Dtmc<ValueType> const& dtmc,
-            std::vector<uint_fast64_t> const& state_map,
-            size_t state_quant,
-            size_t other_state_quant;
-            ) {
-            
-            // Clear up previous DTMC metadata
-            this->hole_wave.clear();
-            this->wave_states.clear();
+        void CounterexampleGenerator<ValueType,StateType>::exploreDtmc (
+            std::vector<uint_fast64_t> &hole_wave,
+            std::vector<std::vector<StateType>> &wave_states,
+            StateType initial_state
+        ) {
 
-            // Get DTMC info
-            this->dtmc = std::make_shared<storm::models::sparse::Dtmc<ValueType>>(dtmc);
-            this->state_map = state_map;
             uint_fast64_t dtmc_states = this->dtmc->getNumberOfStates();
-            StateType initial_state = *(this->dtmc->getInitialStates().begin() += state_quant);
-            StateType other_initial_state = *(this->dtmc->getInitialStates().begin() += other_state_quant);
             storm::storage::SparseMatrix<ValueType> const& transition_matrix = this->dtmc->getTransitionMatrix();
 
             // Mark all holes as unregistered
             for(uint_fast64_t index = 0; index < this->hole_count; index++) {
-                this->hole_wave.push_back(0);
+                hole_wave.push_back(0);
             }
 
             // Associate states of a DTMC with relevant holes and store their count
             std::vector<std::set<uint_fast64_t>> dtmc_holes(dtmc_states);
             std::vector<uint_fast64_t> unregistered_holes_count(dtmc_states, 0);
             for(StateType state = 0; state < dtmc_states; state++) {
-                dtmc_holes[state] = this->mdp_holes[state_map[state]];
+                dtmc_holes[state] = this->mdp_holes[this->state_map[state]];
                 unregistered_holes_count[state] = dtmc_holes[state].size();
             }
 
@@ -162,8 +153,8 @@ namespace storm {
             bool blocking_candidate_set = false;
             StateType blocking_candidate;
 
-            // Round 0: encounter initial states first (important)
-            this->wave_states.push_back(std::vector<StateType>());
+            // Round 0: encounter initial state first (important)
+            wave_states.push_back(std::vector<StateType>());
             reachable_flag.set(initial_state);
             if(unregistered_holes_count[initial_state] == 0) {
                 // non-blocking
@@ -174,19 +165,6 @@ namespace storm {
                 blocking_candidate_set = true;
                 blocking_candidate = initial_state;
             }
-            reachable_flag.set(other_initial_state);
-            if(unregistered_holes_count[other_initial_state] == 0) {
-                // non-blocking
-                state_horizon.push(other_initial_state);
-            } else {
-                // blocking
-                state_horizon_blocking.push_back(other_initial_state);
-                if(!blocking_candidate_set || unregistered_holes_count[other_initial_state] < unregistered_holes_count[blocking_candidate]) {
-                    // new blocking candidate
-                    blocking_candidate_set = true;
-                    blocking_candidate = other_initial_state;
-                }
-            }
 
             // Explore the state space
             while(true) {
@@ -194,7 +172,7 @@ namespace storm {
                 while(!state_horizon.empty()) {
                     StateType state = state_horizon.top();
                     state_horizon.pop();
-                    this->wave_states.back().push_back(state);
+                    wave_states.back().push_back(state);
 
                     // Reach successors
                     for(auto entry: transition_matrix.getRow(state)) {
@@ -225,15 +203,15 @@ namespace storm {
                     // Nothing more to expand
                     break;
                 }
-                
+
                 // Start a new wave
                 current_wave++;
-                this->wave_states.push_back(std::vector<StateType>());
+                wave_states.push_back(std::vector<StateType>());
                 blocking_candidate_set = false;
-                
+
                 // Register all unregistered holes of this blocking state
                 for(uint_fast64_t hole: dtmc_holes[blocking_candidate]) {
-                    if(this->hole_wave[hole] == 0) {
+                    if(hole_wave[hole] == 0) {
                         hole_wave[hole] = current_wave;
                         // std::cout << "[storm] hole " << hole << " expanded in wave " << current_wave << std::endl;
                     }
@@ -243,12 +221,12 @@ namespace storm {
                 for(StateType state = 0; state < dtmc_states; state++) {
                     unregistered_holes_count[state] = 0;
                     for(uint_fast64_t hole: dtmc_holes[state]) {
-                        if(this->hole_wave[hole] == 0) {
+                        if(hole_wave[hole] == 0) {
                             unregistered_holes_count[state]++;
                         }
                     }
                 }
-                
+
                 // Unblock the states from the blocking horizon
                 std::vector<StateType> old_blocking_horizon;
                 old_blocking_horizon.swap(state_horizon_blocking);
@@ -270,17 +248,54 @@ namespace storm {
         }
 
         template <typename ValueType, typename StateType>
-        void CounterexampleGenerator<ValueType,StateType>::prepareSubdtmc (
+        void CounterexampleGenerator<ValueType,StateType>::prepareDtmc(
+            storm::models::sparse::Dtmc<ValueType> const& dtmc,
+            std::vector<uint_fast64_t> const& state_map,
+            size_t state_quant,
+            size_t other_state_quant
+            ) {
+            
+            // Clear up previous DTMC metadata
+            this->hole_wave.clear();
+            this->wave_states.clear();
+            this->other_hole_wave.clear();
+            this->other_wave_states.clear();
+
+
+            // Get DTMC info
+            this->dtmc = std::make_shared<storm::models::sparse::Dtmc<ValueType>>(dtmc);
+            this->state_map = state_map;
+            StateType initial_state = *(this->dtmc->getInitialStates().begin() += state_quant);
+            StateType other_initial_state = *(this->dtmc->getInitialStates().begin() += other_state_quant);
+
+
+            this->exploreDtmc(
+                this->hole_wave, this->wave_states, initial_state
+            );
+
+            this->exploreDtmc(
+                this->other_hole_wave, this->other_wave_states, other_initial_state
+            );
+
+
+        }
+
+        template <typename ValueType, typename StateType>
+        ValueType CounterexampleGenerator<ValueType,StateType>::prepareSubdtmc (
             uint_fast64_t formula_index,
             std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> mdp_bounds,
             std::vector<StateType> const& mdp_quotient_state_map,
             std::vector<std::vector<std::pair<StateType,ValueType>>> & matrix_subdtmc,
             storm::models::sparse::StateLabeling & labeling_subdtmc,
-            std::unordered_map<std::string,storm::models::sparse::StandardRewardModel<ValueType>> & reward_models_subdtmc
+            std::unordered_map<std::string,storm::models::sparse::StandardRewardModel<ValueType>> & reward_models_subdtmc,
+            size_t state_quant,
+            bool is_other
             ) {
 
             // Get DTMC info
             StateType dtmc_states = dtmc->getNumberOfStates();
+            StateType initial_state = *(this->dtmc->getInitialStates().begin() += state_quant);
+
             
             // Introduce expanded state space
             uint_fast64_t sink_state_false = dtmc_states;
@@ -318,9 +333,11 @@ namespace storm {
             
 
             // Construct transition matrix (as well as the reward model) for the subdtmc
+            ValueType initial_probability;
             if(!this->formula_reward[formula_index]) {
                 // Probability formula: no reward models
-                double default_bound = this->formula_safety[formula_index] ? 0 : 1;
+                bool def = !is_other ? this->formula_safety[formula_index] : ! this->formula_safety[formula_index];
+                double default_bound = def ? 0 : 1;
                 for(StateType state = 0; state < dtmc_states; state++) {
                     StateType mdp_state = this->state_map[state];
                     std::vector<std::pair<StateType,ValueType>> r;
@@ -328,6 +345,9 @@ namespace storm {
                     r.emplace_back(sink_state_false, 1-probability);
                     r.emplace_back(sink_state_true, probability);
                     matrix_subdtmc.push_back(r);
+                    if(state == initial_state){
+                        initial_probability = probability;
+                    }
                 }
             } else {
                 // Reward formula: one reward model
@@ -355,29 +375,30 @@ namespace storm {
                 r.emplace_back(state, 1);
                 matrix_subdtmc.push_back(r);
             }
+
+            return initial_probability;
+
         }
 
         template <typename ValueType, typename StateType>
-        bool CounterexampleGenerator<ValueType,StateType>::expandAndCheck (
+        ValueType CounterexampleGenerator<ValueType,StateType>::expandAndCheck (
             uint_fast64_t index,
             std::vector<std::vector<std::pair<StateType,ValueType>>> & matrix_subdtmc,
             storm::models::sparse::StateLabeling const& labeling_subdtmc,
             std::unordered_map<std::string,storm::models::sparse::StandardRewardModel<ValueType>> & reward_models_subdtmc,
             std::vector<StateType> const& to_expand,
+            std::shared_ptr<storm::modelchecker::CheckResult> hint_result,
             size_t state_quant,
-            size_t other_state_quant,
             bool strict
         ) {
-            
             // Get DTMC info
             uint_fast64_t dtmc_states = this->dtmc->getNumberOfStates();
             storm::storage::SparseMatrix<ValueType> const& transition_matrix = this->dtmc->getTransitionMatrix();
             StateType initial_state = *(this->dtmc->getInitialStates().begin() += state_quant);
-            StateType other_initial_state = *(this->dtmc->getInitialStates().begin() += other_state_quant);
-            
+
             // Expand states from the new wave: 
             // - expand transition probabilities
-            // std::cout << "expanded " << to_expand.size() << " states in this wave " << std::endl;
+            //std::cout << "expanded " << to_expand.size() << " states in this wave\n ";
             for(StateType state : to_expand) {
                 // std::cout << "holes in state " << state << " : ";
                 /*for(auto hole: this->mdp_holes[this->state_map[state]]) {
@@ -389,7 +410,6 @@ namespace storm {
                     matrix_subdtmc[state].emplace_back(entry.getColumn(), entry.getValue());
                 }
             }
-            // std::cout << std::endl;
 
             if(this->formula_reward[index]) {
                 // - expand state rewards
@@ -407,6 +427,7 @@ namespace storm {
                 }
             }
 
+
             // Construct sub-DTMC
             storm::storage::SparseMatrixBuilder<ValueType> transitionMatrixBuilder(0, 0, 0, false, false, 0);
             for(StateType state = 0; state < dtmc_states+2; state++) {
@@ -418,17 +439,17 @@ namespace storm {
             assert(sub_matrix.isProbabilistic());
             storm::storage::sparse::ModelComponents<ValueType> components(sub_matrix, labeling_subdtmc, reward_models_subdtmc);
             std::shared_ptr<storm::models::sparse::Model<ValueType>> subdtmc = storm::utility::builder::buildModelFromComponents(storm::models::ModelType::Dtmc, std::move(components));
-            // std::cout << "[storm] sub-dtmc has " << subdtmc->getNumberOfStates() << " states" << std::endl;
+            //std::cout << "[storm] sub-dtmc has " << subdtmc->getNumberOfStates() << " states" << std::endl;
 
-            
+
             // Construct MC task
             bool onlyInitialStatesRelevant = false;
             storm::modelchecker::CheckTask<storm::logic::Formula, ValueType> task(*(this->formula_modified[index]), onlyInitialStatesRelevant);
-            if(this->hint_result != NULL) {
+            if(hint_result != NULL) {
                 // Add hints from previous wave
                 storm::modelchecker::ExplicitModelCheckerHint<ValueType> hint;
                 hint.setComputeOnlyMaybeStates(false);
-                hint.setResultHint(boost::make_optional(this->hint_result->asExplicitQuantitativeCheckResult<ValueType>().getValueVector()));
+                hint.setResultHint(boost::make_optional(hint_result->asExplicitQuantitativeCheckResult<ValueType>().getValueVector()));
                 task.setHint(std::make_shared<storm::modelchecker::ExplicitModelCheckerHint<ValueType>>(hint));
             }
             storm::Environment env;
@@ -441,35 +462,17 @@ namespace storm {
             // std::unique_ptr<storm::modelchecker::CheckResult> result_ptr = storm::api::verifyWithSparseEngine<ValueType>(subdtmc, task);
             // storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType>& result = result_ptr->asExplicitQuantitativeCheckResult<ValueType>();
             this->timer_model_check.start();
-            this->hint_result = storm::api::verifyWithSparseEngine<ValueType>(env, subdtmc, task);
+            hint_result = storm::api::verifyWithSparseEngine<ValueType>(env, subdtmc, task);
             this->timer_model_check.stop();
-            storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType>& result = this->hint_result->asExplicitQuantitativeCheckResult<ValueType>();
-            bool satisfied;
-
-            if(this->formula_safety[index] && !strict) {
-                // the formula is of type P <= bound
-                satisfied = (result[initial_state] <= result[other_initial_state]) || (abs(result[initial_state]) - result[other_initial_state]) < exp(-5);
-            } else if (!strict){
-                // the formula is of type P >= bound
-                satisfied = (result[initial_state] >= result[other_initial_state]) || (abs(result[initial_state]) - result[other_initial_state]) < exp(-5);
-            } else if (this->formula_safety[index]) {
-                // the formula is of type P < bound
-                 satisfied = (result[initial_state] < result[other_initial_state]) && (abs(result[initial_state]) - result[other_initial_state]) > exp(-5);
-            } else {
-                // the formula is of type P > bound
-                satisfied = (result[initial_state] > result[other_initial_state]) && (abs(result[initial_state]) - result[other_initial_state]) > exp(-5);
-            }
-
-            // set the found reachability probability
-            this->reach_prob = result[initial_state];
-
-            return satisfied;
+            storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType>& result = hint_result->asExplicitQuantitativeCheckResult<ValueType>();
+            return result[initial_state];
         }
 
         template <typename ValueType, typename StateType>
         std::vector<uint_fast64_t> CounterexampleGenerator<ValueType,StateType>::constructConflict (
             uint_fast64_t formula_index,
             std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> mdp_bounds,
+            std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> other_mdp_bounds,
             std::vector<StateType> const& mdp_quotient_state_map,
             size_t state_quant,
             size_t other_state_quant,
@@ -479,6 +482,7 @@ namespace storm {
 
             // Clear hint result
             this->hint_result = NULL;
+            this->other_hint_result = NULL;
             
             // Get DTMC info
             StateType dtmc_states = this->dtmc->getNumberOfStates();
@@ -487,32 +491,100 @@ namespace storm {
             std::vector<std::vector<std::pair<StateType,ValueType>>> matrix_subdtmc;
             storm::models::sparse::StateLabeling labeling_subdtmc(dtmc_states+2);
             std::unordered_map<std::string, storm::models::sparse::StandardRewardModel<ValueType>> reward_models_subdtmc;
-            this->prepareSubdtmc(
-                formula_index, mdp_bounds, mdp_quotient_state_map, matrix_subdtmc, labeling_subdtmc, reward_models_subdtmc
+            ValueType result = this->prepareSubdtmc(
+                formula_index, mdp_bounds, mdp_quotient_state_map, matrix_subdtmc,
+                labeling_subdtmc, reward_models_subdtmc, state_quant, false
+            );
+
+            // Prepare to construct sub-DTMCs (Other)
+            std::vector<std::vector<std::pair<StateType,ValueType>>> other_matrix_subdtmc;
+            storm::models::sparse::StateLabeling other_labeling_subdtmc(dtmc_states+2);
+            std::unordered_map<std::string, storm::models::sparse::StandardRewardModel<ValueType>> other_reward_models_subdtmc;
+            ValueType formula_bound = this->prepareSubdtmc(
+                formula_index, other_mdp_bounds, mdp_quotient_state_map, other_matrix_subdtmc,
+                other_labeling_subdtmc, other_reward_models_subdtmc, other_state_quant, true
             );
 
             // Explore subDTMCs wave by wave
             uint_fast64_t wave_last = this->wave_states.size()-1;
             uint_fast64_t wave = 0;
+            bool wave_flag = true;
 
-            /*std::cout << "[storm] hole-wave: ";
-            for(uint_fast64_t hole = 0; hole < this->hole_count; hole++) {
-                std::cout << this->hole_wave[hole] << ",";
-            }
-            std::cout << std::endl;*/
+            // Explore subDTMCs wave by wave (Other)
+            uint_fast64_t other_wave_last = this->other_wave_states.size()-1;
+            uint_fast64_t other_wave = 0;
+            bool other_wave_flag = true;
+
+            bool sat = true;
             while(true) {
-                bool satisfied = this->expandAndCheck(
-                    formula_index, matrix_subdtmc, labeling_subdtmc,
-                    reward_models_subdtmc, this->wave_states[wave], state_quant, other_state_quant, strict
-                );
-                // std::cout << "[storm] wave " << wave << "/" << wave_last << " : " << satisfied << std::endl;
-                if(!satisfied) {
+
+                if(wave_flag){
+                    // explore primary direction
+                    result = this->expandAndCheck(
+                        formula_index, matrix_subdtmc, labeling_subdtmc,
+                        reward_models_subdtmc, this->wave_states[wave], this->hint_result, state_quant, strict
+                    );
+
+                    // std::cout << "[storm] wave " << wave << "/" << wave_last << " : " << satisfied << std::endl;
+                    if(this->formula_safety[formula_index] && !strict) {
+                        // the formula is of type P <= bound
+                        sat = (result <= formula_bound) || (abs(result) - formula_bound) < exp(-5);
+                    } else if (!strict){
+                        // the formula is of type P >= bound
+                        sat = (result >= formula_bound) || (abs(result) - formula_bound) < exp(-5);
+                    } else if (this->formula_safety[formula_index]) {
+                        // the formula is of type P < bound
+                         sat = (result < formula_bound) && (abs(result) - formula_bound) > exp(-5);
+                    } else {
+                        // the formula is of type P > bound
+                        sat = (result > formula_bound) && (abs(result) - formula_bound) > exp(-5);
+                    }
+                    if(!sat) {
+                        break;
+                    }
+
+                    if(wave == wave_last) {
+                        wave_flag = false;
+                    }else{
+                        wave++;
+                    }
+                }
+
+                if(other_wave_flag){
+                    // explore primary direction
+                    formula_bound = this->expandAndCheck(
+                        formula_index, other_matrix_subdtmc, other_labeling_subdtmc,
+                        other_reward_models_subdtmc, this->other_wave_states[other_wave], this->other_hint_result, other_state_quant, strict
+                    );
+
+                    // std::cout << "[storm] wave " << wave << "/" << wave_last << " : " << satisfied << std::endl;
+                    if(this->formula_safety[formula_index] && !strict) {
+                        // the formula is of type P <= bound
+                        sat = (result <= formula_bound) || (abs(result) - formula_bound) < exp(-5);
+                    } else if (!strict){
+                        // the formula is of type P >= bound
+                        sat = (result >= formula_bound) || (abs(result) - formula_bound) < exp(-5);
+                    } else if (this->formula_safety[formula_index]) {
+                        // the formula is of type P < bound
+                         sat = (result < formula_bound) && (abs(result) - formula_bound) > exp(-5);
+                    } else {
+                        // the formula is of type P > bound
+                        sat = (result > formula_bound) && (abs(result) - formula_bound) > exp(-5);
+                    }
+                    if(!sat) {
+                        break;
+                    }
+
+                    if(other_wave == other_wave_last) {
+                    }else{
+                        other_wave++;
+                    }
+                }
+
+                if(!wave_flag & !other_wave_flag){
                     break;
                 }
-                if(wave == wave_last) {
-                    break;
-                }
-                wave++;
+
             }
 
             // Return a set of critical holes
@@ -523,6 +595,13 @@ namespace storm {
                     critical_holes.push_back(hole);
                 }
             }
+            for(uint_fast64_t hole = 0; hole < this->hole_count; hole++) {
+                uint_fast64_t wave_registered = this->other_hole_wave[hole];
+                if(wave_registered > 0 && wave_registered <= other_wave) {
+                    critical_holes.push_back(hole);
+                }
+            }
+
             this->timer_conflict.stop();
 
             return critical_holes;
@@ -533,9 +612,6 @@ namespace storm {
             std::cout << "[s] conflict: " << this->timer_conflict << std::endl;
             std::cout << "[s]     model checking: " << this->timer_model_check << std::endl;
         }
-        
-
-
 
          // Explicitly instantiate functions and classes.
         template class CounterexampleGenerator<double, uint_fast64_t>;
