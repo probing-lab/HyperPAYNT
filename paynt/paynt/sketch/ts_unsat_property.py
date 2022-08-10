@@ -64,7 +64,7 @@ class TS_Unsat_Property:
         return abs(a - b) > Specification.float_precision
 
     def meets_op(self, a, b):
-        return TS_Unsat_Property.above_float_precision(a, b) and self.op(a, b)
+        return not TS_Unsat_Property.above_float_precision(a, b) or self.op(a, b)
 
     def satisfies_threshold(self, value):
         assert self.threshold is not None
