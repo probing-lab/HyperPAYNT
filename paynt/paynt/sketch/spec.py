@@ -98,7 +98,7 @@ class ConstraintsResult:
 class MdpPropertyResult:
     def __init__(self,
                  prop, primary, secondary, feasibility,
-                 primary_selection, primary_choice_values, primary_expected_visits,
+                 primary_selection, primary_feasibility, primary_choice_values, primary_expected_visits,
                  primary_scores
                  ):
         self.property = prop
@@ -107,6 +107,7 @@ class MdpPropertyResult:
         self.feasibility = feasibility
 
         self.primary_selection = primary_selection
+        self.primary_feasibility = primary_feasibility
         self.primary_choice_values = primary_choice_values
         self.primary_expected_visits = primary_expected_visits
         self.primary_scores = primary_scores
@@ -123,9 +124,8 @@ class MdpPropertyResult:
 # a wrapper for a list of MdpPropertyResults
 class MdpConstraintsResult:
     def __init__(self, results):
-        feas_list = list(map(lambda x: None if x is None else x.feasibility, results))
-        fr_True = Specification.or_filter(feas_list, True)
         feas_list = list(map(lambda x: False if x is None else x.feasibility, results))
+        fr_True = Specification.or_filter(feas_list, True)
         fr_None = Specification.or_filter(feas_list, None)
 
         self.results = results
@@ -134,6 +134,8 @@ class MdpConstraintsResult:
                                       and fr_True[index] is None]
 
         self.feasibility = True
+        self.primary_feasibility = True
+        self.sched_selection = None
         for result, filter1, filter2 in zip(results, fr_True, fr_None):
             if result is None:
                 continue
@@ -142,6 +144,21 @@ class MdpConstraintsResult:
                 break
             if result.feasibility == None and filter1 == None:
                 self.feasibility = None
+                if self.primary_feasibility:
+                    if not result.primary_feasibility:
+                        self.primary_feasibility = False
+                    else:
+                        if self.sched_selection is None:
+                            self.sched_selection = result.primary_selection
+                        else:
+                            for options1 in self.sched_selection:
+                                for options2 in result.primary_selection:
+                                    if len(options1) != len(options2):
+                                        self.primary_feasibility = False
+                                    set1 = set(options1)
+                                    set2 = set(options2)
+                                    if set1 != set2:
+                                        self.primary_feasibility = False
 
     def improving(self, family):
         ''' Interpret MDP constraints result. '''
@@ -154,6 +171,11 @@ class MdpConstraintsResult:
         # constraints not satisfied
         if self.feasibility == False:
             return None,False
+
+        # constraints undecided, but primary selection is feasible for all constraints
+        if self.primary_feasibility:
+
+            return self.results[0].primary_selection, False
 
         # constraints undecided
         return None, True
