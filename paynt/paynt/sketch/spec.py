@@ -174,8 +174,9 @@ class MdpConstraintsResult:
 
         # constraints undecided, but primary selection is feasible for all constraints
         if self.primary_feasibility:
-
-            return self.results[0].primary_selection, False
+            for res in self.results:
+                if res.primary_feasibility:
+                    return res.primary_selection, False
 
         # constraints undecided
         return None, True
