@@ -119,7 +119,8 @@ class SynthesizerAR(Synthesizer):
         Profiler.resume()
 
         improving_assignment, can_improve = res.improving(family)
-
+        if not can_improve:
+            self.stat.add_decided_family(family)
         return can_improve, improving_assignment
 
     def synthesize(self, family):
@@ -146,6 +147,8 @@ class SynthesizerAR(Synthesizer):
             can_improve, improving_assignment = self.analyze_family_ar(family)
             if improving_assignment is not None:
                 satisfying_assignment = improving_assignment
+                # TODO: this does not work with rewards
+                break
             if can_improve == False:
                 self.explore(family)
                 continue
@@ -256,6 +259,7 @@ class SynthesizerCEGIS(Synthesizer):
         # use conflicts to exclude the generalizations of this assignment
         Profiler.start("holes::exclude_assignment")
         for conflict in conflicts:
+            self.stat.add_conflict(conflict)
             family.exclude_assignment(assignment, conflict)
 
         Profiler.resume()

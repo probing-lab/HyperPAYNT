@@ -34,9 +34,17 @@ class Statistic:
         self.acc_size_dtmc = 0
         self.avg_size_dtmc = 0
 
+        self.acc_conflicts = 0
+        self.acc_conflicts_size = 0
+        self.avg_conflict_size = 0
+
         self.iterations_mdp = 0
         self.acc_size_mdp = 0
         self.avg_size_mdp = 0
+
+        self.acc_decided_families = 0
+        self.acc_decided_families_size = 0
+        self.avg_decided_families_size = 0
 
         self.feasible = None
         self.assignment = None
@@ -59,6 +67,13 @@ class Statistic:
         self.acc_size_mdp += size_mdp
         self.print_status()
 
+    def add_conflict(self, conflict):
+        self.acc_conflicts += 1
+        self.acc_conflicts_size += len(conflict)
+
+    def add_decided_family(self, family):
+        self.acc_decided_families += 1
+        self.acc_decided_families_size += family.size
     
     def status(self):
         fraction_rejected = (self.synthesizer.explored + self.synthesizer.sketch.quotient.discarded) / self.sketch.design_space.size
@@ -100,6 +115,8 @@ class Statistic:
 
         self.avg_size_dtmc = safe_division(self.acc_size_dtmc, self.iterations_dtmc)
         self.avg_size_mdp = safe_division(self.acc_size_mdp, self.iterations_mdp)
+        self.avg_conflict_size = safe_division(self.acc_conflicts_size, self.acc_conflicts)
+        self.avg_decided_families_size = safe_division(self.acc_decided_families_size, self.acc_decided_families)
 
     def get_summary(self):
         spec = self.sketch.specification
@@ -115,8 +132,10 @@ class Statistic:
         timing = f"method: {self.synthesizer.method_name}, synthesis time: {round(self.synthesis_time.time, 2)} s"
 
         family_stats = ""
-        ar_stats = f"AR stats: avg MDP size: {round(self.avg_size_mdp)}, iterations: {self.iterations_mdp}" 
-        cegis_stats = f"CEGIS stats: avg DTMC size: {round(self.avg_size_dtmc)}, iterations: {self.iterations_dtmc}"
+        ar_stats = f"AR stats: avg MDP size: {round(self.avg_size_mdp)}, iterations: {self.iterations_mdp}" \
+                   f", decided families: {self.acc_decided_families}, average decided families size: {self.avg_decided_families_size}"
+        cegis_stats = f"CEGIS stats: avg DTMC size: {round(self.avg_size_dtmc)}, iterations: {self.iterations_dtmc}" \
+                      f", conflicts: {self.acc_conflicts}, average conflict size: {self.avg_conflict_size}"
         if self.iterations_mdp > 0:
             family_stats += f"{ar_stats}\n"
         if self.iterations_dtmc > 0:
