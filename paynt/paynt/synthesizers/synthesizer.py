@@ -43,7 +43,6 @@ class Synthesizer:
         # self.sketch.specification.optimality.update_optimum(11.08)
         assignment = self.synthesize(self.sketch.design_space)
 
-        print("")
         logger.info("Printing synthesized assignment below:")
         logger.info(str(assignment))
 
@@ -119,6 +118,10 @@ class SynthesizerAR(Synthesizer):
         Profiler.resume()
 
         improving_assignment, can_improve = res.improving(family)
+
+        # update the property indices
+        family.property_indices = [i for i in family.property_indices if i not in res.unfeasible_constraints]
+
         if not can_improve:
             self.stat.add_decided_family(family)
         return can_improve, improving_assignment

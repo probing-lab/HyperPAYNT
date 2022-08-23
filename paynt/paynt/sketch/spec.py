@@ -67,7 +67,8 @@ class PropertyResult:
         self.sat = prop.satisfies_threshold(value)
 
     def __str__(self):
-        return str(self.value)
+        return str(self.value) + "(s_" + str(self.property.state_quant) + ") vs " + str(self.property.threshold) \
+               + "(s_" + str(self.property.compare_state) + ")"
 
 
 class ConstraintsResult:
@@ -116,9 +117,9 @@ class MdpPropertyResult:
         prim = str(self.primary)
         seco = str(self.secondary)
         if self.property.minimizing:
-            return "{} - {}".format(prim, seco)
+            return "{} - {}; ".format(prim, seco)
         else:
-            return "{} - {}".format(seco, prim)
+            return "{} - {}; ".format(seco, prim)
 
 
 # a wrapper for a list of MdpPropertyResults
@@ -129,10 +130,13 @@ class MdpConstraintsResult:
         fr_None = Specification.or_filter(feas_list, None)
 
         self.results = results
+        # undecided constraint which are not in a or relation with a true constraint
         self.undecided_constraints = [index for index, result in enumerate(results) if
                                       result is not None and result.feasibility is None
                                       and fr_True[index] is None]
 
+        self.unfeasible_constraints = [index for index, result in enumerate(results) if
+                                      result is not None and result.feasibility is False]
         self.feasibility = True
         self.primary_feasibility = True
         self.sched_selection = None
@@ -141,6 +145,7 @@ class MdpConstraintsResult:
                 continue
             if result.feasibility == False and filter1 == False and filter2 == False:
                 self.feasibility = False
+                self.primary_feasibility = False
                 break
             if result.feasibility == None and filter1 == None:
                 self.feasibility = None
@@ -175,8 +180,10 @@ class MdpConstraintsResult:
         # constraints undecided, but primary selection is feasible for all constraints
         if self.primary_feasibility:
             for res in self.results:
-                if res.primary_feasibility:
-                    return res.primary_selection, False
+                if res is not None and res.primary_feasibility:
+                    assignment = family.copy()
+                    assignment.assume_options(res.primary_selection)
+                    return assignment.pick_any(), False
 
         # constraints undecided
         return None, True
