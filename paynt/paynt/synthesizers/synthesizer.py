@@ -149,6 +149,7 @@ class SynthesizerAR(Synthesizer):
 
             can_improve, improving_assignment = self.analyze_family_ar(family)
             if improving_assignment is not None:
+                self.explore(family)
                 satisfying_assignment = improving_assignment
                 # TODO: this does not work with rewards
                 break
@@ -412,7 +413,10 @@ class SynthesizerHybrid(SynthesizerAR, SynthesizerCEGIS):
             # analyze the family
             can_improve, improving_assignment = self.analyze_family_ar(family)
             if improving_assignment is not None:
+                self.explore(family)
                 satisfying_assignment = improving_assignment
+                # TODO: this does not work with rewards
+                break
             if can_improve == False:
                 self.explore(family)
                 continue
