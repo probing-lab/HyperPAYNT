@@ -11,6 +11,7 @@ from .sketch.ta_property import TA_Property
 from .sketch.pw_property import PW_Property
 from .sketch.ts_property import TS_Property
 from .sketch.ts_unsat_property import TS_Unsat_Property
+from .sketch.ta_almost_unsat_property import TA_Almost_Unsat_Property
 
 import logging
 # logger = logging.getLogger(__name__)
@@ -44,7 +45,7 @@ def setup_logger(log_path = None):
 @click.option("--project", required=True, help="root", )
 @click.option("--sketch", default="sketch.templ", help="name of the sketch file")
 @click.option("--method", type=click.Choice(['onebyone', 'cegis', 'ar', 'hybrid'], case_sensitive=False), default="ar")
-@click.option("--hp", type=click.Choice(['pc', 'ta', 'pw', 'ts', 'ts-unsat'], case_sensitive=False), default="pc")
+@click.option("--hp", type=click.Choice(['pc', 'ta', 'pw', 'ts', 'ts-unsat', 'ta-almost-unsat'], case_sensitive=False), default="pc")
 
 def paynt(
         project, sketch, method, hp
@@ -67,6 +68,8 @@ def paynt(
         prop = TS_Property
     elif hp == 'ts-unsat':
         prop = TS_Unsat_Property
+    elif hp == 'ta-almost-unsat':
+        prop = TA_Almost_Unsat_Property
 
     sketch = Sketch(sketch_path, prop)
     logger.info("Synthetizing an MDP scheduler wrt a hyperproperty")
