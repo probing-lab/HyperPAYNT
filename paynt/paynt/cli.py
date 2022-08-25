@@ -5,13 +5,7 @@ import os
 from . import version
 
 from .sketch.sketch import Sketch
-from .sketch.pc_property import PC_Property
 from .synthesizers.synthesizer import *
-from .sketch.ta_property import TA_Property
-from .sketch.pw_property import PW_Property
-from .sketch.ts_property import TS_Property
-from .sketch.ts_unsat_property import TS_Unsat_Property
-from .sketch.ta_almost_unsat_property import TA_Almost_Unsat_Property
 
 import logging
 # logger = logging.getLogger(__name__)
@@ -43,12 +37,12 @@ def setup_logger(log_path = None):
 
 @click.command()
 @click.option("--project", required=True, help="root", )
-@click.option("--sketch", default="sketch.templ", help="name of the sketch file")
+@click.option("--sketch", default="sketch.templ", show_default=True, help="name of the sketch file")
+@click.option("--props", default="sketch.props", show_default=True, help="name of the properties file in the project")
 @click.option("--method", type=click.Choice(['onebyone', 'cegis', 'ar', 'hybrid'], case_sensitive=False), default="ar")
-@click.option("--hp", type=click.Choice(['pc', 'ta', 'pw', 'ts', 'ts-unsat', 'ta-almost-unsat'], case_sensitive=False), default="pc")
 
 def paynt(
-        project, sketch, method, hp
+        project, sketch, props, method
 ):
     logger.info("This is Paynt version {}.".format(version()))
 
@@ -56,22 +50,9 @@ def paynt(
     if not os.path.isdir(project):
         raise ValueError(f"The project folder {project} is not a directory")
     sketch_path = os.path.join(project, sketch)
+    properties_path = os.path.join(project, props)
 
-    # choose experiment name
-    if hp == "ta":
-        prop = TA_Property
-    elif hp == "pc":
-        prop = PC_Property
-    elif hp == "pw":
-        prop = PW_Property
-    elif hp == 'ts':
-        prop = TS_Property
-    elif hp == 'ts-unsat':
-        prop = TS_Unsat_Property
-    elif hp == 'ta-almost-unsat':
-        prop = TA_Almost_Unsat_Property
-
-    sketch = Sketch(sketch_path, prop)
+    sketch = Sketch(sketch_path, properties_path)
     logger.info("Synthetizing an MDP scheduler wrt a hyperproperty")
 
 
