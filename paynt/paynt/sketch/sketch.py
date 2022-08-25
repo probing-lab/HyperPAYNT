@@ -6,7 +6,7 @@ from .holes import Hole, Holes, DesignSpace
 from ..synthesizers.models import MarkovChain
 from ..synthesizers.quotient import *
 from ..profiler import Profiler
-from property import Property
+from .property import Property
 
 import os
 import re
@@ -30,9 +30,9 @@ class Sketch:
         self.specification = None
         self.quotient = None
 
-        self.sched_quant_dict = None
-        self.state_quant_dict = None
-        self.state_range_dict = None
+        self.sched_quant_dict = {}
+        self.state_quant_dict = {}
+        self.state_range_dict = {}
 
         # parsing the scheduler quantifiers, and returning the rest of the specification
         logger.info(f"Loading properties from {properties_path} ...")
@@ -129,7 +129,7 @@ class Sketch:
             self.state_quant_dict[state_name] = (state_quant, sched_name)
 
             # every scheduler variable must be quantified
-            if sched_name not in self.sched_quant_dict.keys():
+            if sched_name not in list(self.sched_quant_dict.keys()):
                 raise Exception("a scheduler variable occurs free in the formula")
 
             if existential_quantifier and state_quant == "A":
@@ -157,7 +157,7 @@ class Sketch:
             with open(path, "a") as f:
                 # add a global variable to distinguish two initial states
                 # note: this does not work if the file is empty or if the PRISM file already contains the global variable sched_quant
-                f.write("\nglobal sched_quant : [0.." + str(scheduler_quantifiers) + "];")
+                f.write("\nglobal sched_quant : [0.." + str(scheduler_quantifiers -1) + "];")
                 f.close()
 
             prism = stormpy.parse_prism_program(path, prism_compat=True)
@@ -173,10 +173,10 @@ class Sketch:
     # instantiate the properties for the initial states according to their quantifiers
     def spread_properties(self, lines, nr_initial_states):
         nr_schedulers = len(self.sched_quant_dict)
-        nr_init_per_sched = nr_initial_states / nr_schedulers
+        nr_init_per_sched = int(nr_initial_states / nr_schedulers)
         for state_name, value in self.state_quant_dict.items():
             state_quant, sched_name = value
-            sched_order = self.sched_quant_dict.keys().index(sched_name)
+            sched_order = list(self.sched_quant_dict.keys()).index(sched_name)
             # compute the set of possible values for each state variable
             initial_states = [i for i in range(nr_init_per_sched * sched_order, nr_init_per_sched * (sched_order + 1))]
 
@@ -237,16 +237,16 @@ class Sketch:
                     raise NotImplementedError("Comparison of different reachability targets are not supported yet. "
                                               "Please also check that whitespaces match in the two targets")
                 # collect information
-                state_quant = match.group(3)
-                compare_state = match.group(9)
+                state_quant = int(match.group(3))
+                compare_state = int(match.group(9))
                 ops = {"<=": operator.le, "<": operator.lt, "=>": operator.ge, ">": operator.gt}
-                operator = ops[match.group(6)]
+                op = ops[match.group(6)]
 
                 # parse the property
                 p = match.group(1).replace(match.group(2), "=?")
                 ps = stormpy.parse_properties_for_prism_program(p, prism)
                 p = ps[0]
-                p = Property(p, state_quant, compare_state, operator)
+                p = Property(p, state_quant, compare_state, op)
 
                 #add the property to the list
                 properties.extend([p])
@@ -254,3 +254,4 @@ class Sketch:
                 i += 1
 
             Specification.disjoint_indexes.append(indexes)
+        return  Specification(properties)

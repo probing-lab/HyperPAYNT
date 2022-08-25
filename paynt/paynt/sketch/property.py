@@ -13,14 +13,14 @@ logger = logging.getLogger(__name__)
 class Property:
     ''' Wrapper over a stormpy property. '''
 
-    def __init__(self, prop, state_quant, compare_state, operator):
+    def __init__(self, prop, state_quant, compare_state, op):
         self.property = prop
         rf = prop.raw_formula
 
         # use operator to deduce optimizing direction
-        self.op = operator
-        self.minimizing = operator in [operator.le, operator.lt]
-        self.strict = operator in [operator.lt, operator.gt]
+        self.op = op
+        self.minimizing = op in [operator.le, operator.lt]
+        self.strict = op in [operator.lt, operator.gt]
 
         # the threshold is set at every model check query
         self.threshold = None
@@ -34,6 +34,9 @@ class Property:
         self.formula_alt = self.formula.clone()
         optimality_type_alt = stormpy.OptimizationDirection.Maximize if self.minimizing else stormpy.OptimizationDirection.Minimize
         self.formula_alt.set_optimality_type(optimality_type_alt)
+
+        # for the str function
+        self.formula_str = rf
 
         # set the state quantifier (either 0 or 1)
         self.state_quant = state_quant
