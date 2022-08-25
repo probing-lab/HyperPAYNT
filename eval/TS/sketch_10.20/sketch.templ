@@ -1,7 +1,7 @@
 mdp
 
-const int n1 = 1;
-const int n2 = 0;
+const int n1 = 20;
+const int n2 = 10;
 
 module thread_scheduling
 
@@ -30,7 +30,7 @@ module thread_scheduling
     [] (f1=1)&(f2=1) -> true;
 
 endmodule
-
+// we have two initial states
 init (l=0)&(f1=0)&(f2=0)&(h=n1 | h=n2)  endinit
 
 label "l1" = (l=1)&(f1=1)&(f2=1); // l == 1 on termination
