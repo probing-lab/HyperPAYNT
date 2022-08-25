@@ -254,4 +254,3 @@ class Sketch:
                 i += 1
 
             Specification.disjoint_indexes.append(indexes)
-            
