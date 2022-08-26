@@ -1,6 +1,5 @@
 import stormpy
 
-from .pc_property import PC_Property
 from .spec import Specification
 from .holes import Hole, Holes, DesignSpace
 from ..synthesizers.models import MarkovChain
@@ -90,14 +89,18 @@ class Sketch:
         while True:
             sched_quant = match.group(1)
             sched_name = match.group(2)
-            # add this scheduler quantifier to the dictionary
-            self.sched_quant_dict[sched_name] = sched_quant
+
+            if sched_name in list(self.sched_quant_dict.keys()):
+                raise Exception("two scheduler variables cannot have the same name")
 
             # for now we support only straighforward synthesis specifications
             # hence currently the dictionary values are never retrieved
             if sched_quant == "AS":
                 # TODO: implement encoding of AS quantifications
                 raise NotImplementedError
+
+            # add this scheduler quantifier to the dictionary
+            self.sched_quant_dict[sched_name] = sched_quant
 
             # end of line
             if match.group(4) == "":
@@ -125,15 +128,19 @@ class Sketch:
             state_name = match.group(2)
             sched_name = match.group(3)
 
-            # add the state quantifier to the dictionary
-            self.state_quant_dict[state_name] = (state_quant, sched_name)
-
             # every scheduler variable must be quantified
             if sched_name not in list(self.sched_quant_dict.keys()):
                 raise Exception("a scheduler variable occurs free in the formula")
 
+            # the implementation of HyperPaynt supports only specifications in conjunctive normal form
             if existential_quantifier and state_quant == "A":
                 raise Exception("this nesting is not allowed: please use conjunctions of disjuctions")
+
+            if state_name in list(self.state_quant_dict.keys()):
+                raise Exception("two state variables cannot have the same name")
+
+            # add the state quantifier to the dictionary
+            self.state_quant_dict[state_name] = (state_quant, sched_name)
 
             # end of state quantifiers
             if match.group(5) == "":
@@ -199,7 +206,7 @@ class Sketch:
             if state_name in prop:
                 #instantial the property for all initial states
                 instantiated_property = ""
-                for state in initial_states:
+                for state in [i for i in initial_states if "{" + str(i) + "}" not in prop]:
                     if instantiated_property == "":
                         instantiated_property += prop.replace(state_name, str(state))
                     else:
@@ -213,10 +220,10 @@ class Sketch:
                 spread_properties += " | " + prop
         return spread_properties
 
-    # "vertically" means to add some more p
+    # "vertically" means to add some more properties in conjunction with the ones found in the current line
     def grow_vertically(self, line, state_name, initial_states):
         if state_name in line:
-            return [line.replace(state_name, state) for state in initial_states]
+            return [line.replace(state_name, i) for i in initial_states if "{" + str(i) + "}" not in line]
         else:
             return [line]
 
