@@ -1,0 +1,38 @@
+mdp
+
+const int n = 4; // bits for the encryption key
+
+module timing_attack
+
+	    h  : [0..n]; // number of bits of the encryption key
+        pc : [0..1];
+        c  : [0..2*n];
+        e  : [0..1]; // termination of the program
+
+        [a]  (h>0)&(pc=0)&(c<2*n)        -> 1/2 : (h'=h-1)&(pc'=1)  + 1/2 : (c'=c+1); //b(i) is true
+        [b]  (h>0)&(pc=0)&(c<2*n)        -> 1/2 : (h'=h-1)&(pc'=0)  + 1/2 : (c'=c+1); //b(i) is false
+        []  (pc=1)&(c<2*n)               -> 1/2 : (pc'=0)           + 1/2 : (c'=c+1);
+
+        // the counter has reached the max value
+        [c]  (h>0)&(pc=0)&(c=2*n)        -> (h'=h-1)&(pc'=1);   //b(i) is true
+        [d]  (h>0)&(pc=0)&(c=2*n)        -> (h'=h-1)&(pc'=0);  //b(i) is false
+        []  (pc=1)&(c=2*n)               -> (pc'=0);
+
+        // termination
+        []  (h=0)&(pc=0)&(c<2*n)&(e=0)   -> 1/2 : (e' =1)           + 1/2 : (c'=c+1);
+        []  (h=0)&(pc=0)&(c=2*n)&(e=0)   -> (e' =1);
+        []  (e=1)                        -> true;
+
+endmodule
+
+init  (h=n)&(pc=0)&(c=0)&(e=0)  endinit
+
+label "c0" = (c=0)&(e=1);
+label "c1" = (c=1)&(e=1);
+label "c2" = (c=2)&(e=1);
+label "c3" = (c=3)&(e=1);
+label "c4" = (c=4)&(e=1);
+label "c5" = (c=5)&(e=1);
+label "c6" = (c=6)&(e=1);
+label "c7" = (c=7)&(e=1);
+label "c8" = (c=8)&(e=1);
