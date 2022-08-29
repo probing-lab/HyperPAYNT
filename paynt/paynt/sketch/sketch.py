@@ -53,7 +53,7 @@ class Sketch:
         logger.info(f"Found the following state quantifiers: {self.state_quant_dict}")
         lines = self.spread_properties(lines, nr_initial_states)
         self.specification = self.parse_specification(lines, self.prism)
-        logger.info(f"Found the following specification: {self.specification}")
+        logger.info(f"Found the following specification:\n {self.specification}")
 
         # initializing the Model Checking options
         MarkovChain.initialize(self.specification.stormpy_formulae())
@@ -223,7 +223,7 @@ class Sketch:
     # "vertically" means to add some more properties in conjunction with the ones found in the current line
     def grow_vertically(self, line, state_name, initial_states):
         if state_name in line:
-            return [line.replace(state_name, i) for i in initial_states if "{" + str(i) + "}" not in line]
+            return [line.replace(state_name, str(i)) for i in initial_states if "{" + str(i) + "}" not in line]
         else:
             return [line]
 

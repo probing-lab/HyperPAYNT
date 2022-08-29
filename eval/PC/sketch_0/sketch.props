@@ -1,14 +1,8 @@
 ES sched
 A s0(sched) A s1(sched)
 P{s0}[F "die1"] <= P{s1}[F "die1"]
-P{s1}[F "die1"] <= P{s0}[F "die1"]
 P{s0}[F "die2"] <= P{s1}[F "die2"]
-P{s1}[F "die2"] <= P{s0}[F "die2"]
 P{s0}[F "die3"] <= P{s1}[F "die3"]
-P{s1}[F "die3"] <= P{s0}[F "die3"]
 P{s0}[F "die4"] <= P{s1}[F "die4"]
-P{s1}[F "die4"] <= P{s0}[F "die4"]
 P{s0}[F "die5"] <= P{s1}[F "die5"]
-P{s1}[F "die5"] <= P{s0}[F "die5"]
 P{s0}[F "die6"] <= P{s1}[F "die6"]
-P{s1}[F "die6"] <= P{s0}[F "die6"]
