@@ -242,7 +242,8 @@ class Sketch:
                     raise Exception("input formula is wrong formatted!")
                 if not match.group(4) == match.group(10):
                     raise NotImplementedError("Comparison of different reachability targets are not supported yet. "
-                                              "Please also check that whitespaces match in the two targets")
+                                              "Please also check that whitespaces match in the two targets: \""
+                                              + match.group(4) + "\" and \"" + match.group(10) + "\"")
                 # collect information
                 state_quant = int(match.group(3))
                 compare_state = int(match.group(9))

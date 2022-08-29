@@ -13,8 +13,8 @@ class Specification:
         self.constraints = constraints
 
     def __str__(self):
-        constraints = ",".join([str(c) for c in self.constraints])
-        return f"constraints: {constraints}"
+        constraints = ";\n".join([str(c) for c in self.constraints])
+        return f"{constraints}"
 
     @property
     def has_optimality(self):
@@ -68,7 +68,7 @@ class PropertyResult:
 
     def __str__(self):
         return str(self.value) + "(s_" + str(self.property.state_quant) + ") vs " + str(self.property.threshold) \
-               + "(s_" + str(self.property.compare_state) + ")"
+               + "(s_" + str(self.property.compare_state) + "): " + str(self.sat)
 
 
 class ConstraintsResult:
@@ -89,7 +89,7 @@ class ConstraintsResult:
                 break
 
     def __str__(self):
-        return ",".join([str(result) for result in self.results])
+        return ";\n".join([str(result) for result in self.results])
 
     def isSat(self, index):
         sat_list = list(map(lambda x: None if x is None else x.sat, self.results))
