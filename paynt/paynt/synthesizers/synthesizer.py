@@ -49,7 +49,7 @@ class Synthesizer:
         if assignment is not None:
             dtmc = self.sketch.quotient.build_chain(assignment)
             spec = dtmc.check_constraints(self.sketch.specification.constraints)
-            logger.info("Double-checking specification satisfiability: {}".format(spec))
+            logger.info("Double-checking specification satisfiability:\n{}".format(spec))
 
         self.print_stats()
 
@@ -75,19 +75,28 @@ class Synthesizer1By1(Synthesizer):
         self.stat.start()
 
         satisfying_assignment = None
+        sat_count = 0
+        unsat_count = 0
         for hole_combination in family.all_combinations():
 
             assignment = family.construct_assignment(hole_combination)
             chain = self.sketch.quotient.build_chain(assignment)
-            self.stat.iteration_dtmc(chain.states)
+            #self.stat.iteration_dtmc(chain.states)
             result = chain.check_constraints(self.sketch.specification.constraints, short_evaluation=True)
             self.explore(assignment)
 
             if not result.all_sat:
+                unsat_count += 1
                 continue
 
+            sat_count += 1
+            # TODO: this does not have the early termination property
             satisfying_assignment = assignment
 
+
+        print(f"design space: {self.sketch.design_space.size}")
+        print(f"Unsat members: {unsat_count}({unsat_count / self.sketch.design_space.size * 100}%)")
+        print(f"Sat members: {sat_count}({sat_count / self.sketch.design_space.size * 100}%)")
         self.stat.finished(satisfying_assignment)
         Profiler.stop()
         return satisfying_assignment
