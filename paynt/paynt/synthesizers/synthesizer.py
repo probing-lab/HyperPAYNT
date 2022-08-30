@@ -32,19 +32,19 @@ class Synthesizer:
         ''' to be overridden '''
         pass
 
-    def synthesize(self, family):
+    def synthesize(self, family, explore_all):
         ''' to be overridden '''
         pass
 
     def print_stats(self):
         self.stat.print()
 
-    def run(self):
+    def run(self, explore_all):
         # self.sketch.specification.optimality.update_optimum(11.08)
-        assignment = self.synthesize(self.sketch.design_space)
+        assignment = self.synthesize(self.sketch.design_space, explore_all)
 
         logger.info("Printing synthesized assignment below:")
-        logger.info(str(assignment))
+        logger.info(";\n".join(str(assignment).split(",")))
 
         if assignment is not None:
             dtmc = self.sketch.quotient.build_chain(assignment)
@@ -67,7 +67,7 @@ class Synthesizer1By1(Synthesizer):
     def method_name(self):
         return "1-by-1"
 
-    def synthesize(self, family):
+    def synthesize(self, family, explore_all):
 
         logger.info("Synthesis initiated.")
 
@@ -75,28 +75,19 @@ class Synthesizer1By1(Synthesizer):
         self.stat.start()
 
         satisfying_assignment = None
-        sat_count = 0
-        unsat_count = 0
         for hole_combination in family.all_combinations():
 
             assignment = family.construct_assignment(hole_combination)
             chain = self.sketch.quotient.build_chain(assignment)
             #self.stat.iteration_dtmc(chain.states)
             result = chain.check_constraints(self.sketch.specification.constraints, short_evaluation=True)
-            self.explore(assignment)
-
+            self.stat.add_dtmc_sat_result(result.all_sat)
             if not result.all_sat:
-                unsat_count += 1
                 continue
-
-            sat_count += 1
-            # TODO: this does not have the early termination property
             satisfying_assignment = assignment
+            if not explore_all:
+                break
 
-
-        print(f"design space: {self.sketch.design_space.size}")
-        print(f"Unsat members: {unsat_count}({unsat_count / self.sketch.design_space.size * 100}%)")
-        print(f"Sat members: {sat_count}({sat_count / self.sketch.design_space.size * 100}%)")
         self.stat.finished(satisfying_assignment)
         Profiler.stop()
         return satisfying_assignment
@@ -130,12 +121,9 @@ class SynthesizerAR(Synthesizer):
 
         # update the property indices
         family.property_indices = [i for i in family.property_indices if i not in res.unfeasible_constraints]
-
-        if not can_improve:
-            self.stat.add_decided_family(family)
         return can_improve, improving_assignment
 
-    def synthesize(self, family):
+    def synthesize(self, family, explore_all):
 
         logger.info("Synthesis initiated.")
 
@@ -158,11 +146,11 @@ class SynthesizerAR(Synthesizer):
 
             can_improve, improving_assignment = self.analyze_family_ar(family)
             if improving_assignment is not None:
-                self.explore(family)
                 satisfying_assignment = improving_assignment
-                # TODO: this does not work with rewards
-                break
+                if not explore_all:
+                    break
             if can_improve == False:
+                self.stat.add_decided_family(family, improving_assignment is not None)
                 self.explore(family)
                 continue
 
@@ -278,7 +266,7 @@ class SynthesizerCEGIS(Synthesizer):
         Profiler.resume()
         return False, False
 
-    def synthesize(self, family):
+    def synthesize(self, family, explore_all):
 
         logger.info("Synthesis initiated.")
 
@@ -313,8 +301,11 @@ class SynthesizerCEGIS(Synthesizer):
             if improving:
                 satisfying_assignment = assignment
             if sat:
-                break
-
+                if not explore_all:
+                    break
+                else:
+                    family.exclude_assignment(assignment, [i for i in range(len(assignment))])
+            self.stat.add_dtmc_sat_result(sat)
             # construct next assignment
             assignment = family.pick_assignment()
 
@@ -378,7 +369,7 @@ class SynthesizerHybrid(SynthesizerAR, SynthesizerCEGIS):
     def method_name(self):
         return "hybrid"
 
-    def synthesize(self, family):
+    def synthesize(self, family, explore_all):
 
         logger.info("Synthesis initiated.")
 
@@ -422,11 +413,11 @@ class SynthesizerHybrid(SynthesizerAR, SynthesizerCEGIS):
             # analyze the family
             can_improve, improving_assignment = self.analyze_family_ar(family)
             if improving_assignment is not None:
-                self.explore(family)
                 satisfying_assignment = improving_assignment
-                # TODO: this does not work with rewards
-                break
+                if not explore_all:
+                    break
             if can_improve == False:
+                self.stat.add_decided_family(family, improving_assignment is not None)
                 self.explore(family)
                 continue
 
@@ -456,17 +447,21 @@ class SynthesizerHybrid(SynthesizerAR, SynthesizerCEGIS):
                 if improving:
                     satisfying_assignment = assignment
                 if sat:
-                    break
+                    if not explore_all:
+                        break
+                    else:
+                        family.exclude_assignment(assignment, [i for i in range(len(assignment))])
 
-                # assignment is UNSAT: move on to the next assignment
+                self.stat.add_dtmc_sat_result(sat)
+                # move on to the next assignment
 
-            if sat:
+            if sat and not explore_all:
                 break
 
             if not family.has_assignments:
+                self.stat.add_decided_family(family, False)
                 self.explore(family)
                 continue
-
             subfamilies = self.sketch.quotient.split(family)
             families = families + subfamilies
 

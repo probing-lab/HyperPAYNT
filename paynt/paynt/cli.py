@@ -40,9 +40,10 @@ def setup_logger(log_path = None):
 @click.option("--sketch", default="sketch.templ", show_default=True, help="name of the sketch file")
 @click.option("--props", default="sketch.props", show_default=True, help="name of the properties file in the project")
 @click.option("--method", type=click.Choice(['onebyone', 'cegis', 'ar', 'hybrid'], case_sensitive=False), default="ar")
+@click.option("--explore_all", is_flag=True, default=False, help="explore all the design space")
 
 def paynt(
-        project, sketch, props, method
+        project, sketch, props, method, explore_all
 ):
     logger.info("This is Paynt version {}.".format(version()))
 
@@ -70,7 +71,7 @@ def paynt(
     else:
         assert None
 
-    synthesizer.run()
+    synthesizer.run(explore_all)
 
 def main():
     # setup_logger("paynt.log")

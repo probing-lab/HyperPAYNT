@@ -34,8 +34,7 @@ class Statistic:
         self.acc_size_dtmc = 0
         self.avg_size_dtmc = 0
 
-        self.acc_conflicts = 0
-        self.acc_conflicts_size = 0
+        self.acc_conflicts = [0 for _ in range(sketch.design_space.num_holes +1)]
         self.avg_conflict_size = 0
 
         self.iterations_mdp = 0
@@ -48,6 +47,9 @@ class Statistic:
 
         self.feasible = None
         self.assignment = None
+
+        self.unsat_members = 0
+        self.sat_members = 0
 
         self.synthesis_time = Timer()
         self.status_horizon = Statistic.status_period
@@ -68,13 +70,22 @@ class Statistic:
         self.print_status()
 
     def add_conflict(self, conflict):
-        self.acc_conflicts += 1
-        self.acc_conflicts_size += len(conflict)
+        self.acc_conflicts[len(conflict)] += 1
 
-    def add_decided_family(self, family):
+    def add_decided_family(self, family, feasible):
         self.acc_decided_families += 1
         self.acc_decided_families_size += family.size
-    
+        if feasible:
+            self.sat_members += family.size
+        else:
+            self.unsat_members += family.size
+
+    def add_dtmc_sat_result(self, sat):
+        if sat:
+            self.sat_members += 1
+        else:
+            self.unsat_members += 1
+
     def status(self):
         fraction_rejected = (self.synthesizer.explored + self.synthesizer.sketch.quotient.discarded) / self.sketch.design_space.size
         time_estimate = safe_division(self.synthesis_time.read(), fraction_rejected)
@@ -115,12 +126,13 @@ class Statistic:
 
         self.avg_size_dtmc = safe_division(self.acc_size_dtmc, self.iterations_dtmc)
         self.avg_size_mdp = safe_division(self.acc_size_mdp, self.iterations_mdp)
-        self.avg_conflict_size = safe_division(self.acc_conflicts_size, self.acc_conflicts)
+        self.avg_conflict_size = safe_division(sum([i*k for i,k in enumerate(self.acc_conflicts)]), sum(self.acc_conflicts))
         self.avg_decided_families_size = safe_division(self.acc_decided_families_size, self.acc_decided_families)
 
     def get_summary(self):
         spec = self.sketch.specification
         specification = "\n".join([f"constraint {i + 1}: {str(f)}" for i,f in enumerate(spec.constraints)]) + "\n"
+        disjoint_indexes = str(spec.disjoint_indexes) + "\n"
 
         fraction_explored = int((self.synthesizer.explored / self.sketch.design_space.size) * 100)
         explored = f"explored: {fraction_explored} %"
@@ -134,8 +146,13 @@ class Statistic:
         family_stats = ""
         ar_stats = f"AR stats: avg MDP size: {round(self.avg_size_mdp)}, iterations: {self.iterations_mdp}" \
                    f", decided families: {self.acc_decided_families}, average decided families size: {self.avg_decided_families_size}"
+        conflict_stats = ";\n".join([ f"{counter} conflicts of size {i}" for i, counter in enumerate (self.acc_conflicts)])
         cegis_stats = f"CEGIS stats: avg DTMC size: {round(self.avg_size_dtmc)}, iterations: {self.iterations_dtmc}" \
-                      f", conflicts: {self.acc_conflicts}, average conflict size: {self.avg_conflict_size}"
+                      f", conflicts: {sum(self.acc_conflicts)}, average conflict size: {self.avg_conflict_size}\n" \
+                      f"{conflict_stats}"
+
+        sat_stats = f"Sat members found: {self.sat_members}\nUnsat Members found: {self.unsat_members}"
+
         if self.iterations_mdp > 0:
             family_stats += f"{ar_stats}\n"
         if self.iterations_dtmc > 0:
@@ -148,8 +165,8 @@ class Statistic:
 
         sep = "--------------------\n"
         summary = f"{sep}Synthesis summary\n" \
-                f"{specification}\n{timing}\n{design_space}\n{explored}\n" \
-                f"{family_stats}\n{result}\n{assignment}" \
+                f"{specification}{disjoint_indexes}\n{timing}\n{design_space}\n{explored}\n" \
+                f"{family_stats}\n{sat_stats}\n{result}\n{assignment}" \
                 f"{sep}"
         return summary
 
