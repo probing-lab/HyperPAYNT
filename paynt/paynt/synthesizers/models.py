@@ -114,15 +114,8 @@ class MarkovChain:
             result = self.model_check_formula_hint(formula, hint)
             result_alt = self.model_check_formula_hint(formula_alt, hint)
 
-        state_quant = prop.state_quant
-        compare_state = prop.compare_state
-
-        value = result.at(self.initial_states[state_quant])
-        # set the threshold
-        threshold = result_alt.at(self.initial_states[compare_state])
-        prop.set_threshold(threshold)
         Profiler.resume()
-        return PropertyResult(prop, result, value)
+        return PropertyResult(prop, result, result_alt)
 
 
 class DTMC(MarkovChain):
@@ -183,13 +176,11 @@ class MDP(MarkovChain):
         
         # regardless of whether it is consistent or not, we compute secondary direction to show that all SAT
         # compute secondary direction
-        secondary = self.model_check_property(prop, alt = True)
+        secondary = PropertyResult(prop, primary.result_alt, primary.result)
 
-        state_quant = prop.state_quant
-        compare_state = prop.compare_state
-
-        value = primary.result.at(self.initial_states[state_quant])
-        threshold = primary.result.at(self.initial_states[compare_state])
+        # check if primary scheduler induces a feasible scheduler
+        value = primary.result.at(self.initial_states[prop.state_quant])
+        threshold = primary.result.at(self.initial_states[prop.compare_state])
         primary_feasibility = prop.meets_op(value, threshold)
 
         feasibility = True if secondary.sat else None

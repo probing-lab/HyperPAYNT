@@ -60,11 +60,22 @@ class Specification:
 
 
 class PropertyResult:
-    def __init__(self, prop, result, value):
+    def __init__(self, prop, result, result_alt):
+        # the reachability property that we are verifying
         self.property = prop
+        # a vector of results for each state of the Markov Chain
         self.result = result
-        self.value = value
-        self.sat = prop.satisfies_threshold(value)
+        # for a DTMC, result and result_alt are the same
+        self.result_alt = result_alt
+
+        #setting the result value
+        self.value = result.at(prop.state_quant)
+
+        # set the threshold
+        threshold = result_alt.at(prop.compare_state)
+        prop.set_threshold(threshold)
+
+        self.sat = prop.satisfies_threshold(self.value)
 
     def __str__(self):
         return str(self.value) + "(s_" + str(self.property.state_quant) + ") vs " + str(self.property.threshold) \
