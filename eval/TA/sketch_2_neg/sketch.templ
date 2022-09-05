@@ -9,8 +9,8 @@ module timing_attack
         c  : [0..2*n];
         e  : [0..1]; // termination of the program
 
-        [a]  (h>0)&(pc=0)&(c<2*n)        -> 1/2 : (h'=h-1)&(pc'=1)  + 1/2 : (c'=c+1); //b(i) is true
-        [b]  (h>0)&(pc=0)&(c<2*n)        -> 1/2 : (h'=h-1)&(pc'=0)  + 1/2 : (c'=c+1); //b(i) is false
+        [a]  (h>0)&(pc=0)&(c<2*n)        -> 1/2 : (h'=h-1)&(pc'=1)  + 1/2 : (c'=c+1)&(h'=h-1)&(pc'=1); //b(i) is true
+        [b]  (h>0)&(pc=0)&(c<2*n)        -> 1/2 : (h'=h-1)&(pc'=0)  + 1/2 : (c'=c+1)&(h'=h-1)&(pc'=1); //b(i) is false
         []  (pc=1)&(c<2*n)               -> 1/2 : (pc'=0)           + 1/2 : (c'=c+1);
 
         // the counter has reached the max value
