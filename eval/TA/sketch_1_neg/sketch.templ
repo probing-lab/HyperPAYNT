@@ -12,21 +12,21 @@ module timing_attack
         []  (h>0)&(pc=0)&(c<2*n)        -> 1/2 : (pc'=1) + 1/2 : (c'=c+1);
 
         // evaluate the if-condition
-        [a]  (h>0)&(pc=1)&(c<2*n)        -> (h'=h-1)&(pc'=2);  // b(h) is true
-        [b]  (h>0)&(pc=1)&(c<2*n)        -> (h'=h-1)&(pc'=0);  // b(h) is true
+        [a]  (pc=1)&(c<2*n)  -> (h'=h-1)&(pc'=2);  // b(h-1) is true
+        [b]  (pc=1)&(c<2*n)  -> (h'=h-1)&(pc'=0);  // b(h-1) is false
 
-        // if-body
-        []  (pc=2)&(c<2*n)               -> 1/2 : (pc'=0) + 1/2 : (c'=c+1); // we "waste" one clock cycle in the if branch
+        // if-body: "waste" one clock cycle
+        []  (pc=2)&(c<2*n)   -> 1/2 : (pc'=0) + 1/2 : (c'=c+1);
 
         // the counter has reached the max value
-        [c]  (h>0)&(pc=0)&(c=2*n)        -> (h'=h-1)&(pc'=2);  //b(i) is true
-        [d]  (h>0)&(pc=0)&(c=2*n)        -> (h'=h-1);         //b(i) is false
-        []  (pc=2)&(c=2*n)               -> (pc'=0);
+        [c] (h>0)&(pc=0)&(c=2*n) -> (h'=h-1)&(pc'=2);  //b(h-1) is true
+        [d] (h>0)&(pc=0)&(c=2*n) -> (h'=h-1);          //b(h-1) is false
+        []  (pc=2)&(c=2*n)       -> (pc'=0);
 
         // termination
-        []  (h=0)&(pc=0)&(c<2*n)&(e=0)   -> 1/2 : (e' =1) + 1/2 : (c'=c+1);
-        []  (h=0)&(pc=0)&(c=2*n)&(e=0)   -> (e' =1);
-        []  (e=1)                        -> true;
+        []  (h=0)&(pc=0)&(c<2*n)&(e=0) -> 1/2 : (e' =1) + 1/2 : (c'=c+1);
+        []  (h=0)&(pc=0)&(c=2*n)&(e=0) -> (e' =1);
+        []  (e=1)                      -> true;
 
 endmodule
 
