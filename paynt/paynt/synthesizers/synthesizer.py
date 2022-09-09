@@ -232,9 +232,8 @@ class SynthesizerCEGIS(Synthesizer):
             for request in group:
                 (index, (prop, property_result)) = request
 
-                threshold = prop.threshold
-                state_quant = prop.state_quant
-                other_state_quant = prop.compare_state
+                state_quant = prop.state
+                other_state_quant = prop.other_state
 
                 # prepare DTMC for CE generation
                 ce_generator.prepare_dtmc(dtmc.model, dtmc.quotient_state_map, state_quant, other_state_quant)

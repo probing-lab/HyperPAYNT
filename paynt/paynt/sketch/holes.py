@@ -51,7 +51,6 @@ class Hole:
         self.options = options
 
     def copy(self):
-        # TODO: is this true? I'm not an expert of Python pass-by-reference or pass-by-value rules
         # note that the copy is shallow, but after assuming some options
         # the options pointer points to the new list, hence the original hole is not modified.
         return Hole(self.name, self.options, self.option_labels)
@@ -122,7 +121,6 @@ class Holes(list):
         holes.assume_options(suboptions)
         return holes
 
-    #TODO: do we need this?
     def subholes(self, hole_index, options):
         '''
         Construct a semi-shallow copy of self with only one modified hole
@@ -135,6 +133,21 @@ class Holes(list):
 
         shallow_copy = Holes(self)
         shallow_copy[hole_index] = subhole
+        return shallow_copy
+
+    def subholes(self, hole_assignments):
+        '''
+        Construct a semi-shallow copy of self with some modified holes
+        :note this is a performance/memory optimization associated with creating
+          subfamilies wrt some splitter having restricted options
+        '''
+        shallow_copy = Holes(self)
+
+        for hole_index, options in hole_assignments:
+            subhole = self[hole_index].copy()
+            subhole.assume_options(options)
+            shallow_copy[hole_index] = subhole
+
         return shallow_copy
 
 
@@ -160,8 +173,9 @@ class ParentInfo():
         self.selected_actions = None
         # for each hole and for each option explicit list of all non-default actions in the MDP
         self.hole_selected_actions = None
-        # index of a hole used to split the family
-        self.splitter = None
+        # index of holes used to split the family
+        self.splitters = None
+
 
 
 class DesignSpace(Holes):
@@ -200,7 +214,7 @@ class DesignSpace(Holes):
         self.property_indices = None
 
         self.analysis_result = None
-        self.splitter = None
+        self.splitters = None
         self.parent_info = parent_info
         if parent_info is not None:
             self.refinement_depth = parent_info.refinement_depth + 1
@@ -388,7 +402,7 @@ class DesignSpace(Holes):
         pi.analysis_hints = self.collect_analysis_hints()
         cr = self.analysis_result
         pi.property_indices = cr.undecided_constraints if cr is not None else []
-        pi.splitter = self.splitter
+        pi.splitters = self.splitters
         pi.mdp = self.mdp
         return pi
 

@@ -66,20 +66,20 @@ class PropertyResult:
         # a vector of results for each state of the Markov Chain
         self.result = result
         # for a DTMC, result and result_alt are the same
+        # result_alt is basically the secondary direction
         self.result_alt = result_alt
 
         #setting the result value
-        self.value = result.at(prop.state_quant)
+        self.value = result.at(prop.state)
 
         # set the threshold
-        threshold = result_alt.at(prop.compare_state)
-        prop.set_threshold(threshold)
+        self.threshold = result_alt.at(prop.other_state)
 
-        self.sat = prop.satisfies_threshold(self.value)
+        self.sat = prop.satisfies_threshold(self.value, self.threshold)
 
     def __str__(self):
-        return str(self.value) + "(s_" + str(self.property.state_quant) + ") vs " + str(self.property.threshold) \
-               + "(s_" + str(self.property.compare_state) + "): " + str(self.sat)
+        return str(self.value) + "(s_" + str(self.property.state) + ") vs " + str(self.threshold) \
+               + "(s_" + str(self.property.other_state) + "): " + str(self.sat)
 
 
 class ConstraintsResult:
@@ -111,18 +111,24 @@ class MdpPropertyResult:
     def __init__(self,
                  prop, primary, secondary, feasibility,
                  primary_selection, primary_feasibility, primary_choice_values, primary_expected_visits,
-                 primary_scores
+                 primary_scores, secondary_selection, secondary_choice_values, secondary_expected_visits, secondary_scores
                  ):
         self.property = prop
         self.primary = primary
         self.secondary = secondary
         self.feasibility = feasibility
 
+        #TODO: this does not work with multi targets comparisons
         self.primary_selection = primary_selection
         self.primary_feasibility = primary_feasibility
         self.primary_choice_values = primary_choice_values
         self.primary_expected_visits = primary_expected_visits
         self.primary_scores = primary_scores
+
+        self.secondary_selection = secondary_selection
+        self.secondary_choice_values = secondary_choice_values
+        self.secondary_expected_visits = secondary_expected_visits
+        self.secondary_scores = secondary_scores
 
     def __str__(self):
         prim = str(self.primary)

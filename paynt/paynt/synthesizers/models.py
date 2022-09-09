@@ -19,10 +19,10 @@ class MarkovChain:
         cls.builder_options.set_build_with_choice_origins(True)
         cls.builder_options.set_build_state_valuations(True)
         cls.builder_options.set_add_overlapping_guards_label()
-    
+
         # model checking environment
         cls.environment = stormpy.Environment()
-        
+
         se = cls.environment.solver_environment
 
         se.set_linear_equation_solver_type(stormpy.EquationSolverType.gmmxx)
@@ -61,7 +61,7 @@ class MarkovChain:
 
         self.analysis_hints = None
         Profiler.resume()
-    
+
     @property
     def states(self):
         return self.model.nr_states
@@ -165,26 +165,42 @@ class MDP(MarkovChain):
 
         # check primary direction
         primary = self.model_check_property(prop, alt = False)
-        
+
         # no need to check secondary direction if primary direction yields UNSAT
         if not primary.sat:
-            return MdpPropertyResult(prop, primary, None, False, None, False, None, None, None)
+            return MdpPropertyResult(prop, primary, None, False, None, False, None, None, None, None, None, None, None)
 
         # primary direction is SAT
-        # check if the primary scheduler is consistent
-        selection,choice_values,expected_visits,scores,consistent = self.quotient_container.scheduler_consistent(self, prop, primary.result)
-        
-        # regardless of whether it is consistent or not, we compute secondary direction to show that all SAT
-        # compute secondary direction
+        # check secondary direction to show that all SAT
+        # TODO: this does not work if we have a multi targets comparison
         secondary = PropertyResult(prop, primary.result_alt, primary.result)
+        feasibility = True if secondary.sat else None
 
-        # check if primary scheduler induces a feasible scheduler
-        value = primary.result.at(self.initial_states[prop.state_quant])
-        threshold = primary.result.at(self.initial_states[prop.compare_state])
+        if feasibility:
+            # no need to explore further
+            return MdpPropertyResult(prop, primary, secondary, feasibility, None, True, None,
+                                     None, None, None, None, None, None)
+
+        # check if primary scheduler (of state quant) induces a feasible scheduler
+        value = primary.value
+        threshold = secondary.threshold
         primary_feasibility = prop.meets_op(value, threshold)
 
-        feasibility = True if secondary.sat else None
-        return MdpPropertyResult(prop, primary, secondary, feasibility, selection, primary_feasibility, choice_values, expected_visits, scores)
+        # prepare for splitting on this property
+        # TODO: implement the betting strategy
+        unsat_bet = True
+        state = prop.state if unsat_bet else prop.other_state
+        other_state = prop.other_state if unsat_bet else prop.state
+        # compute the scores for splitting
+        primary_selection, primary_choice_values, primary_expected_visits, primary_scores, _ = self.quotient_container.scheduler_consistent(
+            self, prop, primary.result, state)
+
+        secondary_selection, secondary_choice_values, secondary_expected_visits, secondary_scores, _ = self.quotient_container.scheduler_consistent(
+            self, prop, primary.result_alt, other_state)
+
+        return MdpPropertyResult(prop, primary, secondary, feasibility, primary_selection, primary_feasibility,
+                                 primary_choice_values, primary_expected_visits, primary_scores, secondary_selection,
+                                 secondary_choice_values, secondary_expected_visits, secondary_scores)
 
     def check_constraints(self, properties, property_indices = None, short_evaluation = False):
         if property_indices is None:
