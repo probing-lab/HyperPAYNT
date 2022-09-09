@@ -65,7 +65,11 @@ class SparseDtmcPrctlModelChecker : public SparsePropositionalModelChecker<Spars
     std::unique_ptr<CheckResult> computeSteadyStateDistribution(Environment const& env);
 
     /*!
-     * Computes for each state the expected number of times we visit that state.
+     * Computes for each state the expected number of times we visit that state, given a specific initial state.
+     */
+    std::unique_ptr<CheckResult> computeExpectedVisitingTimes(Environment const& env, uint64_t initialState);
+    /*!
+         * Computes for each state the expected number of times we visit that state.
      * Assumes a uniform distribution over initial states.
      */
     std::unique_ptr<CheckResult> computeExpectedVisitingTimes(Environment const& env);

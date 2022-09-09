@@ -26,8 +26,10 @@ std::shared_ptr<storm::modelchecker::CheckResult> modelCheckWithHint(
 }
 
 template<typename ValueType>
-std::shared_ptr<storm::modelchecker::CheckResult> getExpectedNumberOfVisits(storm::Environment const& env, std::shared_ptr<storm::models::sparse::Model<ValueType>> const& model) {
-    return storm::api::computeExpectedVisitingTimesWithSparseEngine(env, model);
+std::shared_ptr<storm::modelchecker::CheckResult> getExpectedNumberOfVisits(storm::Environment const& env, std::shared_ptr<storm::models::sparse::Model<ValueType>> const& model,
+uint64_t initialState
+) {
+    return storm::api::computeExpectedVisitingTimesWithSparseEngineAndInitialState(env, model, initialState);
 }
 
 
@@ -44,7 +46,7 @@ void define_helpers(py::module& m) {
 
     m.def("model_check_with_hint", &modelCheckWithHint<double>, "Perform model checking using the sparse engine", py::arg("model"), py::arg("task"), py::arg("environment"), py::arg("hint_values"));
     
-    m.def("compute_expected_number_of_visits", &getExpectedNumberOfVisits<double>, py::arg("env"), py::arg("model"));
+    m.def("compute_expected_number_of_visits", &getExpectedNumberOfVisits<double>, py::arg("env"), py::arg("model"), py::arg("initialState"));
 
     m.def("construct_selection", [] ( storm::storage::BitVector default_actions, std::vector<uint_fast64_t> selected_actions) {
         auto bv = storm::storage::BitVector(default_actions);

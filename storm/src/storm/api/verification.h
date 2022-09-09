@@ -412,6 +412,35 @@ std::unique_ptr<storm::modelchecker::CheckResult> computeExpectedVisitingTimesWi
     return result;
 }
 
+template<typename ValueType>
+std::unique_ptr<storm::modelchecker::CheckResult> computeExpectedVisitingTimesWithSparseEngineAndInitialState(
+    storm::Environment const& env, std::shared_ptr<storm::models::sparse::Dtmc<ValueType>> const& dtmc, uint64_t initialState) {
+    std::unique_ptr<storm::modelchecker::CheckResult> result;
+    storm::modelchecker::SparseDtmcPrctlModelChecker<storm::models::sparse::Dtmc<ValueType>> modelchecker(*dtmc);
+    return modelchecker.computeExpectedVisitingTimes(env, initialState);
+}
+
+template<typename ValueType>
+std::unique_ptr<storm::modelchecker::CheckResult> computeExpectedVisitingTimesWithSparseEngineAndInitialState(
+    storm::Environment const& env, std::shared_ptr<storm::models::sparse::Model<ValueType>> const& model, uint64_t initialState) {
+    std::unique_ptr<storm::modelchecker::CheckResult> result;
+    if (model->getType() == storm::models::ModelType::Dtmc) {
+        result = computeExpectedVisitingTimesWithSparseEngineAndInitialState(env, model->template as<storm::models::sparse::Dtmc<ValueType>>(), initialState);
+    } else {
+        STORM_LOG_THROW(false, storm::exceptions::NotSupportedException,
+            "Computing expected visiting times with given initial state for the model type " << model->getType() << " is not supported.");
+    }
+    return result;
+}
+
+template<typename ValueType>
+std::unique_ptr<storm::modelchecker::CheckResult> computeExpectedVisitingTimesWithSparseEngine(
+    storm::Environment const& env, std::shared_ptr<storm::models::sparse::Dtmc<ValueType>> const& dtmc, uint64_t initialState) {
+    std::unique_ptr<storm::modelchecker::CheckResult> result;
+    storm::modelchecker::SparseDtmcPrctlModelChecker<storm::models::sparse::Dtmc<ValueType>> modelchecker(*dtmc);
+    return modelchecker.computeExpectedVisitingTimes(env, initialState);
+}
+
 //
 // Verifying with Hybrid engine
 //

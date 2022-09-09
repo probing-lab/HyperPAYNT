@@ -383,6 +383,19 @@ std::unique_ptr<CheckResult> SparseDtmcPrctlModelChecker<SparseDtmcModelType>::c
     return std::unique_ptr<CheckResult>(new ExplicitQuantitativeCheckResult<ValueType>(std::move(result)));
 }
 
+template<typename SparseDtmcModelType>
+std::unique_ptr<CheckResult> SparseDtmcPrctlModelChecker<SparseDtmcModelType>::computeExpectedVisitingTimes(Environment const& env, uint64_t initialState) {
+    // Initialize helper
+    storm::modelchecker::helper::SparseDeterministicVisitingTimesHelper<ValueType> helper(this->getModel().getTransitionMatrix());
+
+    // Compute result
+    std::vector<ValueType> result;
+    result = helper.computeExpectedVisitingTimes(env, initialState);
+
+    // Return CheckResult
+    return std::unique_ptr<CheckResult>(new ExplicitQuantitativeCheckResult<ValueType>(std::move(result)));
+}
+
 template class SparseDtmcPrctlModelChecker<storm::models::sparse::Dtmc<double>>;
 
 #ifdef STORM_HAVE_CARL
