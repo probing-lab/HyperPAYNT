@@ -119,8 +119,6 @@ class SynthesizerAR(Synthesizer):
 
         improving_assignment, can_improve = res.improving(family)
 
-        # update the property indices
-        family.property_indices = [i for i in family.property_indices if i not in res.unfeasible_constraints]
         return can_improve, improving_assignment
 
     def synthesize(self, family, explore_all):

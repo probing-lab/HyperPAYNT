@@ -401,7 +401,8 @@ class DesignSpace(Holes):
         pi.refinement_depth = self.refinement_depth
         pi.analysis_hints = self.collect_analysis_hints()
         cr = self.analysis_result
-        pi.property_indices = cr.undecided_constraints if cr is not None else []
+        assert cr is not None
+        pi.property_indices = cr.undecided_constraints
         pi.splitters = self.splitters
         pi.mdp = self.mdp
         return pi
