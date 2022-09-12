@@ -535,13 +535,13 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
         selection, choice_values, expected_visits, scores = self.scheduler_selection_quantitative(mdp, prop, result,
                                                                                                   initial_state)
-        for hole_index in mdp.design_space.hole_indices:
-            options = selection[hole_index]
-            # TODO: do we need this filling of empty selections
-            if options == []:
-                selection[hole_index] = [mdp.design_space[hole_index].options[0]]
+        #for hole_index in mdp.design_space.hole_indices:
+        #    options = selection[hole_index]
+            # TODO: do we need this filling of empty selections to deal with non reachable holes?
+        #    if options == []:
+        #        selection[hole_index] = [mdp.design_space[hole_index].options[0]]
 
-        # for an hyperproperty specification, every scheduler is consistent, hence alway return True
+        # for an hyperproperty specification, every scheduler is consistent, hence always return True
         return selection, choice_values, expected_visits, scores, True
 
     def scheduler_selection_quantitative(self, mdp, prop, result, initial_state):
@@ -553,7 +553,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
         scheduler = result.scheduler
 
-        # get qualitative scheduler selection, filter inconsistent assignments
+        # get qualitative scheduler selection
         selection = self.scheduler_selection(mdp, scheduler)
         hole_assignments = {hole_index: hole.options for hole_index, hole in enumerate(mdp.design_space) if
                             len(hole.options) > 1}

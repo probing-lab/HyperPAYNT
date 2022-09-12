@@ -178,7 +178,9 @@ class MDP(MarkovChain):
 
         if feasibility:
             # no need to explore further
-            return MdpPropertyResult(prop, primary, secondary, feasibility, None, True, None,
+            # we are not constraining at all the primary selection
+            primary_selection = [ [] for hole_index in self.design_space.hole_indices]
+            return MdpPropertyResult(prop, primary, secondary, feasibility, primary_selection, True, None,
                                      None, None, None, None, None, None)
 
         # check if primary scheduler (of state quant) induces a feasible scheduler
@@ -187,7 +189,6 @@ class MDP(MarkovChain):
         primary_feasibility = prop.meets_op(value, threshold)
 
         # prepare for splitting on this property
-        # TODO: implement the betting strategy
         unsat_bet = True
         state = prop.state if unsat_bet else prop.other_state
         other_state = prop.other_state if unsat_bet else prop.state

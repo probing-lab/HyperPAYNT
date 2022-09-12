@@ -44,8 +44,8 @@ class Specification:
     def or_group_indexes(cls, indexes):
         grouped = []
         for sublist in Specification.disjoint_indexes:
-            filtered = list(filter(lambda x: x in indexes, sublist))
-            grouped.append(filtered)
+            filtered_sublist = list(filter(lambda x: x in indexes, sublist))
+            grouped.append(filtered_sublist)
         return grouped
 
     @classmethod
@@ -53,9 +53,9 @@ class Specification:
         keys = dict.keys()
         grouped = []
         for sublist in Specification.disjoint_indexes:
-            filtered = list(filter(lambda i: i in keys, sublist))
-            res = list(map(lambda i: (i, dict[i]), filtered))
-            grouped.append(res)
+            filtered_sublist = list(filter(lambda i: i in keys, sublist))
+            res_slice = list(map(lambda i: (i, dict[i]), filtered_sublist))
+            grouped.append(res_slice)
         return grouped
 
 
@@ -142,65 +142,135 @@ class MdpPropertyResult:
 # a wrapper for a list of MdpPropertyResults
 class MdpConstraintsResult:
     def __init__(self, results):
+
+        res_dict = {index: result for index, result in enumerate(results) if result is not None}
+        grouped_results = Specification.or_group_dict(res_dict)
+
+        # feasibility list
         feas_list = list(map(lambda x: False if x is None else x.feasibility, results))
         fr_True = Specification.or_filter(feas_list, True)
         fr_None = Specification.or_filter(feas_list, None)
 
+        # primary feasibility list
+        pr_feas_list = list(map(lambda x: False if x is None else x.primary_feasibility, results))
+        pr_fr_True = Specification.or_filter(pr_feas_list, True)
+
         self.results = results
+
         # undecided constraint which are not in a or relation with a true constraint
         self.undecided_constraints = [index for index, result in enumerate(results) if
                                       result is not None and result.feasibility is None
                                       and fr_True[index] is None]
 
-        self.unfeasible_constraints = [index for index, result in enumerate(results) if
-                                      result is not None and result.feasibility is False]
+        # overall feasibility of the set of constraints
         self.feasibility = True
+
+        # is there a primary scheduler consistent, feasible and the same for all constraints?
         self.primary_feasibility = True
-        self.sched_selection = None
-        for result, filter1, filter2 in zip(results, fr_True, fr_None):
-            if result is None:
+        self.primary_selections = []
+
+        for group in grouped_results:
+            # this group is empty
+            if not group:
                 continue
-            if result.feasibility == False and filter1 == False and filter2 == False:
-                self.feasibility = False
-                self.primary_feasibility = False
-                break
-            if result.feasibility == None and filter1 == None:
-                self.feasibility = None
-                if self.primary_feasibility:
-                    if not result.primary_feasibility:
-                        self.primary_feasibility = False
-                    else:
-                        if self.sched_selection is None:
-                            self.sched_selection = result.primary_selection
-                        else:
-                            for options1 in self.sched_selection:
-                                for options2 in result.primary_selection:
-                                    if len(options1) != len(options2):
-                                        self.primary_feasibility = False
-                                    set1 = set(options1)
-                                    set2 = set(options2)
-                                    if set1 != set2:
-                                        self.primary_feasibility = False
+
+            primary_selections = []
+            for index, result in group:
+                # we haven't checked this property
+                if result is None:
+                    continue
+
+                orTrue = fr_True[index]
+                orNone = fr_None[index]
+                pr_orTrue = pr_fr_True[index]
+                # this property is unfeasible, and not in an Or relation with a True or undecided property
+                if result.feasibility is False and orTrue is False and orNone is False:
+                    self.feasibility = False
+                    self.primary_feasibility = False
+                    break
+
+                # this property is undecided and not in a Or relation with a True property
+                if result.feasibility is None and orTrue is None:
+                    self.feasibility = None
+                self.update_primary_feasibility(result, pr_orTrue, primary_selections)
+
+            self.update_primary_feasibility_groups(primary_selections)
+
+    def check_lists(self, l1, l2):
+        if l1 is []:
+            return l2
+        if l2 is []:
+            return l1
+        return set(l1) == set(l2)
+
+    def update_primary_feasibility(self, result, orTrue, primary_selections):
+        primary_feasibility = result.primary_feasibility
+        primary_selection = result.primary_selection
+
+        # primary feasibility of the constraints is already false
+        if not self.primary_feasibility:
+            return
+
+        # primary feasibility of this property is False and not in a Or relation with a True primary feasibility
+        if not primary_feasibility and not orTrue:
+            self.primary_feasibility = False
+            return
+
+        # primary feasibility of this property is False but in a Or relation with a True primary feasibility
+        if not primary_feasibility and orTrue:
+            return
+
+        if primary_feasibility:
+            primary_selections.append(primary_selection)
+
+    def update_primary_feasibility_groups(self, primary_selections):
+        # update primary selections stored
+        if self.primary_feasibility and not self.primary_selections:
+            # this is the first iteration of the algorithm
+            self.primary_selections = primary_selections
+            self.primary_feasibility = self.primary_selections is not []
+        else:
+            # check satisfiability of the already stored primary selections
+            new_selections = []
+            for saved_selection in self.primary_selections:
+                for found_selection in primary_selections:
+                    check_compatible = [self.check_lists(a, b) for a, b in zip(saved_selection, found_selection)]
+                    if all(check_compatible):
+                        new_selection = [a + b for a, b in zip(saved_selection, found_selection)]
+                        new_selections.append(new_selection)
+            self.primary_selections = new_selections
+            self.primary_feasibility = self.primary_selections is not []
 
     def improving(self, family):
         ''' Interpret MDP constraints result. '''
 
+        # self.feasibility can be:
+        # True - every scheduler of this family satisfies all constraints
+        # False - no scheduler of this family satisfies all constraints
+        # None - undecided result
+
         # constraints were satisfied
-        if self.feasibility == True:
+        if self.feasibility is True:
             improving_assignment = family.pick_any()
             return improving_assignment, False
 
         # constraints not satisfied
-        if self.feasibility == False:
+        if self.feasibility is False:
             return None,False
 
-        # constraints undecided, but primary selection is feasible for all constraints
+        # constraints undecided, but primary selection is consistent and both feasible and the same for all constraints
         if self.primary_feasibility:
-            for res in self.results:
-                if res is not None and res.primary_feasibility:
-                    assignment = family.copy()
-                    assignment.assume_options(res.primary_selection)
-                    return assignment.pick_any(), False
+                selection = self.primary_selections[0]
+
+                # fill empty holes
+                for hole_index in family.mdp.design_space.hole_indices:
+                    options = selection[hole_index]
+                    if options == []:
+                        selection[hole_index] = [family.mdp.design_space[hole_index].options[0]]
+
+                assignment = family.copy()
+                assignment.assume_options(selection)
+                return assignment, False
 
         # constraints undecided
         return None, True
