@@ -197,11 +197,7 @@ class MdpConstraintsResult:
             self.update_primary_feasibility_groups(primary_selections)
 
     def check_lists(self, l1, l2):
-        if l1 is []:
-            return l2
-        if l2 is []:
-            return l1
-        return set(l1) == set(l2)
+        return set(l1) == set(l2) or l1 is [] or l2 is []
 
     def update_primary_feasibility(self, result, orTrue, primary_selections):
         primary_feasibility = result.primary_feasibility
@@ -229,7 +225,7 @@ class MdpConstraintsResult:
             # this is the first iteration of the algorithm
             self.primary_selections = primary_selections
             self.primary_feasibility = self.primary_selections is not []
-        else:
+        elif self.primary_feasibility:
             # check satisfiability of the already stored primary selections
             new_selections = []
             for saved_selection in self.primary_selections:
