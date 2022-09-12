@@ -270,7 +270,7 @@ class MdpConstraintsResult:
 
                 assignment = family.copy()
                 assignment.assume_options(selection)
-                return assignment, False
+                return assignment, True
 
         # constraints undecided
         return None, True
