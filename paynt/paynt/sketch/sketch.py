@@ -58,11 +58,13 @@ class Sketch:
         # initializing the Model Checking options
         MarkovChain.initialize(self.specification.stormpy_formulae())
 
+        # setting the correct design space
         logger.info("Processing actions and Initializing the quotient...")
         self.quotient = HyperPropertyQuotientContainer(self)
 
         logger.info(f"Sketch has {self.design_space.num_holes} holes")
         logger.info(f"Design space size: {self.design_space.size}")
+        logger.info(f"Design space: {self.design_space}")
         logger.info(f"Sketch parsing complete.")
         Profiler.stop()
 
@@ -138,6 +140,9 @@ class Sketch:
 
             if state_name in list(self.state_quant_dict.keys()):
                 raise Exception("two state variables cannot have the same name")
+
+            if state_quant == "E":
+                existential_quantifier = True
 
             # add the state quantifier to the dictionary
             self.state_quant_dict[state_name] = (state_quant, sched_name)
