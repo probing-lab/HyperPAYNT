@@ -32,6 +32,7 @@ class Sketch:
         self.sched_quant_dict = {}
         self.state_quant_dict = {}
         self.state_range_dict = {}
+        self.state_quant_restrictions = {}
 
         # parsing the scheduler quantifiers, and returning the rest of the specification
         logger.info(f"Loading properties from {properties_path} ...")
@@ -48,10 +49,13 @@ class Sketch:
         dummy_model = stormpy.build_model(self.prism)
         nr_initial_states = len(dummy_model.initial_states)
         logger.info(f"The model has {nr_initial_states} initial states...")
-        logger.info("parsing state quantifiers")
+        logger.info("Parsing state quantifiers...")
         lines = self.parse_state_quants(lines)
         logger.info(f"Found the following state quantifiers: {self.state_quant_dict}")
-        lines = self.spread_properties(lines, nr_initial_states)
+        logger.info(f"Parsing restrictions")
+        lines = self.parse_restrictions(lines)
+        logger.info(f"Found the following restrictions: {self.state_quant_restrictions}")
+        lines = self.spread_properties(lines, nr_initial_states, dummy_model.labeling)
         self.specification = self.parse_specification(lines, self.prism)
         logger.info(f"Found the following specification:\n {self.specification}")
 
@@ -159,31 +163,38 @@ class Sketch:
 
         return lines
 
-    @classmethod
-    def parse_program(cls, path, scheduler_quantifiers):
-        if scheduler_quantifiers > 1:
-            with open(path, "r") as f:
-                lines = f.readlines()
-                f.close()
+    def parse_restrictions(self, lines):
+        restriction_re = re.compile(r'Restrict\s(\S+)\s(\S+)(\s?)(.*$)')
+        line = lines.pop(0)
+        match = restriction_re.search(line)
+        if match is None:
+            # no restriction specified
+            return [line] + lines
+        while True:
+            state_name = match.group(1)
+            restriction_label = match.group(2)
+            if state_name not in self.state_quant_dict:
+                print("state name: " + str(state_name))
+                raise Exception("Trying to restrict a variable not in scope")
+            if state_name in self.state_quant_restrictions:
+                raise Exception("Trying to restrict two times the same variable")
 
-            with open(path, "a") as f:
-                # add a global variable to distinguish two initial states
-                # note: this does not work if the file is empty or if the PRISM file already contains the global variable sched_quant
-                f.write("\nglobal sched_quant : [0.." + str(scheduler_quantifiers -1) + "];")
-                f.close()
+            # storing this restriction
+            self.state_quant_restrictions[state_name] = restriction_label
 
-            prism = stormpy.parse_prism_program(path, prism_compat=True)
+            if match.group(4) == "":
+                # no other restrictions found
+                return lines
 
-            # remove the global variable to be clean
-            with open(path, "w") as f:
-                f.writelines(lines)
-                f.close()
-            return prism
-        else:
-            return stormpy.parse_prism_program(path, prism_compat=True)
+            # move to next restriction
+            line = match.group(4)
+            match = restriction_re.search(line)
+            if match is None:
+                raise Exception("Wrong formatted restrictions")
+
 
     # instantiate the properties for the initial states according to their quantifiers
-    def spread_properties(self, lines, nr_initial_states):
+    def spread_properties(self, lines, nr_initial_states, labeling):
         nr_schedulers = len(self.sched_quant_dict)
         nr_init_per_sched = int(nr_initial_states / nr_schedulers)
         for state_name, value in self.state_quant_dict.items():
@@ -191,6 +202,15 @@ class Sketch:
             sched_order = list(self.sched_quant_dict.keys()).index(sched_name)
             # compute the set of possible values for each state variable
             initial_states = [i for i in range(nr_init_per_sched * sched_order, nr_init_per_sched * (sched_order + 1))]
+
+            print("initial states for " + str(state_name) +":" + str(initial_states))
+            # check potential restrictions on this initial state
+            restriction = self.state_quant_restrictions.get(state_name, None)
+            if restriction is not None:
+                initial_states = [i for i in initial_states if labeling.has_state_label(restriction, i)]
+
+            print("initial states for " + str(state_name) + "after restrictions:" + str(initial_states))
+
 
             #instantiate the properties for this state variable
             if state_quant == 'E':
@@ -211,6 +231,7 @@ class Sketch:
             if state_name in prop:
                 #instantial the property for all initial states
                 instantiated_property = ""
+                # we are instantiating the properties with distinct initial states
                 for state in [i for i in initial_states if "{" + str(i) + "}" not in prop]:
                     if instantiated_property == "":
                         instantiated_property += prop.replace(state_name, str(state))
@@ -267,4 +288,27 @@ class Sketch:
                 i += 1
 
             Specification.disjoint_indexes.append(indexes)
-        return  Specification(properties)
+        return Specification(properties)
+
+    @classmethod
+    def parse_program(cls, path, scheduler_quantifiers):
+        if scheduler_quantifiers > 1:
+            with open(path, "r") as f:
+                lines = f.readlines()
+                f.close()
+
+            with open(path, "a") as f:
+                # add a global variable to distinguish two initial states
+                # note: this does not work if the file is empty or if the PRISM file already contains the global variable sched_quant
+                f.write("\nglobal sched_quant : [0.." + str(scheduler_quantifiers - 1) + "];")
+                f.close()
+
+            prism = stormpy.parse_prism_program(path, prism_compat=True)
+
+            # remove the global variable to be clean
+            with open(path, "w") as f:
+                f.writelines(lines)
+                f.close()
+            return prism
+        else:
+            return stormpy.parse_prism_program(path, prism_compat=True)
