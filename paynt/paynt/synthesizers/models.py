@@ -189,6 +189,7 @@ class MDP(MarkovChain):
         primary_feasibility = prop.meets_op(value, threshold)
 
         # prepare for splitting on this property
+        # TODO: implement the betting strategy here
         unsat_bet = True
         state = prop.state if unsat_bet else prop.other_state
         other_state = prop.other_state if unsat_bet else prop.state

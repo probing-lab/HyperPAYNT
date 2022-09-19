@@ -133,10 +133,7 @@ class MdpPropertyResult:
     def __str__(self):
         prim = str(self.primary)
         seco = str(self.secondary)
-        if self.property.minimizing:
-            return "{} - {}; ".format(prim, seco)
-        else:
-            return "{} - {}; ".format(seco, prim)
+        return "Primary direction: {} \nSecondary direction {}; ".format(prim, seco)
 
 
 # a wrapper for a list of MdpPropertyResults

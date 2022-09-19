@@ -394,6 +394,7 @@ class QuotientContainer:
 
     def holes_with_max_score(self, hole_scores):
         max_score = max(hole_scores.values())
+        assert max_score > 0
         with_max_score = [hole_index for hole_index in hole_scores if hole_scores[hole_index] == max_score]
         return with_max_score
 
@@ -635,14 +636,13 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
         # get the corresponding option for that split, already ordered by choice_value
         options = options_rankings[splitter]
-        if not options:
-            print("trying to split on empty options!!")
 
         # splitting_factor(secondary) = 1 - splitting_factor(primary)
         # splitting_factor(primary) > splitting_factor(secondary)
         # i.e., we always try to increase the mc results for the primary selection and decrease them for secondary selection
+        # TODO: this works only for prop.minimizing is True
         if splitting_factor is None:
-            splitting_factor = 0.66 if primary else 0.33
+            splitting_factor = 0.80 if primary else 0.20
 
         chunk_size = math.floor(len(options) * splitting_factor) if primary else math.ceil(len(options) * splitting_factor)
         return options[:chunk_size], options[chunk_size:], splitter
@@ -705,7 +705,6 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
             Profiler.resume()
             return design_subspaces
-
 
         #generate all subspaces
         primary_suboptions = [primary_other_suboptions, primary_core_suboptions]
