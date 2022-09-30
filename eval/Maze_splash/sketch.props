@@ -1,0 +1,4 @@
+ES sched
+E s0(sched) E s1(sched)
+Restrict s0 start0 Restrict s1 start1
+P{s1}[F "target"] < P{s0}[F "target"]
