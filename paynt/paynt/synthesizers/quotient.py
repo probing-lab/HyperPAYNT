@@ -394,7 +394,8 @@ class QuotientContainer:
 
     def holes_with_max_score(self, hole_scores):
         max_score = max(hole_scores.values())
-        assert max_score > 0
+        # TODO: decomment this after having implemented a proper handling
+        # assert max_score > 0
         with_max_score = [hole_index for hole_index in hole_scores if hole_scores[hole_index] == max_score]
         return with_max_score
 
@@ -620,8 +621,12 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             options_rankings[hole_index] = [i for i, _ in ranking]
 
         # filter out unreachable holes, which don't have any option in the ranking
-        options_rankings = { key:value for key,value in options_rankings.items() if value}
-        hole_differences = {key:value for key,value in hole_differences.items() if key in options_rankings}
+        # but in the current approach we consider only overall reachability in the MDP
+        # TODO: handle the case where some holes are not reachable from current initial state
+        # i.e., expected visits of the state are zero
+        # for example, for PC this holds for all holes from the initial state of the DTMC
+        options_rankings = {key: value for key,value in options_rankings.items() if value}
+        hole_differences = {key: value for key,value in hole_differences.items() if key in options_rankings}
 
         # aggregate the results
         hole_differences = (hole_differences, options_rankings)
@@ -668,7 +673,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             assert False
 
         if secondary_scores is None:
-            primary_scores = {hole: 0 for hole in mdp.design_space.hole_indices if
+            secondary_scores = {hole: 0 for hole in mdp.design_space.hole_indices if
                               len(mdp.design_space[hole].options) > 1}
             # we don't want it now
             assert False

@@ -300,6 +300,7 @@ class Sketch:
             with open(path, "a") as f:
                 # add a global variable to distinguish two initial states
                 # note: this does not work if the file is empty or if the PRISM file already contains the global variable sched_quant
+                # note: this does not work also if the PRISM file does not contain a init ... endinit definition.
                 f.write("\nglobal sched_quant : [0.." + str(scheduler_quantifiers - 1) + "];")
                 f.close()
 
