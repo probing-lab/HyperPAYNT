@@ -5,7 +5,7 @@ from .holes import Hole, Holes, DesignSpace
 from ..synthesizers.models import MarkovChain
 from ..synthesizers.quotient import *
 from ..profiler import Profiler
-from .property import Property
+from .property import HyperProperty
 
 import os
 import re
@@ -280,7 +280,7 @@ class Sketch:
                 p = match.group(1).replace(match.group(2), "=?")
                 ps = stormpy.parse_properties_for_prism_program(p, prism)
                 p = ps[0]
-                p = Property(p, state_quant, compare_state, op)
+                p = HyperProperty(p, state_quant, compare_state, op)
 
                 #add the property to the list
                 properties.extend([p])

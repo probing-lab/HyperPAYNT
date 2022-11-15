@@ -2,10 +2,6 @@
 
 # a specification is just a set of properties
 class Specification:
-    # model checking precision
-    mc_precision = 1e-10
-    # precision for comparing floats
-    float_precision = 1e-7
 
     disjoint_indexes = []
 
