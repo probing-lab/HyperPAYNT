@@ -1,6 +1,43 @@
 
 from .property import OptimalityProperty, SchedulerOptimalityHyperProperty
 
+
+class Specification:
+
+    def __init__(self, constraints, optimality):
+        self.constraints = constraints
+        self.optimality = optimality
+
+    def __str__(self):
+        if len(self.constraints) == 0:
+            constraints = "none"
+        else:
+            constraints = ",".join([str(c) for c in self.constraints])
+        if self.optimality is None:
+            optimality = "none"
+        else:
+            optimality = str(self.optimality)
+        return f"constraints: {constraints}, optimality objective: {optimality}"
+
+    @property
+    def has_optimality(self):
+        return self.optimality is not None
+
+    def all_constraint_indices(self):
+        return [i for i, _ in enumerate(self.constraints)]
+
+    def stormpy_properties(self):
+        properties = [c.property for c in self.constraints]
+        if self.has_optimality:
+            properties += [self.optimality.property]
+        return properties
+
+    def stormpy_formulae(self):
+        mc_formulae = [c.formula for c in self.constraints]
+        if self.has_optimality:
+            mc_formulae += [self.optimality.formula]
+        return mc_formulae
+
 # a specification is just a set of hyperproperties
 class HyperSpecification:
 
