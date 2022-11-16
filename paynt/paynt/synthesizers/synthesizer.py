@@ -5,7 +5,7 @@ import stormpy.synthesis
 from .statistic import Statistic
 from ..profiler import Timer, Profiler
 
-from ..sketch.spec import Specification
+from ..sketch.spec import HyperSpecification
 
 import logging
 
@@ -218,7 +218,7 @@ class SynthesizerCEGIS(Synthesizer):
             conflict_requests[index]= (prop, property_result)
 
         # group the conflicts based on the disjunctions
-        grouped = Specification.or_group_dict(conflict_requests)
+        grouped = HyperSpecification.or_group_dict(conflict_requests)
 
         # construct conflict to each unsatisfiable property
         conflicts = []

@@ -7,7 +7,7 @@ import logging
 
 logger = logging.getLogger(__name__)
 
-
+# TODO: implement Optimality HyperProperties
 class Property:
     # model checking precision
     mc_precision = 1e-10
@@ -191,7 +191,7 @@ class HyperProperty(Property):
         return self.result_valid(value) and self.meets_op(value, threshold)
 
 
-class OptimalitySchedulerHyperProperty(HyperProperty):
+class SchedulerOptimalityHyperProperty(HyperProperty):
 
     def __init__(self, minimizing):
         self.minimizing = minimizing
@@ -203,6 +203,7 @@ class OptimalitySchedulerHyperProperty(HyperProperty):
     def meets_op(self, a, b):
         return b is None or self.op(a, b)
 
+    # there no epsilon - better threshold scheduler differences can only be natural numbers
     def satisfies_threshold(self, value):
         self.meets_op(value, self.optimum)
 
@@ -213,3 +214,7 @@ class OptimalitySchedulerHyperProperty(HyperProperty):
         assert self.improves_optimum(optimum)
         logger.debug(f"New scheduler hyper opt = {optimum}.")
         self.optimum = optimum
+
+    def __str__(self):
+        direction = "Minimizing " if self.minimizing else "Maximizing "
+        return f"{direction} scheduler difference."

@@ -135,7 +135,7 @@ class DTMC(MarkovChain):
             property_indices = [index for index,_ in enumerate(properties)]
 
         results = [None for prop in properties]
-        grouped = Specification.or_group_indexes(property_indices)
+        grouped = HyperSpecification.or_group_indexes(property_indices)
         for group in grouped:
             if not group:
                 continue
@@ -210,7 +210,7 @@ class MDP(MarkovChain):
             property_indices = [index for index,_ in enumerate(properties)]
 
         results = [None for prop in properties]
-        grouped = Specification.or_group_indexes(property_indices)
+        grouped = HyperSpecification.or_group_indexes(property_indices)
         for group in grouped:
             if not group:
                 continue

@@ -516,7 +516,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             hole = Hole(hole_name, hole_options, hole_option_labels)
             holes.append(hole)
 
-        # only now sketch has the corresponding design space
+        # now sketch has the corresponding design space
         self.sketch.design_space = DesignSpace(holes)
         self.sketch.design_space.property_indices = self.sketch.specification.all_constraint_indices()
 

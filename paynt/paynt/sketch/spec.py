@@ -1,34 +1,66 @@
 
+from .property import OptimalityProperty, SchedulerOptimalityHyperProperty
 
-# a specification is just a set of properties
-class Specification:
+# a specification is just a set of hyperproperties
+class HyperSpecification:
 
+    # indexes for folding the properting into those that in OR conjunction
+    # recall that we consider only properties in Conjunctive Normal Form
     disjoint_indexes = []
 
-    def __init__(self, constraints):
+    def __init__(self, constraints, optimality, so):
+
         self.constraints = constraints
 
+        # with optimality we mean a simple PCTL or reward optimality property
+        self.optimality = optimality
+        # so stands for scheduler optimality (hyperproperty)
+        self.so = so
+
     def __str__(self):
-        constraints = ";\n".join([str(c) for c in self.constraints])
-        return f"{constraints}"
+
+        if len(self.constraints) == 0:
+            constraints = "none\n"
+        else:
+            constraints = ";\n".join([str(c) for c in self.constraints])
+        if self.optimality is None:
+            optimality = "none\n"
+        else:
+            optimality = f"{self.optimality}\n"
+        if self.so is None:
+            so = "none\n"
+        else:
+            so = f"{self.so}\n"
+
+        return f"constraints: {constraints} Optimality objective: {optimality} Scheduler hyperobjective: {so}"
 
     @property
     def has_optimality(self):
-        return False
+        return self.optimality is not None
+
+    @property
+    def has_scheduler_hyperoptimality(self):
+        return self.so is not None
 
     def all_constraint_indices(self):
         return [i for i,_ in enumerate(self.constraints)]
 
     def stormpy_properties(self):
+        properties = [c.property for c in self.constraints]
+        if self.has_optimality:
+            properties += [self.optimality.property]
         return [c.property for c in self.constraints]
 
     def stormpy_formulae(self):
-        return [c.formula for c in self.constraints]
+        mc_formulae = [c.formula for c in self.constraints]
+        if self.has_optimality:
+            mc_formulae += [self.optimality.formula]
+        return mc_formulae
 
     @classmethod
     def or_filter(cls, results, sub):
         filtered = []
-        for sublist in Specification.disjoint_indexes:
+        for sublist in HyperSpecification.disjoint_indexes:
             slice = list(map(lambda x: results[x], sublist))
             if any(t is sub for t in slice):
                 filtered.extend([sub] * len(slice))
@@ -39,7 +71,7 @@ class Specification:
     @classmethod
     def or_group_indexes(cls, indexes):
         grouped = []
-        for sublist in Specification.disjoint_indexes:
+        for sublist in HyperSpecification.disjoint_indexes:
             filtered_sublist = list(filter(lambda x: x in indexes, sublist))
             grouped.append(filtered_sublist)
         return grouped
@@ -48,13 +80,13 @@ class Specification:
     def or_group_dict(cls, dict):
         keys = dict.keys()
         grouped = []
-        for sublist in Specification.disjoint_indexes:
+        for sublist in HyperSpecification.disjoint_indexes:
             filtered_sublist = list(filter(lambda i: i in keys, sublist))
             res_slice = list(map(lambda i: (i, dict[i]), filtered_sublist))
             grouped.append(res_slice)
         return grouped
 
-
+# TODO: implement the reasoning about the scheduler hyperoptimum
 class PropertyResult:
     def __init__(self, prop, result, result_alt):
         # the reachability property that we are verifying
@@ -73,6 +105,12 @@ class PropertyResult:
 
         self.sat = prop.satisfies_threshold(self.value, self.threshold)
 
+        # improving the optimumum with respect to a PCTL/rew optimality property
+        self.improves_optimum = None if not isinstance(prop, OptimalityProperty) else prop.improves_optimum(self.value)
+
+        # TODO: implement me!
+        self.improves_scheduler_hyperoptimum = None if not isinstance(prop, SchedulerOptimalityHyperProperty) else prop.improves_optimum()
+
     def __str__(self):
         return str(self.value) + "(s_" + str(self.property.state) + ") vs " + str(self.threshold) \
                + "(s_" + str(self.property.other_state) + "): " + str(self.sat)
@@ -88,7 +126,7 @@ class ConstraintsResult:
         self.all_sat = True
 
         sat_list = list(map(lambda x: None if x is None else x.sat, results))
-        filtered_result = Specification.or_filter(sat_list, True)
+        filtered_result = HyperSpecification.or_filter(sat_list, True)
 
         for result in filtered_result:
             if result is not None and result == False:
@@ -100,7 +138,7 @@ class ConstraintsResult:
 
     def isSat(self, index):
         sat_list = list(map(lambda x: None if x is None else x.sat, self.results))
-        filtered_result = Specification.or_filter(sat_list, True)
+        filtered_result = HyperSpecification.or_filter(sat_list, True)
         return filtered_result[index]
 
 class MdpPropertyResult:
@@ -137,16 +175,16 @@ class MdpConstraintsResult:
     def __init__(self, results):
 
         res_dict = {index: result for index, result in enumerate(results) if result is not None}
-        grouped_results = Specification.or_group_dict(res_dict)
+        grouped_results = HyperSpecification.or_group_dict(res_dict)
 
         # feasibility list
         feas_list = list(map(lambda x: False if x is None else x.feasibility, results))
-        fr_True = Specification.or_filter(feas_list, True)
-        fr_None = Specification.or_filter(feas_list, None)
+        fr_True = HyperSpecification.or_filter(feas_list, True)
+        fr_None = HyperSpecification.or_filter(feas_list, None)
 
         # primary feasibility list
         pr_feas_list = list(map(lambda x: False if x is None else x.primary_feasibility, results))
-        pr_fr_True = Specification.or_filter(pr_feas_list, True)
+        pr_fr_True = HyperSpecification.or_filter(pr_feas_list, True)
 
         self.results = results
 
