@@ -39,45 +39,33 @@ class Specification:
         return mc_formulae
 
 # a specification is just a set of hyperproperties
-class HyperSpecification:
+class HyperSpecification(Specification):
 
     # indexes for folding the properting into those that in OR conjunction
     # recall that we consider only properties in Conjunctive Normal Form
     disjoint_indexes = []
 
-    def __init__(self, constraints, optimality, so):
+    # constraints can contain both properties and hyperproperties here
+    # TODO: for the moment, I haven0t implemented optimality hyperproperties
+    def __init__(self, constraints, optimality, sched_optimality):
+        super().__init__(constraints, optimality)
 
-        self.constraints = constraints
-
-        # with optimality we mean a simple PCTL or reward optimality property
-        self.optimality = optimality
         # so stands for scheduler optimality (hyperproperty)
-        self.so = so
+        self.sched_optimality = sched_optimality
 
     def __str__(self):
 
-        if len(self.constraints) == 0:
-            constraints = "none\n"
-        else:
-            constraints = ";\n".join([str(c) for c in self.constraints])
-        if self.optimality is None:
-            optimality = "none\n"
-        else:
-            optimality = f"{self.optimality}\n"
-        if self.so is None:
-            so = "none\n"
-        else:
-            so = f"{self.so}\n"
+        constraints = "none" if len(self.constraints) == 0 else ";\n".join([str(c) for c in self.constraints])
+        optimality = "none" if self.optimality is None else f"{self.optimality}"
+        sched_optimality = "none" if self.sched_optimality is None else f"{self.sched_optimality}"
 
-        return f"constraints: {constraints} Optimality objective: {optimality} Scheduler hyperobjective: {so}"
+        return f"constraints: {constraints}.\n Optimality objective: {optimality}.\n " \
+               f"Scheduler Optimality hyperobjective: {sched_optimality}\n "
 
-    @property
-    def has_optimality(self):
-        return self.optimality is not None
 
     @property
     def has_scheduler_hyperoptimality(self):
-        return self.so is not None
+        return self.sched_optimality is not None
 
     def all_constraint_indices(self):
         return [i for i,_ in enumerate(self.constraints)]
