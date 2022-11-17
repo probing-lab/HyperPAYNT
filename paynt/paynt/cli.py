@@ -5,7 +5,7 @@ import os
 from . import version
 
 from .sketch.hypersketch import HyperSketch
-from .synthesizers.synthesizer import *
+from .synthesizers.hypersynthesizer import *
 
 import logging
 # logger = logging.getLogger(__name__)
@@ -59,11 +59,11 @@ def paynt(
 
     #choose synthesis method
     if method == "onebyone":
-        synthesizer = Synthesizer1By1(sketch)
+        synthesizer = HyperSynthesizer1By1(sketch)
     elif method == "cegis":
-        synthesizer = SynthesizerCEGIS(sketch)
+        synthesizer = HyperSynthesizerCEGIS(sketch)
     elif method == "ar":
-        synthesizer = SynthesizerAR(sketch)
+        synthesizer = HyperSynthesizerAR(sketch)
     elif method == "hybrid":
         synthesizer = SynthesizerHybrid(sketch)
     elif method == "evo":

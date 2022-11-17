@@ -1,14 +1,18 @@
+from functools import reduce
+
 import stormpy.synthesis
 
 from .statistic import Statistic
 from ..profiler import Timer, Profiler
+
+from ..sketch.hyperspec import HyperSpecification
 
 import logging
 
 logger = logging.getLogger(__name__)
 
 
-class Synthesizer:
+class HyperSynthesizer:
     # if True, some subfamilies can be discarded and some holes can be generalized
     incomplete_search = False
 
@@ -28,22 +32,24 @@ class Synthesizer:
         ''' to be overridden '''
         pass
 
-    def synthesize(self, family):
+    def synthesize(self, family, explore_all):
         ''' to be overridden '''
         pass
 
     def print_stats(self):
         self.stat.print()
 
-    def run(self):
+    def run(self, explore_all):
         # self.sketch.specification.optimality.update_optimum(11.08)
-        assignment = self.synthesize(self.sketch.design_space)
-        print(assignment)
+        assignment = self.synthesize(self.sketch.design_space, explore_all)
+
+        logger.info("Printing synthesized assignment below:")
+        logger.info(";\n".join(str(assignment).split(",")))
 
         if assignment is not None:
             dtmc = self.sketch.quotient.build_chain(assignment)
-            spec = dtmc.check_specification(self.sketch.specification)
-            print(spec)
+            spec = dtmc.check_hyperconstraints(self.sketch.specification.constraints)
+            logger.info("Double-checking specification satisfiability:\n{}".format(spec))
 
         self.print_stats()
 
@@ -52,16 +58,16 @@ class Synthesizer:
 
     def no_optimum_update_limit_reached(self):
         self.since_last_optimum_update += 1
-        return Synthesizer.use_optimum_update_timeout and self.since_last_optimum_update > Synthesizer.optimum_update_iters_limit
+        return HyperSynthesizer.use_optimum_update_timeout and self.since_last_optimum_update > HyperSynthesizer.optimum_update_iters_limit
 
 
-class Synthesizer1By1(Synthesizer):
+class HyperSynthesizer1By1(HyperSynthesizer):
 
     @property
     def method_name(self):
         return "1-by-1"
 
-    def synthesize(self, family):
+    def synthesize(self, family, explore_all):
 
         logger.info("Synthesis initiated.")
 
@@ -73,25 +79,21 @@ class Synthesizer1By1(Synthesizer):
 
             assignment = family.construct_assignment(hole_combination)
             chain = self.sketch.quotient.build_chain(assignment)
-            self.stat.iteration_dtmc(chain.states)
-            result = chain.check_specification(self.sketch.specification, short_evaluation=True)
-            self.explore(assignment)
-
-            if not result.constraints_result.all_sat:
+            #self.stat.iteration_dtmc(chain.states)
+            result = chain.check_hyperconstraints(self.sketch.specification.constraints, short_evaluation=True)
+            self.stat.add_dtmc_sat_result(result.all_sat)
+            if not result.all_sat:
                 continue
-            if not self.sketch.specification.has_optimality:
-                satisfying_assignment = assignment
+            satisfying_assignment = assignment
+            if not explore_all:
                 break
-            if result.optimality_result.improves_optimum:
-                self.sketch.specification.optimality.update_optimum(result.optimality_result.value)
-                satisfying_assignment = assignment
 
         self.stat.finished(satisfying_assignment)
         Profiler.stop()
         return satisfying_assignment
 
 
-class SynthesizerAR(Synthesizer):
+class HyperSynthesizerAR(HyperSynthesizer):
     # family exploration order: True = DFS, False = BFS
     exploration_order_dfs = True
 
@@ -110,20 +112,16 @@ class SynthesizerAR(Synthesizer):
         self.sketch.quotient.build(family)
         self.stat.iteration_mdp(family.mdp.states)
 
-        res = family.mdp.check_specification(self.sketch.specification, property_indices=family.property_indices,
-                                             short_evaluation=True)
+        res = family.mdp.check_hyperconstraints(self.sketch.specification.constraints,
+                                                property_indices=family.property_indices, short_evaluation=True)
         family.analysis_result = res
         Profiler.resume()
 
-        improving_assignment, improving_value, can_improve = res.improving(family)
-        # print(improving_value, can_improve)
-        if improving_value is not None:
-            self.sketch.specification.optimality.update_optimum(improving_value)
-            self.since_last_optimum_update = 0
+        improving_assignment, can_improve = res.improving(family)
 
         return can_improve, improving_assignment
 
-    def synthesize(self, family):
+    def synthesize(self, family, explore_all):
 
         logger.info("Synthesis initiated.")
 
@@ -139,7 +137,7 @@ class SynthesizerAR(Synthesizer):
             if self.no_optimum_update_limit_reached():
                 break
 
-            if SynthesizerAR.exploration_order_dfs:
+            if HyperSynthesizerAR.exploration_order_dfs:
                 family = families.pop(-1)
             else:
                 family = families.pop(0)
@@ -147,7 +145,10 @@ class SynthesizerAR(Synthesizer):
             can_improve, improving_assignment = self.analyze_family_ar(family)
             if improving_assignment is not None:
                 satisfying_assignment = improving_assignment
+                if not explore_all:
+                    break
             if can_improve == False:
+                self.stat.add_decided_family(family, improving_assignment is not None)
                 self.explore(family)
                 continue
 
@@ -160,7 +161,7 @@ class SynthesizerAR(Synthesizer):
         return satisfying_assignment
 
 
-class SynthesizerCEGIS(Synthesizer):
+class HyperSynthesizerCEGIS(HyperSynthesizer):
 
     @property
     def method_name(self):
@@ -168,7 +169,7 @@ class SynthesizerCEGIS(Synthesizer):
 
     def generalize_conflict(self, assignment, conflict, scheduler_selection):
 
-        if not Synthesizer.incomplete_search:
+        if not HyperSynthesizer.incomplete_search:
             return conflict
 
         # filter holes set to consistent assignment
@@ -191,74 +192,78 @@ class SynthesizerCEGIS(Synthesizer):
         assert family.mdp is not None, "analyzed family does not have an associated quotient MPD"
 
         Profiler.start("CEGIS analysis")
+        # print(assignment)
 
         # build DTMC
         dtmc = self.sketch.quotient.build_chain(assignment)
         self.stat.iteration_dtmc(dtmc.states)
 
         # model check all properties
-        spec = dtmc.check_specification(self.sketch.specification,
-                                        property_indices=family.property_indices, short_evaluation=False)
+        spec = dtmc.check_hyperconstraints(self.sketch.specification.constraints,
+                                           property_indices=family.property_indices, short_evaluation=False)
 
         # analyze model checking results
-        improving = False
-        if spec.constraints_result.all_sat:
-            if not self.sketch.specification.has_optimality:
-                Profiler.resume()
-                return True, True
-            if spec.optimality_result is not None and spec.optimality_result.improves_optimum:
-                self.sketch.specification.optimality.update_optimum(spec.optimality_result.value)
-                self.since_last_optimum_update = 0
-                improving = True
+        if spec.all_sat:
+            Profiler.resume()
+            return True, True
 
         # construct conflict wrt each unsatisfiable property
         # pack all unsatisfiable properties as well as their MDP results (if exists)
-        conflict_requests = []
+        conflict_requests = {}
         for index in family.property_indices:
-            if spec.constraints_result.results[index].sat:
+            if spec.isSat(index):
                 continue
             prop = self.sketch.specification.constraints[index]
-            property_result = family.analysis_result.constraints_result.results[
-                index] if family.analysis_result is not None else None
-            conflict_requests.append((index, prop, property_result))
-        if self.sketch.specification.has_optimality:
-            index = len(self.sketch.specification.constraints)
-            prop = self.sketch.specification.optimality
-            property_result = family.analysis_result.optimality_result if family.analysis_result is not None else None
-            conflict_requests.append((index, prop, property_result))
+            property_result = family.analysis_result.results[index] if family.analysis_result is not None else None
+            conflict_requests[index]= (prop, property_result)
 
-        # prepare DTMC for CE generation
-        ce_generator.prepare_dtmc(dtmc.model, dtmc.quotient_state_map)
+        # group the conflicts based on the disjunctions
+        grouped = HyperSpecification.or_group_dict(conflict_requests)
 
         # construct conflict to each unsatisfiable property
         conflicts = []
-        for request in conflict_requests:
-            index, prop, property_result = request
-
-            threshold = prop.threshold
-
-            bounds = None
+        for group in grouped:
+            if not group:
+                continue
+            overall_conflict = []
             scheduler_selection = None
-            if property_result is not None:
-                bounds = property_result.primary.result
-                scheduler_selection = property_result.primary_selection
+            for request in group:
+                (index, (prop, property_result)) = request
 
-            Profiler.start("storm::construct_conflict")
-            conflict = ce_generator.construct_conflict(index, threshold, bounds, family.mdp.quotient_state_map)
-            Profiler.resume()
-            conflict = self.generalize_conflict(assignment, conflict, scheduler_selection)
-            conflicts.append(conflict)
+                state_quant = prop.state
+                other_state_quant = prop.other_state
+
+                # prepare DTMC for CE generation
+                ce_generator.prepare_dtmc(dtmc.model, dtmc.quotient_state_map, state_quant, other_state_quant)
+
+                bounds = None
+                other_bounds = None
+                if property_result is not None:
+                    bounds = property_result.primary.result
+                    other_bounds = property_result.secondary.result
+                    scheduler_selection = property_result.primary_selection
+
+                Profiler.start("storm::construct_conflict")
+                conflict = ce_generator.construct_conflict(index, bounds, other_bounds, family.mdp.quotient_state_map,
+                                                           state_quant, other_state_quant, prop.strict)
+
+                overall_conflict = list(set(overall_conflict + conflict))
+
+                Profiler.resume()
+            overall_conflict = self.generalize_conflict(assignment, overall_conflict, scheduler_selection)
+            conflicts.append(overall_conflict)
+
 
         # use conflicts to exclude the generalizations of this assignment
         Profiler.start("holes::exclude_assignment")
         for conflict in conflicts:
+            self.stat.add_conflict(conflict)
             family.exclude_assignment(assignment, conflict)
-        Profiler.resume()
 
         Profiler.resume()
-        return False, improving
+        return False, False
 
-    def synthesize(self, family):
+    def synthesize(self, family, explore_all):
 
         logger.info("Synthesis initiated.")
 
@@ -268,9 +273,6 @@ class SynthesizerCEGIS(Synthesizer):
         # assert that no reward formula is maximizing
         msg = "Cannot use CEGIS for maximizing reward formulae -- consider using AR or hybrid methods."
         for c in self.sketch.specification.constraints:
-            assert not (c.reward and not c.minimizing), msg
-        if self.sketch.specification.has_optimality:
-            c = self.sketch.specification.optimality
             assert not (c.reward and not c.minimizing), msg
 
         # build the quotient, map mdp states to hole indices
@@ -296,8 +298,11 @@ class SynthesizerCEGIS(Synthesizer):
             if improving:
                 satisfying_assignment = assignment
             if sat:
-                break
-
+                if not explore_all:
+                    break
+                else:
+                    family.exclude_assignment(assignment, [i for i in range(len(assignment))])
+            self.stat.add_dtmc_sat_result(sat)
             # construct next assignment
             assignment = family.pick_assignment()
 
@@ -355,13 +360,13 @@ class StageControl:
         return False
 
 
-class SynthesizerHybrid(SynthesizerAR, SynthesizerCEGIS):
+class SynthesizerHybrid(HyperSynthesizerAR, HyperSynthesizerCEGIS):
 
     @property
     def method_name(self):
         return "hybrid"
 
-    def synthesize(self, family):
+    def synthesize(self, family, explore_all):
 
         logger.info("Synthesis initiated.")
 
@@ -393,22 +398,23 @@ class SynthesizerHybrid(SynthesizerAR, SynthesizerCEGIS):
             self.stage_control.start_ar()
 
             # choose family
-            if SynthesizerAR.exploration_order_dfs:
+            if HyperSynthesizerAR.exploration_order_dfs:
                 family = families.pop(-1)
             else:
                 family = families.pop(0)
 
             # reset SMT solver level
-            if SynthesizerAR.exploration_order_dfs:
+            if HyperSynthesizerAR.exploration_order_dfs:
                 family.sat_level()
 
             # analyze the family
             can_improve, improving_assignment = self.analyze_family_ar(family)
             if improving_assignment is not None:
                 satisfying_assignment = improving_assignment
-            if improving_assignment is not None:
-                satisfying_assignment = improving_assignment
+                if not explore_all:
+                    break
             if can_improve == False:
+                self.stat.add_decided_family(family, improving_assignment is not None)
                 self.explore(family)
                 continue
 
@@ -416,9 +422,9 @@ class SynthesizerHybrid(SynthesizerAR, SynthesizerCEGIS):
             self.stage_control.start_cegis()
 
             # construct priority subfamily that corresponds to primary scheduler
-            scheduler_selection = family.analysis_result.optimality_result.primary_selection
-            priority_subfamily = family.copy()
-            priority_subfamily.assume_options(scheduler_selection)
+            # scheduler_selection = family.analysis_result.optimality_result.primary_selection
+            # priority_subfamily = family.copy()
+            # priority_subfamily.assume_options(scheduler_selection)
 
             # explore family assignments
             sat = False
@@ -429,7 +435,7 @@ class SynthesizerHybrid(SynthesizerAR, SynthesizerCEGIS):
                     break
 
                 # pick assignment
-                assignment = family.pick_assignment_priority(priority_subfamily)
+                assignment = family.pick_assignment_priority(None)
                 if assignment is None:
                     break
 
@@ -438,17 +444,21 @@ class SynthesizerHybrid(SynthesizerAR, SynthesizerCEGIS):
                 if improving:
                     satisfying_assignment = assignment
                 if sat:
-                    break
+                    if not explore_all:
+                        break
+                    else:
+                        family.exclude_assignment(assignment, [i for i in range(len(assignment))])
 
-                # assignment is UNSAT: move on to the next assignment
+                self.stat.add_dtmc_sat_result(sat)
+                # move on to the next assignment
 
-            if sat:
+            if sat and not explore_all:
                 break
 
             if not family.has_assignments:
+                self.stat.add_decided_family(family, False)
                 self.explore(family)
                 continue
-
             subfamilies = self.sketch.quotient.split(family)
             families = families + subfamilies
 
@@ -457,4 +467,3 @@ class SynthesizerHybrid(SynthesizerAR, SynthesizerCEGIS):
         self.stat.finished(satisfying_assignment)
         Profiler.stop()
         return satisfying_assignment
-
