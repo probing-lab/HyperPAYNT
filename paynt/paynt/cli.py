@@ -4,7 +4,7 @@ import os
 
 from . import version
 
-from .sketch.sketch import Sketch
+from .sketch.sketch import HyperSketch
 from .synthesizers.synthesizer import *
 
 import logging
@@ -53,7 +53,7 @@ def paynt(
     sketch_path = os.path.join(project, sketch)
     properties_path = os.path.join(project, props)
 
-    sketch = Sketch(sketch_path, properties_path)
+    sketch = HyperSketch(sketch_path, properties_path)
     logger.info("Synthetizing an MDP scheduler wrt a hyperproperty")
 
 
