@@ -32,13 +32,18 @@ class Sketch:
         MarkovChain.initialize(self.specification.stormpy_formulae())
 
         # setting the correct design space (done in the initialization of the quotient)
-        logger.info("Processing actions and Initializing the quotient...")
+        logger.info("Processing actions and Initializing the quotient and the design space...")
         self.quotient = HyperPropertyQuotientContainer(self)
 
         logger.info(f"Sketch has {self.design_space.num_holes} holes")
         logger.info(f"Design space size: {self.design_space.size}")
         logger.info(f"Design space: {self.design_space}")
         logger.info(f"Sketch parsing complete.")
+
+        #if required, we process the design space to keep track of matching holes
+        if self.specification.has_scheduler_hyperoptimality:
+            sketch_parser.parse_hole_valuations(self.design_space)
+            print(self.design_space.matching_hole_indexes)
         Profiler.stop()
 
 

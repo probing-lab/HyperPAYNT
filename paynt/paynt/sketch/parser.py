@@ -2,6 +2,9 @@ import stormpy
 
 from .spec import HyperSpecification
 from .property import HyperProperty, SchedulerOptimalityHyperProperty
+from .holes import DesignSpace
+
+from collections import defaultdict
 
 import re
 import operator
@@ -195,7 +198,7 @@ class Parser:
             return
 
         if len(self.sched_quant_dict) == 0:
-            raise Exception("Cannot impose MIN/MAX scheduler difference with just one scheduler\n")
+            raise Exception("Cannot impose MIN/MAX scheduler difference with just one scheduler quantification\n")
         minimizing = True if match.group(1) == "MIN" else False
         self.scheduler_optimality_hyperproperty = SchedulerOptimalityHyperProperty(minimizing)
 
@@ -319,3 +322,22 @@ class Parser:
             return prism
         else:
             return stormpy.parse_prism_program(path, prism_compat=True)
+
+    def parse_hole_valuations(self, design_space):
+        n_sched_quants = len(self.sched_quant_dict)
+        print(f"Scheduler quanfiers: {n_sched_quants}")
+
+        # a dictionary of hole names
+        matching_dictionary = defaultdict(list)
+        for hole_index, hole in enumerate(design_space):
+
+            name = hole.name
+            # deleting the sched_quant variable from state valuations
+            for i in range(n_sched_quants):
+                name = name.replace(f"sched_quant={i}", "")
+
+            print(f"Inserting in the dictionary hole with name: {name}")
+            matching_dictionary[name].append(hole_index)
+
+        #set matching holes
+        DesignSpace.matching_hole_indexes = list(matching_dictionary.values())

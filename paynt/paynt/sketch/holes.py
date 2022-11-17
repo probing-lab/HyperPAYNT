@@ -199,6 +199,10 @@ class DesignSpace(Holes):
     # whether hints will be stored for subsequent MDP model checking
     store_hints = True
 
+    # for scheduler optimality hyperproperty, keep track of indexes of matching holes in Design Space
+    # "matching" means that they are the corresponding ones in the "duplications" of the MDP
+    matching_hole_indexes = []
+
     def __init__(self, holes = [], parent_info = None):
         super().__init__(holes)
 
