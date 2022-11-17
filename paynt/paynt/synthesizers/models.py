@@ -4,6 +4,8 @@ from ..sketch.hyperspec import HyperPropertyResult, HyperConstraintsResult, MdpH
 
 from ..sketch.property import Property
 from ..profiler import Profiler
+from ..sketch.spec import ConstraintsResult, MdpPropertyResult, MdpConstraintsResult, SpecificationResult, \
+    MdpOptimalityResult, PropertyResult
 
 
 class MarkovChain:
@@ -102,6 +104,26 @@ class MarkovChain:
         # get hint
         hint = None
         if self.analysis_hints is not None:
+            hint_prim, hint_seco = self.analysis_hints[prop]
+            hint = hint_prim if not alt else hint_seco
+            # hint = self.analysis_hints[prop]
+
+        formula = prop.formula if not alt else prop.formula_alt
+        if hint is None:
+            result = self.model_check_formula(formula)
+        else:
+            result = self.model_check_formula_hint(formula, hint)
+
+        value = result.at(self.initial_state)
+        Profiler.resume()
+        return PropertyResult(prop, result, value)
+
+    def model_check_hyperproperty(self, prop, alt=False):
+        direction = "prim" if not alt else "seco"
+        Profiler.start(f"  MC {direction}")
+        # get hint
+        hint = None
+        if self.analysis_hints is not None:
             hint_prim,hint_seco = self.analysis_hints[prop]
             hint = hint_prim if not alt else hint_seco
             # hint = self.analysis_hints[prop]
@@ -121,7 +143,38 @@ class MarkovChain:
 
 class DTMC(MarkovChain):
 
-    def check_constraints(self, properties, property_indices = None, short_evaluation = False):
+    def check_constraints(self, properties, property_indices=None, short_evaluation=False):
+        '''
+        Check constraints.
+        :param properties a list of all constraints
+        :param property_indices a selection of property indices to investigate
+        :param short_evaluation if set to True, then evaluation terminates as
+          soon as a constraint is not satisfied
+        '''
+
+        # implicitly, check all constraints
+        if property_indices is None:
+            property_indices = [index for index, _ in enumerate(properties)]
+
+        # check selected properties
+        results = [None for prop in properties]
+        for index in property_indices:
+            prop = properties[index]
+            result = self.model_check_property(prop)
+            results[index] = result
+            if short_evaluation and not result.sat:
+                break
+
+        return ConstraintsResult(results)
+
+    def check_specification(self, specification, property_indices = None, short_evaluation = False):
+        constraints_result = self.check_constraints(specification.constraints, property_indices, short_evaluation)
+        optimality_result = None
+        if specification.has_optimality and not (short_evaluation and not constraints_result.all_sat):
+            optimality_result = self.model_check_property(specification.optimality)
+        return SpecificationResult(constraints_result, optimality_result)
+
+    def check_hyperconstraints(self, properties, property_indices = None, short_evaluation = False):
         '''
         Check constraints.
         :param properties a list of all constraints
@@ -142,13 +195,15 @@ class DTMC(MarkovChain):
             unsat = True
             for index in group:
                 prop = properties[index]
-                result = self.model_check_property(prop)
+                result = self.model_check_hyperproperty(prop)
                 results[index] = result
                 unsat = False if result.sat is not False else unsat
             if short_evaluation and unsat:
                 return HyperConstraintsResult(results)
         return HyperConstraintsResult(results)
 
+    def check_hyperspecification(self, hyperspecification, property_indices = None, short_evaluation = False):
+        # TODO: implement me!
 
 class MDP(MarkovChain):
 
@@ -165,7 +220,97 @@ class MDP(MarkovChain):
     def check_property(self, prop):
 
         # check primary direction
+        primary = self.model_check_property(prop, alt=False)
+
+        # no need to check secondary direction if primary direction yields UNSAT
+        if not primary.sat:
+            return MdpPropertyResult(prop, primary, None, False, None, None, None, None)
+
+        # primary direction is SAT
+        # check if the primary scheduler is consistent
+        selection, choice_values, expected_visits, scores, consistent = self.quotient_container.scheduler_consistent(
+            self, prop, primary.result)
+
+        # regardless of whether it is consistent or not, we compute secondary direction to show that all SAT
+
+        # compute secondary direction
+        secondary = self.model_check_property(prop, alt=True)
+        if self.is_dtmc and primary.value != secondary.value:
+            dtmc = self.quotient_container.mdp_to_dtmc(self.model)
+            result = stormpy.model_checking(
+                dtmc, prop.formula, only_initial_states=False,
+                extract_scheduler=(not self.is_dtmc),
+                # extract_scheduler=True,
+                environment=self.environment
+            )
+            assert False
+
+        feasibility = True if secondary.sat else None
+        return MdpPropertyResult(prop, primary, secondary, feasibility, selection, choice_values, expected_visits,
+                                 scores)
+
+    def check_constraints(self, properties, property_indices = None, short_evaluation = False):
+        if property_indices is None:
+            property_indices = [index for index,_ in enumerate(properties)]
+
+        results = [None for prop in properties]
+        for index in property_indices:
+            prop = properties[index]
+            result = self.check_property(prop)
+            results[index] = result
+            if short_evaluation and result.feasibility == False:
+                break
+
+        return MdpConstraintsResult(results)
+
+    def check_optimality(self, prop):
+        # check primary direction
         primary = self.model_check_property(prop, alt = False)
+
+        if not primary.improves_optimum:
+            # OPT <= LB
+            return MdpOptimalityResult(prop, primary, None, None, None, False, None, None, None, None)
+
+        # LB < OPT
+        # check if LB is tight
+        selection,choice_values,expected_visits,scores,consistent = self.quotient_container.scheduler_consistent(self, prop, primary.result)
+        if consistent:
+            # LB is tight and LB < OPT
+            scheduler_assignment = self.design_space.copy()
+            scheduler_assignment.assume_options(selection)
+            improving_assignment, improving_value = self.quotient_container.double_check_assignment(scheduler_assignment)
+            return MdpOptimalityResult(prop, primary, None, improving_assignment, improving_value, False, selection, choice_values, expected_visits, scores)
+
+        if not MDP.compute_secondary_direction:
+            return MdpOptimalityResult(prop, primary, None, None, None, True, selection, choice_values, expected_visits, scores)
+
+        # UB might improve the optimum
+        secondary = self.model_check_property(prop, alt = True)
+
+        if not secondary.improves_optimum:
+            # LB < OPT < UB :  T < LB < OPT < UB (can improve) or LB < T < OPT < UB (cannot improve)
+            can_improve = primary.sat
+            return MdpOptimalityResult(prop, primary, secondary, None, None, can_improve, selection, choice_values, expected_visits, scores)
+
+        # LB < UB < OPT
+        # this family definitely improves the optimum
+        assignment = self.design_space.pick_any()
+        improving_assignment, improving_value = self.quotient_container.double_check_assignment(assignment, prop)
+        # either LB < T, LB < UB < OPT (can improve) or T < LB < UB < OPT (cannot improve)
+        can_improve = primary.sat
+        return MdpOptimalityResult(prop, primary, secondary, improving_assignment, improving_value, can_improve, selection, choice_values, scores)
+
+    def check_specification(self, specification, property_indices = None, short_evaluation = False):
+        constraints_result = self.check_constraints(specification.constraints, property_indices, short_evaluation)
+        optimality_result = None
+        if specification.has_optimality and not (short_evaluation and constraints_result.feasibility == False):
+            optimality_result = self.check_optimality(specification.optimality)
+        return SpecificationResult(constraints_result, optimality_result)
+
+    def check_hyperproperty(self, prop):
+
+        # check primary direction
+        primary = self.model_check_hyperproperty(prop, alt = False)
 
         # no need to check secondary direction if primary direction yields UNSAT
         if not primary.sat:
@@ -205,9 +350,9 @@ class MDP(MarkovChain):
                                       primary_choice_values, primary_expected_visits, primary_scores, secondary_selection,
                                       secondary_choice_values, secondary_expected_visits, secondary_scores)
 
-    def check_constraints(self, properties, property_indices = None, short_evaluation = False):
+    def check_hyperconstraints(self, properties, property_indices=None, short_evaluation=False):
         if property_indices is None:
-            property_indices = [index for index,_ in enumerate(properties)]
+            property_indices = [index for index, _ in enumerate(properties)]
 
         results = [None for prop in properties]
         grouped = HyperSpecification.or_group_indexes(property_indices)
@@ -217,9 +362,15 @@ class MDP(MarkovChain):
             unfeasible = True
             for index in group:
                 prop = properties[index]
-                result = self.check_property(prop)
+                result = self.check_hyperproperty(prop)
                 results[index] = result
                 unfeasible = False if result.feasibility is not False else unfeasible
             if short_evaluation and unfeasible:
                 return MdpHyperConstraintsResult(results)
         return MdpHyperConstraintsResult(results)
+
+    def check_scheduler_hyperoptimality(self, prop):
+        #TODO: implement me!
+
+    def check_hyperspecification(self, hyperspecification, property_indices = None, short_evaluation = False):
+        #TODO: implement me!

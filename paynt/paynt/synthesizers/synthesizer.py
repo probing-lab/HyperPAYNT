@@ -48,7 +48,7 @@ class Synthesizer:
 
         if assignment is not None:
             dtmc = self.sketch.quotient.build_chain(assignment)
-            spec = dtmc.check_constraints(self.sketch.specification.constraints)
+            spec = dtmc.check_hyperconstraints(self.sketch.specification.constraints)
             logger.info("Double-checking specification satisfiability:\n{}".format(spec))
 
         self.print_stats()
@@ -80,7 +80,7 @@ class Synthesizer1By1(Synthesizer):
             assignment = family.construct_assignment(hole_combination)
             chain = self.sketch.quotient.build_chain(assignment)
             #self.stat.iteration_dtmc(chain.states)
-            result = chain.check_constraints(self.sketch.specification.constraints, short_evaluation=True)
+            result = chain.check_hyperconstraints(self.sketch.specification.constraints, short_evaluation=True)
             self.stat.add_dtmc_sat_result(result.all_sat)
             if not result.all_sat:
                 continue
@@ -112,8 +112,8 @@ class SynthesizerAR(Synthesizer):
         self.sketch.quotient.build(family)
         self.stat.iteration_mdp(family.mdp.states)
 
-        res = family.mdp.check_constraints(self.sketch.specification.constraints,
-                                           property_indices=family.property_indices, short_evaluation=True)
+        res = family.mdp.check_hyperconstraints(self.sketch.specification.constraints,
+                                                property_indices=family.property_indices, short_evaluation=True)
         family.analysis_result = res
         Profiler.resume()
 
@@ -199,8 +199,8 @@ class SynthesizerCEGIS(Synthesizer):
         self.stat.iteration_dtmc(dtmc.states)
 
         # model check all properties
-        spec = dtmc.check_constraints(self.sketch.specification.constraints,
-                                      property_indices=family.property_indices, short_evaluation=False)
+        spec = dtmc.check_hyperconstraints(self.sketch.specification.constraints,
+                                           property_indices=family.property_indices, short_evaluation=False)
 
         # analyze model checking results
         if spec.all_sat:
