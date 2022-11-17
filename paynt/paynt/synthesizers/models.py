@@ -204,6 +204,7 @@ class DTMC(MarkovChain):
 
     def check_hyperspecification(self, hyperspecification, property_indices = None, short_evaluation = False):
         # TODO: implement me!
+        raise NotImplementedError("implement me!")
 
 class MDP(MarkovChain):
 
@@ -371,6 +372,8 @@ class MDP(MarkovChain):
 
     def check_scheduler_hyperoptimality(self, prop):
         #TODO: implement me!
+        raise NotImplementedError("implement me!")
 
     def check_hyperspecification(self, hyperspecification, property_indices = None, short_evaluation = False):
         #TODO: implement me!
+        raise NotImplementedError("implement me!")
