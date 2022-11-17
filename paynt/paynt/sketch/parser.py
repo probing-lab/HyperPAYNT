@@ -1,7 +1,7 @@
 import stormpy
 
 from .hyperspec import HyperSpecification
-from .property import HyperProperty, SchedulerOptimalityHyperProperty
+from .hyperproperty import HyperProperty, SchedulerOptimalityHyperProperty
 from .holes import DesignSpace
 
 from collections import defaultdict

@@ -1,4 +1,5 @@
-from .property import OptimalityProperty, SchedulerOptimalityHyperProperty
+from .property import OptimalityProperty
+from .hyperproperty import SchedulerOptimalityHyperProperty
 from .spec import Specification, ConstraintsResult, PropertyResult, SpecificationResult, MdpPropertyResult, \
     MdpConstraintsResult
 
