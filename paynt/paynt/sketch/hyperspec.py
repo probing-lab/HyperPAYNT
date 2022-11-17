@@ -1,5 +1,6 @@
 from .property import OptimalityProperty, SchedulerOptimalityHyperProperty
-from .spec import Specification
+from .spec import Specification, ConstraintsResult, PropertyResult, SpecificationResult, MdpPropertyResult, \
+    MdpConstraintsResult
 
 
 class HyperSpecification(Specification):
@@ -9,7 +10,6 @@ class HyperSpecification(Specification):
     disjoint_indexes = []
 
     # constraints can contain both properties and hyperproperties here
-    # TODO: for the moment, I haven't implemented optimality hyperproperties
     def __init__(self, constraints, optimality, sched_optimality):
         super().__init__(constraints, optimality)
 
@@ -74,7 +74,8 @@ class HyperSpecification(Specification):
         return grouped
 
 
-class HyperPropertyResult:
+class HyperPropertyResult(PropertyResult):
+    # TODO: for the moment, I haven't implemented optimality hyperproperties
     def __init__(self, prop, result, result_alt):
         # the reachability property that we are verifying
         self.property = prop
@@ -103,7 +104,7 @@ class HyperPropertyResult:
                + "(s_" + str(self.property.other_state) + "): " + str(self.sat)
 
 
-class HyperConstraintsResult:
+class HyperConstraintsResult(ConstraintsResult):
     '''
     A list of property results.
     Note: some results might be None (not evaluated).
@@ -129,7 +130,18 @@ class HyperConstraintsResult:
         return filtered_result[index]
 
 
-class MdpHyperPropertyResult:
+class HyperSpecificationResult(SpecificationResult):
+    def __init__(self, constraints_result, optimality_result, scheduler_hyperoptimality_result):
+        self.constraints_result = constraints_result
+        self.optimality_result = optimality_result
+        self.sched_hyperoptimality_result = scheduler_hyperoptimality_result
+
+
+    def __str__(self):
+        return str(self.constraints_result) + "\n" + str(self.optimality_result) + "\n" + str(self.sched_hyperoptimality_result)
+
+
+class MdpHyperPropertyResult(MdpPropertyResult):
     def __init__(self,
                  prop, primary, secondary, feasibility,
                  primary_selection, primary_feasibility, primary_choice_values, primary_expected_visits,
@@ -158,7 +170,7 @@ class MdpHyperPropertyResult:
         return "Primary direction: {} \nSecondary direction {}; ".format(prim, seco)
 
 
-class MdpHyperConstraintsResult:
+class MdpHyperConstraintsResult(MdpConstraintsResult):
     def __init__(self, results):
 
         res_dict = {index: result for index, result in enumerate(results) if result is not None}
@@ -294,3 +306,8 @@ class MdpHyperConstraintsResult:
 
     def undecided_result(self):
         return self.results[self.undecided_constraints[0]]
+
+# TODO: implement me!
+class MdpHyperOptimalityResult(MdpHyperPropertyResult):
+    def __init__(self):
+        raise NotImplementedError("Not implemented yet")
