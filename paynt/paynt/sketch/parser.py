@@ -1,6 +1,6 @@
 import stormpy
 
-from .spec import HyperSpecification
+from .hyperspec import HyperSpecification
 from .property import HyperProperty, SchedulerOptimalityHyperProperty
 from .holes import DesignSpace
 

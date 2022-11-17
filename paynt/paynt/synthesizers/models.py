@@ -1,10 +1,10 @@
 import stormpy
+from ..sketch.hyperspec import HyperPropertyResult, HyperConstraintsResult, MdpHyperPropertyResult, \
+    MdpHyperConstraintsResult, HyperSpecification
 
-from ..sketch.spec import *
 from ..sketch.property import Property
 from ..profiler import Profiler
 
-from collections import OrderedDict
 
 class MarkovChain:
 
@@ -116,7 +116,7 @@ class MarkovChain:
             result_alt = self.model_check_formula_hint(formula_alt, hint)
 
         Profiler.resume()
-        return PropertyResult(prop, result, result_alt)
+        return HyperPropertyResult(prop, result, result_alt)
 
 
 class DTMC(MarkovChain):
@@ -146,8 +146,8 @@ class DTMC(MarkovChain):
                 results[index] = result
                 unsat = False if result.sat is not False else unsat
             if short_evaluation and unsat:
-                return ConstraintsResult(results)
-        return ConstraintsResult(results)
+                return HyperConstraintsResult(results)
+        return HyperConstraintsResult(results)
 
 
 class MDP(MarkovChain):
@@ -169,20 +169,20 @@ class MDP(MarkovChain):
 
         # no need to check secondary direction if primary direction yields UNSAT
         if not primary.sat:
-            return MdpPropertyResult(prop, primary, None, False, None, False, None, None, None, None, None, None, None)
+            return MdpHyperPropertyResult(prop, primary, None, False, None, False, None, None, None, None, None, None, None)
 
         # primary direction is SAT
         # check secondary direction to show that all SAT
         # TODO: this does not work if we have a multi targets comparison
-        secondary = PropertyResult(prop, primary.result_alt, primary.result)
+        secondary = HyperPropertyResult(prop, primary.result_alt, primary.result)
         feasibility = True if secondary.sat else None
 
         if feasibility:
             # no need to explore further
             # we are not constraining at all the primary selection
             primary_selection = [ [] for hole_index in self.design_space.hole_indices]
-            return MdpPropertyResult(prop, primary, secondary, feasibility, primary_selection, True, None,
-                                     None, None, None, None, None, None)
+            return MdpHyperPropertyResult(prop, primary, secondary, feasibility, primary_selection, True, None,
+                                          None, None, None, None, None, None)
 
         # check if primary scheduler (of state quant) induces a feasible scheduler
         value = primary.value
@@ -201,9 +201,9 @@ class MDP(MarkovChain):
         secondary_selection, secondary_choice_values, secondary_expected_visits, secondary_scores, _ = self.quotient_container.scheduler_consistent(
             self, prop, primary.result_alt, other_state)
 
-        return MdpPropertyResult(prop, primary, secondary, feasibility, primary_selection, primary_feasibility,
-                                 primary_choice_values, primary_expected_visits, primary_scores, secondary_selection,
-                                 secondary_choice_values, secondary_expected_visits, secondary_scores)
+        return MdpHyperPropertyResult(prop, primary, secondary, feasibility, primary_selection, primary_feasibility,
+                                      primary_choice_values, primary_expected_visits, primary_scores, secondary_selection,
+                                      secondary_choice_values, secondary_expected_visits, secondary_scores)
 
     def check_constraints(self, properties, property_indices = None, short_evaluation = False):
         if property_indices is None:
@@ -221,5 +221,5 @@ class MDP(MarkovChain):
                 results[index] = result
                 unfeasible = False if result.feasibility is not False else unfeasible
             if short_evaluation and unfeasible:
-                return MdpConstraintsResult(results)
-        return MdpConstraintsResult(results)
+                return MdpHyperConstraintsResult(results)
+        return MdpHyperConstraintsResult(results)
