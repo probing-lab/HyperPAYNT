@@ -40,7 +40,6 @@ class HyperSynthesizer:
         self.stat.print()
 
     def run(self, explore_all):
-        # self.sketch.specification.optimality.update_optimum(11.08)
         assignment = self.synthesize(self.sketch.design_space, explore_all)
 
         logger.info("Printing synthesized assignment below:")
@@ -48,7 +47,7 @@ class HyperSynthesizer:
 
         if assignment is not None:
             dtmc = self.sketch.quotient.build_chain(assignment)
-            spec = dtmc.check_hyperconstraints(self.sketch.specification.constraints)
+            spec = dtmc.check_hyperspecification(self.sketch.specification, assignment)
             logger.info("Double-checking specification satisfiability:\n{}".format(spec))
 
         self.print_stats()
@@ -80,13 +79,20 @@ class HyperSynthesizer1By1(HyperSynthesizer):
             assignment = family.construct_assignment(hole_combination)
             chain = self.sketch.quotient.build_chain(assignment)
             #self.stat.iteration_dtmc(chain.states)
-            result = chain.check_hyperconstraints(self.sketch.specification.constraints, short_evaluation=True)
-            self.stat.add_dtmc_sat_result(result.all_sat)
-            if not result.all_sat:
+            result = chain.check_hyperspecification(self.sketch.specification, assignment, short_evaluation=True)
+            self.stat.add_dtmc_sat_result(result.constraints_result.all_sat)
+            if not result.constraints_result.all_sat:
                 continue
-            satisfying_assignment = assignment
-            if not explore_all:
+
+            # TODO: implement some other checks here for other sorts of optimality properties
+            if not self.sketch.specification.has_scheduler_hyperoptimality and not explore_all:
+                satisfying_assignment = assignment
                 break
+
+            if result.sched_hyperoptimality_result.improves_hyperoptimum:
+                self.sketch.specification.sched_hyperoptimality.update_hyperoptimum(result.sched_hyperoptimality_result.value)
+                satisfying_assignment = assignment
+
 
         self.stat.finished(satisfying_assignment)
         Profiler.stop()

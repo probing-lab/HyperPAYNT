@@ -1,5 +1,5 @@
 from .property import OptimalityProperty
-from .hyperproperty import SchedulerOptimalityHyperProperty
+from .hyperproperty import SchedulerOptimalityHyperProperty, OptimalityHyperProperty
 from .spec import Specification, ConstraintsResult, PropertyResult, SpecificationResult, MdpPropertyResult, \
     MdpConstraintsResult
 
@@ -11,24 +11,29 @@ class HyperSpecification(Specification):
     disjoint_indexes = []
 
     # constraints can contain both properties and hyperproperties here
-    def __init__(self, constraints, optimality, sched_optimality):
+    def __init__(self, constraints, optimality, sched_hyperoptimality):
         super().__init__(constraints, optimality)
 
         # so stands for scheduler optimality (hyperproperty)
-        self.sched_optimality = sched_optimality
+        self.sched_hyperoptimality = sched_hyperoptimality
 
     def __str__(self):
         constraints = "none" if len(self.constraints) == 0 else ";\n".join([str(c) for c in self.constraints])
         optimality = "none" if self.optimality is None else f"{self.optimality}"
-        sched_optimality = "none" if self.sched_optimality is None else f"{self.sched_optimality}"
+        sched_optimality = "none" if self.sched_hyperoptimality is None else f"{self.sched_hyperoptimality}"
 
         return f"constraints: {constraints}.\n Optimality objective: {optimality}.\n " \
                f"Scheduler Optimality hyperobjective: {sched_optimality}\n "
 
 
     @property
+    def has_hyperoptimality(self):
+        # hyperoptimality properties have not been implemented so far
+        return False
+
+    @property
     def has_scheduler_hyperoptimality(self):
-        return self.sched_optimality is not None
+        return self.sched_hyperoptimality is not None
 
     def all_constraint_indices(self):
         return [i for i,_ in enumerate(self.constraints)]
@@ -75,7 +80,7 @@ class HyperSpecification(Specification):
         return grouped
 
 
-class HyperPropertyResult(PropertyResult):
+class HyperPropertyResult:
     # TODO: for the moment, I haven't implemented optimality hyperproperties
     def __init__(self, prop, result, result_alt):
         # the reachability property that we are verifying
@@ -90,22 +95,20 @@ class HyperPropertyResult(PropertyResult):
         self.value = result.at(prop.state)
 
         # set the threshold
+        # TODO: move the threshold inside prop
         self.threshold = result_alt.at(prop.other_state)
 
         self.sat = prop.satisfies_threshold(self.value, self.threshold)
 
-        # improving the optimumum with respect to a PCTL/rew optimality property
-        self.improves_optimum = None if not isinstance(prop, OptimalityProperty) else prop.improves_optimum(self.value)
-
+        # improving the optimumum with respect to an hyperproperty
         # TODO: implement me!
-        self.improves_scheduler_hyperoptimum = None if not isinstance(prop, SchedulerOptimalityHyperProperty) else prop.improves_optimum()
+        self.improves_hyperoptimum = False
 
     def __str__(self):
-        return str(self.value) + "(s_" + str(self.property.state) + ") vs " + str(self.threshold) \
-               + "(s_" + str(self.property.other_state) + "): " + str(self.sat)
+        return f"{self.value}(s_ {self.property.state}) vs {self.threshold}(s_{self.property.other_state}): {self.sat}"
 
 
-class HyperConstraintsResult(ConstraintsResult):
+class HyperConstraintsResult:
     '''
     A list of property results.
     Note: some results might be None (not evaluated).
@@ -130,8 +133,26 @@ class HyperConstraintsResult(ConstraintsResult):
         filtered_result = HyperSpecification.or_filter(sat_list, True)
         return filtered_result[index]
 
+class SchedulerOptimalityHyperPropertyResult(HyperPropertyResult):
+    def __init__(self, prop, value):
+        # the scheduler optimality hyperproperty we are verifying
+        self.property = prop
 
-class HyperSpecificationResult(SpecificationResult):
+        self.value = value
+
+        self.sat = prop.satisfies_threshold(self.value)
+        self.improves_hyperoptimum = prop.improves_hyperoptimum(self.value)
+
+        # the rest are useless
+        self.result = None
+        self.result_alt = None
+        self.threshold = None
+
+    def __str__(self):
+        return f"Current optimal value: {self.property.hyperoptimum}"
+
+
+class HyperSpecificationResult:
     def __init__(self, constraints_result, optimality_result, scheduler_hyperoptimality_result):
         self.constraints_result = constraints_result
         self.optimality_result = optimality_result
@@ -142,7 +163,7 @@ class HyperSpecificationResult(SpecificationResult):
         return str(self.constraints_result) + "\n" + str(self.optimality_result) + "\n" + str(self.sched_hyperoptimality_result)
 
 
-class MdpHyperPropertyResult(MdpPropertyResult):
+class MdpHyperPropertyResult:
     def __init__(self,
                  prop, primary, secondary, feasibility,
                  primary_selection, primary_feasibility, primary_choice_values, primary_expected_visits,
@@ -171,7 +192,7 @@ class MdpHyperPropertyResult(MdpPropertyResult):
         return "Primary direction: {} \nSecondary direction {}; ".format(prim, seco)
 
 
-class MdpHyperConstraintsResult(MdpConstraintsResult):
+class MdpHyperConstraintsResult:
     def __init__(self, results):
 
         res_dict = {index: result for index, result in enumerate(results) if result is not None}
@@ -311,4 +332,4 @@ class MdpHyperConstraintsResult(MdpConstraintsResult):
 # TODO: implement me!
 class MdpHyperOptimalityResult(MdpHyperPropertyResult):
     def __init__(self):
-        raise NotImplementedError("Not implemented yet")
+        raise NotImplementedError("Implement me, Mario!")

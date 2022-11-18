@@ -1,9 +1,9 @@
 import operator
 
 import stormpy
-from paynt.paynt.sketch.property import Property, logger
+from .property import Property, logger
 
-# TODO: implement optimality hyperproperties
+
 class HyperProperty(Property):
     ''' Wrapper over an hyperproperty as a simple comparison of a reachability probability between two states. '''
 
@@ -34,7 +34,8 @@ class HyperProperty(Property):
         self.other_state = other_state
 
     def __str__(self):
-        return str(self.formula_str) + " {" + str(self.state) + "} " + str(self.op) + " " + str(self.formula_str) + " {" + str(self.other_state) + "}"
+        return str(self.formula_str) + " {" + str(self.state) + "} " + str(self.op) + " " + str(
+            self.formula_str) + " {" + str(self.other_state) + "}"
 
     def meets_op(self, a, b):
         ''' For constraints, we do not want to distinguish between small differences. '''
@@ -47,29 +48,44 @@ class HyperProperty(Property):
         return self.result_valid(value) and self.meets_op(value, threshold)
 
 
+# TODO: implement optimality hyperproperties
+class OptimalityHyperProperty(HyperProperty):
+    def __init__(self):
+        raise NotImplementedError("Implement me, Mario!")
+
+
 class SchedulerOptimalityHyperProperty(HyperProperty):
 
     def __init__(self, minimizing):
         self.minimizing = minimizing
         self.op = operator.lt if minimizing else operator.gt
 
-        # set the current optimal value
-        self.optimum = None
+        # the current optimal value is not set
+        self.hyperoptimum = None
+
+        # all the other fields are of not interest
+        self.property = None
+        self.strict = None
+        self.formula = None
+        self.formula_alt = None
+        self.formula_str = None
+        self.state = None
+        self.other_state = None
 
     def meets_op(self, a, b):
         return b is None or self.op(a, b)
 
-    # there no epsilon - better threshold scheduler differences can only be natural numbers
+    # there is no epsilon - better threshold scheduler differences can only be natural numbers
     def satisfies_threshold(self, value):
-        self.meets_op(value, self.optimum)
+        self.meets_op(value, self.hyperoptimum)
 
-    def improves_optimum(self, value):
-        return self.meets_op(value, self.optimum)
+    def improves_hyperoptimum(self, value):
+        return self.meets_op(value, self.hyperoptimum)
 
-    def update_optimum(self, optimum):
-        assert self.improves_optimum(optimum)
-        logger.debug(f"New scheduler hyper opt = {optimum}.")
-        self.optimum = optimum
+    def update_hyperoptimum(self, hyperoptimum):
+        assert self.improves_hyperoptimum(hyperoptimum)
+        logger.debug(f"New scheduler hyper opt = {hyperoptimum}.")
+        self.hyperoptimum = hyperoptimum
 
     def __str__(self):
         direction = "Minimizing " if self.minimizing else "Maximizing "
