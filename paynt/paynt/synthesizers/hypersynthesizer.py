@@ -5,7 +5,7 @@ import stormpy.synthesis
 from .statistic import Statistic
 from ..profiler import Timer, Profiler
 
-from ..sketch.hyperspec import HyperSpecification
+from ..sketch.hyperproperty import HyperSpecification
 
 import logging
 

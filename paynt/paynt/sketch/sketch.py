@@ -1,7 +1,6 @@
 import stormpy
 
-from .property import Property, OptimalityProperty
-from .spec import Specification
+from .property import Property, OptimalityProperty, Specification
 from .holes import Hole, Holes, DesignSpace
 from ..synthesizers.models import MarkovChain
 from ..synthesizers.quotient import *

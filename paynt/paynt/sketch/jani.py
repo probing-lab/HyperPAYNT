@@ -1,7 +1,6 @@
 import stormpy
 
-from .property import Property, OptimalityProperty
-from .spec import Specification
+from .property import Property, OptimalityProperty, Specification
 from .holes import CombinationColoring
 
 import itertools

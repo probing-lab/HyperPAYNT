@@ -1,7 +1,7 @@
 import operator
 
 import stormpy
-from .property import Property, logger
+from .property import Property, logger, Specification
 
 
 class HyperProperty(Property):
@@ -90,3 +90,79 @@ class SchedulerOptimalityHyperProperty(HyperProperty):
     def __str__(self):
         direction = "Minimizing " if self.minimizing else "Maximizing "
         return f"{direction} scheduler difference."
+
+
+class HyperSpecification(Specification):
+
+    # indexes for folding the properting into those that in OR conjunction
+    # recall that we consider only properties in Conjunctive Normal Form
+    disjoint_indexes = []
+
+    # constraints can contain both properties and hyperproperties here
+    def __init__(self, constraints, optimality, sched_hyperoptimality):
+        super().__init__(constraints, optimality)
+
+        # so stands for scheduler optimality (hyperproperty)
+        self.sched_hyperoptimality = sched_hyperoptimality
+
+    def __str__(self):
+        constraints = "none" if len(self.constraints) == 0 else ";\n".join([str(c) for c in self.constraints])
+        optimality = "none" if self.optimality is None else f"{self.optimality}"
+        sched_optimality = "none" if self.sched_hyperoptimality is None else f"{self.sched_hyperoptimality}"
+
+        return f"constraints: {constraints}.\n Optimality objective: {optimality}.\n " \
+               f"Scheduler Optimality hyperobjective: {sched_optimality}\n "
+
+
+    @property
+    def has_hyperoptimality(self):
+        # hyperoptimality properties have not been implemented so far
+        return False
+
+    @property
+    def has_scheduler_hyperoptimality(self):
+        return self.sched_hyperoptimality is not None
+
+    def all_constraint_indices(self):
+        return [i for i,_ in enumerate(self.constraints)]
+
+    def stormpy_properties(self):
+        properties = [c.property for c in self.constraints]
+        if self.has_optimality:
+            properties += [self.optimality.property]
+        return [c.property for c in self.constraints]
+
+    def stormpy_formulae(self):
+        mc_formulae = [c.formula for c in self.constraints]
+        if self.has_optimality:
+            mc_formulae += [self.optimality.formula]
+        return mc_formulae
+
+    @classmethod
+    def or_filter(cls, results, sub):
+        filtered = []
+        for sublist in HyperSpecification.disjoint_indexes:
+            slice = list(map(lambda x: results[x], sublist))
+            if any(t is sub for t in slice):
+                filtered.extend([sub] * len(slice))
+            else:
+                filtered.extend(slice)
+        return filtered
+
+    @classmethod
+    def or_group_indexes(cls, indexes):
+        grouped = []
+        for sublist in HyperSpecification.disjoint_indexes:
+            filtered_sublist = list(filter(lambda x: x in indexes, sublist))
+            grouped.append(filtered_sublist)
+        return grouped
+
+    @classmethod
+    def or_group_dict(cls, dict):
+        keys = dict.keys()
+        grouped = []
+        for sublist in HyperSpecification.disjoint_indexes:
+            filtered_sublist = list(filter(lambda i: i in keys, sublist))
+            res_slice = list(map(lambda i: (i, dict[i]), filtered_sublist))
+            grouped.append(res_slice)
+        return grouped

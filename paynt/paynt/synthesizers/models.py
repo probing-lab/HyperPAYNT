@@ -1,10 +1,11 @@
 import stormpy
-from ..sketch.hyperspec import HyperPropertyResult, HyperConstraintsResult, SchedulerOptimalityHyperPropertyResult, \
-    MdpHyperPropertyResult, MdpHyperConstraintsResult, HyperSpecification, HyperSpecificationResult
+from ..sketch.hyperproperty import HyperSpecification
+from ..sketch.hyperresult import HyperPropertyResult, HyperConstraintsResult, SchedulerOptimalityHyperPropertyResult, \
+    HyperSpecificationResult, MdpHyperPropertyResult, MdpHyperConstraintsResult
 
 from ..sketch.property import Property
 from ..profiler import Profiler
-from ..sketch.spec import ConstraintsResult, MdpPropertyResult, MdpConstraintsResult, SpecificationResult, \
+from ..sketch.result import ConstraintsResult, MdpPropertyResult, MdpConstraintsResult, SpecificationResult, \
     MdpOptimalityResult, PropertyResult
 
 from ..sketch.holes import DesignSpace
