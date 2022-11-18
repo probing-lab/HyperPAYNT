@@ -169,8 +169,7 @@ class Parser:
             state_name = match.group(1)
             restriction_label = match.group(2)
             if state_name not in self.state_quant_dict:
-                print("state name: " + str(state_name))
-                raise Exception("Trying to restrict a variable not in scope")
+                raise Exception(f"Trying to restrict a variable not in scope: {state_name}")
             if state_name in self.state_quant_restrictions:
                 raise Exception("Trying to restrict two times the same variable")
 
@@ -212,13 +211,13 @@ class Parser:
             # compute the set of possible values for each state variable
             initial_states = [i for i in range(nr_init_per_sched * sched_order, nr_init_per_sched * (sched_order + 1))]
 
-            print("initial states for " + str(state_name) +":" + str(initial_states))
+            logger.info(f"initial states for " + str(state_name) +":" + str(initial_states))
             # check potential restrictions on this initial state
             restriction = self.state_quant_restrictions.get(state_name, None)
             if restriction is not None:
                 initial_states = [i for i in initial_states if labeling.has_state_label(restriction, i)]
 
-            print("initial states for " + str(state_name) + "after restrictions:" + str(initial_states))
+            logger.info(f"initial states for {state_name} after restrictions: {initial_states}")
 
 
             #instantiate the properties for this state variable
@@ -325,7 +324,6 @@ class Parser:
 
     def parse_hole_valuations(self, design_space):
         n_sched_quants = len(self.sched_quant_dict)
-        print(f"Scheduler quanfiers: {n_sched_quants}")
 
         # a dictionary of hole names
         matching_dictionary = defaultdict(list)
@@ -336,7 +334,6 @@ class Parser:
             for i in range(n_sched_quants):
                 name = name.replace(f"sched_quant={i}", "")
 
-            print(f"Inserting in the dictionary hole with name: {name}")
             matching_dictionary[name].append(hole_index)
 
         #set matching holes

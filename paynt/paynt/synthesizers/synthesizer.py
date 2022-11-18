@@ -36,7 +36,7 @@ class Synthesizer:
         self.stat.print()
 
     def run(self):
-        # self.sketch.specification.optimality.update_optimum(11.08)
+
         assignment = self.synthesize(self.sketch.design_space)
         print(assignment)
 
