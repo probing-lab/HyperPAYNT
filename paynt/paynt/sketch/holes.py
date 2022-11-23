@@ -92,6 +92,29 @@ class Holes(list):
         for hole_index, hole in enumerate(self):
             hole.assume_options(hole_options[hole_index])
 
+    # for checking Scheduler Optimizing Hyperproperty
+    def assume_minimizing_options(self):
+        for matching_holes_indexes in DesignSpace.matching_hole_indexes:
+            shared_options = set.intersection(*map(lambda x: set(self[x].options), matching_holes_indexes))
+            if shared_options:
+                option = shared_options.pop()
+                for index in matching_holes_indexes:
+                    self[index].assume_options([option])
+            else:
+                for index in matching_holes_indexes:
+                    self[index].assume_options([self[index].options[0]])
+
+    def assume_maximizing_options(self):
+        raise NotImplementedError("Implement me, Mario!")
+
+    def assume_optimizing_options(self, minimizing):
+        if minimizing:
+            # minimize scheduler difference
+            self.assume_minimizing_options()
+        else:
+            # optimize scheduler difference
+            self.assume_maximizing_options()
+
     def pick_any(self):
         suboptions = [[hole.options[0]] for hole in self]
         holes = self.copy()
@@ -368,8 +391,11 @@ class DesignSpace(Holes):
         Profiler.start("holes::collect_analysis_hints")
         res = self.analysis_result
         analysis_hints = dict()
-        for index in res.undecided_constraints:
-            prop, hints = self.generalize_hints(res.results[index])
+        for index in res.constraints_result.undecided_constraints:
+            prop, hints = self.generalize_hints(res.constraints_result.results[index])
+            analysis_hints[prop] = hints
+        if res.optimality_result is not None:
+            prop, hints = self.generalize_hints(res.optimality_result)
             analysis_hints[prop] = hints
         Profiler.resume()
         return analysis_hints
@@ -404,9 +430,9 @@ class DesignSpace(Holes):
         pi.selected_actions = self.selected_actions
         pi.refinement_depth = self.refinement_depth
         pi.analysis_hints = self.collect_analysis_hints()
-        cr = self.analysis_result
+        cr = self.analysis_result.constraints_result
         assert cr is not None
-        pi.property_indices = cr.undecided_constraints
+        pi.property_indices = cr.undecided_constraints if cr is not None else []
         pi.splitters = self.splitters
         pi.mdp = self.mdp
         return pi

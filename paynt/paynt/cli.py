@@ -71,6 +71,12 @@ def paynt(
     else:
         assert None
 
+    # if the spec has some sort of optimality property, we must of course explore all the design space
+    # to establish that the assignment is the true optimum
+    spec = sketch.specification
+    has_some_optimality = spec.has_optimality or spec.has_hyperoptimality or spec.has_scheduler_hyperoptimality
+    explore_all = explore_all or has_some_optimality
+
     synthesizer.run(explore_all)
 
 def main():

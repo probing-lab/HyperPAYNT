@@ -81,9 +81,78 @@ class HyperSpecificationResult:
         self.optimality_result = optimality_result
         self.sched_hyperoptimality_result = scheduler_hyperoptimality_result
 
+    def improving(self, family):
+        ''' Interpret MDP constraints result. '''
+
+        cr = self.constraints_result
+        opt = self.optimality_result
+        sched_hyperopt = self.sched_hyperoptimality_result
+
+        # just one optimality of any type can be specified
+        assert opt is None or sched_hyperopt is None
+
+        # cr.feasibility can be:
+        # True - every scheduler of this family satisfies all constraints
+        # False - no scheduler of this family satisfies all constraints
+        # None - undecided result
+
+        # returns:
+        # 1) a SAT assignment (that is improving the optimality property, if there is any optimality prop) (
+        #       if there is any SAT assignment)
+        # 2) the value that is improving
+
+        # constraints were satisfied
+        if cr.feasibility is True:
+            # either no constraints or constraints were satisfied
+            if opt is not None:
+                return opt.improving_assignment, opt.improving_value, opt.can_improve
+            if sched_hyperopt is not None:
+                return sched_hyperopt.improving_assignment, sched_hyperopt.improving_value, sched_hyperopt.can_improve
+            else:
+                improving_assignment = family.pick_any()
+                return improving_assignment, None, False
+
+        # constraints not satisfied
+        if cr.feasibility is False:
+            return None, None, False
+
+        # constraints undecided: try to push optimality assignment
+        if opt is not None:
+            # TODO: I have modified this
+            can_improve = opt.can_improve
+            return opt.improving_assignment, opt.improving_value, can_improve
+
+        if sched_hyperopt is not None:
+            return sched_hyperopt.improving_assignment, sched_hyperopt.improving_value, sched_hyperopt.can_improve
+
+        # constraints undecided, but primary selection is consistent and both feasible and the same for all constraints
+        # and, there is no optimality or scheduler_hyperoptimality property
+        if cr.primary_feasibility and opt is None and sched_hyperopt is None:
+            selection = cr.primary_selections[0]
+
+            # fill empty holes
+            for hole_index in family.mdp.design_space.hole_indices:
+                options = selection[hole_index]
+                if options == []:
+                    selection[hole_index] = [family.mdp.design_space[hole_index].options[0]]
+
+            assignment = family.copy()
+            assignment.assume_options(selection)
+            # here can_improve == True because we don't have any optimality property, can_improve
+            return assignment, None, True
+
+        # constraints undecided
+        return None, None, True
+
+    def undecided_result(self):
+        if self.optimality_result is not None and self.optimality_result.can_improve:
+            return self.optimality_result
+
+        return self.constraints_result.results[self.constraints_result.undecided_constraints[0]]
 
     def __str__(self):
-        return str(self.constraints_result) + "\n" + str(self.optimality_result) + "\n" + str(self.sched_hyperoptimality_result)
+        return str(self.constraints_result) + "\n" + str(self.optimality_result) + "\n" + str(
+            self.sched_hyperoptimality_result)
 
 
 class MdpHyperPropertyResult:
@@ -172,6 +241,8 @@ class MdpHyperConstraintsResult:
             self.update_primary_feasibility_groups(primary_selections)
 
     def check_lists(self, l1, l2):
+        # TODO: check this portion of code for a bug
+        #assert len(l1) <= 1 and len(l2) <= 1
         return set(l1) == set(l2) or l1 is [] or l2 is []
 
     def update_primary_feasibility(self, result, orTrue, primary_selections):
@@ -212,47 +283,27 @@ class MdpHyperConstraintsResult:
             self.primary_selections = new_selections
             self.primary_feasibility = self.primary_selections is not []
 
-    def improving(self, family):
-        ''' Interpret MDP constraints result. '''
-
-        # self.feasibility can be:
-        # True - every scheduler of this family satisfies all constraints
-        # False - no scheduler of this family satisfies all constraints
-        # None - undecided result
-
-        # constraints were satisfied
-        if self.feasibility is True:
-            improving_assignment = family.pick_any()
-            return improving_assignment, False
-
-        # constraints not satisfied
-        if self.feasibility is False:
-            return None,False
-
-        # constraints undecided, but primary selection is consistent and both feasible and the same for all constraints
-        if self.primary_feasibility:
-                selection = self.primary_selections[0]
-
-                # fill empty holes
-                for hole_index in family.mdp.design_space.hole_indices:
-                    options = selection[hole_index]
-                    if options == []:
-                        selection[hole_index] = [family.mdp.design_space[hole_index].options[0]]
-
-                assignment = family.copy()
-                assignment.assume_options(selection)
-                return assignment, True
-
-        # constraints undecided
-        return None, True
-
     def __str__(self):
         return ",".join([str(result) for result in self.results])
 
-    def undecided_result(self):
-        return self.results[self.undecided_constraints[0]]
 
-
+# TODO: implement this!
 class MdpHyperOptimalityResult(MdpHyperPropertyResult):
     def __init__(self):
         raise NotImplementedError("Implement me, Mario!")
+
+
+class MdpSchedulerOptimalityHyperPropertyResult:
+    def __init__(self, prop, primary, improving_assignment, improving_value, can_improve):
+        # the scheduler optimality hyperproperty we are verifying
+        self.property = prop
+        # primary HyperPropertyResult (for the moment we do not consider in the implementation the secondary
+        # direction for this type of hyperproperties)
+        self.primary = primary
+        self.improving_assignment = improving_assignment
+        self.improving_value = improving_value
+        self.can_improve = can_improve
+
+    def __str__(self):
+        return f"Current optimum value inside this MDP: {self.property.hyperoptimum}. " \
+               f"This MDP has primary value {self.primary}. Can Improve is set to {self.can_improve} "

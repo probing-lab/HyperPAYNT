@@ -1,7 +1,5 @@
 import stormpy
-from ..sketch.hyperproperty import HyperSpecification
-from ..sketch.hyperresult import HyperPropertyResult, HyperConstraintsResult, SchedulerOptimalityHyperPropertyResult, \
-    HyperSpecificationResult, MdpHyperPropertyResult, MdpHyperConstraintsResult
+from ..sketch.hyperresult import *
 
 from ..sketch.property import Property
 from ..profiler import Profiler
@@ -117,7 +115,7 @@ class MarkovChain:
         else:
             result = self.model_check_formula_hint(formula, hint)
 
-        value = result.at(self.initial_state)
+        value = result.at(prop.state)
         Profiler.resume()
         return PropertyResult(prop, result, value)
 
@@ -143,12 +141,20 @@ class MarkovChain:
         Profiler.resume()
         return HyperPropertyResult(prop, result, result_alt)
 
-    def model_check_scheduler_difference(self, prop, family):
-
+    def model_check_scheduler_difference(self, prop, family, alt=False):
         diff_count = 0
-        for matching_holes in DesignSpace.matching_hole_indexes:
-            diff_count = diff_count + 1 if set.intersection\
-                (*map(lambda x: set(family[x].options), matching_holes)) else diff_count
+
+        # TODO: rewrite this in functional style
+        min = prop.minimizing if not alt else not prop.minimizing
+        for matching_holes_indexes in DesignSpace.matching_hole_indexes:
+            if min:
+                diff_count = diff_count + 1 if set.isdisjoint \
+                    (*map(lambda x: set(family[x].options), matching_holes_indexes)) else diff_count
+            else:
+                raise NotImplementedError("Implement me, Mario!")
+                # TODO: this code is wrong and needs to be refactored according to the definition of maximal difference
+                # diff_count = diff_count + 1 if not set.symmetric_difference \
+                # (*map(lambda x: set(family[x].options), matching_holes_indexes)) else diff_count
         return SchedulerOptimalityHyperPropertyResult(prop, diff_count)
 
 
@@ -220,6 +226,7 @@ class DTMC(MarkovChain):
         constraints_result = self.check_hyperconstraints(hyperspecification.constraints, property_indices, short_evaluation)
 
         # for now, we only have PCTL/rew optimality constraints
+        # TODO: implement optimal hyperproperties
         optimality_result = None
         if hyperspecification.has_optimality and not (short_evaluation and not constraints_result.all_sat):
             optimality_result = self.model_check_property(hyperspecification.optimality)
@@ -314,8 +321,7 @@ class MDP(MarkovChain):
         secondary = self.model_check_property(prop, alt = True)
 
         if not secondary.improves_optimum:
-            # TODO: isn't it the other way around? if the lower bound is smaller than the threshold, than it can improve, hence primary.sat == True
-            # LB < OPT < UB :  T < LB < OPT < UB (can improve) or LB < T < OPT < UB (cannot improve)
+            # LB < OPT < UB :  T < LB < OPT < UB (cannot improve) or LB < T < OPT < UB (can improve)
             can_improve = primary.sat
             return MdpOptimalityResult(prop, primary, secondary, None, None, can_improve, selection, choice_values, expected_visits, scores)
 
@@ -394,13 +400,45 @@ class MDP(MarkovChain):
                 unfeasible = False if result.feasibility is not False else unfeasible
             if short_evaluation and unfeasible:
                 return MdpHyperConstraintsResult(results)
+        # TODO: check that, if there are no constraints, this object will have attribute sat == true
         return MdpHyperConstraintsResult(results)
 
+    # TODO: implement Optimal HyperProperties
+    def check_hyperoptimality(self, prop):
+        raise NotImplementedError("implement me, Mario!")
 
     def check_scheduler_hyperoptimality(self, prop):
-        #TODO: implement me!
-        raise NotImplementedError("implement me!")
 
-    def check_hyperspecification(self, hyperspecification, property_indices = None, short_evaluation = False):
-        #TODO: implement me!
-        raise NotImplementedError("implement me!")
+        # check primary direction
+        primary = self.model_check_scheduler_difference(prop, self.design_space, alt=False)
+
+        if not primary.improves_hyperoptimum:
+            # OPT <= LB
+            return MdpSchedulerOptimalityHyperPropertyResult(prop, primary, None, None, False)
+
+        # LB < OPT
+        scheduler_assignment = self.design_space.copy()
+        scheduler_assignment.assume_optimizing_options(prop.minimizing)
+
+        # check again if the value improves the optimum a
+        improving_assignment, improving_value = self.quotient_container.double_check_assignment_scheduler_hyperoptimality(
+            scheduler_assignment)
+
+        can_improve = False if improving_assignment is not None else True
+
+        return MdpSchedulerOptimalityHyperPropertyResult(prop, primary, improving_assignment, improving_value, can_improve)
+
+    def check_hyperspecification(self, hyperspec, property_indices=None, short_evaluation=False):
+        constraints_result = self.check_hyperconstraints(hyperspec.constraints, property_indices, short_evaluation)
+
+        optimality_result = None
+        if hyperspec.has_optimality and not (short_evaluation and constraints_result.feasibility is False):
+            optimality_result = self.model_check_property(hyperspec.optimality)
+
+        sched_hyper_optimality_result = None
+        if hyperspec.has_scheduler_hyperoptimality and not (
+                short_evaluation and constraints_result.feasibility is False):
+            sched_hyper_optimality_result = self.check_scheduler_hyperoptimality(
+                hyperspec.sched_hyperoptimality)
+
+        return HyperSpecificationResult(constraints_result, optimality_result, sched_hyper_optimality_result)

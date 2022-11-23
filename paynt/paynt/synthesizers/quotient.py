@@ -1264,3 +1264,19 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         Profiler.resume()
 
         return design_subspaces
+
+
+    def double_check_assignment_scheduler_hyperoptimality(self, assignment):
+        '''
+        Double-check whether this assignment truly improves optimum.
+        :return singleton family if the assignment truly improves optimum
+        '''
+        assert assignment.size == 1
+        dtmc = self.build_chain(assignment)
+        res = dtmc.check_hyperspecification(self.sketch.specification, assignment)
+        # opt_result = dtmc.model_check_property(opt_prop)
+        if res.constraints_result.all_sat and self.sketch.specification.sched_hyperoptimality.improves_hyperoptimum(
+                res.sched_hyperoptimality_result.value):
+            return assignment, res.sched_hyperoptimality_result.value
+        else:
+            return None, None

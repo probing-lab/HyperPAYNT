@@ -118,12 +118,16 @@ class HyperSynthesizerAR(HyperSynthesizer):
         self.sketch.quotient.build(family)
         self.stat.iteration_mdp(family.mdp.states)
 
-        res = family.mdp.check_hyperconstraints(self.sketch.specification.constraints,
+        res = family.mdp.check_hyperspecification(self.sketch.specification,
                                                 property_indices=family.property_indices, short_evaluation=True)
         family.analysis_result = res
         Profiler.resume()
 
-        improving_assignment, can_improve = res.improving(family)
+        improving_assignment, improving_value, can_improve = res.improving(family)
+        # print(improving_value, can_improve)
+        if improving_value is not None:
+            self.sketch.specification.sched_hyperoptimality.update_hyperoptimum(improving_value)
+            self.since_last_optimum_update = 0
 
         return can_improve, improving_assignment
 
@@ -153,7 +157,7 @@ class HyperSynthesizerAR(HyperSynthesizer):
                 satisfying_assignment = improving_assignment
                 if not explore_all:
                     break
-            if can_improve == False:
+            if can_improve is False:
                 self.stat.add_decided_family(family, improving_assignment is not None)
                 self.explore(family)
                 continue
