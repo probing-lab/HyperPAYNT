@@ -133,7 +133,7 @@ class Statistic:
     def get_summary(self):
         spec = self.sketch.specification
         specification = "\n".join([f"constraint {i + 1}: {str(f)}" for i,f in enumerate(spec.constraints)]) + "\n"
-        disjoint_indexes = str(spec.disjoint_indexes) + "\n"
+        disjoint_indexes = f" Indexes of formulae in OR relation with each other: {spec.disjoint_indexes}\n"
 
         fraction_explored = int((self.synthesizer.explored / self.sketch.design_space.size) * 100)
         explored = f"explored: {fraction_explored} %"
@@ -144,9 +144,8 @@ class Statistic:
         cegis_sat_stats = f"CEGIS Sat members found: {self.cegis_sat_members}, CEGIS Unsat Members found: {self.cegis_unsat_members}"
         ar_sat_stats = f"AR Sat members found: {self.ar_sat_members}, AR Unsat Members found: {self.ar_unsat_members}"
 
-
-
-        design_space = f"number of holes: {self.sketch.design_space.num_holes}, family size: {self.sketch.design_space.size}, super quotient: {super_quotient_states} states / {super_quotient_actions} actions"
+        design_space = f"number of holes: {self.sketch.design_space.num_holes}, family size: {self.sketch.design_space.size}, " \
+                       f"super quotient: {super_quotient_states} states / {super_quotient_actions} actions "
         timing = f"method: {self.synthesizer.method_name}, synthesis time: {round(self.synthesis_time.time, 2)} s"
 
         family_stats = ""
