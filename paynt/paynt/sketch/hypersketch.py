@@ -44,5 +44,4 @@ class HyperSketch:
         # if required, we process the design space to keep track of matching holes
         if self.specification.has_scheduler_hyperoptimality:
             sketch_parser.parse_hole_valuations(self.design_space)
-            print(self.design_space.matching_hole_indexes)
         Profiler.stop()
