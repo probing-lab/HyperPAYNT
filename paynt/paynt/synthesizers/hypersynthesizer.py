@@ -54,6 +54,9 @@ class HyperSynthesizer:
 
     def explore(self, family):
         self.explored += family.size
+        fraction_explored = int((family.size / self.sketch.design_space.size) * 100)
+        if fraction_explored > 1:
+            logger.info(f"Pruned a non negligible family which represents the {fraction_explored}% of the design space")
 
     def no_optimum_update_limit_reached(self):
         self.since_last_optimum_update += 1
