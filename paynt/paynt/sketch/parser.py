@@ -9,11 +9,16 @@ import re
 import operator
 
 import logging
+
+from .property import Property, OptimalityProperty
+
 logger = logging.getLogger(__name__)
 
 
-# TODO: implement the parsing of Optimality Properties and Optimality HyperProperties
-# TODO: if you readd simple properties, don't forget to add a "state" field, an attribute that is required because now we have multiple initial states
+class HyperParsingException(Exception):
+    pass
+
+# TODO: implement parsing of OptimalityProperty and OptimalityHyperProperty
 class Parser:
 
     def __init__(self):
@@ -28,7 +33,8 @@ class Parser:
         # parsed lines of the property
         self.lines = []
 
-        # parsed scheduler optimality property
+        # parsed optimality properties
+        self.optimality_property = None
         self.scheduler_optimality_hyperproperty = None
 
     def parse_properties(self, sketch_path, properties_path):
@@ -274,34 +280,74 @@ class Parser:
             props_separator_re = re.compile(r'\s\|\s')
             props = re.split(props_separator_re, line)
             for prop in props:
-                prop_re = re.compile(r'(P(\{(\S+)\})(.*?))(\s(<=|<|=>|>)\s)(P(\{(\S+)\})(.*?))$')
-                match = prop_re.search(prop)
-                if match is None:
-                    raise Exception(f"input formula is wrong formatted! [{prop}]")
-                if not match.group(4) == match.group(10):
-                    raise NotImplementedError("Comparison of different reachability targets are not supported yet. "
-                                              "Please also check that whitespaces match in the two targets: \""
-                                              + match.group(4) + "\" and \"" + match.group(10) + "\"")
-                # collect information
-                state_quant = int(match.group(3))
-                compare_state = int(match.group(9))
-                ops = {"<=": operator.le, "<": operator.lt, "=>": operator.ge, ">": operator.gt}
-                op = ops[match.group(6)]
-
-                # parse the property
-                print("match group 1 for private check: " + str(match.group(1)))
-                p = match.group(1).replace(match.group(2), "=?")
-                ps = stormpy.parse_properties_for_prism_program(p, prism)
-                p = ps[0]
-                p = HyperProperty(p, state_quant, compare_state, op)
-
+                logger.info(f"Assuming an hyperproperty with index {i}...")
+                try:
+                    p = self.parse_hyperproperty(prop, prism)
+                except HyperParsingException:
+                    logger.info(f"HyperProperty Parsing failed: assuming a property for string {prop} at index {i}... ")
+                    p = self.parse_property(prop, prism)
                 #add the property to the list
                 properties.extend([p])
                 indexes.extend([i])
                 i += 1
 
             HyperSpecification.disjoint_indexes.append(indexes)
-        return HyperSpecification(properties, None, self.scheduler_optimality_hyperproperty)
+        return HyperSpecification(properties, self.optimality_property, self.scheduler_optimality_hyperproperty)
+
+    def parse_hyperproperty(self, prop, prism):
+        prop_re = re.compile(r'(P(\{(\S+)\})(.*?))(\s(<=|<|=>|>)\s)(P(\{(\S+)\})(.*?))$')
+        match = prop_re.search(prop)
+        if match is None:
+            raise HyperParsingException(f"input formula is wrong formatted! [{prop}]")
+        if not match.group(4) == match.group(10):
+            raise NotImplementedError("Comparison of different reachability targets are not supported yet. "
+                                      "Please also check that whitespaces match in the two targets: \""
+                                      + match.group(4) + "\" and \"" + match.group(10) + "\"")
+        # collect information
+        state_quant = int(match.group(3))
+        compare_state = int(match.group(9))
+        ops = {"<=": operator.le, "<": operator.lt, "=>": operator.ge, ">": operator.gt}
+        op = ops[match.group(6)]
+
+        # parse the property
+        p = match.group(1).replace(match.group(2), "=?")
+        ps = stormpy.parse_properties_for_prism_program(p, prism)
+        p = ps[0]
+        return HyperProperty(p, state_quant, compare_state, op)
+
+    def parse_property(self, string, prism):
+
+        # strip relative error
+        relative_error_re = re.compile(r'^(.*)\{(.*?)\}(=\?.*?$)')
+        relative_error_str = None
+        match = relative_error_re.search(string)
+        if match is not None:
+            relative_error_str = match.group(2)
+            string = match.group(1) + match.group(3)
+
+        optimality_epsilon = float(relative_error_str) if relative_error_str is not None else 0
+
+        # parse state id
+        state_id_re = re.compile(r'^(.*)(\{(\S+)\})(.*?$)')
+        match = state_id_re.search(string)
+        if match is None:
+            raise HyperParsingException(f"Input formula wrong formatted! [{string}]")
+
+        # collect information
+        state_id = int(match.group(3))
+        string = match.group(1) + match.group(4)
+
+        props = stormpy.parse_properties_for_prism_program(string, prism)
+        prop = props[0]
+        rf = prop.raw_formula
+        assert rf.has_bound != rf.has_optimality_type, "optimizing formula contains a bound or a comparison formula does not"
+        if rf.has_bound:
+            # comparison formula
+            return Property(prop, state_id)
+        else:
+            # optimality formula
+            assert self.optimality_property is None and self.scheduler_optimality_hyperproperty is None, "two optimality formulae specified"
+            return OptimalityProperty(prop, optimality_epsilon, state_id)
 
     def parse_program(self, path):
         n_sched_quants = len(self.sched_quant_dict)

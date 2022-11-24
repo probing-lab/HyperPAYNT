@@ -15,7 +15,7 @@ class Property:
 
     ''' Wrapper over a stormpy property. '''
 
-    def __init__(self, prop):
+    def __init__(self, prop, state):
         self.property = prop
         rf = prop.raw_formula
 
@@ -43,6 +43,8 @@ class Property:
         self.formula_alt = Property.alt_formula(self.formula)
         self.formula_str = rf
 
+        self.state = state
+
     @staticmethod
     def alt_formula(formula):
         ''' Construct alternative quantitative formula to use in AR. '''
@@ -57,7 +59,7 @@ class Property:
         return formula_alt
 
     def __str__(self):
-        return str(self.formula_str)
+        return f"{self.formula_str}[{self.state}]"
 
     @property
     def reward(self):
@@ -93,7 +95,7 @@ class OptimalityProperty(Property):
     corresponding threshold wrt epsilon.
     '''
 
-    def __init__(self, prop, epsilon=None):
+    def __init__(self, prop, state, epsilon=None):
         self.property = prop
         rf = prop.raw_formula
 
@@ -115,6 +117,9 @@ class OptimalityProperty(Property):
         # additional optimality stuff
         self.optimum = None
         self.epsilon = epsilon
+
+        self.state = state
+
 
     def __str__(self):
         eps = f"[eps = {self.epsilon}]" if self.epsilon > 0 else ""
