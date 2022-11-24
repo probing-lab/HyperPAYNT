@@ -1089,7 +1089,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         scheduler = result.scheduler
 
         # get qualitative scheduler selection
-        selection = self.scheduler_selection(mdp, scheduler)
+        selection = self.scheduler_selection(mdp, scheduler, initial_state)
         hole_assignments = {hole_index: hole.options for hole_index, hole in enumerate(mdp.design_space) if
                             len(hole.options) > 1}
 
@@ -1104,6 +1104,31 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
         Profiler.resume()
         return selection, choice_values, expected_visits, hole_differences
+
+    def scheduler_selection(self, mdp, scheduler, initial_state):
+        ''' Get hole options involved in the scheduler selection. '''
+        assert scheduler.memoryless and scheduler.deterministic
+
+        Profiler.start("quotient::scheduler_selection")
+
+        # construct DTMC that corresponds to this scheduler and filter reachable states/choices
+        choices = scheduler.compute_action_support(mdp.model.nondeterministic_choice_indices)
+        dtmc,_,choice_map = self.restrict_mdp(mdp.model, choices)
+        choices = [ choice_map[state] for state in range(dtmc.nr_states) ]
+
+        # map relevant choices to hole options
+        selection = [set() for hole_index in mdp.design_space.hole_indices]
+        for choice in choices:
+            global_choice = mdp.quotient_choice_map[choice]
+            choice_options = self.action_to_hole_options[global_choice]
+            for hole_index,option in choice_options.items():
+                # this hole is relevant for the initial state
+                if initial_state in mdp.design_space[hole_index].initial_states:
+                    selection[hole_index].add(option)
+        selection = [list(options) for options in selection]
+        Profiler.resume()
+
+        return selection
 
     def estimate_scheduler_difference(self, mdp, hole_assignments, choice_values, expected_visits):
         Profiler.start(" estimate scheduler difference")
