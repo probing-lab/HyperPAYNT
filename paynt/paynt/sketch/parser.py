@@ -12,7 +12,6 @@ import logging
 logger = logging.getLogger(__name__)
 
 
-# TODO: implement Optimality Properties and Optimality HyperProperties
 class Parser:
 
     def __init__(self):
@@ -195,7 +194,7 @@ class Parser:
             self.lines = [line] + self.lines
             return
 
-        if len(self.sched_quant_dict) == 0:
+        if len(self.sched_quant_dict) == 1:
             raise Exception("Cannot impose MIN/MAX scheduler difference with just one scheduler quantification\n")
         minimizing = True if match.group(1) == "MIN" else False
         self.scheduler_optimality_hyperproperty = SchedulerOptimalityHyperProperty(minimizing)
