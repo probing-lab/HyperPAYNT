@@ -12,6 +12,8 @@ import logging
 logger = logging.getLogger(__name__)
 
 
+# TODO: implement the parsing of Optimality Properties and Optimality HyperProperties
+# TODO: if you readd simple properties, don't forget to add a "state" field, an attribute that is required because now we have multiple initial states
 class Parser:
 
     def __init__(self):
@@ -19,6 +21,9 @@ class Parser:
         self.state_quant_dict = {}
         self.state_range_dict = {}
         self.state_quant_restrictions = {}
+
+        # to optimize the AR splitting
+        self.sched_quant_to_initial_states = {}
 
         # parsed lines of the property
         self.lines = []
@@ -217,6 +222,8 @@ class Parser:
 
             logger.info(f"initial states for {state_name} after restrictions: {initial_states}")
 
+            # update the set of initial states associated with this scheduler quantifier
+            self.sched_quant_to_initial_states[sched_name] = self.sched_quant_to_initial_states.get(sched_name, set()).union(set(initial_states))
 
             #instantiate the properties for this state variable
             if state_quant == 'E':
@@ -282,6 +289,7 @@ class Parser:
                 op = ops[match.group(6)]
 
                 # parse the property
+                print("match group 1 for private check: " + str(match.group(1)))
                 p = match.group(1).replace(match.group(2), "=?")
                 ps = stormpy.parse_properties_for_prism_program(p, prism)
                 p = ps[0]
@@ -323,16 +331,26 @@ class Parser:
     def parse_hole_valuations(self, design_space):
         n_sched_quants = len(self.sched_quant_dict)
 
-        # a dictionary of hole names
+        # a dictionary of hole names to a list of the corresponding instantiated holes
         matching_dictionary = defaultdict(list)
         for hole_index, hole in enumerate(design_space):
 
-            name = hole.name
+            hole_name = hole.name
             # deleting the sched_quant variable from state valuations
-            for i in range(n_sched_quants):
-                name = name.replace(f"sched_quant={i}", "")
+            for sched_index in range(n_sched_quants):
+                sched_quant_ref = f"sched_quant={sched_index}"
+                if sched_quant_ref in hole_name:
+                    hole_name = hole_name.replace(sched_quant_ref, "")
+                    sched_name = list(self.sched_quant_dict.keys())[sched_index]
+                    hole.initial_states = self.sched_quant_to_initial_states[sched_name]
+                    break
 
-            matching_dictionary[name].append(hole_index)
+            # case where there is only one scheduler quantifier
+            if hole.initial_states is None:
+                assert len(self.sched_quant_dict) == 1
+                hole.initial_states = self.sched_quant_to_initial_states.values()[0]
+
+            matching_dictionary[hole_name].append(hole_index)
 
         #set matching holes
         DesignSpace.matching_hole_indexes = list(matching_dictionary.values())

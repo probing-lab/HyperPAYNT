@@ -41,7 +41,7 @@ class HyperSketch:
         logger.info(f"Design space: {self.design_space}")
         logger.info(f"Sketch parsing complete.")
 
-        # if required, we process the design space to keep track of matching holes
-        if self.specification.has_scheduler_hyperoptimality:
-            sketch_parser.parse_hole_valuations(self.design_space)
+        # we parse the hole valuations even if there is no scheduler optimality hyperoproperties
+        # to optimize the AR splitting
+        sketch_parser.parse_hole_valuations(self.design_space)
         Profiler.stop()

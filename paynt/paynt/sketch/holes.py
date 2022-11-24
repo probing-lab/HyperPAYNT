@@ -27,6 +27,9 @@ class Hole:
         self.options = options
         self.option_labels = option_labels
 
+        # the initial states from which this hole is reachable
+        self.initial_states = []
+
     @property
     def size(self):
         return len(self.options)
