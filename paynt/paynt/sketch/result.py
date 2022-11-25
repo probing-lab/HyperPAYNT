@@ -73,8 +73,7 @@ class SpecificationResult:
 class MdpPropertyResult:
     def __init__(self,
                  prop, primary, secondary, feasibility,
-                 primary_selection, primary_choice_values, primary_expected_visits,
-                 primary_scores
+                 primary_selection, primary_feasibility, primary_choice_values, primary_expected_visits, primary_scores
                  ):
         self.property = prop
         self.primary = primary
@@ -82,6 +81,9 @@ class MdpPropertyResult:
         self.feasibility = feasibility
 
         self.primary_selection = primary_selection
+        # primary feasibility indicates whether the primary selection induces a SAT scheduler
+        # this can be exploited easily because we do not have inconsistent selections.
+        self.primary_feasibility = primary_feasibility
         self.primary_choice_values = primary_choice_values
         self.primary_expected_visits = primary_expected_visits
         self.primary_scores = primary_scores

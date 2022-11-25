@@ -258,12 +258,12 @@ class MDP(MarkovChain):
 
         # no need to check secondary direction if primary direction yields UNSAT
         if not primary.sat:
-            return MdpPropertyResult(prop, primary, None, False, None, None, None, None)
+            return MdpPropertyResult(prop, primary, None, False, None, None, None, None, None)
 
         # primary direction is SAT
         # check if the primary scheduler is consistent
         selection, choice_values, expected_visits, scores, consistent = self.quotient_container.scheduler_consistent(
-            self, prop, primary.result)
+            self, prop, primary.result, prop.state)
 
         # regardless of whether it is consistent or not, we compute secondary direction to show that all SAT
 
@@ -280,8 +280,9 @@ class MDP(MarkovChain):
             assert False
 
         feasibility = True if secondary.sat else None
-        return MdpPropertyResult(prop, primary, secondary, feasibility, selection, choice_values, expected_visits,
-                                 scores)
+        primary_feasibility = primary.sat
+        return MdpPropertyResult(prop, primary, secondary, feasibility,
+                                 selection, primary_feasibility, choice_values, expected_visits, scores)
 
     def check_constraints(self, properties, property_indices = None, short_evaluation = False):
         if property_indices is None:
@@ -396,7 +397,8 @@ class MDP(MarkovChain):
             unfeasible = True
             for index in group:
                 prop = properties[index]
-                result = self.check_hyperproperty(prop)
+                result = self.check_hyperproperty(prop) if isinstance(prop, HyperProperty) \
+                    else self.check_property(prop)
                 results[index] = result
                 unfeasible = False if result.feasibility is not False else unfeasible
             if short_evaluation and unfeasible:

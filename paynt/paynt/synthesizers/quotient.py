@@ -7,6 +7,7 @@ import re
 import itertools
 
 from .statistic import Statistic
+from ..sketch.hyperresult import MdpHyperPropertyResult
 
 from ..sketch.jani import JaniUnfolder
 from ..sketch.holes import Hole,Holes,DesignSpace
@@ -1217,45 +1218,45 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
         mdp = family.mdp
         assert not mdp.is_dtmc
+        # reduced design space
+        new_design_space = mdp.design_space.copy()
 
         # split family wrt last undecided result
-        # TODO: can we use some metrics here as well?
+        # TODO: can we use some metrics here as well? [e.g., choose the "best" undecided result]
         result = family.analysis_result.undecided_result()
+        isHyper = isinstance(result, MdpHyperPropertyResult)
 
         primary_scores, primary_options_rankings = result.primary_scores
-        secondary_scores, secondary_options_rankings = result.secondary_scores
-
         # fill missing scores
         if primary_scores is None:
             primary_scores = {hole: 0 for hole in mdp.design_space.hole_indices if
                               len(mdp.design_space[hole].options) > 1}
             # we don't want it now
             assert False
-
-        if secondary_scores is None:
-            secondary_scores = {hole: 0 for hole in mdp.design_space.hole_indices if
-                              len(mdp.design_space[hole].options) > 1}
-            # we don't want it now
-            assert False
-
-        # compute the holes on which to split,
-        # one given by the analysis of the primary_scheduler,
-        # the other one givenn by the analysis of the secondary scheduler
+        # compute the holes on which to split given by the analysis of the primary_scheduler
         minimizing = result.property
-        primary_other_suboptions, primary_core_suboptions, primary_splitter = self.compute_suboptions(primary_scores,
-            primary_options_rankings, True, minimizing)
-        secondary_core_suboptions, secondary_other_suboptions, secondary_splitter = self.compute_suboptions(
-            secondary_scores, secondary_options_rankings, False, minimizing)
+        primary_other_suboptions, primary_core_suboptions, primary_splitter = \
+            self.compute_suboptions(primary_scores,primary_options_rankings, True, minimizing)
 
-        # reduced design space
-        new_design_space = mdp.design_space.copy()
+        if isHyper:
+            secondary_scores, secondary_options_rankings = result.secondary_scores
+            if secondary_scores is None:
+                secondary_scores = {hole: 0 for hole in mdp.design_space.hole_indices if
+                                    len(mdp.design_space[hole].options) > 1}
+                # we don't want it now
+                assert False
+            secondary_core_suboptions, secondary_other_suboptions, secondary_splitter = self.compute_suboptions(
+                    secondary_scores, secondary_options_rankings, False, minimizing)
+
 
         # when the best splitter is the same for both selections, then just split halfway on it.
-        if primary_splitter == secondary_splitter:
-            # split equally on the same hole
-            core_suboptions, other_suboptions, unique_splitter = self.compute_suboptions(primary_scores,
-                                                                                  primary_options_rankings, True, minimizing,
-                                                                                  splitting_factor=0.5)
+        # this is also the case when we are splitting on a simple PCTL property
+        # NOTE: safe due to short circuiting
+        if not isHyper or primary_splitter == secondary_splitter:
+
+            core_suboptions, other_suboptions, unique_splitter = \
+                self.compute_suboptions(primary_scores, primary_options_rankings, True, minimizing,
+                splitting_factor= 0.5 if isHyper else None)
             suboptions_list = [core_suboptions, other_suboptions]
             #construct corresponding design subspaces
             design_subspaces = []
