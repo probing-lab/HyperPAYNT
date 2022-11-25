@@ -208,7 +208,7 @@ class MdpHyperConstraintsResult:
         self.feasibility = True
 
         # is there a primary scheduler consistent, feasible and the same for all constraints?
-        self.primary_feasibility = True
+        self.primary_feasibility = None
         self.primary_selections = []
 
         for group in grouped_results:
@@ -216,7 +216,11 @@ class MdpHyperConstraintsResult:
             if not group:
                 continue
 
-            primary_selections = []
+            if self.feasibility is False:
+                # a previous group was unfeasible
+                break
+
+            group_primary_selections = []
             for index, result in group:
                 # we haven't checked this property
                 if result is None:
@@ -229,21 +233,23 @@ class MdpHyperConstraintsResult:
                 if result.feasibility is False and orTrue is False and orNone is False:
                     self.feasibility = False
                     self.primary_feasibility = False
+                    self.primary_selections = []
                     break
 
                 # this property is undecided and not in a Or relation with a True property
                 if result.feasibility is None and orTrue is None:
                     self.feasibility = None
-                self.update_primary_feasibility(result, pr_orTrue, primary_selections)
 
-            self.update_primary_feasibility_groups(primary_selections)
+                self.update_primary_feasibility(result, pr_orTrue, group_primary_selections)
+
+            self.update_primary_feasibility_groups(group_primary_selections)
+
 
     def check_lists(self, l1, l2):
-        # TODO: check this portion of code for a bug
-        #assert len(l1) <= 1 and len(l2) <= 1
-        return set(l1) == set(l2) or l1 is [] or l2 is []
+        assert len(l1) <= 1 and len(l2) <= 1
+        return l1[0] == l2[0] or l1 is [] or l2 is []
 
-    def update_primary_feasibility(self, result, orTrue, primary_selections):
+    def update_primary_feasibility(self, result, orTrue, group_primary_selections):
         primary_feasibility = result.primary_feasibility
         primary_selection = result.primary_selection
 
@@ -254,29 +260,36 @@ class MdpHyperConstraintsResult:
         # primary feasibility of this property is False and not in a Or relation with a True primary feasibility
         if not primary_feasibility and not orTrue:
             self.primary_feasibility = False
+            self.primary_selections = []
             return
 
-        # primary feasibility of this property is False but in a Or relation with a True primary feasibility
-        if not primary_feasibility and orTrue:
+        # primary feasibility of this property is False
+        if not primary_feasibility:
             return
 
-        if primary_feasibility:
-            primary_selections.append(primary_selection)
+        # primary feasibility of this property is True
+        group_primary_selections.append(primary_selection)
 
-    def update_primary_feasibility_groups(self, primary_selections):
+    def update_primary_feasibility_groups(self, group_primary_selections):
+
+        # primary feasibility of the constraints is already false
+        if not self.primary_feasibility:
+            return
+
         # update primary selections stored
-        if self.primary_feasibility and not self.primary_selections:
+        if self.primary_feasibility is None:
             # this is the first iteration of the algorithm
-            self.primary_selections = primary_selections
+            self.primary_selections = group_primary_selections
             self.primary_feasibility = self.primary_selections is not []
-        elif self.primary_feasibility:
-            # check satisfiability of the already stored primary selections
+        else:
+            # self.primary_feasiblity is True
+            # check satisfiability of the already stored primary selections, combined with the new ones
             new_selections = []
             for saved_selection in self.primary_selections:
-                for found_selection in primary_selections:
+                for found_selection in group_primary_selections:
                     check_compatible = [self.check_lists(a, b) for a, b in zip(saved_selection, found_selection)]
                     if all(check_compatible):
-                        new_selection = [a + b for a, b in zip(saved_selection, found_selection)]
+                        new_selection = [list(set(a + b)) for a, b in zip(saved_selection, found_selection)]
                         new_selections.append(new_selection)
             self.primary_selections = new_selections
             self.primary_feasibility = self.primary_selections is not []
