@@ -1192,7 +1192,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         return hole_differences
 
     # split the options of the best hole according to the scores
-    def compute_suboptions(self, scores, options_rankings, primary, splitting_factor=None):
+    def compute_suboptions(self, scores, options_rankings, primary, minimizing, splitting_factor=None):
         # compute the hole on which to split
         splitters = self.holes_with_max_score(scores)
         splitter = splitters[0]
@@ -1203,9 +1203,11 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         # splitting_factor(secondary) = 1 - splitting_factor(primary)
         # splitting_factor(primary) > splitting_factor(secondary)
         # i.e., we always try to increase the mc results for the primary selection and decrease them for secondary selection
-        # TODO: this works only for prop.minimizing is True
+        # the other way around, for a maximizing property
         if splitting_factor is None:
             splitting_factor = 0.80 if primary else 0.20
+            # handle non minimizing properties
+            splitting_factor = splitting_factor if minimizing else 1 - minimizing
 
         chunk_size = math.floor(len(options) * splitting_factor) if primary else math.ceil(len(options) * splitting_factor)
         return options[:chunk_size], options[chunk_size:], splitter
@@ -1238,11 +1240,12 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
         # compute the holes on which to split,
         # one given by the analysis of the primary_scheduler,
-        # one by the analysis of the secondary scheduler
+        # the other one givenn by the analysis of the secondary scheduler
+        minimizing = result.property
         primary_other_suboptions, primary_core_suboptions, primary_splitter = self.compute_suboptions(primary_scores,
-            primary_options_rankings, True)
+            primary_options_rankings, True, minimizing)
         secondary_core_suboptions, secondary_other_suboptions, secondary_splitter = self.compute_suboptions(
-            secondary_scores, secondary_options_rankings, False)
+            secondary_scores, secondary_options_rankings, False, minimizing)
 
         # reduced design space
         new_design_space = mdp.design_space.copy()
@@ -1251,7 +1254,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         if primary_splitter == secondary_splitter:
             # split equally on the same hole
             core_suboptions, other_suboptions, unique_splitter = self.compute_suboptions(primary_scores,
-                                                                                  primary_options_rankings, True,
+                                                                                  primary_options_rankings, True, minimizing,
                                                                                   splitting_factor=0.5)
             suboptions_list = [core_suboptions, other_suboptions]
             #construct corresponding design subspaces
