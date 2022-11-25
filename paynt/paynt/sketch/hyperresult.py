@@ -1,7 +1,6 @@
 from .hyperproperty import HyperSpecification
 
 
-# TODO: implement me!
 class HyperPropertyResult:
     # TODO: for the moment, I haven't implemented optimality hyperproperties
     def __init__(self, prop, result, result_alt):
@@ -17,7 +16,6 @@ class HyperPropertyResult:
         self.value = result.at(prop.state)
 
         # set the threshold
-        # TODO: move the threshold inside prop
         self.threshold = result_alt.at(prop.other_state)
 
         self.sat = prop.satisfies_threshold(self.value, self.threshold)

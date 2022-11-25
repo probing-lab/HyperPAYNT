@@ -1,4 +1,5 @@
 import stormpy
+from ..sketch.hyperproperty import HyperProperty
 from ..sketch.hyperresult import *
 
 from ..sketch.property import Property
@@ -212,7 +213,8 @@ class DTMC(MarkovChain):
             unsat = True
             for index in group:
                 prop = properties[index]
-                result = self.model_check_hyperproperty(prop)
+                result = self.model_check_hyperproperty(prop) if isinstance(prop, HyperProperty) \
+                    else self.model_check_property(prop)
                 results[index] = result
                 unsat = False if result.sat is not False else unsat
             if short_evaluation and unsat:
@@ -222,7 +224,6 @@ class DTMC(MarkovChain):
     def check_hyperspecification(self, hyperspecification, assignment, property_indices=None, short_evaluation=False):
 
         # check the constraints
-        # TODO: this method should discover itself if the property is an hyperproperty or not
         constraints_result = self.check_hyperconstraints(hyperspecification.constraints, property_indices, short_evaluation)
 
         # for now, we only have PCTL/rew optimality constraints
