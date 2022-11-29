@@ -392,9 +392,9 @@ class Parser:
                     break
 
             # case where there is only one scheduler quantifier
-            if hole.initial_states is None:
-                assert len(self.sched_quant_dict) == 1
-                hole.initial_states = self.sched_quant_to_initial_states.values()[0]
+            if not hole.initial_states:
+                assert len(self.sched_quant_dict) == 1 and len(self.sched_quant_to_initial_states) == 1
+                hole.initial_states = list(self.sched_quant_to_initial_states.values())[0]
 
             matching_dictionary[hole_name].append(hole_index)
 

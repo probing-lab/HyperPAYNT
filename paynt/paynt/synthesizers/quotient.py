@@ -697,7 +697,7 @@ class POMDPQuotientContainer(QuotientContainer):
                 for mem, old_hole_index in enumerate(ah):
                     name = "A({},{})".format(obs_label, mem)
                     options = list(range(num_actions))
-                    hole = Hole(name, options, action_labels_str)
+                    hole = Hole(name, options, action_labels_str, set())
 
                     obs_holes.append(holes.num_holes)
                     holes.append(hole)
@@ -710,7 +710,7 @@ class POMDPQuotientContainer(QuotientContainer):
                     name = "M({},{})".format(obs_label, mem)
                     options = list(range(num_updates))
                     memory_labels_str = [str(o) for o in options]
-                    hole = Hole(name, options, memory_labels_str)
+                    hole = Hole(name, options, memory_labels_str, set())
 
                     obs_holes.append(holes.num_holes)
                     holes.append(hole)
@@ -733,7 +733,7 @@ class POMDPQuotientContainer(QuotientContainer):
                             option_label = action_labels_str[action_option] + "+" + memory_labels_str[memory_option]
                             option_labels.append(option_label)
 
-                    hole = Hole(name, options, option_labels)
+                    hole = Hole(name, options, option_labels, set())
                     obs_holes.append(holes.num_holes)
                     holes.append(hole)
                     self.hole_num_actions.append(num_actions)
@@ -1048,7 +1048,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
             hole_option_labels = [str(labels) for labels in hole_option_labels]
 
-            hole = Hole(hole_name, hole_options, hole_option_labels)
+            hole = Hole(hole_name, hole_options, hole_option_labels, set())
             holes.append(hole)
 
         # now sketch has the corresponding design space
