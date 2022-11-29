@@ -243,7 +243,7 @@ class HyperParser:
         # we must have at least some initial states
         assert len(initial_states) > 0
         spread_properties = ""
-        props_separator_re = re.compile(r'\s\|\s')
+        props_separator_re = re.compile(r'\s\|\|\s')
         props = re.split(props_separator_re, line)
         for prop in props:
             if state_name in prop:
@@ -254,14 +254,14 @@ class HyperParser:
                     if instantiated_property == "":
                         instantiated_property += prop.replace(state_name, str(state))
                     else:
-                        instantiated_property += " | " + prop.replace(state_name, str(state))
+                        instantiated_property += " || " + prop.replace(state_name, str(state))
                 prop = instantiated_property
 
             #append the instantiated property
             if spread_properties == "":
                 spread_properties += prop
             else:
-                spread_properties += " | " + prop
+                spread_properties += " || " + prop
         return spread_properties
 
     # "vertically" means to add some more properties in conjunction with the ones found in the current line
@@ -277,7 +277,7 @@ class HyperParser:
         i = 0
         for line in self.lines:
             indexes = []
-            props_separator_re = re.compile(r'\s\|\s')
+            props_separator_re = re.compile(r'\s\|\|\s')
             props = re.split(props_separator_re, line)
             for prop in props:
                 logger.info(f"Assuming an hyperproperty with index {i}...")
