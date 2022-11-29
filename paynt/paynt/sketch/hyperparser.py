@@ -19,7 +19,7 @@ class HyperParsingException(Exception):
     pass
 
 # TODO: implement parsing of OptimalityProperty and OptimalityHyperProperty
-class Parser:
+class HyperParser:
 
     def __init__(self):
         self.sched_quant_dict = {}

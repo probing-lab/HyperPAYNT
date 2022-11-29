@@ -2,7 +2,7 @@ import stormpy
 
 from ..synthesizers.quotient import *
 from ..profiler import Profiler
-from .parser import *
+from .hyperparser import *
 
 import logging
 
@@ -22,7 +22,7 @@ class HyperSketch:
         self.specification = None
         self.quotient = None
 
-        sketch_parser = Parser();
+        sketch_parser = HyperParser();
 
         # parsing the specification
         specification, prism = sketch_parser.parse_properties(sketch_path, properties_path)
