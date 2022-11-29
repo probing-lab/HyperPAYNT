@@ -1227,24 +1227,14 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         isHyper = isinstance(result, MdpHyperPropertyResult)
 
         primary_scores, primary_options_rankings = result.primary_scores
-        # fill missing scores
-        if primary_scores is None:
-            primary_scores = {hole: 0 for hole in mdp.design_space.hole_indices if
-                              len(mdp.design_space[hole].options) > 1}
-            # we don't want it now
-            assert False
         # compute the holes on which to split given by the analysis of the primary_scheduler
         minimizing = result.property
         primary_other_suboptions, primary_core_suboptions, primary_splitter = \
             self.compute_suboptions(primary_scores,primary_options_rankings, True, minimizing)
+        assert primary_scores is not None
 
         if isHyper:
             secondary_scores, secondary_options_rankings = result.secondary_scores
-            if secondary_scores is None:
-                secondary_scores = {hole: 0 for hole in mdp.design_space.hole_indices if
-                                    len(mdp.design_space[hole].options) > 1}
-                # we don't want it now
-                assert False
             secondary_core_suboptions, secondary_other_suboptions, secondary_splitter = self.compute_suboptions(
                     secondary_scores, secondary_options_rankings, False, minimizing)
 
@@ -1272,6 +1262,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
             Profiler.resume()
             return design_subspaces
+            assert secondary_scores is not None
 
         #generate all subspaces
         primary_suboptions = [primary_other_suboptions, primary_core_suboptions]
