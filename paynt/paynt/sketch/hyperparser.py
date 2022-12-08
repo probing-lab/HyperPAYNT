@@ -286,10 +286,15 @@ class HyperParser:
                 except HyperParsingException:
                     logger.info(f"HyperProperty Parsing failed: assuming a property for string {prop} at index {i}... ")
                     p = self.parse_property(prop, prism)
+
                 #add the property to the list
-                properties.extend([p])
-                indexes.extend([i])
-                i += 1
+                if isinstance(p, OptimalityProperty):
+                    assert self.optimality_property is None and self.scheduler_optimality_hyperproperty is None, "two optimality formulae specified"
+                    self.optimality_property = p
+                else:
+                    properties.extend([p])
+                    indexes.extend([i])
+                    i += 1
 
             HyperSpecification.disjoint_indexes.append(indexes)
         return HyperSpecification(properties, self.optimality_property, self.scheduler_optimality_hyperproperty)
@@ -346,7 +351,6 @@ class HyperParser:
             return Property(prop, state_id)
         else:
             # optimality formula
-            assert self.optimality_property is None and self.scheduler_optimality_hyperproperty is None, "two optimality formulae specified"
             return OptimalityProperty(prop, optimality_epsilon, state_id)
 
     def parse_program(self, path):
