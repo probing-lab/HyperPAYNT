@@ -19,7 +19,7 @@ formula yd = d ? (y-1) : y;
 formula xl = l ? (x-1) : x;
 
 // trap state
-formula bad = (x=0&y=1) | (x=1&y=2) | (x=2&y=2);
+formula bad = (x=0&y=1) || (x=1&y=2) || (x=2&y=2);
 formula splashy = (y=0);
 formula good = !bad & !splashy;
 
