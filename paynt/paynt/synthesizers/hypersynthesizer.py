@@ -127,9 +127,8 @@ class HyperSynthesizerAR(HyperSynthesizer):
         Profiler.resume()
 
         improving_assignment, improving_value, can_improve = res.improving(family)
-        # print(improving_value, can_improve)
         if improving_value is not None:
-            self.sketch.specification.sched_hyperoptimality.update_hyperoptimum(improving_value)
+            self.sketch.specification.update_optimum(improving_value)
             self.since_last_optimum_update = 0
 
         return can_improve, improving_assignment

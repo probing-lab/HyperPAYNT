@@ -37,12 +37,6 @@ class HyperProperty(Property):
         return str(self.formula_str) + " {" + str(self.state) + "} " + str(self.op) + " " + str(
             self.formula_str) + " {" + str(self.other_state) + "}"
 
-    def meets_op(self, a, b):
-        ''' For constraints, we do not want to distinguish between small differences. '''
-        if self.strict:
-            return Property.above_float_precision(a, b) and self.op(a, b)
-        else:
-            return not Property.above_float_precision(a, b) or self.op(a, b)
 
     def satisfies_threshold(self, value, threshold):
         return self.result_valid(value) and self.meets_op(value, threshold)
@@ -122,6 +116,14 @@ class HyperSpecification(Specification):
     @property
     def has_scheduler_hyperoptimality(self):
         return self.sched_hyperoptimality is not None
+
+    def update_optimum(self, value):
+        if self.optimality is not None:
+            self.optimality.update_optimum(value)
+        elif self.sched_hyperoptimality is not None:
+            self.sched_hyperoptimality.update_hyperoptimum(value)
+        else:
+            assert False
 
     def all_constraint_indices(self):
         return [i for i,_ in enumerate(self.constraints)]

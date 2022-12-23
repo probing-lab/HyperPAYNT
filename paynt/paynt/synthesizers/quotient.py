@@ -1300,3 +1300,17 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             return assignment, res.sched_hyperoptimality_result.value
         else:
             return None, None
+
+    def double_check_hyperassignment(self, assignment):
+        '''
+        Double-check whether this assignment truly improves optimum.
+        :return singleton family if the assignment truly improves optimum
+        '''
+        assert assignment.size == 1
+        dtmc = self.build_chain(assignment)
+        res = dtmc.check_hyperspecification(self.sketch.specification, assignment)
+        if res.constraints_result.all_sat and self.sketch.specification.optimality.improves_optimum(
+                res.optimality_result.value):
+            return assignment, res.optimality_result.value
+        else:
+            return None, None

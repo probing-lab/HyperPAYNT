@@ -2,7 +2,7 @@ import stormpy
 from ..sketch.hyperproperty import HyperProperty
 from ..sketch.hyperresult import *
 
-from ..sketch.property import Property
+from ..sketch.property import Property, OptimalityProperty
 from ..profiler import Profiler
 from ..sketch.result import ConstraintsResult, MdpPropertyResult, MdpConstraintsResult, SpecificationResult, \
     MdpOptimalityResult, PropertyResult
@@ -293,19 +293,21 @@ class MDP(MarkovChain):
         # check primary direction
         primary = self.model_check_property(prop, alt = False)
 
+        # LB = lower bound
         if not primary.improves_optimum:
             # OPT <= LB
             return MdpOptimalityResult(prop, primary, None, None, None, False, None, None, None, None)
 
         # LB < OPT
         # check if LB is tight
-        selection,choice_values,expected_visits,scores,consistent = self.quotient_container.scheduler_consistent(self, prop, primary.result)
+        selection,choice_values,expected_visits,scores,consistent = self.quotient_container.scheduler_consistent(self, prop, primary.result, prop.state)
         if consistent:
             # LB is tight and LB < OPT
             scheduler_assignment = self.design_space.copy()
             scheduler_assignment.assume_options(selection)
-            improving_assignment, improving_value = self.quotient_container.double_check_assignment(scheduler_assignment)
-            return MdpOptimalityResult(prop, primary, None, improving_assignment, improving_value, False, selection, choice_values, expected_visits, scores)
+            improving_assignment, improving_value = self.quotient_container.double_check_hyperassignment(scheduler_assignment)
+            can_improve = False if improving_assignment is not None else True
+            return MdpOptimalityResult(prop, primary, None, improving_assignment, improving_value, can_improve, selection, choice_values, expected_visits, scores)
 
         if not MDP.compute_secondary_direction:
             return MdpOptimalityResult(prop, primary, None, None, None, True, selection, choice_values, expected_visits, scores)
@@ -321,7 +323,7 @@ class MDP(MarkovChain):
         # LB < UB < OPT
         # this family definitely improves the optimum
         assignment = self.design_space.pick_any()
-        improving_assignment, improving_value = self.quotient_container.double_check_assignment(assignment, prop)
+        improving_assignment, improving_value = self.quotient_container.double_check_hyperassignment(assignment, prop)
         # either LB < T, LB < UB < OPT (can improve) or T < LB < UB < OPT (cannot improve)
         can_improve = primary.sat
         return MdpOptimalityResult(prop, primary, secondary, improving_assignment, improving_value, can_improve, selection, choice_values, scores)
@@ -427,7 +429,7 @@ class MDP(MarkovChain):
 
         optimality_result = None
         if hyperspec.has_optimality and not (short_evaluation and constraints_result.feasibility is False):
-            optimality_result = self.model_check_property(hyperspec.optimality)
+            optimality_result = self.check_optimality(hyperspec.optimality)
 
         sched_hyper_optimality_result = None
         if hyperspec.has_scheduler_hyperoptimality and not (

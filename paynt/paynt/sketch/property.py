@@ -11,7 +11,7 @@ class Property:
     # model checking precision
     mc_precision = 1e-10
     # precision for comparing floats
-    float_precision = 1e-7
+    float_precision = 1e-5
 
     ''' Wrapper over a stormpy property. '''
 
@@ -28,6 +28,8 @@ class Property:
             stormpy.ComparisonType.GREATER: operator.gt,
             stormpy.ComparisonType.GEQ: operator.ge
         }[comparison_type]
+
+        self.strict = self.op in [operator.lt, operator.gt]
 
         # set threshold
         self.threshold = rf.threshold_expr.evaluate_as_double()
@@ -75,8 +77,10 @@ class Property:
 
     def meets_op(self, a, b):
         ''' For constraints, we do not want to distinguish between small differences. '''
-        # return not Property.above_float_precision(a,b) or self.op(a,b)
-        return self.op(a, b)
+        if self.strict:
+            return Property.above_float_precision(a, b) and self.op(a, b)
+        else:
+            return not Property.above_float_precision(a, b) or self.op(a, b)
 
     def meets_threshold(self, value):
         return self.meets_op(value, self.threshold)
@@ -123,11 +127,11 @@ class OptimalityProperty(Property):
 
     def __str__(self):
         eps = f"[eps = {self.epsilon}]" if self.epsilon > 0 else ""
-        return f"{self.formula_str} {eps}"
+        return f"{self.formula_str}[{self.state}] {eps}"
 
     def meets_op(self, a, b):
-        ''' For optimality objective, we want to accept improvements above model checking precision. '''
-        return b is None or (Property.above_mc_precision(a, b) and self.op(a, b))
+        ''' For optimality objective, we want to accept improvements above floating point precision. '''
+        return b is None or Property.above_float_precision(a, b) and self.op(a, b)
 
     def satisfies_threshold(self, value):
         return self.result_valid(value) and self.meets_op(value, self.threshold)

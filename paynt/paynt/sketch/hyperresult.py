@@ -114,17 +114,17 @@ class HyperSpecificationResult:
         if cr.feasibility is False:
             return None, None, False
 
-        # constraints undecided: try to push optimality assignment
+        # constraints undecided: try to push optimality or hyperoptimality assignment
         if opt is not None:
-            # TODO: I have modified this
-            can_improve = opt.can_improve
-            return opt.improving_assignment, opt.improving_value, can_improve
+            #TODO: I have modified this
+            return opt.improving_assignment, opt.improving_value, opt.can_improve
 
         if sched_hyperopt is not None:
             return sched_hyperopt.improving_assignment, sched_hyperopt.improving_value, sched_hyperopt.can_improve
 
         # constraints undecided, but primary selection is consistent and both feasible and the same for all constraints
         # and, there is no optimality or scheduler_hyperoptimality property
+        # TODO: we might improve this and deal also with the case where there is an (hyper)optimality constraint
         if cr.primary_feasibility and opt is None and sched_hyperopt is None:
             selection = cr.primary_selections[0]
 
