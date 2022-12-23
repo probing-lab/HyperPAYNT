@@ -22,10 +22,10 @@ formula yd = d ? (y-1) : y;
 formula xl = l ? (x-1) : x;
 
 // trap states
-formula bad = (x=0) || (y=6) || (x=2&y=1) || (x=2&y=2) || (x=2&y=3) || (x=2&y=4) || (x=3&y=1) || (x=3&y=4) || (x=4&y=4) || (x=5&y=3) || (x=5&y=4);
-formula trainD = (x=1&y=4) || (x=1&y=3) || (x=1&y=2) || (x=1&y=1);
-formula trainR = (x=2&y=5) || (x=3&y=5) || (x=4&y=5) || (x=5&y=5);
-formula good = (x=1&y=5) || (x=1&y=0) || (x=2&y=0) || (x=3&y=0) || (x=6&y=3) || (x=6&y=4) || (x=6&y=5);
+formula bad = (x=0) | (y=6) | (x=2&y=1) | (x=2&y=2) | (x=2&y=3) | (x=2&y=4) | (x=3&y=1) | (x=3&y=4) | (x=4&y=4) | (x=5&y=3) | (x=5&y=4);
+formula trainD = (x=1&y=4) | (x=1&y=3) | (x=1&y=2) | (x=1&y=1);
+formula trainR = (x=2&y=5) | (x=3&y=5) | (x=4&y=5) | (x=5&y=5);
+formula good = (x=1&y=5) | (x=1&y=0) | (x=2&y=0) | (x=3&y=0) | (x=6&y=3) | (x=6&y=4) | (x=6&y=5);
 formula splashy = !bad & !good & !trainD & !trainR;
 
 
@@ -58,6 +58,6 @@ endmodule
 init (x=1&y=5 | x=6&y=0) endinit
 
 // goal of the robot
-label "target" = (x=3&y=3) || (x=4&y=3);
+label "target" = (x=3&y=3) | (x=4&y=3);
 label "start0" = (x=1)&(y=5);
 label "start1" = (x=6)&(y=0);

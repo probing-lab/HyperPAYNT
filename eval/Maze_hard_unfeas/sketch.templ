@@ -20,7 +20,7 @@ formula yd = d ? (y-1) : y;
 formula xl = l ? (x-1) : x;
 
 // trap states
-formula bad = (x=0&y=2) || (x=1&y=3) || (x=2&y=3) || (x=2&y=2) || (x=3&y=3) || (x=3&y=2);
+formula bad = (x=0&y=2) | (x=1&y=3) | (x=2&y=3) | (x=2&y=2) | (x=3&y=3) | (x=3&y=2);
 
 // specification of the maze
 // for every choice, there is still some small probability to not actually going where desired
