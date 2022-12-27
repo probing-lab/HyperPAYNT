@@ -152,10 +152,9 @@ class MarkovChain:
                 diff_count = diff_count + 1 if set.isdisjoint \
                     (*map(lambda x: set(family[x].options), matching_holes_indexes)) else diff_count
             else:
-                raise NotImplementedError("Implement me, Mario!")
-                # TODO: this code is wrong and needs to be refactored according to the definition of maximal difference
-                # diff_count = diff_count + 1 if not set.symmetric_difference \
-                # (*map(lambda x: set(family[x].options), matching_holes_indexes)) else diff_count
+                diff_count = diff_count + 1 if len(set.union
+                    (*map(lambda x: set(family[x].options), matching_holes_indexes))) > 1 else diff_count
+
         return SchedulerOptimalityHyperPropertyResult(prop, diff_count)
 
 
@@ -223,6 +222,8 @@ class DTMC(MarkovChain):
 
     def check_hyperspecification(self, hyperspecification, assignment, property_indices=None, short_evaluation=False):
 
+        assert assignment.size == 1
+
         # check the constraints
         constraints_result = self.check_hyperconstraints(hyperspecification.constraints, property_indices, short_evaluation)
 
@@ -234,7 +235,6 @@ class DTMC(MarkovChain):
 
         sched_hyper_optimality_result = None
         if hyperspecification.has_scheduler_hyperoptimality and not (short_evaluation and not constraints_result.all_sat):
-            assert assignment.size == 1
             sched_hyper_optimality_result = self.model_check_scheduler_difference(hyperspecification.sched_hyperoptimality, assignment)
 
         return HyperSpecificationResult(constraints_result, optimality_result, sched_hyper_optimality_result)
@@ -410,7 +410,7 @@ class MDP(MarkovChain):
 
         if not primary.improves_hyperoptimum:
             # OPT <= LB
-            return MdpSchedulerOptimalityHyperPropertyResult(prop, primary, None, None, False)
+            return MdpSchedulerHyperOptimalityResult(prop, primary, None, None, False)
 
         # LB < OPT
         scheduler_assignment = self.design_space.copy()
@@ -419,14 +419,13 @@ class MDP(MarkovChain):
         # check again if the value improves the optimum a
         improving_assignment, improving_value = self.quotient_container.double_check_assignment_scheduler_hyperoptimality(
             scheduler_assignment)
-
         can_improve = False if improving_assignment is not None else True
 
-        return MdpSchedulerOptimalityHyperPropertyResult(prop, primary, improving_assignment, improving_value, can_improve)
+        return MdpSchedulerHyperOptimalityResult(prop, primary, improving_assignment, improving_value, can_improve)
 
     def check_hyperspecification(self, hyperspec, property_indices=None, short_evaluation=False):
-        constraints_result = self.check_hyperconstraints(hyperspec.constraints, property_indices, short_evaluation)
 
+        constraints_result = self.check_hyperconstraints(hyperspec.constraints, property_indices, short_evaluation)
         optimality_result = None
         if hyperspec.has_optimality and not (short_evaluation and constraints_result.feasibility is False):
             optimality_result = self.check_optimality(hyperspec.optimality)

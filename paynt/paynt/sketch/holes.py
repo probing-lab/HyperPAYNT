@@ -108,7 +108,14 @@ class Holes(list):
                     self[index].assume_options([self[index].options[0]])
 
     def assume_maximizing_options(self):
-        raise NotImplementedError("Implement me, Mario!")
+        for matching_holes_indexes in DesignSpace.matching_hole_indexes:
+            domain_size_sorted = sorted(matching_holes_indexes, key=lambda x: len(self[x].options))
+            chosen_options = set()
+            for index in domain_size_sorted:
+                filtered_options = [option for option in self[index].options if option not in chosen_options]
+                chosen_option = filtered_options[0] if filtered_options else self[index].options[0]
+                chosen_options.add(chosen_option)
+                self[index].assume_options([chosen_option])
 
     def assume_optimizing_options(self, minimizing):
         if minimizing:

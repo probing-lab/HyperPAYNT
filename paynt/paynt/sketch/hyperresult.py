@@ -304,7 +304,7 @@ class MdpHyperOptimalityResult(MdpHyperPropertyResult):
         raise NotImplementedError("Implement me, Mario!")
 
 
-class MdpSchedulerOptimalityHyperPropertyResult:
+class MdpSchedulerHyperOptimalityResult:
     def __init__(self, prop, primary, improving_assignment, improving_value, can_improve):
         # the scheduler optimality hyperproperty we are verifying
         self.property = prop
@@ -317,4 +317,4 @@ class MdpSchedulerOptimalityHyperPropertyResult:
 
     def __str__(self):
         return f"Current optimum value inside this MDP: {self.property.hyperoptimum}. " \
-               f"This MDP has primary value {self.primary}. Can Improve is set to {self.can_improve} "
+               f"This MDP has primary value {self.primary}."
