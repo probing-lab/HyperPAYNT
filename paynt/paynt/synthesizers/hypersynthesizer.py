@@ -284,6 +284,9 @@ class HyperSynthesizerCEGIS(HyperSynthesizer):
         msg = "Cannot use CEGIS for maximizing reward formulae -- consider using AR or hybrid methods."
         for c in self.sketch.specification.constraints:
             assert not (c.reward and not c.minimizing), msg
+        if self.sketch.specification.has_optimality:
+            c = self.sketch.specification.optimality
+            assert not (c.reward and not c.minimizing), msg
 
         # build the quotient, map mdp states to hole indices
         self.sketch.quotient.build(family)
