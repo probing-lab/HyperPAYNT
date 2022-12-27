@@ -208,7 +208,6 @@ class QuotientContainer:
         choice_values = QuotientContainer.make_vector_defined(choice_values)
 
         # if the associated reward model has state-action rewards, then these must be added to choice values
-        # TODO: refactor this and move it to a new overriden method to add reward specifications to hyperproperties synthesis
         if prop.reward:
             reward_name = prop.formula.reward_name
             rm = mdp.model.reward_models.get(reward_name)
@@ -1070,11 +1069,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
         selection, choice_values, expected_visits, scores = self.scheduler_selection_quantitative(mdp, prop, result,
                                                                                                   initial_state)
-        #for hole_index in mdp.design_space.hole_indices:
-        #    options = selection[hole_index]
-            # TODO: do we need this filling of empty selections to deal with non reachable holes?
-        #    if options == []:
-        #        selection[hole_index] = [mdp.design_space[hole_index].options[0]]
+        # we don't want to fill non reachable holes, the choice is left open for them
 
         # for an hyperproperty specification, every scheduler is consistent, hence always return True
         return selection, choice_values, expected_visits, scores, True
