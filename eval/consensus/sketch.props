@@ -1,0 +1,4 @@
+ES sched ES sched1
+E s0(sched) E s1(sched1)
+R{s0}{"steps"}<500 [ F "finished" ]
+R{s1}{"steps"}>900 [ F "finished" ]
