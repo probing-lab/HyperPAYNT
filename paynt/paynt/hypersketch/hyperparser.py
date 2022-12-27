@@ -257,23 +257,25 @@ class HyperParser:
                 spread_lines = list(map(lambda x: self.grow_vertically(x, state_name, initial_states), self.lines))
                 self.lines = [item for sublist in spread_lines for item in sublist]
 
+    # TODO: add support for the multi target comparison
     def parse_hyperproperty(self, prop, prism):
-        prop_re = re.compile(r'(P(\{(\S+)\})(.*?))(\s(<=|<|=>|>)\s)(P(\{(\S+)\})(.*?))$')
+        prop_re = re.compile(r'(.*?(\{(.*?)\})((\{.*?\}).*?))(\s(<=|<|=>|>)\s)(.*?(\{(.*?)\})(.*?))$')
         match = prop_re.search(prop)
         if match is None:
             raise HyperParsingException(f"input formula is wrong formatted! [{prop}]")
-        if not match.group(4) == match.group(10):
+        if not match.group(4) == match.group(11):
             raise NotImplementedError("Comparison of different reachability targets are not supported yet. "
                                       "Please also check that whitespaces match in the two targets: \""
-                                      + match.group(4) + "\" and \"" + match.group(10) + "\"")
+                                      + match.group(4) + "\" and \"" + match.group(11) + "\"")
         # collect information
         state_quant = int(match.group(3))
-        compare_state = int(match.group(9))
+        compare_state = int(match.group(10))
         ops = {"<=": operator.le, "<": operator.lt, "=>": operator.ge, ">": operator.gt}
-        op = ops[match.group(6)]
+        op = ops[match.group(7)]
 
         # parse the property
-        p = match.group(1).replace(match.group(2), "=?")
+        p = match.group(1).replace(match.group(2), "")
+        p = p.replace(match.group(5), match.group(5) + "=?")
         ps = stormpy.parse_properties_for_prism_program(p, prism)
         p = ps[0]
         return HyperProperty(p, state_quant, compare_state, op)
@@ -291,7 +293,7 @@ class HyperParser:
         optimality_epsilon = float(relative_error_str) if relative_error_str is not None else 0
 
         # parse state id
-        state_id_re = re.compile(r'^(.*)(\{(\S+)\})(.*?$)')
+        state_id_re = re.compile(r'^(.*?)(\{(.*?)\})(.*?$)')
         match = state_id_re.search(string)
         if match is None:
             raise HyperParsingException(f"Input formula wrong formatted! [{string}]")
