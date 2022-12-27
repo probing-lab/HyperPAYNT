@@ -1,7 +1,7 @@
 import operator
 
 import stormpy
-from .property import Property, logger, Specification
+from ..sketch.property import Property, logger, Specification
 
 
 class HyperProperty(Property):

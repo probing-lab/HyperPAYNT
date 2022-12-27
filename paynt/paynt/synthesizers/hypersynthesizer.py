@@ -1,11 +1,9 @@
-from functools import reduce
-
 import stormpy.synthesis
 
 from .statistic import Statistic
 from ..profiler import Timer, Profiler
 
-from ..sketch.hyperproperty import HyperSpecification
+from ..hypersketch.hyperproperty import HyperSpecification
 
 import logging
 

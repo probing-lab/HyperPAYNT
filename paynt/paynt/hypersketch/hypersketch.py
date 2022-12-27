@@ -1,5 +1,3 @@
-import stormpy
-
 from ..synthesizers.quotient import *
 from ..profiler import Profiler
 from .hyperparser import *

@@ -4,10 +4,8 @@ import stormpy.pomdp
 
 import math
 import re
-import itertools
 
-from .statistic import Statistic
-from ..sketch.hyperresult import MdpHyperPropertyResult
+from ..hypersketch.hyperresult import MdpHyperPropertyResult
 
 from ..sketch.jani import JaniUnfolder
 from ..sketch.holes import Hole,Holes,DesignSpace

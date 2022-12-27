@@ -4,7 +4,7 @@ import os
 
 from . import version
 
-from .sketch.hypersketch import HyperSketch
+from .hypersketch.hypersketch import HyperSketch
 from .synthesizers.hypersynthesizer import *
 
 import logging

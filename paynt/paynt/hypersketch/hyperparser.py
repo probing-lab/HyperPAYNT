@@ -1,7 +1,8 @@
 import stormpy
 
 from .hyperproperty import HyperProperty, SchedulerOptimalityHyperProperty, HyperSpecification
-from .holes import DesignSpace
+from ..sketch.holes import DesignSpace
+from ..sketch.property import Property, OptimalityProperty
 
 from collections import defaultdict
 
@@ -10,7 +11,7 @@ import operator
 
 import logging
 
-from .property import Property, OptimalityProperty
+
 
 logger = logging.getLogger(__name__)
 

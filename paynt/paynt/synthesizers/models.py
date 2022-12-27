@@ -1,8 +1,8 @@
 import stormpy
-from ..sketch.hyperproperty import HyperProperty
-from ..sketch.hyperresult import *
+from ..hypersketch.hyperproperty import HyperProperty
+from ..hypersketch.hyperresult import *
 
-from ..sketch.property import Property, OptimalityProperty
+from ..sketch.property import Property
 from ..profiler import Profiler
 from ..sketch.result import ConstraintsResult, MdpPropertyResult, MdpConstraintsResult, SpecificationResult, \
     MdpOptimalityResult, PropertyResult
