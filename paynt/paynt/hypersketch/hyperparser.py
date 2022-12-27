@@ -19,7 +19,7 @@ logger = logging.getLogger(__name__)
 class HyperParsingException(Exception):
     pass
 
-# TODO: implement parsing of OptimalityProperty and OptimalityHyperProperty
+# TODO: implement parsing of OptimalityHyperProperty
 class HyperParser:
 
     def __init__(self):
@@ -37,46 +37,6 @@ class HyperParser:
         # parsed optimality properties
         self.optimality_property = None
         self.scheduler_optimality_hyperproperty = None
-
-    def parse_properties(self, sketch_path, properties_path):
-        # parsing the scheduler quantifiers
-        logger.info(f"Loading properties from {properties_path} ...")
-        logger.info(f"Parsing scheduler quantifiers ...")
-        self.parse_scheduler_quants(properties_path)
-        logger.info(f"Found the following scheduler quantifiers: {self.sched_quant_dict}")
-
-        # parsing scheduler quantifiers
-        logger.info("Parsing state quantifiers...")
-        self.parse_state_quants()
-        logger.info(f"Found the following state quantifiers: {self.state_quant_dict}")
-
-        # parsing restrictions
-        logger.info(f"Parsing restrictions")
-        self.parse_restrictions()
-        logger.info(f"Found the following restrictions: {self.state_quant_restrictions}")
-
-        # parsing, if present, the scheduler optimality property
-        logger.info(f"Parsing scheduler optimality ( if required)")
-        self.parse_scheduler_optimality()
-        found_sop = "" if self.scheduler_optimality_hyperproperty is not None else "not "
-        logger.info(f"Scheduler optimality property {found_sop}found.")
-
-        # parse program
-        logger.info(f"Loading sketch from {sketch_path}...")
-        logger.info(f"Assuming a sketch in a PRISM format ...")
-        prism = self.parse_program(sketch_path)
-
-        # dummy model for instantiating the properties
-        dummy_model = stormpy.build_model(prism)
-        nr_initial_states = len(dummy_model.initial_states)
-        logger.info(f"The model has {nr_initial_states} initial states...")
-
-        # actual parsing of the properties
-        logger.info("Instantiating the properties for the quantified initial states")
-        self.spread_properties(nr_initial_states, dummy_model.labeling)
-        specification = self.parse_instantiated_properties(prism)
-        logger.info(f"Found the following specification:\n {specification}")
-        return specification, prism
 
     def parse_scheduler_quants(self, path):
         # read lines
@@ -211,6 +171,64 @@ class HyperParser:
         minimizing = True if match.group(1) == "MIN" else False
         self.scheduler_optimality_hyperproperty = SchedulerOptimalityHyperProperty(minimizing)
 
+    def parse_program(self, path):
+        n_sched_quants = len(self.sched_quant_dict)
+        # perform the "duplication trick"
+        if n_sched_quants > 1:
+            with open(path, "r") as f:
+                lines = f.readlines()
+                f.close()
+
+            with open(path, "a") as f:
+                # add a global variable to distinguish two initial states
+                # note: this does not work if the file is empty or if the PRISM file already contains the global variable sched_quant
+                # note: this does not work also if the PRISM file does not contain a init ... endinit definition.
+                f.write("\nglobal sched_quant : [0.." + str(n_sched_quants - 1) + "];")
+                f.close()
+
+            prism = stormpy.parse_prism_program(path, prism_compat=True)
+
+            # remove the global variable to be clean
+            with open(path, "w") as f:
+                f.writelines(lines)
+                f.close()
+            return prism
+        else:
+            return stormpy.parse_prism_program(path, prism_compat=True)
+
+    # "horizontally" means to add some more properties in disjunction with the ones found in the current line
+    def grow_horizontally(self, line, state_name, initial_states):
+        # we must have at least some initial states
+        assert len(initial_states) > 0
+        spread_properties = ""
+        props_separator_re = re.compile(r'\s\|\|\s')
+        props = re.split(props_separator_re, line)
+        for prop in props:
+            if state_name in prop:
+                # instantial the property for all initial states
+                instantiated_property = ""
+                # we are instantiating the properties with distinct initial states
+                for state in [i for i in initial_states if "{" + str(i) + "}" not in prop]:
+                    if instantiated_property == "":
+                        instantiated_property += prop.replace(state_name, str(state))
+                    else:
+                        instantiated_property += " || " + prop.replace(state_name, str(state))
+                prop = instantiated_property
+
+            # append the instantiated property
+            if spread_properties == "":
+                spread_properties += prop
+            else:
+                spread_properties += " || " + prop
+        return spread_properties
+
+    # "vertically" means to add some more properties in conjunction with the ones found in the current line
+    def grow_vertically(self, line, state_name, initial_states):
+        if state_name in line:
+            return [line.replace(state_name, str(i)) for i in initial_states if "{" + str(i) + "}" not in line]
+        else:
+            return [line]
+
     # instantiate the properties for the initial states according to their quantifiers
     def spread_properties(self, nr_initial_states, labeling):
         nr_schedulers = len(self.sched_quant_dict)
@@ -238,67 +256,6 @@ class HyperParser:
             elif state_quant == 'A':
                 spread_lines = list(map(lambda x: self.grow_vertically(x, state_name, initial_states), self.lines))
                 self.lines = [item for sublist in spread_lines for item in sublist]
-
-    # "horizontally" means to add some more properties in disjunction with the ones found in the current line
-    def grow_horizontally(self, line, state_name, initial_states):
-        # we must have at least some initial states
-        assert len(initial_states) > 0
-        spread_properties = ""
-        props_separator_re = re.compile(r'\s\|\|\s')
-        props = re.split(props_separator_re, line)
-        for prop in props:
-            if state_name in prop:
-                #instantial the property for all initial states
-                instantiated_property = ""
-                # we are instantiating the properties with distinct initial states
-                for state in [i for i in initial_states if "{" + str(i) + "}" not in prop]:
-                    if instantiated_property == "":
-                        instantiated_property += prop.replace(state_name, str(state))
-                    else:
-                        instantiated_property += " || " + prop.replace(state_name, str(state))
-                prop = instantiated_property
-
-            #append the instantiated property
-            if spread_properties == "":
-                spread_properties += prop
-            else:
-                spread_properties += " || " + prop
-        return spread_properties
-
-    # "vertically" means to add some more properties in conjunction with the ones found in the current line
-    def grow_vertically(self, line, state_name, initial_states):
-        if state_name in line:
-            return [line.replace(state_name, str(i)) for i in initial_states if "{" + str(i) + "}" not in line]
-        else:
-            return [line]
-
-    #parse all the instantiated properties and return a HyperSpecification
-    def parse_instantiated_properties(self, prism):
-        properties = []
-        i = 0
-        for line in self.lines:
-            indexes = []
-            props_separator_re = re.compile(r'\s\|\|\s')
-            props = re.split(props_separator_re, line)
-            for prop in props:
-                logger.info(f"Assuming an hyperproperty with index {i}...")
-                try:
-                    p = self.parse_hyperproperty(prop, prism)
-                except HyperParsingException:
-                    logger.info(f"HyperProperty Parsing failed: assuming a property for string {prop} at index {i}... ")
-                    p = self.parse_property(prop, prism)
-
-                #add the property to the list
-                if isinstance(p, OptimalityProperty):
-                    assert self.optimality_property is None and self.scheduler_optimality_hyperproperty is None, "two optimality formulae specified"
-                    self.optimality_property = p
-                else:
-                    properties.extend([p])
-                    indexes.extend([i])
-                    i += 1
-
-            HyperSpecification.disjoint_indexes.append(indexes)
-        return HyperSpecification(properties, self.optimality_property, self.scheduler_optimality_hyperproperty)
 
     def parse_hyperproperty(self, prop, prism):
         prop_re = re.compile(r'(P(\{(\S+)\})(.*?))(\s(<=|<|=>|>)\s)(P(\{(\S+)\})(.*?))$')
@@ -354,30 +311,73 @@ class HyperParser:
             # optimality formula
             return OptimalityProperty(prop, optimality_epsilon, state_id)
 
-    def parse_program(self, path):
-        n_sched_quants = len(self.sched_quant_dict)
-        # perform the "duplication trick"
-        if n_sched_quants > 1:
-            with open(path, "r") as f:
-                lines = f.readlines()
-                f.close()
+    # parse all the instantiated properties and return a HyperSpecification
+    def parse_instantiated_properties(self, prism):
+        properties = []
+        i = 0
+        for line in self.lines:
+            indexes = []
+            props_separator_re = re.compile(r'\s\|\|\s')
+            props = re.split(props_separator_re, line)
+            for prop in props:
+                logger.info(f"Assuming an hyperproperty with index {i}...")
+                try:
+                    p = self.parse_hyperproperty(prop, prism)
+                except HyperParsingException:
+                    logger.info(f"HyperProperty Parsing failed: assuming a property for string {prop} at index {i}... ")
+                    p = self.parse_property(prop, prism)
 
-            with open(path, "a") as f:
-                # add a global variable to distinguish two initial states
-                # note: this does not work if the file is empty or if the PRISM file already contains the global variable sched_quant
-                # note: this does not work also if the PRISM file does not contain a init ... endinit definition.
-                f.write("\nglobal sched_quant : [0.." + str(n_sched_quants - 1) + "];")
-                f.close()
+                #add the property to the list
+                if isinstance(p, OptimalityProperty):
+                    assert self.optimality_property is None and self.scheduler_optimality_hyperproperty is None, "two optimality formulae specified"
+                    self.optimality_property = p
+                else:
+                    properties.extend([p])
+                    indexes.extend([i])
+                    i += 1
 
-            prism = stormpy.parse_prism_program(path, prism_compat=True)
+            HyperSpecification.disjoint_indexes.append(indexes)
+        return HyperSpecification(properties, self.optimality_property, self.scheduler_optimality_hyperproperty)
 
-            # remove the global variable to be clean
-            with open(path, "w") as f:
-                f.writelines(lines)
-                f.close()
-            return prism
-        else:
-            return stormpy.parse_prism_program(path, prism_compat=True)
+    def parse_properties(self, sketch_path, properties_path):
+        # parsing the scheduler quantifiers
+        logger.info(f"Loading properties from {properties_path} ...")
+        logger.info(f"Parsing scheduler quantifiers ...")
+        self.parse_scheduler_quants(properties_path)
+        logger.info(f"Found the following scheduler quantifiers: {self.sched_quant_dict}")
+
+        # parsing scheduler quantifiers
+        logger.info("Parsing state quantifiers...")
+        self.parse_state_quants()
+        logger.info(f"Found the following state quantifiers: {self.state_quant_dict}")
+
+        # parsing restrictions
+        logger.info(f"Parsing restrictions")
+        self.parse_restrictions()
+        logger.info(f"Found the following restrictions: {self.state_quant_restrictions}")
+
+        # parsing, if present, the scheduler optimality property
+        logger.info(f"Parsing scheduler optimality ( if required)")
+        self.parse_scheduler_optimality()
+        found_sop = "" if self.scheduler_optimality_hyperproperty is not None else "not "
+        logger.info(f"Scheduler optimality property {found_sop}found.")
+
+        # parse program
+        logger.info(f"Loading sketch from {sketch_path}...")
+        logger.info(f"Assuming a sketch in a PRISM format ...")
+        prism = self.parse_program(sketch_path)
+
+        # dummy model for instantiating the properties
+        dummy_model = stormpy.build_model(prism)
+        nr_initial_states = len(dummy_model.initial_states)
+        logger.info(f"The model has {nr_initial_states} initial states...")
+
+        # actual parsing of the properties
+        logger.info("Instantiating the properties for the quantified initial states")
+        self.spread_properties(nr_initial_states, dummy_model.labeling)
+        specification = self.parse_instantiated_properties(prism)
+        logger.info(f"Found the following specification:\n {specification}")
+        return specification, prism
 
     def parse_hole_valuations(self, design_space):
         n_sched_quants = len(self.sched_quant_dict)
