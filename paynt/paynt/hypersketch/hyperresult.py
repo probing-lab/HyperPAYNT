@@ -247,14 +247,14 @@ class MdpHyperConstraintsResult:
 
     def check_lists(self, l1, l2):
         assert len(l1) <= 1 and len(l2) <= 1
-        return l1[0] == l2[0] or l1 is [] or l2 is []
+        return not l1 or not l2 or l1[0] == l2[0]
 
     def update_primary_feasibility(self, result, orTrue, group_primary_selections):
         primary_feasibility = result.primary_feasibility
         primary_selection = result.primary_selection
 
         # primary feasibility of the constraints is already false
-        if not self.primary_feasibility:
+        if self.primary_feasibility is False:
             return
 
         # primary feasibility of this property is False and not in a Or relation with a True primary feasibility
@@ -273,7 +273,7 @@ class MdpHyperConstraintsResult:
     def update_primary_feasibility_groups(self, group_primary_selections):
 
         # primary feasibility of the constraints is already false
-        if not self.primary_feasibility:
+        if self.primary_feasibility is False:
             return
 
         # update primary selections stored
