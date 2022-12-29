@@ -33,10 +33,11 @@ class HyperProperty(Property):
         self.state = state
         self.other_state = other_state
 
+        self.threshold = None
+
     def __str__(self):
         return str(self.formula_str) + " {" + str(self.state) + "} " + str(self.op) + " " + str(
             self.formula_str) + " {" + str(self.other_state) + "}"
-
 
     def satisfies_threshold(self, value, threshold):
         return self.result_valid(value) and self.meets_op(value, threshold)
