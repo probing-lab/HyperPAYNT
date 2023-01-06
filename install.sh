@@ -1,5 +1,11 @@
 #!/bin/bash
 
+# download prerequisites
+# git clone -b master14 https://github.com/smtrat/carl
+# git clone https://github.com/moves-rwth/pycarl.git
+# wget https://zenodo.org/record/4288652/files/moves-rwth/storm-1.6.3.zip
+# wget https://github.com/moves-rwth/stormpy/archive/1.6.3.zip
+
 set -ex
 
 INSTALL_DEPENDENCIES=true
@@ -13,7 +19,18 @@ THREADS=$(nproc)
 
 SYNTHESIS=`pwd`
 PREREQUISITES=$SYNTHESIS/prerequisites
+DOWNLOADS=$PREREQUISITES/downloads
 SYNTHESIS_ENV=$SYNTHESIS/env
+
+# unzip downloaded prerequisites
+cd $PREREQUISITES
+unzip $DOWNLOADS/carl.zip
+rm -rf carl
+mv carl-master14 carl
+unzip $DOWNLOADS/pycarl.zip
+rm -rf pycarl
+mv pycarl-2.0.5 pycarl
+
 cd $SYNTHESIS
 
 # dependencies
