@@ -209,26 +209,38 @@ class HyperSynthesizerCEGIS(HyperSynthesizer):
         self.stat.iteration_dtmc(dtmc.states)
 
         # model check all properties
-        spec = dtmc.check_hyperconstraints(self.sketch.specification.constraints,
+        spec = dtmc.check_hyperspecification(self.sketch.specification, assignment,
                                            property_indices=family.property_indices, short_evaluation=False)
 
         # analyze model checking results
-        if spec.all_sat:
-            Profiler.resume()
-            return True, True
+        improving = False
+        if spec.constraints_result.all_sat:
+            if not self.sketch.specification.has_optimality:
+                Profiler.resume()
+                return True, True
+            if spec.optimality_result is not None and spec.optimality_result.improves_optimum:
+                self.sketch.specification.optimality.update_optimum(spec.optimality_result.value)
+                self.since_last_optimum_update = 0
+                improving = True
 
         # construct conflict wrt each unsatisfiable property
         # pack all unsatisfiable properties as well as their MDP results (if exists)
         conflict_requests = {}
         for index in family.property_indices:
-            if spec.isSat(index):
+            if spec.constraints_result.isSat(index):
                 continue
             prop = self.sketch.specification.constraints[index]
-            property_result = family.analysis_result.results[index] if family.analysis_result is not None else None
-            conflict_requests[index]= (prop, property_result)
+            property_result = family.analysis_result.constraints_result.results[index] if family.analysis_result is not None else None
+            conflict_requests[index] = (prop, property_result)
 
         # group the conflicts based on the disjunctions
         grouped = HyperSpecification.or_group_dict(conflict_requests)
+
+        if self.sketch.specification.has_optimality:
+            index = len(self.sketch.specification.constraints)
+            prop = self.sketch.specification.optimality
+            property_result = family.analysis_result.optimality_result if family.analysis_result is not None else None
+            grouped.append([(index, (prop, property_result))])
 
         # construct conflict to each unsatisfiable property
         conflicts = []
