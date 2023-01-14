@@ -121,7 +121,8 @@ namespace storm {
         void CounterexampleGenerator<ValueType,StateType>::exploreDtmc (
             std::vector<uint_fast64_t> &hole_wave,
             std::vector<std::vector<StateType>> &wave_states,
-            StateType initial_state
+            StateType initial_state,
+            StateType other_initial_state
         ) {
 
             uint_fast64_t dtmc_states = this->dtmc->getNumberOfStates();
@@ -153,7 +154,7 @@ namespace storm {
             bool blocking_candidate_set = false;
             StateType blocking_candidate;
 
-            // Round 0: encounter initial state first (important)
+            // Round 0: encounter initial states first (important)
             wave_states.push_back(std::vector<StateType>());
             reachable_flag.set(initial_state);
             if(unregistered_holes_count[initial_state] == 0) {
@@ -164,6 +165,18 @@ namespace storm {
                 state_horizon_blocking.push_back(initial_state);
                 blocking_candidate_set = true;
                 blocking_candidate = initial_state;
+            }
+
+            reachable_flag.set(other_initial_state);
+            if(unregistered_holes_count[other_initial_state] == 0) {
+                // non-blocking
+                state_horizon.push(other_initial_state);
+            } else {
+                if(!blocking_candidate_set || unregistered_holes_count[other_initial_state] < unregistered_holes_count[blocking_candidate]) {
+                    // new blocking candidate
+                    blocking_candidate_set = true;
+                    blocking_candidate = other_initial_state;
+                }
             }
 
             // Explore the state space
@@ -258,9 +271,6 @@ namespace storm {
             // Clear up previous DTMC metadata
             this->hole_wave.clear();
             this->wave_states.clear();
-            this->other_hole_wave.clear();
-            this->other_wave_states.clear();
-
 
             // Get DTMC info
             this->dtmc = std::make_shared<storm::models::sparse::Dtmc<ValueType>>(dtmc);
@@ -270,13 +280,8 @@ namespace storm {
 
 
             this->exploreDtmc(
-                this->hole_wave, this->wave_states, initial_state
+                this->hole_wave, this->wave_states, initial_state, other_initial_state
             );
-
-            this->exploreDtmc(
-                this->other_hole_wave, this->other_wave_states, other_initial_state
-            );
-
 
         }
 
@@ -508,87 +513,43 @@ namespace storm {
             // Explore subDTMCs wave by wave
             uint_fast64_t wave_last = this->wave_states.size()-1;
             uint_fast64_t wave = 0;
-            bool wave_flag = true;
-
-            // Explore subDTMCs wave by wave (Other)
-            uint_fast64_t other_wave_last = this->other_wave_states.size()-1;
-            uint_fast64_t other_wave = 0;
-            bool other_wave_flag = true;
 
             bool sat = true;
             while(true) {
 
-                if(wave_flag){
-                    // explore primary direction
-                    result = this->expandAndCheck(
-                        formula_index, matrix_subdtmc, labeling_subdtmc,
-                        reward_models_subdtmc, this->wave_states[wave], this->hint_result, state_quant, strict
-                    );
+                // explore primary direction
+                result = this->expandAndCheck(
+                    formula_index, matrix_subdtmc, labeling_subdtmc,
+                    reward_models_subdtmc, this->wave_states[wave], this->hint_result, state_quant, strict
+                );
 
-                    if(this->formula_safety[formula_index] && !strict) {
-                        // the formula is of type P <= bound
-                        sat = (result <= formula_bound) || abs(result - formula_bound) < exp(-5);
-                    } else if (!strict){
-                        // the formula is of type P >= bound
-                        sat = (result >= formula_bound) || abs(result - formula_bound) < exp(-5);
-                    } else if (this->formula_safety[formula_index]) {
-                        // the formula is of type P < bound
-                        sat = (result < formula_bound) && abs(result - formula_bound) > exp(-5);
-
-                    } else {
-                        // the formula is of type P > bound
-                        sat = (result > formula_bound) && abs(result - formula_bound) > exp(-5);
-                    }
-
-                    //std::cout << "[storm] wave " << wave << "/" << wave_last << " : " << sat << "\n";
-                    if(!sat) {
-                        break;
-                    }
-
-                    if(wave == wave_last) {
-                        wave_flag = false;
-                    }else{
-                        wave++;
-                    }
-                }
-
-                if(other_wave_flag){
-                    // explore primary direction
-                    formula_bound = this->expandAndCheck(
+                // explore secondary direction
+                formula_bound = this->expandAndCheck(
                         formula_index, other_matrix_subdtmc, other_labeling_subdtmc,
-                        other_reward_models_subdtmc, this->other_wave_states[other_wave], this->other_hint_result, other_state_quant, strict
+                        other_reward_models_subdtmc, this->wave_states[wave], this->other_hint_result, other_state_quant, strict
                     );
 
-                    if(this->formula_safety[formula_index] && !strict) {
-                        // the formula is of type P <= bound
-                        sat = (result <= formula_bound) || abs(result - formula_bound) < exp(-5);
-                    } else if (!strict){
-                        // the formula is of type P >= bound
-                        sat = (result >= formula_bound) || abs(result - formula_bound) < exp(-5);
-                    } else if (this->formula_safety[formula_index]) {
-                        // the formula is of type P < bound
-                         sat = (result < formula_bound) && abs(result - formula_bound) > exp(-5);
-                    } else {
-                        // the formula is of type P > bound
-                        sat = (result > formula_bound) && abs(result - formula_bound) > exp(-5);
-                    }
+                if(this->formula_safety[formula_index] && !strict) {
+                    // the formula is of type P <= bound
+                    sat = (result <= formula_bound) || abs(result - formula_bound) < exp(-5);
+                } else if (!strict){
+                    // the formula is of type P >= bound
+                    sat = (result >= formula_bound) || abs(result - formula_bound) < exp(-5);
+                } else if (this->formula_safety[formula_index]) {
+                    // the formula is of type P < bound
+                    sat = (result < formula_bound) && abs(result - formula_bound) > exp(-5);
 
-                    //std::cout << "[storm] other wave " << other_wave << "/" << other_wave_last << " : " << sat << std::endl;
-                    if(!sat) {
-                        break;
-                    }
-
-                    if(other_wave == other_wave_last) {
-                        other_wave_flag = false;
-                    }else{
-                        other_wave++;
-                    }
+                } else {
+                    // the formula is of type P > bound
+                    sat = (result > formula_bound) && abs(result - formula_bound) > exp(-5);
                 }
 
-                if(!wave_flag & !other_wave_flag){
+                //std::cout << "[storm] wave " << wave << "/" << wave_last << " : " << sat << "\n";
+                if(!sat || wave == wave_last) {
                     break;
+                }else{
+                    wave++;
                 }
-
             }
 
             // Return a set of critical holes
@@ -600,15 +561,8 @@ namespace storm {
                     critical_holes.push_back(hole);
                 }
             }
-            for(uint_fast64_t hole = 0; hole < this->hole_count; hole++) {
-                uint_fast64_t wave_registered = this->other_hole_wave[hole];
-                if(wave_registered > 0 && wave_registered <= other_wave) {
-                    critical_holes.push_back(hole);
-                }
-            }
 
             this->timer_conflict.stop();
-
             return critical_holes;
         }
 

@@ -84,7 +84,8 @@ namespace storm {
             void exploreDtmc (
                 std::vector<uint_fast64_t> &hole_wave,
                 std::vector<std::vector<StateType>> &wave_states,
-                StateType initial_state
+                StateType initial_state,
+                StateType other_initial_state
                 );
 
             /** Identify states of an MDP having some label. */
