@@ -259,23 +259,32 @@ class HyperParser:
 
     # TODO: add support for the multi target comparison
     def parse_hyperproperty(self, prop, prism):
-        prop_re = re.compile(r'(.*?(\{(.*?)\})((\{.*?\}).*?))(\s(<=|<|=>|>)\s)(.*?(\{(.*?)\})(.*?))$')
+        prop_re = re.compile(r'(.*?(\{(\S+)\})(.*?))(\s(<=|<|=>|>)\s)(.*?(\{(\S+)\})(.*?))$')
         match = prop_re.search(prop)
         if match is None:
             raise HyperParsingException(f"input formula is wrong formatted! [{prop}]")
-        if not match.group(4) == match.group(11):
+        if not match.group(4) == match.group(10):
             raise NotImplementedError("Comparison of different reachability targets are not supported yet. "
                                       "Please also check that whitespaces match in the two targets: \""
-                                      + match.group(4) + "\" and \"" + match.group(11) + "\"")
+                                      + match.group(4) + "\" and \"" + match.group(10) + "\"")
         # collect information
         state_quant = int(match.group(3))
-        compare_state = int(match.group(10))
+        compare_state = int(match.group(9))
         ops = {"<=": operator.le, "<": operator.lt, "=>": operator.ge, ">": operator.gt}
-        op = ops[match.group(7)]
+        op = ops[match.group(6)]
 
         # parse the property
-        p = match.group(1).replace(match.group(2), "")
-        p = p.replace(match.group(5), match.group(5) + "=?")
+        reward_structure_re = re.compile(r'(\{.*?\})(.*?)')
+        reward_structure_match = reward_structure_re.search(match.group(4))
+        if reward_structure_match is None:
+            # this is not a reward hyperproperty
+            p = match.group(1).replace(match.group(2), "=?")
+
+        else:
+            # this is a Reward Hyperproperty, and has a reward structure
+            p = match.group(1).replace(match.group(2), "")
+            p = p.replace(match.group(4), reward_structure_match.group(1) + "=?" + reward_structure_match.group(2))
+
         ps = stormpy.parse_properties_for_prism_program(p, prism)
         p = ps[0]
         return HyperProperty(p, state_quant, compare_state, op)
