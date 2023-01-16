@@ -172,6 +172,7 @@ namespace storm {
                 // non-blocking
                 state_horizon.push(other_initial_state);
             } else {
+                state_horizon_blocking.push_back(other_initial_state);
                 if(!blocking_candidate_set || unregistered_holes_count[other_initial_state] < unregistered_holes_count[blocking_candidate]) {
                     // new blocking candidate
                     blocking_candidate_set = true;
