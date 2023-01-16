@@ -292,7 +292,7 @@ class MdpHyperConstraintsResult:
                         new_selection = [list(set(a + b)) for a, b in zip(saved_selection, found_selection)]
                         new_selections.append(new_selection)
             self.primary_selections = new_selections
-            self.primary_feasibility = self.primary_selections is not []
+            self.primary_feasibility = self.primary_selections
 
     def __str__(self):
         return ",".join([str(result) for result in self.results])
