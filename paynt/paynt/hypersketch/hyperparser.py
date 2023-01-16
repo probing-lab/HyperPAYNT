@@ -158,7 +158,7 @@ class HyperParser:
 
     def parse_scheduler_optimality(self):
         # parse the scheduler optimality hyperproperty, if required
-        sop_re = re.compile(r'^(MIN|MAX)\s(SD)(.*$)')
+        sop_re = re.compile(r'^(MIN|MAX)\s(SD)\s+$')
         line = self.lines.pop(0)
         match = sop_re.search(line)
         if match is None:
