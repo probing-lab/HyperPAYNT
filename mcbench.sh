@@ -15,6 +15,11 @@ projects_dir="./eval"
 log_dir="./logs"
 log_file="${log_dir}/log.txt"
 
+if [ -n "$2" ]; then
+  projects_dir="$2"
+fi
+
+
 # ------------------------------------------------------------------------------
 # functions
 function paynt() {
@@ -28,8 +33,10 @@ function paynt() {
 }
 
 # empty the current content of the log file
+rm -rf $log_dir
+mkdir $log_dir
 touch $log_file
 
-for d in $projects_dir/*/ ; do
+for d in $projects_dir/*/; do
   paynt $d $method
 done
