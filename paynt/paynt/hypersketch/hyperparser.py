@@ -37,6 +37,7 @@ class HyperParser:
         # parsed optimality properties
         self.optimality_property = None
         self.scheduler_optimality_hyperproperty = None
+        self.structural_equalities = None
 
     def parse_scheduler_quants(self, path):
         # read lines
@@ -170,6 +171,27 @@ class HyperParser:
             raise Exception("Cannot impose MIN/MAX scheduler difference with just one scheduler quantification\n")
         minimizing = True if match.group(1) == "MIN" else False
         self.scheduler_optimality_hyperproperty = SchedulerOptimalityHyperProperty(minimizing)
+
+    def parse_structural_equalities(self):
+        # parse the structural equalities contraints, if required
+        seq_re = re.compile(r'^X\[(.*)\]\((.*)\)')
+        while True:
+            line = self.lines.pop(0)
+            match = seq_re.search(line)
+
+            if match is None:
+                # no structural required anymore
+                self.lines = [line] + self.lines
+                return
+
+            valuations = re.split(r'&',match.group(1))
+            valuations_dict = {}
+            for valuation in valuations:
+                decomposed = re.split(r'=', valuation)
+                valuations_dict[decomposed[0]] = decomposed[1]
+
+            scheduler_names = re.split(r'\W+', match.group(2))
+            self.structural_equalities.append((valuations_dict, scheduler_names))
 
     def parse_program(self, path):
         n_sched_quants = len(self.sched_quant_dict)
@@ -398,8 +420,8 @@ class HyperParser:
         for hole_index, hole in enumerate(design_space):
 
             hole_name = hole.name
-            # deleting the sched_quant variable from state valuations
             for sched_index in range(n_sched_quants):
+                # deleting the sched_quant variable from state valuations
                 sched_quant_ref = f"sched_quant={sched_index}"
                 if sched_quant_ref in hole_name:
                     hole_name = hole_name.replace(sched_quant_ref, "")
