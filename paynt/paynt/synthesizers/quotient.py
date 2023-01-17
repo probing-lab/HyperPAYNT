@@ -58,6 +58,7 @@ class QuotientContainer:
             for action in range(tm.get_row_group_start(state), tm.get_row_group_end(state)):
                 # TODO: isn't it true that for a state all actions have the same hole set?
                 # TODO: why do we iterate over all the actions?
+                assert (not relevant_holes) or (relevant_holes == set(self.action_to_hole_options[action].keys()))
                 relevant_holes.update(set(self.action_to_hole_options[action].keys()))
             self.state_to_holes.append(relevant_holes)
 
