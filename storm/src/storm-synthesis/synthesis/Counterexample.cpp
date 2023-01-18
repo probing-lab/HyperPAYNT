@@ -134,11 +134,17 @@ namespace storm {
             }
 
             // Associate states of a DTMC with relevant holes and store their count
+            // Associate holes of the family with states mapped to them and store their count
             std::vector<std::set<uint_fast64_t>> dtmc_holes(dtmc_states);
+            std::vector<uint_fast64_t> mapped_states_count(hole_count, 0);
             std::vector<uint_fast64_t> unregistered_holes_count(dtmc_states, 0);
+
             for(StateType state = 0; state < dtmc_states; state++) {
                 dtmc_holes[state] = this->mdp_holes[this->state_map[state]];
                 unregistered_holes_count[state] = dtmc_holes[state].size();
+                for (uint_fast64_t hole: dtmc_holes[state]){
+                    mapped_states_count[hole] += 1;
+                }
             }
 
             // Prepare to explore
@@ -153,6 +159,7 @@ namespace storm {
             // blocking state containing currently the least number of unregistered holes + flag if the value was set
             bool blocking_candidate_set = false;
             StateType blocking_candidate;
+            uint_fast64_t blocking_candidate_hole_mapped_states;
 
             // Round 0: encounter initial states first (important)
             wave_states.push_back(std::vector<StateType>());
@@ -165,6 +172,10 @@ namespace storm {
                 state_horizon_blocking.push_back(initial_state);
                 blocking_candidate_set = true;
                 blocking_candidate = initial_state;
+                // dtmc holes is guaranteed to be unique for every state, this has to be updated soon or later.
+                for (uint_fast64_t hole: dtmc_holes[initial_state]){
+                    blocking_candidate_hole_mapped_states = mapped_states_count[hole];
+                }
             }
 
             reachable_flag.set(other_initial_state);
@@ -173,10 +184,17 @@ namespace storm {
                 state_horizon.push(other_initial_state);
             } else {
                 state_horizon_blocking.push_back(other_initial_state);
-                if(!blocking_candidate_set || unregistered_holes_count[other_initial_state] < unregistered_holes_count[blocking_candidate]) {
+                uint_fast64_t mapped_states;
+                for (uint_fast64_t hole: dtmc_holes[other_initial_state]){
+                    mapped_states = mapped_states_count[hole];
+                }
+
+
+                if(!blocking_candidate_set || mapped_states < blocking_candidate_hole_mapped_states) {
                     // new blocking candidate
                     blocking_candidate_set = true;
                     blocking_candidate = other_initial_state;
+                    blocking_candidate_hole_mapped_states = mapped_states;
                 }
             }
 
@@ -203,10 +221,15 @@ namespace storm {
                         } else {
                             // blocking
                             state_horizon_blocking.push_back(successor);
-                            if(!blocking_candidate_set || unregistered_holes_count[successor] < unregistered_holes_count[blocking_candidate]) {
+                            uint_fast64_t mapped_states;
+                            for (uint_fast64_t hole: dtmc_holes[successor]){
+                                mapped_states = mapped_states_count[hole];
+                            }
+                            if(!blocking_candidate_set || mapped_states < blocking_candidate_hole_mapped_states) {
                                 // new blocking candidate
                                 blocking_candidate_set = true;
                                 blocking_candidate = successor;
+                                blocking_candidate_hole_mapped_states = mapped_states;
                             }
                         }
                     }
