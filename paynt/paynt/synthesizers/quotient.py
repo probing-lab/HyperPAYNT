@@ -2,6 +2,8 @@ import stormpy
 import stormpy.synthesis
 import stormpy.pomdp
 
+from collections import defaultdict
+
 import math
 import re
 
@@ -1006,8 +1008,8 @@ class POMDPQuotientContainer(QuotientContainer):
 
 
 class HyperPropertyQuotientContainer(QuotientContainer):
-    def __init__(self, *args):
-        super().__init__(*args)
+    def __init__(self, sketch, parser):
+        super().__init__(sketch)
 
         # build the quotient
         MarkovChain.builder_options.set_build_choice_labels(True)
@@ -1024,6 +1026,10 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         assert self.quotient_mdp.has_state_valuations()
 
         self.action_to_hole_options = []
+
+        # a dictionary of corresponding state names to a list of the corresponding instantiated holes
+        matching_dictionary = defaultdict(list)
+
         for state in range(self.quotient_mdp.nr_states):
 
             # skip states without nondeterminism
@@ -1033,7 +1039,35 @@ class HyperPropertyQuotientContainer(QuotientContainer):
                 continue
 
             # a hole to be created
-            hole_name = self.quotient_mdp.state_valuations.get_string(state)
+            state_name = self.quotient_mdp.state_valuations.get_string(state)
+            variable_valuations = parser.parse_state_name(state_name)
+            initial_states = parser.compute_initial_states(state_name)
+
+            #first, check whether this hole belongs to some structural equality constraint
+            is_constrained = False
+            hole_index = None
+            hole_name = state_name
+            for constraint in parser.structural_equalities:
+                (c_valuations, c_name, c_schedulers) = constraint
+                is_constrained = parser.check_constraint_inclusion(c_valuations, c_schedulers, variable_valuations, state_name)
+                if is_constrained:
+                    hole_index = holes.lookup_hole_index(c_name)
+                    # update the name of the hole that we are currently creating
+                    hole_name = c_name
+                    variable_valuations = c_valuations
+                    break
+
+            if is_constrained and hole_index:
+                # this hole has already been defined somewhere, and it is in the list
+                holes[hole_index].initial_states = holes[hole_index].initial_states.union(initial_states)
+                parser.update_corresponding_holes(hole_index, state_name)
+                for offset in range(num_actions):
+                    self.action_to_hole_options.append({hole_index: offset})
+                continue
+
+
+            # create a new hole
+            hole_index = len(holes)
             hole_options = list(range(num_actions))
 
             # extract labels for each option
@@ -1042,11 +1076,13 @@ class HyperPropertyQuotientContainer(QuotientContainer):
                 choice = self.quotient_mdp.get_choice_index(state,offset)
                 labels = self.quotient_mdp.choice_labeling.get_labels_of_choice(choice)
                 hole_option_labels.append(labels)
-                self.action_to_hole_options.append({len(holes):offset})
+                self.action_to_hole_options.append({hole_index:offset})
 
             hole_option_labels = [str(labels) for labels in hole_option_labels]
+            parser.update_corresponding_holes(hole_index, state_name)
 
-            hole = Hole(hole_name, hole_options, hole_option_labels, set())
+            hole = Hole(hole_name, hole_options, hole_option_labels, initial_states=initial_states, variable_valuations=variable_valuations)
+
             holes.append(hole)
 
         # now sketch has the corresponding design space

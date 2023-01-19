@@ -22,13 +22,14 @@ class Hole:
       this order must be preserved in the refining process.
     '''
 
-    def __init__(self, name, options, option_labels, initial_states):
+    def __init__(self, name, options, option_labels, initial_states=None, variable_valuations=None):
         self.name = name
         self.options = options
         self.option_labels = option_labels
 
         # the initial states from which this hole is reachable
         self.initial_states = initial_states
+        self.variable_valuations = variable_valuations
 
     @property
     def size(self):
@@ -56,8 +57,7 @@ class Hole:
     def copy(self):
         # note that the copy is shallow, but after assuming some options
         # the options pointer points to the new list, hence the original hole is not modified.
-        return Hole(self.name, self.options, self.option_labels, self.initial_states)
-
+        return Hole(self.name, self.options, self.option_labels, initial_states=self.initial_states, variable_valuations=self.variable_valuations)
 
 class Holes(list):
     ''' List of holes. '''
@@ -97,7 +97,7 @@ class Holes(list):
 
     # for checking Scheduler Optimizing Hyperproperty
     def assume_minimizing_options(self):
-        for matching_holes_indexes in DesignSpace.matching_hole_indexes:
+        for matching_holes_indexes in DesignSpace.matching_hole_indexes.values():
             shared_options = set.intersection(*map(lambda x: set(self[x].options), matching_holes_indexes))
             if shared_options:
                 option = shared_options.pop()
@@ -108,7 +108,7 @@ class Holes(list):
                     self[index].assume_options([self[index].options[0]])
 
     def assume_maximizing_options(self):
-        for matching_holes_indexes in DesignSpace.matching_hole_indexes:
+        for matching_holes_indexes in DesignSpace.matching_hole_indexes.values():
             domain_size_sorted = sorted(matching_holes_indexes, key=lambda x: len(self[x].options))
             chosen_options = set()
             for index in domain_size_sorted:
@@ -182,6 +182,12 @@ class Holes(list):
             shallow_copy[hole_index] = subhole
 
         return shallow_copy
+
+    def lookup_hole_index(self, hole_name):
+        for hole_index, hole in enumerate(self):
+            if hole_name == hole.name:
+                return hole_index
+        return None
 
 
 class ParentInfo():

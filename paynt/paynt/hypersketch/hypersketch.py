@@ -32,14 +32,12 @@ class HyperSketch:
 
         # setting the correct design space (done in the initialization of the quotient)
         logger.info("Processing actions and Initializing the quotient and the design space...")
-        self.quotient = HyperPropertyQuotientContainer(self)
+        self.quotient = HyperPropertyQuotientContainer(self, sketch_parser)
 
         logger.info(f"Sketch has {self.design_space.num_holes} holes")
         logger.info(f"Design space size: {self.design_space.size}")
         logger.info(f"Design space: {self.design_space}")
         logger.info(f"Sketch parsing complete.")
 
-        # we parse the hole valuations even if there is no scheduler optimality hyperoproperties
-        # to optimize the AR splitting
-        sketch_parser.parse_hole_valuations(self.design_space)
+        logger.info(f"Matching holes: {DesignSpace.matching_hole_indexes.values()}")
         Profiler.stop()
