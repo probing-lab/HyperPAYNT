@@ -257,6 +257,10 @@ class DesignSpace(Holes):
             self.refinement_depth = parent_info.refinement_depth + 1
             self.property_indices = parent_info.property_indices
 
+    def __str__(self):
+        holes = [str(hole) for hole in self]
+        return ";\n".join(holes)
+
     def copy(self):
         return DesignSpace(super().copy())
 
