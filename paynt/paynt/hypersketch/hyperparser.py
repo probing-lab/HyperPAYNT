@@ -252,31 +252,36 @@ class HyperParser:
             return [line]
 
     # instantiate the properties for the initial states according to their quantifiers
-    def spread_properties(self, nr_initial_states, labeling):
-        nr_schedulers = len(self.sched_quant_dict)
-        nr_init_per_sched = int(nr_initial_states / nr_schedulers)
-        for state_name, value in self.state_quant_dict.items():
-            state_quant, sched_name = value
-            sched_order = list(self.sched_quant_dict.keys()).index(sched_name)
-            # compute the set of possible values for each state variable
-            initial_states = [i for i in range(nr_init_per_sched * sched_order, nr_init_per_sched * (sched_order + 1))]
+    def spread_properties(self, nr_initial_states, model):
+        n_sched_quants = len(self.sched_quant_dict)
+        assert model.has_state_valuations()
 
-            logger.info(f"initial states for " + str(state_name) +":" + str(initial_states))
+        for state_var, value in self.state_quant_dict.items():
+            state_quant, associated_sched = value
+            initial_states = []
+            sched_index = list(self.sched_quant_dict).index(associated_sched)
+            sched_quant_ref = f"sched_quant={sched_index}"
+            for state in model.initial_states:
+                state_name = model.state_valuations.get_string(state)
+                if sched_quant_ref in state_name or n_sched_quants == 1:
+                    initial_states.append(state)
+
+            logger.info(f"initial states for {state_var}: {initial_states}")
             # check potential restrictions on this initial state
-            restriction = self.state_quant_restrictions.get(state_name, None)
-            if restriction is not None:
-                initial_states = [i for i in initial_states if labeling.has_state_label(restriction, i)]
+            restriction = self.state_quant_restrictions.get(state_var, None)
+            if restriction:
+                initial_states = [i for i in initial_states if model.labeling.has_state_label(restriction, i)]
 
-            logger.info(f"initial states for {state_name} after restrictions: {initial_states}")
+            logger.info(f"initial states for {state_var} after restrictions: {initial_states}")
 
             # update the set of initial states associated with this scheduler quantifier
-            self.sched_quant_to_initial_states[sched_name] = self.sched_quant_to_initial_states.get(sched_name, set()).union(set(initial_states))
+            self.sched_quant_to_initial_states[associated_sched] = self.sched_quant_to_initial_states.get(associated_sched, set()).union(set(initial_states))
 
             #instantiate the properties for this state variable
             if state_quant == 'E':
-                self.lines = list(map(lambda x: self.grow_horizontally(x, state_name, initial_states), self.lines))
+                self.lines = list(map(lambda x: self.grow_horizontally(x, state_var, initial_states), self.lines))
             elif state_quant == 'A':
-                spread_lines = list(map(lambda x: self.grow_vertically(x, state_name, initial_states), self.lines))
+                spread_lines = list(map(lambda x: self.grow_vertically(x, state_var, initial_states), self.lines))
                 self.lines = [item for sublist in spread_lines for item in sublist]
 
     # TODO: add support for the multi target comparison
@@ -401,13 +406,15 @@ class HyperParser:
         prism = self.parse_program(sketch_path)
 
         # dummy model for instantiating the properties
-        dummy_model = stormpy.build_model(prism)
+        builder_options = stormpy.BuilderOptions()
+        builder_options.set_build_state_valuations(True)
+        dummy_model = stormpy.build_sparse_model_with_options(prism, builder_options)
         nr_initial_states = len(dummy_model.initial_states)
         logger.info(f"The model has {nr_initial_states} initial states...")
 
         # actual parsing of the properties
         logger.info("Instantiating the properties for the quantified initial states")
-        self.spread_properties(nr_initial_states, dummy_model.labeling)
+        self.spread_properties(nr_initial_states, dummy_model)
         specification = self.parse_instantiated_properties(prism)
         logger.info(f"Found the following specification:\n {specification}")
         return specification, prism
