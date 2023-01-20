@@ -22,7 +22,7 @@ class Hole:
       this order must be preserved in the refining process.
     '''
 
-    def __init__(self, name, options, option_labels, initial_states=None, variable_valuations=None):
+    def __init__(self, name, options, option_labels, initial_states=None, variable_valuations=None, associated_schedulers=None):
         self.name = name
         self.options = options
         self.option_labels = option_labels
@@ -30,6 +30,8 @@ class Hole:
         # the initial states from which this hole is reachable
         self.initial_states = initial_states
         self.variable_valuations = variable_valuations
+
+        self.associated_schedulers = associated_schedulers
 
     @property
     def size(self):
@@ -46,9 +48,9 @@ class Hole:
     def __str__(self):
         labels = [self.option_labels[option] for option in self.options]
         if self.size == 1:
-            return"{}={}".format(self.name,labels[0])
+            return "{}={}".format(self.name,labels[0]) + " - scheduler(s): " + str(self.associated_schedulers)
         else:
-            return self.name + ": {" + ",".join(labels) + "}"
+            return self.name + ": {" + ",".join(labels) + "} - scheduler(s): " + str(self.associated_schedulers)
 
     def assume_options(self, options):
         assert len(options) > 0
@@ -57,7 +59,8 @@ class Hole:
     def copy(self):
         # note that the copy is shallow, but after assuming some options
         # the options pointer points to the new list, hence the original hole is not modified.
-        return Hole(self.name, self.options, self.option_labels, initial_states=self.initial_states, variable_valuations=self.variable_valuations)
+        return Hole(self.name, self.options, self.option_labels, initial_states=self.initial_states,
+                    variable_valuations=self.variable_valuations, associated_schedulers=self.associated_schedulers)
 
 class Holes(list):
     ''' List of holes. '''
@@ -183,9 +186,9 @@ class Holes(list):
 
         return shallow_copy
 
-    def lookup_hole_index(self, hole_name):
+    def lookup_hole_index(self, hole_name, associated_schedulers):
         for hole_index, hole in enumerate(self):
-            if hole_name == hole.name:
+            if hole_name == hole.name and set(associated_schedulers) == set(hole.associated_schedulers):
                 return hole_index
         return None
 

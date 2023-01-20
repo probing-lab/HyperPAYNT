@@ -198,9 +198,9 @@ class HyperParser:
                     raise Exception(f"Free Occurrence of a scheduler variable: {sched_name}")
             if self.structural_equalities:
                 for constr in self.structural_equalities:
-                    (valuations, _, _) = constr
-                    if self.compatible(valuations, valuations_dict):
-                        raise Exception(f"Two compatible structural equalities have been specified: {valuations} - {valuations_dict}")
+                    (valuations, _, snames) = constr
+                    if self.compatible(valuations, valuations_dict, snames, scheduler_names):
+                        raise Exception(f"Two compatible structural equalities have been specified: {valuations}, {snames}) - ({valuations_dict}, {scheduler_names})")
 
             self.structural_equalities.append((valuations_dict, match.group(1), scheduler_names))
 
@@ -436,20 +436,15 @@ class HyperParser:
         logger.info(f"Found the following specification:\n {specification}")
         return specification, prism
 
-    def compute_initial_states(self,state_name):
-        n_sched_quants = len(self.sched_quant_dict)
+    def compute_initial_states(self,variable_valuations):
+        sched_index = variable_valuations["sched_quant"]
+        sched_name = list(self.sched_quant_dict.keys())[int(sched_index)]
+        return self.sched_quant_to_initial_states[sched_name]
 
-        if n_sched_quants == 1:
-            assert len(self.sched_quant_to_initial_states) == 1
-            # this returns a set
-            return list(self.sched_quant_to_initial_states.values())[0]
-
-        for sched_index in range(n_sched_quants):
-            # deleting the sched_quant variable from state valuations
-            sched_quant_ref = f"sched_quant={sched_index}"
-            if sched_quant_ref in state_name :
-                sched_name = list(self.sched_quant_dict.keys())[sched_index]
-                return self.sched_quant_to_initial_states[sched_name]
+    def compute_associated_schedulers(self, variable_valuations):
+        sched_index = variable_valuations["sched_quant"]
+        sched_name = list(self.sched_quant_dict.keys())[int(sched_index)]
+        return sched_name
 
     def update_corresponding_holes(self, hole_index, state_name):
         n_sched_quants = len(self.sched_quant_dict)
@@ -464,9 +459,9 @@ class HyperParser:
         # set matching holes
         DesignSpace.matching_hole_indexes[state_name].append(hole_index)
 
-    def parse_state_name(self, name):
+    def parse_state_name(self, state_name, parse_state_quant= False):
         valuations_dict = {}
-        l = name.replace('[','').replace(']','').split('&')
+        l = state_name.replace('[','').replace(']','').split('&')
         for valuation in l:
             if '=' not in valuation: # boolean variable
                 if '!' in valuation:
@@ -481,9 +476,14 @@ class HyperParser:
             varName = re.sub(r'\W', '', valuation[0])
             value = re.sub(r'\W', '', valuation[1])
             valuations_dict[varName] = value
+
+        # handle the case of a single scheduler quantification
+        if not "sched_quant" in valuations_dict and parse_state_quant:
+            valuations_dict["sched_quant"] = 0
+
         return valuations_dict
 
-    def compatible(self, valuations1, valuations2):
+    def compatible(self, valuations1, valuations2, snames1, snames2):
         for varName in list(valuations1.keys()):
             if varName in valuations2 and valuations1[varName] != valuations2[varName]:
                 return False
@@ -492,20 +492,9 @@ class HyperParser:
             if varName in valuations1 and valuations1[varName] != valuations2[varName]:
                 return False
 
-        return True
+        return set.intersection(set(snames1), set(snames2))
 
-    def check_constraint_inclusion(self,c_valuations, c_schedulers, valuations, state_name):
+    def check_constraint_inclusion(self,c_valuations, c_schedulers, valuations, associated_scheduler):
         is_constrained = all(item in valuations.items() for item in c_valuations.items())
-        if not is_constrained:
-            return False
-
-        for sched_index, sched_name in enumerate(list(self.sched_quant_dict.keys())):
-            sched_quant_ref = f"sched_quant={sched_index}"
-            if sched_quant_ref in state_name:
-                # I found the scheduler to which the state belongs
-                return sched_name in c_schedulers
-
-        # sanity assert
-        assert False
-
+        return is_constrained and associated_scheduler in c_schedulers
 

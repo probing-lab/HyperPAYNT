@@ -1043,8 +1043,10 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
             # a hole to be created
             state_name = self.quotient_mdp.state_valuations.get_string(state)
-            variable_valuations = parser.parse_state_name(state_name)
-            initial_states = parser.compute_initial_states(state_name)
+            variable_valuations = parser.parse_state_name(state_name, parse_state_quant=True)
+            initial_states = parser.compute_initial_states(variable_valuations)
+            associated_scheduler = parser.compute_associated_schedulers(variable_valuations)
+            asch_list = [associated_scheduler]
 
             #first, check whether this hole belongs to some structural equality constraint
             is_constrained = False
@@ -1052,15 +1054,16 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             hole_name = state_name
             for constraint in parser.structural_equalities:
                 (c_valuations, c_name, c_schedulers) = constraint
-                is_constrained = parser.check_constraint_inclusion(c_valuations, c_schedulers, variable_valuations, state_name)
+                is_constrained = parser.check_constraint_inclusion(c_valuations, c_schedulers, variable_valuations, associated_scheduler)
                 if is_constrained:
-                    hole_index = holes.lookup_hole_index(c_name)
+                    hole_index = holes.lookup_hole_index(c_name, c_schedulers)
                     # update the name of the hole that we are currently creating
                     hole_name = c_name
                     variable_valuations = c_valuations
+                    asch_list = c_schedulers
                     break
 
-            if is_constrained and hole_index:
+            if is_constrained and hole_index is not None:
                 # this hole has already been defined somewhere, and it is in the list
                 holes[hole_index].initial_states = holes[hole_index].initial_states.union(initial_states)
                 parser.update_corresponding_holes(hole_index, state_name)
@@ -1084,7 +1087,9 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             hole_option_labels = [str(labels) for labels in hole_option_labels]
             parser.update_corresponding_holes(hole_index, state_name)
 
-            hole = Hole(hole_name, hole_options, hole_option_labels, initial_states=initial_states, variable_valuations=variable_valuations)
+            # TODO: remove state_quant from the hole_name here?
+            hole = Hole(hole_name, hole_options, hole_option_labels, initial_states=initial_states,
+                        variable_valuations=variable_valuations, associated_schedulers=asch_list)
 
             holes.append(hole)
 
