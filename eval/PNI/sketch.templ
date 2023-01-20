@@ -1,0 +1,56 @@
+mdp
+
+const int N = 20;
+const int M = N;
+
+formula slip1 = 1/2 + 1/ (100 * (x+y));
+formula slip2 = 1/2 + 1/ (100 * (z+t));
+
+formula done = (x=N & y=M) | (z=N & t=M);
+
+formula no_east1 = (z=x+1) & (t=y);
+formula no_west1 = (z=x-1) & (t=y);
+
+formula no_east2 = (x=z+1) & (t=y);
+formula no_west2 = (x=z-1) & (t=y);
+
+formula no_north1 = (t=y+1) & (z=x);
+formula no_south1 = (t=y-1) & (z=x);
+
+formula no_north2 = (y=t+1) & (z=x);
+formula no_south2 = (y=t-1) & (z=x);
+
+module switcher
+    clk : bool;
+    [east1] clk -> 1: (clk'=false);
+    [west1] clk -> 1: (clk'=false);
+    [north1] clk -> 1: (clk'=false);
+    [south1] clk -> 1: (clk'=false);
+
+    [east2] !clk -> 1: (clk'=true);
+    [west2] !clk -> 1: (clk'=true);
+    [north2] !clk -> 1: (clk'=true);
+    [south2] !clk -> 1: (clk'=true);
+endmodule
+
+module robot1
+    x : [1..N];
+    y : [1..M];
+    [east1]  !done & !no_east1  -> slip1: true + (1-slip1):(x'=min(x+1,N));
+    [west1]  !done & !no_west1  -> slip1: true + (1-slip1): (x'=max(x-1,1));
+    [north1] !done & !no_north1 -> slip1: true + (1-slip1):(y'=min(y+1, M));
+    [south1] !done & !no_south1 -> slip1: true + (1-slip1):(y'=max(y-1, 1));
+endmodule
+
+module robot2
+    z : [1..N];
+    t : [1..M];
+    [east2]  !done & !no_east2  -> slip2: true + (1-slip2):(z'=min(z+1,N));
+    [west2]  !done & !no_west2  -> slip2: true + (1-slip2): (z'=max(z-1,1));
+    [north2] !done & !no_north2 -> slip2: true + (1-slip2):(t'=min(t+1, M));
+    [south2] !done & !no_south2 -> slip2: true + (1-slip2):(t'=max(t-1, 1));
+endmodule
+
+init (x=1 & y=M & z=1 & t=1 & clk=true) endinit
+
+label "goal1" = (x=N&y=M);
