@@ -1,6 +1,6 @@
 import stormpy.synthesis
 
-from .statistic import Statistic
+from ..synthesizers.statistic import Statistic
 from ..profiler import Timer, Profiler
 
 from ..hypersketch.hyperproperty import HyperSpecification

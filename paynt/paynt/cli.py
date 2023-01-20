@@ -5,7 +5,7 @@ import os
 from . import version
 
 from .hypersketch.hypersketch import HyperSketch
-from .synthesizers.hypersynthesizer import *
+from .hypersynthesizers.hypersynthesizer import *
 
 import logging
 # logger = logging.getLogger(__name__)

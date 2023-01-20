@@ -1,3 +1,4 @@
+from ..hypersynthesizers.hyperquotient import HyperPropertyQuotientContainer
 from ..synthesizers.quotient import *
 from ..profiler import Profiler
 from .hyperparser import *
