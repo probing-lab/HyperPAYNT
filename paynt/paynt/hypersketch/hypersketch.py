@@ -20,7 +20,7 @@ class HyperSketch:
         self.specification = None
         self.quotient = None
 
-        sketch_parser = HyperParser();
+        sketch_parser = HyperParser()
 
         # parsing the specification
         specification, prism = sketch_parser.parse_properties(sketch_path, properties_path)
