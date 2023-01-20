@@ -393,7 +393,6 @@ class MDP(MarkovChain):
                 result = self.check_hyperproperty(prop) if isinstance(prop, HyperProperty) \
                     else self.check_property(prop)
                 results[index] = result
-                #print(f"This result: {result}")
                 unfeasible = False if result.feasibility is not False else unfeasible
             if short_evaluation and unfeasible:
                 return MdpHyperConstraintsResult(results)
