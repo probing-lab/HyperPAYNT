@@ -342,7 +342,7 @@ class MDP(MarkovChain):
 
         # no need to check secondary direction if primary direction yields UNSAT
         if not primary.sat:
-            return MdpHyperPropertyResult(prop, primary, None, False, None, False, None, None, None, None, None, None, None)
+            return MdpHyperPropertyResult(prop, primary, None, False, None, False, None, None, None, None, None, None, None, None, None)
 
         # primary direction is SAT
         # check secondary direction to show that all SAT
@@ -355,7 +355,7 @@ class MDP(MarkovChain):
             # we are not constraining at all the primary selection
             primary_selection = [ [] for hole_index in self.design_space.hole_indices]
             return MdpHyperPropertyResult(prop, primary, secondary, feasibility, primary_selection, True, None,
-                                          None, None, None, None, None, None)
+                                          None, None, True, None, None, None, None, None)
 
         # check if primary scheduler (of state quant) induces a feasible scheduler
         value = primary.value
@@ -365,18 +365,20 @@ class MDP(MarkovChain):
         # prepare for splitting on this property
         # TODO: implement the betting strategy here
         unsat_bet = True
-        state = prop.state if unsat_bet else prop.other_state
-        other_state = prop.other_state if unsat_bet else prop.state
+        state = prop.state
+        other_state = prop.other_state
         # compute the scores for splitting
-        primary_selection, primary_choice_values, primary_expected_visits, primary_scores, _ = self.quotient_container.scheduler_consistent(
+        primary_selection, primary_choice_values, primary_expected_visits, primary_scores, primary_consistent = self.quotient_container.scheduler_consistent(
             self, prop, primary.result, state)
 
-        secondary_selection, secondary_choice_values, secondary_expected_visits, secondary_scores, _ = self.quotient_container.scheduler_consistent(
+        primary_feasibility = primary_feasibility and primary_consistent
+        secondary_selection, secondary_choice_values, secondary_expected_visits, secondary_scores, secondary_consistent = self.quotient_container.scheduler_consistent(
             self, prop, primary.result_alt, other_state)
 
         return MdpHyperPropertyResult(prop, primary, secondary, feasibility, primary_selection, primary_feasibility,
-                                      primary_choice_values, primary_expected_visits, primary_scores, secondary_selection,
-                                      secondary_choice_values, secondary_expected_visits, secondary_scores)
+                                      primary_choice_values, primary_expected_visits, primary_scores, primary_consistent,
+                                      secondary_selection, secondary_choice_values, secondary_expected_visits, secondary_scores,
+                                      secondary_consistent)
 
     def check_hyperconstraints(self, properties, property_indices=None, short_evaluation=False):
         if property_indices is None:

@@ -157,7 +157,8 @@ class MdpHyperPropertyResult:
     def __init__(self,
                  prop, primary, secondary, feasibility,
                  primary_selection, primary_feasibility, primary_choice_values, primary_expected_visits,
-                 primary_scores, secondary_selection, secondary_choice_values, secondary_expected_visits, secondary_scores
+                 primary_scores, primary_consistent, secondary_selection, secondary_choice_values, secondary_expected_visits, secondary_scores,
+                 secondary_consistent
                  ):
         self.property = prop
         self.primary = primary
@@ -170,11 +171,13 @@ class MdpHyperPropertyResult:
         self.primary_choice_values = primary_choice_values
         self.primary_expected_visits = primary_expected_visits
         self.primary_scores = primary_scores
+        self.primary_consistent = primary_consistent
 
         self.secondary_selection = secondary_selection
         self.secondary_choice_values = secondary_choice_values
         self.secondary_expected_visits = secondary_expected_visits
         self.secondary_scores = secondary_scores
+        self.secondary_consistent = secondary_consistent
 
     def __str__(self):
         prim = str(self.primary)
