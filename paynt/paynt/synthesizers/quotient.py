@@ -229,11 +229,14 @@ class QuotientContainer:
 
         return choice_values
 
-    def expected_visits(self, mdp, prop, scheduler, initial_state = 0):
+    def expected_visits(self, mdp, prop, scheduler, initial_state = None):
         '''
         Compute expected number of visits in the states of DTMC induced by
         this scheduler.
         '''
+
+        if initial_state is None:
+            initial_state = mdp.model.initial_states[0]
 
         # extract DTMC induced by this MDP-scheduler
         choices = scheduler.compute_action_support(mdp.model.nondeterministic_choice_indices)
