@@ -73,7 +73,8 @@ class SpecificationResult:
 class MdpPropertyResult:
     def __init__(self,
                  prop, primary, secondary, feasibility,
-                 primary_selection, primary_feasibility, primary_choice_values, primary_expected_visits, primary_scores
+                 primary_selection, primary_feasibility, primary_choice_values, primary_expected_visits, primary_scores,
+                 primary_consistent
                  ):
         self.property = prop
         self.primary = primary
@@ -87,6 +88,8 @@ class MdpPropertyResult:
         self.primary_choice_values = primary_choice_values
         self.primary_expected_visits = primary_expected_visits
         self.primary_scores = primary_scores
+
+        self.primary_consistent = primary_consistent
 
     def __str__(self):
         prim = str(self.primary)

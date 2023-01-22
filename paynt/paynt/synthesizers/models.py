@@ -258,7 +258,7 @@ class MDP(MarkovChain):
 
         # no need to check secondary direction if primary direction yields UNSAT
         if not primary.sat:
-            return MdpPropertyResult(prop, primary, None, False, None, None, None, None, None)
+            return MdpPropertyResult(prop, primary, None, False, None, None, None, None, None, None)
 
         # primary direction is SAT
         # check if the primary scheduler is consistent
@@ -271,9 +271,9 @@ class MDP(MarkovChain):
         secondary = self.model_check_property(prop, alt=True)
 
         feasibility = True if secondary.sat else None
-        primary_feasibility = primary.sat
+        primary_feasibility = primary.sat if consistent else False
         return MdpPropertyResult(prop, primary, secondary, feasibility,
-                                 selection, primary_feasibility, choice_values, expected_visits, scores)
+                                 selection, primary_feasibility, choice_values, expected_visits, scores, consistent)
 
     def check_constraints(self, properties, property_indices = None, short_evaluation = False):
         if property_indices is None:
