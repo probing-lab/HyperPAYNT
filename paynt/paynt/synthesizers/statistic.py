@@ -16,6 +16,9 @@ def safe_division(dividend, divisor):
         return dividend / divisor
     except (ZeroDivisionError, ValueError):
         return dividend / APPROX_ZERO
+    except OverflowError:
+        logger.info(f"Overflow error when computing {dividend} / {divisor}, returning an integer instead of a float")
+        return dividend // divisor
 
 class Statistic:
     """General computation stats."""
