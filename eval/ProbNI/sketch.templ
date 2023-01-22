@@ -1,0 +1,34 @@
+mdp
+
+const int N = 80;
+const int M = N;
+
+formula slip1 = 1/2 + 1/ (100 * (x+y));
+
+formula done = (x=N & y=M);
+
+// updates of coordinates (if possible)
+formula xr =  min(x+1,N);
+formula yu = min(y+1, M);
+formula yd = max(y-1, 1);
+formula xl = max(x-1,1);
+
+module robot1
+    x : [1..N];
+    y : [1..M];
+    [east]  !done -> slip1: true + (1-slip1):(x'=xr);
+    [west]  !done -> slip1: true + (1-slip1): (x'=xl);
+    [north] !done -> slip1: true + (1-slip1):(y'=yu);
+    [south] !done -> slip1: true + (1-slip1):(y'=yd);
+endmodule
+
+init (x=1 & y=M) | (x=1 & y=1) endinit
+
+label "goal1" = (x=N&y=M);
+
+label "start0" = (x=1&y=1);
+label "start1" = (x=1&y=M);
+
+rewards "steps"
+    true : 1;
+endrewards

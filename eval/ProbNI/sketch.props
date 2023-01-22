@@ -1,0 +1,7 @@
+ES sched ES sched1
+A s0(sched) A s1(sched1)
+Restrict s0 start0 Restrict s1 start1
+R{s1}{"steps"}[F "goal1"] <= P{s0}{"steps"}[F "goal1"]
+R{s0}{"steps"}[F "goal1"] <= P{s1}{"steps"}[F "goal1"]
+R{s1}<50 [F "goal1"]
+R{s0}<50 [F "goal1"]
