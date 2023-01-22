@@ -7,7 +7,7 @@ from ..sketch.property import Property, logger, Specification
 class HyperProperty(Property):
     ''' Wrapper over an hyperproperty as a simple comparison of a reachability probability between two states. '''
 
-    def __init__(self, prop, state, other_state, op):
+    def __init__(self, prop, state, other_state, op, min_bound = 0):
         self.property = prop
         rf = prop.raw_formula
 
@@ -33,6 +33,10 @@ class HyperProperty(Property):
         self.state = state
         self.other_state = other_state
 
+        # minimal distance at which we consider the hyperproperty satisfied
+        self.min_bound = min_bound
+        assert min_bound > Property.float_precision
+
         self.threshold = None
 
     def __str__(self):
@@ -40,7 +44,7 @@ class HyperProperty(Property):
             self.formula_str) + " {" + str(self.other_state) + "}"
 
     def satisfies_threshold(self, value, threshold):
-        return self.result_valid(value) and self.meets_op(value, threshold)
+        return self.result_valid(value) and self.meets_op(value + self.min_bound, threshold)
 
 
 # TODO: implement optimality hyperproperties
