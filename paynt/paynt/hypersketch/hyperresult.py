@@ -1,5 +1,7 @@
 from .hyperproperty import HyperSpecification
 
+import random
+
 
 class HyperPropertyResult:
     # TODO: for the moment, I haven't implemented optimality hyperproperties
@@ -146,7 +148,7 @@ class HyperSpecificationResult:
         if self.optimality_result is not None and self.optimality_result.can_improve:
             return self.optimality_result
 
-        return self.constraints_result.results[self.constraints_result.undecided_constraints[0]]
+        return self.constraints_result.results[random.choice(self.constraints_result.undecided_constraints)]
 
     def __str__(self):
         return str(self.constraints_result) + "\n" + str(self.optimality_result) + "\n" + str(
