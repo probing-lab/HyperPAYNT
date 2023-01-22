@@ -1,0 +1,67 @@
+mdp
+
+const int N = 6;
+const int M = N;
+
+formula slip1 = 1/2 + 1/ (100 * (x+y));
+formula slip2 = 1/2 + 1/ (100 * (z+t));
+
+formula done = (x=N & y=M) | (z=N & t=M);
+
+formula no_east1 = (z=x+1) & (t=y);
+formula no_west1 = (z=x-1) & (t=y);
+
+formula no_east2 = (x=z+1) & (t=y);
+formula no_west2 = (x=z-1) & (t=y);
+
+formula no_north1 = (t=y+1) & (z=x);
+formula no_south1 = (t=y-1) & (z=x);
+
+formula no_north2 = (y=t+1) & (z=x);
+formula no_south2 = (y=t-1) & (z=x);
+
+// updates of coordinates (if possible)
+formula xr =  no_east1 ? x : min(x+1,N);
+formula yu = no_north1 ? y : min(y+1, M);
+formula yd = no_south1 ? y : max(y-1, 1);
+formula xl = no_west1  ? x : max(x-1,1);
+
+formula zr =  no_east2 ? z : min(z+1,N);
+formula tu = no_north2 ? t : min(t+1, M);
+formula td = no_south2 ? t : max(t-1, 1);
+formula zl = no_west2  ? z : max(z-1,1);
+
+module switcher
+    clk : bool;
+    [east1] clk -> 1: (clk'=false);
+    [west1] clk -> 1: (clk'=false);
+    [north1] clk -> 1: (clk'=false);
+    [south1] clk -> 1: (clk'=false);
+
+    [east2] !clk -> 1: (clk'=true);
+    [west2] !clk -> 1: (clk'=true);
+    [north2] !clk -> 1: (clk'=true);
+    [south2] !clk -> 1: (clk'=true);
+endmodule
+
+module robot1
+    x : [1..N];
+    y : [1..M];
+    [east1]  !done -> slip1: true + (1-slip1):(x'=xr);
+    [west1]  !done -> slip1: true + (1-slip1): (x'=xl);
+    [north1] !done -> slip1: true + (1-slip1):(y'=yu);
+    [south1] !done -> slip1: true + (1-slip1):(y'=yd);
+endmodule
+
+module robot2
+    z : [1..N];
+    t : [1..M];
+    [east2]  !done -> slip2: true + (1-slip2):(z'=zr);
+    [west2]  !done -> slip2: true + (1-slip2): (z'=zl);
+    [north2] !done -> slip2: true + (1-slip2):(t'=tu);
+    [south2] !done -> slip2: true + (1-slip2):(t'=td);
+endmodule
+
+init (x=1 & y=M & z=1 & t=1 & clk=true) endinit
+
+label "goal1" = (x=N&y=M);
