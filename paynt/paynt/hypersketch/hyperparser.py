@@ -312,7 +312,7 @@ class HyperParser:
         op = ops[match.group(6)]
 
         # parse the property
-        reward_structure_re = re.compile(r'(\{.*?\})(.*?)')
+        reward_structure_re = re.compile(r'(\{.*?\})(.*?)$')
         reward_structure_match = reward_structure_re.search(match.group(4))
         if reward_structure_match is None:
             # this is not a reward hyperproperty
