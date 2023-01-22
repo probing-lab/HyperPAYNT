@@ -60,7 +60,7 @@ class HyperParser:
         line = lines.pop(0)
         match = sched_re.search(line)
         if match is None:
-            raise Exception("the input formula is wrong formatted!")
+            raise Exception(f"the input formula is wrong formatted: {line}!")
 
         while True:
             sched_quant = match.group(1)
@@ -297,7 +297,15 @@ class HyperParser:
 
     # TODO: add support for the multi target comparison
     def parse_hyperproperty(self, prop, prism):
-        prop_re = re.compile(r'(.*?(\{(\S+)\})(.*?))(\s(<=|<|=>|>)\s)(.*?(\{(\S+)\})(.*?))$')
+        bound_re = re.compile(r'(.*?)\s--\s(.*?)$')
+        prop_re = re.compile(r'(.*?(\{(\w+)\})(.*?))(\s(<=|<|=>|>)\s)(.*?(\{(\w+)\})(.*?))$')
+
+        # parse potential bound:
+        match = bound_re.search(prop)
+        bound = 0
+        if match is not None:
+            bound = float(match.group(1))
+            prop = match.group(2)
         match = prop_re.search(prop)
         if match is None:
             raise HyperParsingException(f"input formula is wrong formatted! [{prop}]")
@@ -325,7 +333,7 @@ class HyperParser:
 
         ps = stormpy.parse_properties_for_prism_program(p, prism)
         p = ps[0]
-        return HyperProperty(p, state_quant, compare_state, op)
+        return HyperProperty(p, state_quant, compare_state, op, bound)
 
     def parse_property(self, string, prism):
 
