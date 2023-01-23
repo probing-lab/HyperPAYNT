@@ -51,7 +51,7 @@ namespace storm {
             void prepareDtmc(
                 storm::models::sparse::Dtmc<ValueType> const& dtmc,
                 std::vector<uint_fast64_t> const& state_map,
-                size_t state_quant;
+                size_t state_quant
                 );
 
             void prepareReplicatedDtmc(

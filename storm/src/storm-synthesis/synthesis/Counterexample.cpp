@@ -663,7 +663,7 @@ namespace storm {
                 std::cout << this->hole_wave[hole] << ",";
             }
             std::cout << std::endl;*/
-            bool sat = true
+            bool sat = true;
             while(true) {
                 ValueType result = this->expandAndCheck(
                     formula_index, matrix_subdtmc, labeling_subdtmc,
