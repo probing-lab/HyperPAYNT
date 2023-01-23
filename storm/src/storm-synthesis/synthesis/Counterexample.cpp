@@ -310,6 +310,144 @@ namespace storm {
         }
 
         template <typename ValueType, typename StateType>
+        void CounterexampleGenerator<ValueType,StateType>::prepareDtmc(
+            storm::models::sparse::Dtmc<ValueType> const& dtmc,
+            std::vector<uint_fast64_t> const& state_map,
+            size_t state_quant
+            ) {
+
+            // Clear up previous DTMC metadata
+            this->hole_wave.clear();
+            this->wave_states.clear();
+
+            // Get DTMC info
+            this->dtmc = std::make_shared<storm::models::sparse::Dtmc<ValueType>>(dtmc);
+            this->state_map = state_map;
+            uint_fast64_t dtmc_states = this->dtmc->getNumberOfStates();
+            StateType initial_state = *(this->dtmc->getInitialStates().begin() += state_quant);
+            storm::storage::SparseMatrix<ValueType> const& transition_matrix = this->dtmc->getTransitionMatrix();
+
+            // Mark all holes as unregistered
+            for(uint_fast64_t index = 0; index < this->hole_count; index++) {
+                this->hole_wave.push_back(0);
+            }
+
+            // Associate states of a DTMC with relevant holes and store their count
+            std::vector<std::set<uint_fast64_t>> dtmc_holes(dtmc_states);
+            std::vector<uint_fast64_t> unregistered_holes_count(dtmc_states, 0);
+            for(StateType state = 0; state < dtmc_states; state++) {
+                dtmc_holes[state] = this->mdp_holes[state_map[state]];
+                unregistered_holes_count[state] = dtmc_holes[state].size();
+            }
+
+            // Prepare to explore
+            // wave increases by one when new holes of a blocking candidate are registered
+            uint_fast64_t current_wave = 0;
+            // true if the state was reached during exploration (expanded states + both horizons)
+            storm::storage::BitVector reachable_flag(dtmc_states, false);
+            // non-blocking horizon
+            std::stack<StateType> state_horizon;
+            // horizon containing, for a current wave, only blocking states
+            std::vector<StateType> state_horizon_blocking;
+            // blocking state containing currently the least number of unregistered holes + flag if the value was set
+            bool blocking_candidate_set = false;
+            StateType blocking_candidate;
+
+            // Round 0: encounter initial state first (important)
+            this->wave_states.push_back(std::vector<StateType>());
+            reachable_flag.set(initial_state);
+            if(unregistered_holes_count[initial_state] == 0) {
+                // non-blocking
+                state_horizon.push(initial_state);
+            } else {
+                // blocking
+                state_horizon_blocking.push_back(initial_state);
+                blocking_candidate_set = true;
+                blocking_candidate = initial_state;
+            }
+
+            // Explore the state space
+            while(true) {
+                // Expand the non-blocking horizon
+                while(!state_horizon.empty()) {
+                    StateType state = state_horizon.top();
+                    state_horizon.pop();
+                    this->wave_states.back().push_back(state);
+
+                    // Reach successors
+                    for(auto entry: transition_matrix.getRow(state)) {
+                        StateType successor = entry.getColumn();
+                        if(reachable_flag[successor]) {
+                            // already reached
+                            continue;
+                        }
+                        // new state reached
+                        reachable_flag.set(successor);
+                        if(unregistered_holes_count[successor] == 0) {
+                            // non-blocking
+                            state_horizon.push(successor);
+                        } else {
+                            // blocking
+                            state_horizon_blocking.push_back(successor);
+                            if(!blocking_candidate_set || unregistered_holes_count[successor] < unregistered_holes_count[blocking_candidate]) {
+                                // new blocking candidate
+                                blocking_candidate_set = true;
+                                blocking_candidate = successor;
+                            }
+                        }
+                    }
+                }
+
+                // Non-blocking horizon exhausted
+                if(!blocking_candidate_set) {
+                    // Nothing more to expand
+                    break;
+                }
+
+                // Start a new wave
+                current_wave++;
+                this->wave_states.push_back(std::vector<StateType>());
+                blocking_candidate_set = false;
+
+                // Register all unregistered holes of this blocking state
+                for(uint_fast64_t hole: dtmc_holes[blocking_candidate]) {
+                    if(this->hole_wave[hole] == 0) {
+                        hole_wave[hole] = current_wave;
+                        // std::cout << "[storm] hole " << hole << " expanded in wave " << current_wave << std::endl;
+                    }
+                }
+
+                // Recompute number of unregistered holes in each state
+                for(StateType state = 0; state < dtmc_states; state++) {
+                    unregistered_holes_count[state] = 0;
+                    for(uint_fast64_t hole: dtmc_holes[state]) {
+                        if(this->hole_wave[hole] == 0) {
+                            unregistered_holes_count[state]++;
+                        }
+                    }
+                }
+
+                // Unblock the states from the blocking horizon
+                std::vector<StateType> old_blocking_horizon;
+                old_blocking_horizon.swap(state_horizon_blocking);
+                for(StateType state: old_blocking_horizon) {
+                    if(unregistered_holes_count[state] == 0) {
+                        // state unblocked
+                        state_horizon.push(state);
+                    } else {
+                        // still blocking
+                        state_horizon_blocking.push_back(state);
+                        if(!blocking_candidate_set || unregistered_holes_count[state] < unregistered_holes_count[blocking_candidate]) {
+                            // new blocking candidate
+                            blocking_candidate_set = true;
+                            blocking_candidate = state;
+                        }
+                    }
+                }
+            }
+        }
+
+        template <typename ValueType, typename StateType>
         void CounterexampleGenerator<ValueType,StateType>::prepareSubdtmc (
             uint_fast64_t formula_index,
             std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> mdp_bounds,

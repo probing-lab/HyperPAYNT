@@ -23,6 +23,12 @@ void define_synthesis(py::module& m) {
             "prepare_dtmc",
             &storm::synthesis::CounterexampleGenerator<>::prepareDtmc,
             "Prepare a DTMC for CE construction.",
+            py::arg("dtmc"), py::arg("quotient_state_map"), py::arg("state_quant")
+            )
+        .def(
+            "prepare_replicated_dtmc",
+            &storm::synthesis::CounterexampleGenerator<>::prepareReplicatedDtmc,
+            "Prepare a DTMC for CE construction.",
             py::arg("dtmc"), py::arg("quotient_state_map"), py::arg("state_quant"), py::arg("other_state_quant")
             )
         .def(
