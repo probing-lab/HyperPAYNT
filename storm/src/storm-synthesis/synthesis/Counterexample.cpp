@@ -310,7 +310,7 @@ namespace storm {
         }
 
         template <typename ValueType, typename StateType>
-        ValueType CounterexampleGenerator<ValueType,StateType>::prepareSubdtmc (
+        void CounterexampleGenerator<ValueType,StateType>::prepareSubdtmc (
             uint_fast64_t formula_index,
             std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> mdp_bounds,
             std::vector<StateType> const& mdp_quotient_state_map,
@@ -362,7 +362,6 @@ namespace storm {
             
 
             // Construct transition matrix (as well as the reward model) for the subdtmc
-            ValueType initial_probability;
             if(!this->formula_reward[formula_index]) {
                 // Probability formula: no reward models
                 bool def = !is_other ? this->formula_safety[formula_index] : ! this->formula_safety[formula_index];
@@ -374,9 +373,6 @@ namespace storm {
                     r.emplace_back(sink_state_false, 1-probability);
                     r.emplace_back(sink_state_true, probability);
                     matrix_subdtmc.push_back(r);
-                    if(state == initial_state){
-                        initial_probability = probability;
-                    }
                 }
             } else {
                 // Reward formula: one reward model
@@ -404,9 +400,6 @@ namespace storm {
                 r.emplace_back(state, 1);
                 matrix_subdtmc.push_back(r);
             }
-
-            return initial_probability;
-
         }
 
         template <typename ValueType, typename StateType>
@@ -520,7 +513,7 @@ namespace storm {
             std::vector<std::vector<std::pair<StateType,ValueType>>> matrix_subdtmc;
             storm::models::sparse::StateLabeling labeling_subdtmc(dtmc_states+2);
             std::unordered_map<std::string, storm::models::sparse::StandardRewardModel<ValueType>> reward_models_subdtmc;
-            ValueType result = this->prepareSubdtmc(
+            this->prepareSubdtmc(
                 formula_index, mdp_bounds, mdp_quotient_state_map, matrix_subdtmc,
                 labeling_subdtmc, reward_models_subdtmc, state_quant, false
             );
@@ -529,7 +522,7 @@ namespace storm {
             std::vector<std::vector<std::pair<StateType,ValueType>>> other_matrix_subdtmc;
             storm::models::sparse::StateLabeling other_labeling_subdtmc(dtmc_states+2);
             std::unordered_map<std::string, storm::models::sparse::StandardRewardModel<ValueType>> other_reward_models_subdtmc;
-            ValueType formula_bound = this->prepareSubdtmc(
+            this->prepareSubdtmc(
                 formula_index, other_mdp_bounds, mdp_quotient_state_map, other_matrix_subdtmc,
                 other_labeling_subdtmc, other_reward_models_subdtmc, other_state_quant, true
             );
@@ -542,13 +535,13 @@ namespace storm {
             while(true) {
 
                 // explore primary direction
-                result = this->expandAndCheck(
+                ValueType result = this->expandAndCheck(
                     formula_index, matrix_subdtmc, labeling_subdtmc,
                     reward_models_subdtmc, this->wave_states[wave], this->hint_result, state_quant, strict
                 );
 
                 // explore secondary direction
-                formula_bound = this->expandAndCheck(
+                ValueType formula_bound = this->expandAndCheck(
                         formula_index, other_matrix_subdtmc, other_labeling_subdtmc,
                         other_reward_models_subdtmc, this->wave_states[wave], this->other_hint_result, other_state_quant, strict
                     );

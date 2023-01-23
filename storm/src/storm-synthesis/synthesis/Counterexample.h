@@ -105,7 +105,7 @@ namespace storm {
              *   investigated, this map will contain exactly one reward model
              *   for the initial sub-DTMC.
              */
-            ValueType prepareSubdtmc(
+            void prepareSubdtmc(
                 uint_fast64_t formula_index,
                 std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> mdp_bounds,
                 std::vector<StateType> const& mdp_quotient_state_map,
