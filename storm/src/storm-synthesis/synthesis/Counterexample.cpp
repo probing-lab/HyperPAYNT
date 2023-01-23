@@ -630,6 +630,84 @@ namespace storm {
         template <typename ValueType, typename StateType>
         std::vector<uint_fast64_t> CounterexampleGenerator<ValueType,StateType>::constructConflict (
             uint_fast64_t formula_index,
+            ValueType formula_bound,
+            std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> mdp_bounds,
+            std::vector<StateType> const& mdp_quotient_state_map,
+            size_t state_quant,
+            bool strict
+            ) {
+            this->timer_conflict.start();
+
+            // Clear hint result
+            this->hint_result = NULL;
+
+            // Get DTMC info
+            StateType dtmc_states = this->dtmc->getNumberOfStates();
+
+            // Prepare to construct sub-DTMCs
+            std::vector<std::vector<std::pair<StateType,ValueType>>> matrix_subdtmc;
+            storm::models::sparse::StateLabeling labeling_subdtmc(dtmc_states+2);
+            std::unordered_map<std::string, storm::models::sparse::StandardRewardModel<ValueType>> reward_models_subdtmc;
+            this->prepareSubdtmc(
+                formula_index, mdp_bounds, mdp_quotient_state_map, matrix_subdtmc, labeling_subdtmc, reward_models_subdtmc,
+                state_quant, false
+            );
+
+            // Explore subDTMCs wave by wave
+            uint_fast64_t wave_last = this->wave_states.size()-1;
+            uint_fast64_t wave = 0;
+
+            /*std::cout << "[storm] hole-wave: ";
+            for(uint_fast64_t hole = 0; hole < this->hole_count; hole++) {
+                std::cout << this->hole_wave[hole] << ",";
+            }
+            std::cout << std::endl;*/
+            bool sat = true
+            while(true) {
+                ValueType result = this->expandAndCheck(
+                    formula_index, matrix_subdtmc, labeling_subdtmc,
+                    reward_models_subdtmc, this->wave_states[wave], this->hint_result, state_quant
+                );
+
+                if(this->formula_safety[formula_index] && !strict) {
+                    // the formula is of type P <= bound
+                    sat = (result <= formula_bound) || abs(result - formula_bound) < exp(-5);
+                } else if (!strict){
+                    // the formula is of type P >= bound
+                    sat = (result >= formula_bound) || abs(result - formula_bound) < exp(-5);
+                } else if (this->formula_safety[formula_index]) {
+                    // the formula is of type P < bound
+                    sat = (result < formula_bound) && abs(result - formula_bound) > exp(-5);
+
+                } else {
+                    // the formula is of type P > bound
+                    sat = (result > formula_bound) && abs(result - formula_bound) > exp(-5);
+                }
+
+                // std::cout << "[storm] wave " << wave << "/" << wave_last << " : " << satisfied << std::endl;
+                if(!sat || wave == wave_last) {
+                    break;
+                } else {
+                    wave++;
+                }
+            }
+
+            // Return a set of critical holes
+            std::vector<uint_fast64_t> critical_holes;
+            for(uint_fast64_t hole = 0; hole < this->hole_count; hole++) {
+                uint_fast64_t wave_registered = this->hole_wave[hole];
+                if(wave_registered > 0 && wave_registered <= wave) {
+                    critical_holes.push_back(hole);
+                }
+            }
+            this->timer_conflict.stop();
+
+            return critical_holes;
+        }
+
+        template <typename ValueType, typename StateType>
+        std::vector<uint_fast64_t> CounterexampleGenerator<ValueType,StateType>::constructHyperConflict (
+            uint_fast64_t formula_index,
             std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> mdp_bounds,
             std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> other_mdp_bounds,
             std::vector<StateType> const& mdp_quotient_state_map,

@@ -35,6 +35,13 @@ void define_synthesis(py::module& m) {
             "construct_conflict",
             &storm::synthesis::CounterexampleGenerator<>::constructConflict,
             "Construct a conflict to a prepared DTMC wrt a single formula.",
+            py::arg("formula_index"), py::arg("formula_bound"), py::arg("mdp_bounds"),py::arg("other_mdp_bounds"),
+            py::arg("mdp_quotient_state_map"), py::arg("state_quant"), py::arg("strict")
+            )
+        .def(
+            "construct_hyperconflict",
+            &storm::synthesis::CounterexampleGenerator<>::constructHyperConflict,
+            "Construct a conflict to a prepared DTMC wrt a single formula.",
             py::arg("formula_index"), py::arg("mdp_bounds"),py::arg("other_mdp_bounds"), py::arg("mdp_quotient_state_map"),
             py::arg("state_quant"), py::arg("other_state_quant"), py::arg("strict")
             )
