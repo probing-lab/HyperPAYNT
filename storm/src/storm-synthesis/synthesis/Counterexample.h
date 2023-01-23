@@ -81,7 +81,7 @@ namespace storm {
 
         protected:
 
-            void exploreDtmc (
+            void exploreReplicatedDtmc (
                 std::vector<uint_fast64_t> &hole_wave,
                 std::vector<std::vector<StateType>> &wave_states,
                 StateType initial_state,

@@ -118,7 +118,7 @@ namespace storm {
         }
 
         template <typename ValueType, typename StateType>
-        void CounterexampleGenerator<ValueType,StateType>::exploreDtmc (
+        void CounterexampleGenerator<ValueType,StateType>::exploreReplicatedDtmc (
             std::vector<uint_fast64_t> &hole_wave,
             std::vector<std::vector<StateType>> &wave_states,
             StateType initial_state,
@@ -285,7 +285,7 @@ namespace storm {
         }
 
         template <typename ValueType, typename StateType>
-        void CounterexampleGenerator<ValueType,StateType>::prepareDtmc(
+        void CounterexampleGenerator<ValueType,StateType>::prepareReplicatedDtmc(
             storm::models::sparse::Dtmc<ValueType> const& dtmc,
             std::vector<uint_fast64_t> const& state_map,
             size_t state_quant,
@@ -303,7 +303,7 @@ namespace storm {
             StateType other_initial_state = *(this->dtmc->getInitialStates().begin() += other_state_quant);
 
 
-            this->exploreDtmc(
+            this->exploreReplicatedDtmc(
                 this->hole_wave, this->wave_states, initial_state, other_initial_state
             );
 
