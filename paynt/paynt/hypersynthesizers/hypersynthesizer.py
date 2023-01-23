@@ -283,7 +283,7 @@ class HyperSynthesizerCEGIS(HyperSynthesizer):
             family.exclude_assignment(assignment, conflict)
 
         Profiler.resume()
-        return False, False
+        return False, improving
 
     def synthesize(self, family, explore_all):
 
