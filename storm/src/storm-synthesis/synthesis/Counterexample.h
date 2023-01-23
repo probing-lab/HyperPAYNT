@@ -133,8 +133,7 @@ namespace storm {
                 std::unordered_map<std::string,storm::models::sparse::StandardRewardModel<ValueType>> & reward_models_subdtmc,
                 std::vector<StateType> const& to_expand,
                 std::shared_ptr<storm::modelchecker::CheckResult> hint_result,
-                size_t state_quant,
-                bool strict
+                size_t state_quant
                 );
 
             // Quotient MDP

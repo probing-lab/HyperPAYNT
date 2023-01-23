@@ -410,8 +410,7 @@ namespace storm {
             std::unordered_map<std::string,storm::models::sparse::StandardRewardModel<ValueType>> & reward_models_subdtmc,
             std::vector<StateType> const& to_expand,
             std::shared_ptr<storm::modelchecker::CheckResult> hint_result,
-            size_t state_quant,
-            bool strict
+            size_t state_quant
         ) {
             // Get DTMC info
             uint_fast64_t dtmc_states = this->dtmc->getNumberOfStates();
@@ -537,13 +536,13 @@ namespace storm {
                 // explore primary direction
                 ValueType result = this->expandAndCheck(
                     formula_index, matrix_subdtmc, labeling_subdtmc,
-                    reward_models_subdtmc, this->wave_states[wave], this->hint_result, state_quant, strict
+                    reward_models_subdtmc, this->wave_states[wave], this->hint_result, state_quant
                 );
 
                 // explore secondary direction
                 ValueType formula_bound = this->expandAndCheck(
                         formula_index, other_matrix_subdtmc, other_labeling_subdtmc,
-                        other_reward_models_subdtmc, this->wave_states[wave], this->other_hint_result, other_state_quant, strict
+                        other_reward_models_subdtmc, this->wave_states[wave], this->other_hint_result, other_state_quant
                     );
 
                 if(this->formula_safety[formula_index] && !strict) {
