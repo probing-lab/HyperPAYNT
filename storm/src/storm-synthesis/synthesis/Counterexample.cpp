@@ -631,6 +631,7 @@ namespace storm {
         std::vector<uint_fast64_t> CounterexampleGenerator<ValueType,StateType>::constructConflict (
             uint_fast64_t formula_index,
             ValueType formula_bound,
+            ValueType bound,
             std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> mdp_bounds,
             std::vector<StateType> const& mdp_quotient_state_map,
             size_t state_quant,
@@ -669,6 +670,7 @@ namespace storm {
                     reward_models_subdtmc, this->wave_states[wave], this->hint_result, state_quant
                 );
 
+                result = result + bound;
                 if(this->formula_safety[formula_index] && !strict) {
                     // the formula is of type P <= bound
                     sat = (result <= formula_bound) || abs(result - formula_bound) < exp(-5);
@@ -708,6 +710,7 @@ namespace storm {
         template <typename ValueType, typename StateType>
         std::vector<uint_fast64_t> CounterexampleGenerator<ValueType,StateType>::constructHyperConflict (
             uint_fast64_t formula_index,
+            ValueType bound,
             std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> mdp_bounds,
             std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> other_mdp_bounds,
             std::vector<StateType> const& mdp_quotient_state_map,
@@ -761,6 +764,7 @@ namespace storm {
                         other_reward_models_subdtmc, this->wave_states[wave], this->other_hint_result, other_state_quant
                     );
 
+                result = result + bound;
                 if(this->formula_safety[formula_index] && !strict) {
                     // the formula is of type P <= bound
                     sat = (result <= formula_bound) || abs(result - formula_bound) < exp(-5);
