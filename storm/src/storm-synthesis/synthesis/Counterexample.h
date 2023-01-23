@@ -171,11 +171,6 @@ namespace storm {
             // For each wave, a set of states that were expanded.
             std::vector<std::vector<StateType>> wave_states;
 
-
-            std::vector<uint_fast64_t> other_hole_wave;
-            std::vector<std::vector<StateType>> other_wave_states;
-
-
             // Hint for future model checking.
             std::shared_ptr<storm::modelchecker::CheckResult> hint_result;
             std::shared_ptr<storm::modelchecker::CheckResult> other_hint_result;
