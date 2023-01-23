@@ -15,7 +15,7 @@ class Property:
 
     ''' Wrapper over a stormpy property. '''
 
-    def __init__(self, prop, state):
+    def __init__(self, prop, state, min_bound = 0):
         self.property = prop
         rf = prop.raw_formula
 
@@ -46,6 +46,7 @@ class Property:
         self.formula_str = rf
 
         self.state = state
+        self.min_bound = min_bound
 
     @staticmethod
     def alt_formula(formula):
@@ -61,7 +62,7 @@ class Property:
         return formula_alt
 
     def __str__(self):
-        return f"{self.formula_str}[{self.state}]"
+        return f"{self.formula_str}[{self.state}] -- bound: [{self.min_bound}]"
 
     @property
     def reward(self):
@@ -83,7 +84,7 @@ class Property:
             return not Property.above_float_precision(a, b) or self.op(a, b)
 
     def meets_threshold(self, value):
-        return self.meets_op(value, self.threshold)
+        return self.meets_op(value + self.min_bound, self.threshold)
 
     def result_valid(self, value):
         return not self.reward or value != math.inf
