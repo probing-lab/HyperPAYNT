@@ -2,6 +2,7 @@ import stormpy.synthesis
 
 from ..synthesizers.statistic import Statistic
 from ..profiler import Timer, Profiler
+from ..hypersketch.hyperproperty import HyperProperty
 
 from ..hypersketch.hyperproperty import HyperSpecification
 
@@ -254,24 +255,38 @@ class HyperSynthesizerCEGIS(HyperSynthesizer):
             for request in group:
                 (index, (prop, property_result)) = request
 
-                state_quant = prop.state
-                other_state_quant = prop.other_state
+                if isinstance(prop, HyperProperty):
 
-                # prepare DTMC for CE generation
-                ce_generator.prepare_dtmc(dtmc.model, dtmc.quotient_state_map, state_quant, other_state_quant)
+                    # prepare DTMC for CE generation
+                    ce_generator.prepare_replicated_dtmc(dtmc.model, dtmc.quotient_state_map, prop.state, prop.other_state)
 
-                bounds = None
-                other_bounds = None
-                if property_result is not None:
-                    bounds = property_result.primary.result
-                    other_bounds = property_result.secondary.result
-                    scheduler_selection = property_result.primary_selection
+                    bounds = None
+                    other_bounds = None
+                    if property_result is not None:
+                        bounds = property_result.primary.result
+                        other_bounds = property_result.secondary.result
+                        scheduler_selection = property_result.primary_selection
 
-                Profiler.start("storm::construct_conflict")
-                conflict = ce_generator.construct_conflict(index, bounds, other_bounds, family.mdp.quotient_state_map,
-                                                           state_quant, other_state_quant, prop.strict)
+                    Profiler.start("storm::construct_conflict")
+                    conflict = ce_generator.construct_hyperconflict(index, prop.min_bound, bounds, other_bounds, family.mdp.quotient_state_map,
+                                                               prop.state, prop.other_state, prop.strict)
 
-                overall_conflict = list(set(overall_conflict + conflict))
+                    overall_conflict = list(set(overall_conflict + conflict))
+                else:
+                    # prepare DTMC for CE generation
+                    ce_generator.prepare_dtmc(dtmc.model, dtmc.quotient_state_map, prop.state)
+
+                    bounds = None
+                    if property_result is not None:
+                        bounds = property_result.primary.result
+                        scheduler_selection = property_result.primary_selection
+
+                    Profiler.start("storm::construct_conflict")
+                    conflict = ce_generator.construct_conflict(index, prop.min_bound, bounds,
+                                                                    family.mdp.quotient_state_map,
+                                                                    prop.state, prop.strict)
+
+                    overall_conflict = list(set(overall_conflict + conflict))
 
                 Profiler.resume()
             overall_conflict = self.generalize_conflict(assignment, overall_conflict, scheduler_selection)
