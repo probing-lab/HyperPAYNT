@@ -128,6 +128,7 @@ class MarkovChain:
         if self.analysis_hints is not None:
             hint_prim,hint_seco = self.analysis_hints[prop]
             hint = hint_prim if not alt else hint_seco
+            hint_alt = hint_seco if not alt else hint_prim
             # hint = self.analysis_hints[prop]
 
         formula = prop.formula if not alt else prop.formula_alt
@@ -137,7 +138,7 @@ class MarkovChain:
             result_alt = self.model_check_formula(formula_alt)
         else:
             result = self.model_check_formula_hint(formula, hint)
-            result_alt = self.model_check_formula_hint(formula_alt, hint)
+            result_alt = self.model_check_formula_hint(formula_alt, hint_alt)
 
         Profiler.resume()
         return HyperPropertyResult(prop, result, result_alt)
