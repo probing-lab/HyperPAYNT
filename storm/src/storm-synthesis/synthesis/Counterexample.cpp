@@ -274,10 +274,15 @@ namespace storm {
                     } else {
                         // still blocking
                         state_horizon_blocking.push_back(state);
-                        if(!blocking_candidate_set || unregistered_holes_count[state] < unregistered_holes_count[blocking_candidate]) {
+                        uint_fast64_t mapped_states;
+                            for (uint_fast64_t hole: dtmc_holes[state]){
+                                mapped_states = mapped_states_count[hole];
+                            }
+                        if(!blocking_candidate_set || mapped_states < blocking_candidate_hole_mapped_states) {
                             // new blocking candidate
                             blocking_candidate_set = true;
                             blocking_candidate = state;
+                            blocking_candidate_hole_mapped_states = mapped_states;
                         }
                     }
                 }
