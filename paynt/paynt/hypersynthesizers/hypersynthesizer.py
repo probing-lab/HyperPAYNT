@@ -209,6 +209,8 @@ class HyperSynthesizerCEGIS(HyperSynthesizer):
         self.stat.iteration_dtmc(dtmc.states)
 
         # model check all properties
+        if self.sketch.specification.has_scheduler_hyperoptimality:
+            raise NotImplementedError("Scheduler HyperOptimality is not supported yet by CEGIS")
         spec = dtmc.check_hyperspecification(self.sketch.specification, assignment,
                                            property_indices=family.property_indices, short_evaluation=False)
 
