@@ -1,9 +1,9 @@
 mdp
 
-const int N = 80;
+const int N = 50;
 const int M = N;
 
-formula slip1 = 1/2 + 1/ (100 * (x+y));
+formula slip = 1/3 * (1/2 + 1/ (100 * (x+y)));
 
 formula done = (x=N & y=M);
 
@@ -13,22 +13,27 @@ formula yu = min(y+1, M);
 formula yd = max(y-1, 1);
 formula xl = max(x-1,1);
 
+formula slipup = (y=M) ? (y-1) : (y+1);
+formula slipdown = (y=1) ? (y+1) : (y-1);
+formula slipright = (x=N) ? (x-1) : (x+1);
+formula slipleft = (x=1) ? (x+1) : (x-1);
+
 module robot1
     x : [1..N];
     y : [1..M];
-    [east]  !done -> slip1: true + (1-slip1):(x'=xr);
-    [west]  !done -> slip1: true + (1-slip1): (x'=xl);
-    [north] !done -> slip1: true + (1-slip1):(y'=yu);
-    [south] !done -> slip1: true + (1-slip1):(y'=yd);
+    [east]  true -> slip: (y'=slipup) + slip: (y'=slipdown) + slip: (x'=slipleft) + (1- (3 * slip)):(x'=xr);
+    [west]  true -> slip: (y'=slipdown) + slip: (y'=slipup) + slip: (x'=slipright) + (1- (3 * slip)): (x'=xl);
+    [north] true -> slip: (x'=slipleft) + slip: (x'=slipright) + slip: (y'=slipdown) + (1-(3 * slip)):(y'=yu);
+    [south] true -> slip: (x'=slipright) + slip: (x'=slipleft) + slip: (y'=slipup) + (1-(3 * slip)):(y'=yd);
 endmodule
 
-init (x=1 & y=M) | (x=1 & y=1) endinit
+init (x=1 & y=1) | (x=1 & y=M) endinit
 
-label "goal1" = (x=N&y=M);
-
-label "start0" = (x=1&y=1);
-label "start1" = (x=1&y=M);
+label "goal" = (x=N&y=M);
 
 rewards "steps"
     true : 1;
 endrewards
+
+label "start0" = (x=1)&(y=1);
+label "start1" = (x=1)&(y=M);
