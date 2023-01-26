@@ -148,7 +148,30 @@ class HyperSpecificationResult:
         if self.optimality_result is not None and self.optimality_result.can_improve:
             return self.optimality_result
 
-        return self.constraints_result.results[random.choice(self.constraints_result.undecided_constraints)]
+        best_res = None
+        max_score = 0
+        for index in self.constraints_result.undecided_constraints:
+            res = self.constraints_result.results[index]
+            if res.primary_consistent:
+                scores, _ = res.primary_scores
+            else:
+                scores = res.primary_scores
+            resmax = max(scores.values())
+            if resmax >= max_score:
+                best_res = res
+                max_score = resmax
+
+            if isinstance(res, MdpHyperPropertyResult):
+                if res.secondary_consistent:
+                    scores, _ = res.secondary_scores
+                else:
+                    scores = res.secondary_scores
+                resmax = max(scores.values())
+                if resmax >= max_score:
+                    best_res = res
+                    max_score = resmax
+
+        return best_res
 
     def __str__(self):
         return str(self.constraints_result) + "\n" + str(self.optimality_result) + "\n" + str(
