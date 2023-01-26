@@ -239,7 +239,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         return hole_differences
 
     # split the options of the best hole according to the scores
-    def compute_suboptions(self, scores, primary, minimizing, mdp, hole_assignments, is_consistent, splitting_factor=None):
+    def compute_suboptions(self, scores, primary, minimizing, mdp, hole_assignments, is_consistent):
 
         if is_consistent:
             scores, options_rankings = scores
@@ -254,10 +254,9 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             # splitting_factor(primary) > splitting_factor(secondary)
             # i.e., we always try to increase the mc results for the primary selection and decrease them for secondary selection
             # the other way around, for a maximizing property
-            if splitting_factor is None:
-                splitting_factor = 0.80 if primary else 0.20
-                # handle non minimizing properties
-                splitting_factor = splitting_factor if minimizing else 1 - minimizing
+            splitting_factor = 0.80 if primary else 0.20
+            # handle non minimizing properties
+            splitting_factor = splitting_factor if minimizing else 1 - minimizing
 
             chunk_size = math.floor(len(options) * splitting_factor) if primary else math.ceil(len(options) * splitting_factor)
             return [options[:chunk_size]], [options[chunk_size:]], splitter
@@ -293,25 +292,19 @@ class HyperPropertyQuotientContainer(QuotientContainer):
                     result.secondary_scores, False, minimizing, mdp, result.secondary_selection, result.secondary_consistent)
 
 
-        # when the best splitter is the same for both selections, then just split halfway on it.
-        # this is also the case when we are splitting on a simple PCTL property
-        # NOTE: safe due to short circuiting
+        # if we have the same splitter (or just one), then just split on the primary
         if not isHyper or primary_splitter == secondary_splitter:
 
-            core_suboptions, other_suboptions, unique_splitter = \
-                self.compute_suboptions(result.primary_scores, True, minimizing, mdp, result.primary_selection, result.primary_consistent,
-                splitting_factor= 0.5 if isHyper else None)
-            suboptions_list = core_suboptions + other_suboptions
+            suboptions_list = primary_other_suboptions + primary_core_suboptions
             #construct corresponding design subspaces
             design_subspaces = []
-
-            family.splitters = [unique_splitter]
+            family.splitters = [primary_splitter]
             parent_info = family.collect_parent_info()
             for suboptions in suboptions_list:
-                subholes = new_design_space.subholes([(unique_splitter, suboptions)])
+                subholes = new_design_space.subholes([(primary_splitter, suboptions)])
                 design_subspace = DesignSpace(subholes, parent_info)
                 # TODO: do we need this? Isn't it done by subhole method?
-                design_subspace.assume_hole_options(unique_splitter, suboptions)
+                design_subspace.assume_hole_options(primary_splitter, suboptions)
                 design_subspaces.append(design_subspace)
 
             Profiler.resume()
