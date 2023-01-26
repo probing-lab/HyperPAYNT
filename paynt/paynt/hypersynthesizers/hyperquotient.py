@@ -181,7 +181,9 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         Profiler.start(" estimate scheduler difference")
 
         # for each hole, compute its difference sum and a number of affected states
-        hole_differences = {hole_index: 0 for hole_index in hole_assignments}
+        hole_difference_sum = {hole_index: 0 for hole_index in hole_assignments}
+        hole_states_affected = {hole_index: 0 for hole_index in hole_assignments}
+        hole_difference_max = {hole_index: 0 for hole_index in hole_assignments}
         options_rankings = {hole_index: [] for hole_index in hole_assignments}
         tm = mdp.model.transition_matrix
 
@@ -221,9 +223,12 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             # compute the difference and the ranking
             difference = (hole_max - hole_min) * expected_visits[state]
             assert not math.isnan(difference)
-            hole_differences[hole_index] = difference
-            ranking.sort(key=lambda tup: tup[1])
-            options_rankings[hole_index] = [i for i, _ in ranking]
+            hole_difference_sum[hole_index] += difference
+            hole_states_affected[hole_index] += 1
+            if difference >= hole_difference_max[hole_index]:
+                hole_difference_max[hole_index] = difference
+                ranking.sort(key=lambda tup: tup[1])
+                options_rankings[hole_index] = [i for i, _ in ranking]
 
         # filter out unreachable holes, which don't have any option in the ranking
         # but in the current approach we consider only overall reachability in the MDP
@@ -231,7 +236,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         # i.e., expected visits of the state are zero
         # for example, for PC this holds for all holes from the initial state of the DTMC
         options_rankings = {key: value for key,value in options_rankings.items() if value}
-        hole_differences = {key: value for key,value in hole_differences.items() if key in options_rankings}
+        hole_differences = {key: hole_difference_sum[key] / hole_states_affected[key] for key in options_rankings}
 
         # aggregate the results
         hole_differences = (hole_differences, options_rankings)
