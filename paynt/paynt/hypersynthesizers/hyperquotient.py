@@ -259,7 +259,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             splitting_factor = splitting_factor if minimizing else 1 - minimizing
 
             chunk_size = math.floor(len(options) * splitting_factor) if primary else math.ceil(len(options) * splitting_factor)
-            return [options[:chunk_size]], [options[chunk_size:]], splitter
+            return [options[:chunk_size]], [options[chunk_size:]], splitter, scores[splitter]
 
         splitters = self.holes_with_max_score(scores)
         splitter = splitters[0]
@@ -267,7 +267,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         core_suboptions, other_suboptions = self.suboptions_enumerate(mdp, splitter, hole_assignments[splitter])
         if not other_suboptions:
             other_suboptions = core_suboptions.pop(0)
-        return core_suboptions, [other_suboptions], splitter
+        return core_suboptions, [other_suboptions], splitter, scores[splitter]
 
     def split(self, family):
         Profiler.start("quotient::split")
@@ -284,12 +284,16 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
         # compute the holes on which to split given by the analysis of the primary_scheduler
         minimizing = result.property
-        primary_other_suboptions, primary_core_suboptions, primary_splitter = \
+        primary_other_suboptions, primary_core_suboptions, primary_splitter, primary_splitter_score = \
             self.compute_suboptions(result.primary_scores, True, minimizing, mdp, result.primary_selection, result.primary_consistent)
 
         if isHyper:
-            secondary_core_suboptions, secondary_other_suboptions, secondary_splitter = self.compute_suboptions(
+            secondary_core_suboptions, secondary_other_suboptions, secondary_splitter, secondary_splitter_score = self.compute_suboptions(
                     result.secondary_scores, False, minimizing, mdp, result.secondary_selection, result.secondary_consistent)
+            if secondary_splitter_score == 0:
+                secondary_core_suboptions, secondary_other_suboptions, secondary_splitter = primary_other_suboptions, primary_core_suboptions, primary_splitter
+            if primary_splitter_score == 0:
+                primary_other_suboptions, primary_core_suboptions, primary_splitter = secondary_core_suboptions, secondary_other_suboptions, secondary_splitter
 
 
         # if we have the same splitter (or just one), then just split on the primary
