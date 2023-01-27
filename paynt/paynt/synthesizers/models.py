@@ -156,6 +156,7 @@ class MarkovChain:
                 diff_count = diff_count + 1 if len(set.union
                     (*map(lambda x: set(family[x].options), matching_holes_indexes))) > 1 else diff_count
 
+        diff_count = max(diff_count, 1)
         return SchedulerOptimalityHyperPropertyResult(prop, diff_count)
 
 
