@@ -1,0 +1,38 @@
+// Example 1
+// Two process mutual exclusion
+
+mdp
+
+global turn : [0..1];
+global critical : [0..2];
+global error : [0..2];
+
+global thread : [0..1];
+global delay : bool;
+global print : bool;
+
+const zero = 0;
+const one = 1;
+
+module P0
+    pc0 : [0..8];
+    flagP0 : bool;
+
+    [] (pc0=0) -> 0.5 : (pc0' = pc0 + 1) & (flagP0' = true) + 0.5 : (pc0' = pc0 + 1);
+    [] (pc0=1) -> 0.5 : (pc0' = pc0 + 1) & (turn' = one) + 0.5 : (pc0' = pc0 + 1) & (turn' = one) & (flagP0'=true);
+    [] (pc0=2) -> 0.5 : (pc0' = pc0 + 1) + 0.5 : (pc0' = pc0 + 1) & (flagP0'=true);
+    [] (pc0=3 & flagP1 & turn=one) -> 0.5 : true + 0.5 : (flagP0'=true);
+    [] (pc0=3 & !(flagP1 & turn=one)) -> 0.5 : (pc0' = pc0 + 1) + 0.5 : (pc0' = pc0 + 1) & (flagP0'=true);
+    [] (pc0=4) -> 0.5 : (pc0' = pc0 + 1) & (critical' = critical + 1) + 0.5 : (pc0' = pc0 + 1) & (critical' = critical + 1) & (flagP0'=true);
+    [] (pc0=5 & critical != 1) -> 0.5 : (pc0' = pc0 + 1) & (error' = error + 1) + 0.5 : (pc0' = pc0 + 1) & (error' = error + 1) & (flagP0'=true);
+    [] (pc0=5 & critical = 1) -> 0.5 : (pc0' = pc0 + 1) + 0.5 : (pc0' = pc0 + 1) & (flagP0'=true);
+    [] (pc0=6) -> 0.5 : (pc0' = pc0 + 1) & (critical' = critical - 1) + 0.5 : (pc0' = pc0 + 1) & (critical' = critical - 1) & (flagP0'=true);
+    [] (pc0=7) -> (pc0' = pc0 + 1) & (flagP0' = false);
+
+endmodule
+
+module P1 = P0 [ pc0=pc1, flagP0=flagP1, flagP1=flagP0, zero=one, one=zero] endmodule
+
+init (turn=0 & critical=0 & error=0 & !flagP0 & !flagP1 & pc0=0 & pc1=0 & thread=0 & !print & delay) endinit
+
+label "bug" = (error > 0 & pc0=8 & pc1=8);
