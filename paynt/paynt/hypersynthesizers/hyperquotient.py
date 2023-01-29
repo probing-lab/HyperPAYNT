@@ -263,8 +263,12 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             # handle non minimizing properties
             splitting_factor = splitting_factor if minimizing else 1 - minimizing
 
-            chunk_size = math.floor(len(options) * splitting_factor) if primary else math.ceil(len(options) * splitting_factor)
-            return [options[:chunk_size]], [options[chunk_size:]], splitter, scores[splitter]
+            chunk_size = math.floor(len(options) * splitting_factor) if splitting_factor > 0.50 else math.ceil(
+                len(options) * splitting_factor)
+            if splitting_factor < 0.50:
+                return [options[:chunk_size]], [options[chunk_size:]], splitter, scores[splitter]
+            else:
+                return [options[chunk_size:]], [options[:chunk_size]], splitter, scores[splitter]
 
         splitters = self.holes_with_max_score(scores)
         splitter = splitters[0]
@@ -289,22 +293,22 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
         # compute the holes on which to split given by the analysis of the primary_scheduler
         minimizing = result.property
-        primary_other_suboptions, primary_core_suboptions, primary_splitter, primary_splitter_score = \
+        primary_core_suboptions, primary_other_suboptions, primary_splitter, primary_splitter_score = \
             self.compute_suboptions(result.primary_scores, True, minimizing, mdp, result.primary_selection, result.primary_consistent)
 
         if isHyper:
             secondary_core_suboptions, secondary_other_suboptions, secondary_splitter, secondary_splitter_score = self.compute_suboptions(
                     result.secondary_scores, False, minimizing, mdp, result.secondary_selection, result.secondary_consistent)
             if secondary_splitter_score == 0:
-                secondary_core_suboptions, secondary_other_suboptions, secondary_splitter = primary_other_suboptions, primary_core_suboptions, primary_splitter
+                secondary_splitter = primary_splitter
             if primary_splitter_score == 0:
-                primary_other_suboptions, primary_core_suboptions, primary_splitter = secondary_core_suboptions, secondary_other_suboptions, secondary_splitter
+                primary_core_suboptions, primary_other_suboptions, primary_splitter = secondary_core_suboptions, secondary_other_suboptions, secondary_splitter
 
 
         # if we have the same splitter (or just one), then just split on the primary
         if not isHyper or primary_splitter == secondary_splitter:
 
-            suboptions_list = primary_other_suboptions + primary_core_suboptions
+            suboptions_list = primary_other_suboptions + primary_core_suboptions # DFS solves core first
             #construct corresponding design subspaces
             design_subspaces = []
             family.splitters = [primary_splitter]
@@ -321,7 +325,8 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
         assert secondary_splitter is not None
 
-        #generate all subspaces
+        # generate all subspaces
+        # DFS solves cores first
         primary_suboptions = primary_other_suboptions + primary_core_suboptions
         secondary_suboptions = secondary_other_suboptions + secondary_core_suboptions
         suboptions_list = [(i,j) for i in primary_suboptions for j in secondary_suboptions]
