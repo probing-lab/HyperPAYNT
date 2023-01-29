@@ -301,8 +301,14 @@ class HyperPropertyQuotientContainer(QuotientContainer):
                     result.secondary_scores, False, minimizing, mdp, result.secondary_selection, result.secondary_consistent)
             if secondary_splitter_score == 0:
                 secondary_splitter = primary_splitter
+                if len(primary_other_suboptions[0]) > 1:
+                    half_split = math.floor(len(primary_other_suboptions[0]) / 2)
+                    primary_other_suboptions = [primary_other_suboptions[0][:half_split], primary_other_suboptions[0][half_split:]]
             if primary_splitter_score == 0:
                 primary_core_suboptions, primary_other_suboptions, primary_splitter = secondary_core_suboptions, secondary_other_suboptions, secondary_splitter
+                if len(primary_other_suboptions[0]) > 1:
+                    half_split = math.floor(len(primary_other_suboptions[0]) / 2)
+                    primary_other_suboptions = [primary_other_suboptions[0][:half_split], primary_other_suboptions[0][half_split:]]
 
 
         # if we have the same splitter (or just one), then just split on the primary
