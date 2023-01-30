@@ -317,7 +317,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
                 if len(primary_other_suboptions[0]) > 1:
                     half_split = math.floor(len(primary_other_suboptions[0]) / 2)
                     primary_other_suboptions = [primary_other_suboptions[0][:half_split], primary_other_suboptions[0][half_split:]]
-            if primary_splitter_score == 0:
+            elif primary_splitter_score == 0:
                 primary_core_suboptions, primary_other_suboptions, primary_splitter = secondary_core_suboptions, secondary_other_suboptions, secondary_splitter
                 if len(primary_other_suboptions[0]) > 1:
                     half_split = math.floor(len(primary_other_suboptions[0]) / 2)
