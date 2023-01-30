@@ -282,7 +282,7 @@ class HyperSynthesizerCEGIS(HyperSynthesizer):
                         scheduler_selection = property_result.primary_selection
 
                     Profiler.start("storm::construct_conflict")
-                    conflict = ce_generator.construct_conflict(index, prop.min_bound, bounds,
+                    conflict = ce_generator.construct_conflict(index, prop.threshold, prop.min_bound, bounds,
                                                                     family.mdp.quotient_state_map,
                                                                     prop.state, prop.strict)
 
