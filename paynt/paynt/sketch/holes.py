@@ -54,6 +54,8 @@ class Hole:
 
     def assume_options(self, options):
         assert len(options) > 0
+        for option in options:
+            assert option in self.options
         self.options = options
 
     def copy(self):
