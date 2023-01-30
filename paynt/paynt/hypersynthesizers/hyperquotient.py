@@ -69,8 +69,21 @@ class HyperPropertyQuotientContainer(QuotientContainer):
                 # this hole has already been defined somewhere, and it is in the list
                 holes[hole_index].initial_states = holes[hole_index].initial_states.union(initial_states)
                 parser.update_corresponding_holes(hole_index, state_name)
+                index_list = []
                 for offset in range(num_actions):
-                    self.action_to_hole_options.append({hole_index: offset})
+                    choice = self.quotient_mdp.get_choice_index(state, offset)
+                    labels = self.quotient_mdp.choice_labeling.get_labels_of_choice(choice)
+                    labels = str(labels)
+                    index = None
+                    for idx, label in enumerate(holes[hole_index].option_labels):
+                        labels = str(labels)
+                        if label == str(labels):
+                            index = idx
+
+                    assert index is not None
+                    assert index not in index_list
+                    index_list.append(index)
+                    self.action_to_hole_options.append({hole_index: index})
                 continue
 
 
@@ -330,6 +343,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             return design_subspaces
 
         assert secondary_splitter is not None
+        assert primary_splitter != secondary_splitter
 
         # generate all subspaces
         # DFS solves cores first
