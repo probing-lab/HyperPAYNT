@@ -32,12 +32,12 @@ class MarkovChain:
 
         se.set_linear_equation_solver_type(stormpy.EquationSolverType.gmmxx)
         se.minmax_solver_environment.precision = stormpy.Rational(Property.mc_precision)
-        se.minmax_solver_environment.method = stormpy.MinMaxMethod.policy_iteration
+        se.minmax_solver_environment.method = stormpy.MinMaxMethod.value_iteration
         #se.minmax_solver_environment.method = stormpy.MinMaxMethod.value_iteration
         #se.minmax_solver_environment.method = stormpy.MinMaxMethod.sound_value_iteration
         # se.minmax_solver_environment.method = stormpy.MinMaxMethod.interval_iteration
         # se.minmax_solver_environment.method = stormpy.MinMaxMethod.optimistic_value_iteration
-        # se.minmax_solver_environment.method = stormpy.MinMaxMethod.topological
+        #se.minmax_solver_environment.method = stormpy.MinMaxMethod.topological
 
     def __init__(self, model, quotient_container, quotient_state_map, quotient_choice_map):
         Profiler.start("models::MarkovChain")
