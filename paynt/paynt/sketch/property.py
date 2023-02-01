@@ -125,6 +125,9 @@ class OptimalityProperty(Property):
 
         self.state = state
 
+        self.min_bound = 0
+        self.strict = True
+
 
     def __str__(self):
         eps = f"[eps = {self.epsilon}]" if self.epsilon > 0 else ""

@@ -125,12 +125,12 @@ class MdpOptimalityResult(MdpPropertyResult):
                  prop, primary, secondary,
                  improving_assignment, improving_value, can_improve,
                  primary_selection, primary_choice_values, primary_expected_visits,
-                 primary_scores
+                 primary_scores, primary_consistent
                  ):
         super().__init__(
             prop, primary, secondary, None,
             primary_selection, None, primary_choice_values, primary_expected_visits,
-            primary_scores)
+            primary_scores, primary_consistent)
         self.improving_assignment = improving_assignment
         self.improving_value = improving_value
         self.can_improve = can_improve
