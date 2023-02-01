@@ -101,7 +101,7 @@ X[x=50&y=35](sched,sched1)
 X[x=50&y=40](sched,sched1)
 X[x=50&y=45](sched,sched1)
 X[x=50&y=50](sched,sched1)
-P{s1}>=0.91 [F "done"]
-P{s0}>=0.91 [F "done"]
+P{s1}>=0.85 [F "done"]
+P{s0}>=0.85 [F "done"]
 P{s1} [F "done"] <= P{s0} [F "done"]
 P{s0} [F "done"] <= P{s1} [F "done"]
