@@ -101,7 +101,7 @@ X[x=50&y=35](sched,sched1)
 X[x=50&y=40](sched,sched1)
 X[x=50&y=45](sched,sched1)
 X[x=50&y=50](sched,sched1)
-R{s1}{"steps"}[F "goal"] <= R{s0}{"steps"}[F "goal"]
-R{s0}{"steps"}[F "goal"] <= R{s1}{"steps"}[F "goal"]
-R{s1}{"steps"}<150 [F "goal"]
-R{s0}{"steps"}<150 [F "goal"]
+P{s1}>=0.91 [F "done"]
+P{s0}>=0.91 [F "done"]
+P{s1} [F "done"] <= P{s0} [F "done"]
+P{s0} [F "done"] <= P{s1} [F "done"]
