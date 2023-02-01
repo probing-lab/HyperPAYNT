@@ -1,7 +1,7 @@
 ES sched ES sched1
 A s0(sched) A s1(sched1)
 MAX SD
-R{s1}{"steps"}[F "goal"] <= R{s0}{"steps"}[F "goal"]
-R{s0}{"steps"}[F "goal"] <= R{s1}{"steps"}[F "goal"]
-R{s1}{"steps"}<100 [F "goal"]
-R{s0}{"steps"}<100 [F "goal"]
+P{s0} [F "done"] <= P{s1} [F "done"]
+P{s1} [F "done"] <= P{s0} [F "done"]
+P{s0}>=0.90 [F "done"]
+P{s1}>=0.90 [F "done"]
