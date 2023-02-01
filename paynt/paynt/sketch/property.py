@@ -9,9 +9,9 @@ logger = logging.getLogger(__name__)
 
 class Property:
     # model checking precision
-    mc_precision = 1e-10
+    mc_precision = 1e-7
     # precision for comparing floats
-    float_precision = 1e-5
+    float_precision = 1e-3
 
     ''' Wrapper over a stormpy property. '''
 
