@@ -45,7 +45,7 @@ module P0
     [] (thread=zero) & (pc0=6) -> 0.5 : (pc0' = pc0 + 1) & (critical' = critical - 1) & (flagP0'=true) & (thread' = 0) + 0.5 : (pc0' = pc0 + 1) & (critical' = critical - 1) & (flagP0'=true) & (thread' = 1);
 
     [] (thread=zero) & (pc0=7) -> 0.5 : (pc0' = pc0 + 1) & (flagP0' = false) & (thread' = 0) + 0.5 : (pc0' = pc0 + 1) & (flagP0' = false) & (thread' = 1);
-    [] (thread=zero) & (pc0 > 7) -> (thread' = 1); //finished processes give up control
+    [] (thread=zero) & (pc0 > 7) -> (thread' = one); //finished processes give up control
 
 endmodule
 
