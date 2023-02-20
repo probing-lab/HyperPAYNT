@@ -260,22 +260,27 @@ class MDP(MarkovChain):
 
         # no need to check secondary direction if primary direction yields UNSAT
         if not primary.sat:
-            return MdpPropertyResult(prop, primary, None, False, None, None, None, None, None, None)
+            return MdpPropertyResult(prop, primary, None, False, None, None, None, None)
 
-        # primary direction is SAT
+        # compute secondary direction
+        secondary = self.model_check_property(prop, alt=True)
+        feasibility = True if secondary.sat else None
+
+        if feasibility:
+            # no need to explore further
+            # we are not constraining at all the selection
+            selection = [ [] for hole_index in self.design_space.hole_indices]
+            return MdpPropertyResult(prop, primary, secondary, feasibility,
+                                     selection, True, None, True)
+
         # check if the primary scheduler is consistent
         selection, choice_values, expected_visits, scores, consistent = self.quotient_container.scheduler_consistent(
             self, prop, primary.result, prop.state)
 
-        # regardless of whether it is consistent or not, we compute secondary direction to show that all SAT
+        primary_feasibility = consistent
 
-        # compute secondary direction
-        secondary = self.model_check_property(prop, alt=True)
-
-        feasibility = True if secondary.sat else None
-        primary_feasibility = primary.sat if consistent else False
         return MdpPropertyResult(prop, primary, secondary, feasibility,
-                                 selection, primary_feasibility, choice_values, expected_visits, scores, consistent)
+                                 selection, primary_feasibility, scores, consistent)
 
     def check_constraints(self, properties, property_indices = None, short_evaluation = False):
         if property_indices is None:
@@ -298,7 +303,7 @@ class MDP(MarkovChain):
         # LB = lower bound
         if not primary.improves_optimum:
             # OPT <= LB
-            return MdpOptimalityResult(prop, primary, None, None, None, False, None, None, None, None, False)
+            return MdpOptimalityResult(prop, primary, None, None, None, False, None, None, False)
 
         # LB < OPT
         # check if LB is tight
@@ -315,10 +320,10 @@ class MDP(MarkovChain):
             scheduler_assignment.assume_options(filled_selection)
             improving_assignment, improving_value = self.quotient_container.double_check_hyperassignment(scheduler_assignment)
             can_improve = False if improving_assignment is not None else True
-            return MdpOptimalityResult(prop, primary, None, improving_assignment, improving_value, can_improve, selection, choice_values, expected_visits, scores, consistent)
+            return MdpOptimalityResult(prop, primary, None, improving_assignment, improving_value, can_improve, selection, scores, consistent)
 
         if not MDP.compute_secondary_direction:
-            return MdpOptimalityResult(prop, primary, None, None, None, True, selection, choice_values, expected_visits, scores, consistent)
+            return MdpOptimalityResult(prop, primary, None, None, None, True, selection, scores, consistent)
 
         # UB might improve the optimum
         secondary = self.model_check_property(prop, alt = True)
@@ -326,15 +331,15 @@ class MDP(MarkovChain):
         if not secondary.improves_optimum:
             # LB < OPT < UB :  T < LB < OPT < UB (cannot improve) or LB < T < OPT < UB (can improve)
             can_improve = primary.sat
-            return MdpOptimalityResult(prop, primary, secondary, None, None, can_improve, selection, choice_values, expected_visits, scores, consistent)
+            return MdpOptimalityResult(prop, primary, secondary, None, None, can_improve, selection, scores, consistent)
 
         # LB < UB < OPT
         # this family definitely improves the optimum
         assignment = self.design_space.pick_any()
-        improving_assignment, improving_value = self.quotient_container.double_check_hyperassignment(assignment, prop)
+        improving_assignment, improving_value = self.quotient_container.double_check_hyperassignment(assignment)
         # either LB < T, LB < UB < OPT (can improve) or T < LB < UB < OPT (cannot improve)
         can_improve = primary.sat
-        return MdpOptimalityResult(prop, primary, secondary, improving_assignment, improving_value, can_improve, selection, choice_values, scores, consistent)
+        return MdpOptimalityResult(prop, primary, secondary, improving_assignment, improving_value, can_improve, selection, scores, consistent)
 
     def check_specification(self, specification, property_indices = None, short_evaluation = False):
         constraints_result = self.check_constraints(specification.constraints, property_indices, short_evaluation)
