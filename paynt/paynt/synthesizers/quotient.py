@@ -388,7 +388,7 @@ class QuotientContainer:
         return suboptions
 
     def suboptions_enumerate(self, mdp, splitter, used_options):
-        assert len(used_options) > 1
+        assert len(used_options) >= 1
         core_suboptions = [[option] for option in used_options]
         other_suboptions = [option for option in mdp.design_space[splitter].options if option not in used_options]
         return core_suboptions, other_suboptions

@@ -141,8 +141,11 @@ class HyperSynthesizerAR(HyperSynthesizer):
 
         self.sketch.quotient.discarded = 0
 
+        overall_family = family.size
+
         satisfying_assignment = None
         families = [family]
+        i = 0
         while families:
 
             if self.no_optimum_update_limit_reached():
@@ -164,6 +167,11 @@ class HyperSynthesizerAR(HyperSynthesizer):
                 continue
 
             # undecided
+            #if family.size < 1000:
+                #print(f"family that should be splitted: {family}")
+                #print(f"family size: {family.size}")
+                #print(f"overall family size: {overall_family}")
+                #assert False
             subfamilies = self.sketch.quotient.split(family)
             families = families + subfamilies
 
