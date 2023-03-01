@@ -32,7 +32,9 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
         self.action_to_hole_options = []
 
-        self.same_hole_split = 0
+        self.same_hole_hyper_split = 0
+        self.split_on_primary = True
+
         self.sum_splitting = 0
         self.splits = 0
 
@@ -347,18 +349,9 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         return hole_differences
 
     # split the options of the best hole according to the scores
-    def compute_suboptions(self, scores, primary, minimizing, mdp, exclude = None):
+    def compute_suboptions(self, scores, primary, minimizing, mdp):
 
         scores, options_rankings = scores
-        #if exclude is not None and len(scores) == 1:
-            #print(f"trying to exclude but cannot: {exclude} -vs- {scores}")
-        exclude = None
-        if exclude is not None and len(scores) > 1:
-            if exclude not in scores:
-                assert False
-            scores.pop(exclude)
-            assert scores
-            assert False
 
         # compute the hole on which to split
         splitters = self.holes_with_max_score(scores)
@@ -367,9 +360,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         # get the corresponding option for that split, already ordered by choice_value
         options = options_rankings[splitter]
 
-        take_highest = True if primary else False
-        assert minimizing
-        take_highest = take_highest if minimizing else not take_highest
+        take_highest = primary == minimizing
 
         if take_highest:
             # -1 takes last element
@@ -385,10 +376,6 @@ class HyperPropertyQuotientContainer(QuotientContainer):
     def split(self, family):
         Profiler.start("quotient::split")
 
-        #print(f"?????????")
-        #print(f"ZERO splits: {self.splits}")
-        #print(f"????????????")
-
         mdp = family.mdp
         assert not mdp.is_dtmc
         # reduced design space
@@ -399,7 +386,6 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         assert result is not None
         isHyper = isinstance(result, MdpHyperPropertyResult)
         minimizing = result.property.minimizing
-        assert isHyper and minimizing
 
 
         # compute the hole on which to split given by the analysis of the secondary scheduler
@@ -407,32 +393,33 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         primary_core_suboptions, primary_other_suboptions, primary_splitter, primary_splitter_score = \
             self.compute_suboptions(result.primary_scores, True, minimizing, mdp)
 
+        assert primary_splitter_score > 0
+
         # compute the hole on which to split given by the analysis of the secondary scheduler
         if isHyper:
             secondary_core_suboptions, secondary_other_suboptions, secondary_splitter, secondary_splitter_score = \
-                self.compute_suboptions(result.secondary_scores, False, minimizing, mdp, exclude = None)
-
-        #print(f"splitting on hole {primary_splitter} because of formula {result.property}")
+                self.compute_suboptions(result.secondary_scores, False, minimizing, mdp)
+            assert secondary_splitter_score > 0
 
         design_subspaces = []
         if not isHyper or primary_splitter == secondary_splitter:
             # fix the suboptions
             if not isHyper:
+                splitter = primary_splitter
                 if not result.primary_consistent:
                     core_suboptions, other_suboptions = self.suboptions_enumerate(mdp, primary_splitter,
                                                                                   result.primary_selection[primary_splitter])
                 else:
-                    core_suboptions, other_suboptions = self.suboptions_enumerate(mdp, primary_splitter,
-                                                                                  result.primary_selection[
-                                                                                      primary_splitter])
-                assert False
+                    core_suboptions, other_suboptions = primary_core_suboptions, primary_other_suboptions
             else:
-                #logger.info("trying to split on the same hole for an hyperproperty")
-                #self.same_hole_split += 1
-                #if self.same_hole_split % 5000 == 0:
-                    #logger.info(f"tried {self.same_hole_split} times to split on the same hole")
-                all_selections = list(set(result.primary_selection[primary_splitter] + result.secondary_selection[primary_splitter]))
-                core_suboptions, other_suboptions = primary_core_suboptions, primary_other_suboptions
+                # TODO: improve the reasoning here, and distinguish between the case when primary and secondary
+                #  are consistent and when they are not.
+                self.same_hole_hyper_split += 1
+                if self.same_hole_hyper_split %1000 == 0:
+                    logger.info(f"{self.same_hole_hyper_split} Hyper splits on the same hole")
+                core_suboptions, other_suboptions = (primary_core_suboptions, primary_other_suboptions) if self.split_on_primary else (secondary_core_suboptions, secondary_other_suboptions)
+                splitter = primary_splitter if self.split_on_primary else secondary_splitter
+                self.split_on_primary = not self.split_on_primary
 
             if len(other_suboptions) > 0:
                 suboptions_list = [other_suboptions] + core_suboptions  # DFS solves core first
@@ -440,13 +427,13 @@ class HyperPropertyQuotientContainer(QuotientContainer):
                 suboptions_list = core_suboptions
             # construct corresponding design subspaces
 
-            family.splitters = [primary_splitter]
+            family.splitters = [splitter]
             parent_info = family.collect_parent_info()
             for suboptions in suboptions_list:
-                subholes = new_design_space.subholes([(primary_splitter, suboptions)])
+                subholes = new_design_space.subholes([(splitter, suboptions)])
                 design_subspace = DesignSpace(subholes, parent_info)
                 # TODO: do we need this? Isn't it done by subhole method?
-                design_subspace.assume_hole_options(primary_splitter, suboptions)
+                design_subspace.assume_hole_options(splitter, suboptions)
                 design_subspaces.append(design_subspace)
         else:
             primary_suboptions = [primary_other_suboptions] + primary_core_suboptions
