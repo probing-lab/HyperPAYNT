@@ -108,7 +108,6 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             hole_option_labels = [str(labels) for labels in hole_option_labels]
             parser.update_corresponding_holes(hole_index, state_name)
 
-            # TODO: remove state_quant from the hole_name here?
             hole = Hole(hole_name, hole_options, hole_option_labels, initial_states=initial_states,
                         variable_valuations=variable_valuations, associated_schedulers=asch_list)
 
@@ -200,6 +199,82 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         secondary_selection = self.scheduler_selection(mdp, scheduler_alt, other_initial_state)
         joint_selection = [list(set(l1 + l2)) for l1, l2 in zip(primary_selection, secondary_selection)]
 
+        # estimate scheduler difference
+        inconsistent_assignments = {hole_index:options for hole_index,options
+                                    in enumerate(joint_selection) if len(options) > 1}
+        joint_consistent = len(inconsistent_assignments) == 0
+
+        # extract choice values, compute expected visits
+        secondary_choice_values = self.choice_values(mdp, prop, result_alt)
+        secondary_expected_visits = self.expected_visits(mdp, prop, scheduler_alt, other_initial_state, primary_direction=False)
+
+        secondary_hole_assignments = {hole_index: options for hole_index, options
+                                            in inconsistent_assignments.items() if secondary_selection[hole_index]}
+
+        take_all = False
+        if not secondary_hole_assignments:
+            secondary_hole_assignments = {hole_index: hole.options for hole_index, hole in enumerate(mdp.design_space)
+                                          if len(hole.options) > 1 and secondary_selection[hole_index]}
+            take_all = True
+
+        assert secondary_hole_assignments
+        secondary_differences = \
+            self.estimate_scheduler_difference(mdp, secondary_hole_assignments, secondary_choice_values, secondary_expected_visits)
+
+        # re compute due to zero differences
+        if not take_all and max(secondary_differences[0].values()) == 0:
+            logger.info(f"recomputing secondary selection, because of irrelevant differences!!")
+            new_selection = []
+            for hole_index, hole_options in enumerate(secondary_selection):
+                if len(hole_options) <= 1:
+                    new_selection.append(hole_options)
+                else:
+                    primary_hole_options = primary_selection[hole_index]
+                    if len(primary_hole_options) == 1 and primary_hole_options[0] in hole_options:
+                        new_selection.append(primary_hole_options)
+                    else:
+                        # promote any choice
+                        new_selection.append([hole_options[0]])
+
+            secondary_selection = new_selection
+            joint_selection = [list(set(l1 + l2)) for l1, l2 in zip(primary_selection, secondary_selection)]
+
+            # estimate scheduler difference
+            inconsistent_assignments = {hole_index: options for hole_index, options
+                                        in enumerate(joint_selection) if len(options) > 1}
+            joint_consistent = len(inconsistent_assignments) == 0
+
+            secondary_hole_assignments = {hole_index: options for hole_index, options
+                                          in inconsistent_assignments.items() if secondary_selection[hole_index]}
+
+            if not secondary_hole_assignments:
+                secondary_hole_assignments = {hole_index: hole.options for hole_index, hole in
+                                              enumerate(mdp.design_space) if
+                                              len(hole.options) > 1 and secondary_selection[hole_index]}
+
+            assert secondary_hole_assignments
+
+            secondary_differences = \
+                self.estimate_scheduler_difference(mdp, secondary_hole_assignments, secondary_choice_values,secondary_expected_visits)
+
+        ###
+        # primary choice values usually do not have irrelevant inconsistencies
+        primary_choice_values = self.choice_values(mdp, prop, result)
+        primary_expected_visits = self.expected_visits(mdp, prop, scheduler, initial_state)
+
+        primary_hole_assignments = {hole_index:options for hole_index,options
+                                    in inconsistent_assignments.items() if primary_selection[hole_index]}
+
+        if not primary_hole_assignments:
+            primary_hole_assignments = {hole_index: hole.options for hole_index, hole in enumerate(mdp.design_space) if
+                                len(hole.options) > 1 and primary_selection[hole_index]}
+
+        assert primary_hole_assignments
+
+        primary_differences = \
+            self.estimate_scheduler_difference(mdp, primary_hole_assignments, primary_choice_values,
+                                                         primary_expected_visits)
+
         # compute primary and secondary consistent
         primary_consistent = True
         for l in primary_selection:
@@ -212,40 +287,6 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             if len(l) > 1:
                 secondary_consistent = False
                 break
-
-        # extract choice values, compute expected visits
-        primary_choice_values = self.choice_values(mdp, prop, result)
-        primary_expected_visits = self.expected_visits(mdp, prop, scheduler, initial_state)
-
-        secondary_choice_values = self.choice_values(mdp, prop, result_alt)
-        secondary_expected_visits = self.expected_visits(mdp, prop, scheduler_alt, other_initial_state)
-
-        # estimate scheduler difference
-        inconsistent_assignments = {hole_index:options for hole_index,options
-                                    in enumerate(joint_selection) if len(options) > 1}
-        joint_consistent = len(inconsistent_assignments) == 0
-
-
-        if joint_consistent:
-            hole_assignments = {hole_index: hole.options for hole_index, hole in enumerate(mdp.design_space) if
-                                len(hole.options) > 1}
-        else:
-            #print(f"inconsistent. Inconsistent assignments: {inconsistent_assignments}")
-            hole_assignments  = inconsistent_assignments
-
-        assert len(hole_assignments) > 0
-
-        primary_differences = \
-            self.estimate_scheduler_difference(mdp, hole_assignments, primary_choice_values,
-                                                         primary_expected_visits)
-        secondary_differences = \
-            self.estimate_scheduler_difference(mdp, hole_assignments, secondary_choice_values,
-                                                         secondary_expected_visits)
-
-        #if not joint_consistent:
-            #print(f"primary differences: {primary_differences}")
-            #print(f"secondary differences:  {secondary_differences}")
-
 
         Profiler.resume()
         return primary_selection, primary_consistent, primary_differences, \
