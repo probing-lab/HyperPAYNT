@@ -172,19 +172,16 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
 
         if consistent:
-            #print(f"consistent.")
             hole_assignments = {hole_index: hole.options for hole_index, hole in enumerate(mdp.design_space) if
-                                len(hole.options) > 1}
+                                len(hole.options) > 1 and selection[hole_index]}
         else:
-            #print(f"inconsistent. Inconsistent assignments: {inconsistent_assignments}")
-            hole_assignments  = inconsistent_assignments
+            hole_assignments = inconsistent_assignments
 
         assert len(hole_assignments) > 0
 
         differences = \
             self.estimate_scheduler_difference(mdp, hole_assignments, choice_values,
-                                                     expected_visits)
-        #print(f"Differences found: {differences}")
+                                                     expected_visits, initial_state)
 
         Profiler.resume()
         return selection, choice_values, expected_visits, differences, consistent
