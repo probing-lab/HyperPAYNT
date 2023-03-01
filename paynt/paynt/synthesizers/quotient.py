@@ -222,16 +222,16 @@ class QuotientContainer:
             assert not math.isnan(choice_values[choice])
 
         Profiler.resume()
-
         return choice_values
 
-    def expected_visits(self, mdp, prop, scheduler, initial_state = None):
+    def expected_visits(self, mdp, prop, scheduler, initial_state = None, primary_direction = True):
         '''
         Compute expected number of visits in the states of DTMC induced by
         this scheduler.
         '''
 
         if initial_state is None:
+            assert len(mdp.model.initial_states) == 1
             initial_state = mdp.model.initial_states[0]
 
         # extract DTMC induced by this MDP-scheduler
@@ -245,7 +245,8 @@ class QuotientContainer:
         dtmc_visits = list(dtmc_visits)
 
         # handle infinity- and zero-visits
-        if prop.minimizing:
+        minimizing = prop.minimizing == primary_direction
+        if minimizing:
             dtmc_visits = QuotientContainer.make_vector_defined(dtmc_visits)
         else:
             dtmc_visits = [ value if value != math.inf else 0 for value in dtmc_visits]
