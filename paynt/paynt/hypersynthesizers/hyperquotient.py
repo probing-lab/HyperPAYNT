@@ -288,8 +288,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         tm = mdp.model.transition_matrix
 
         for state in range(mdp.states):
-
-            # for this state, compute for each hole the difference in choice values between respective options
+            # for this state, compute for its hole the difference in choice values between respective options
             hole_min = None
             hole_max = None
             ranking = []
@@ -329,7 +328,6 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             if difference >= hole_difference_max[hole_index]:
                 hole_difference_max[hole_index] = difference
                 ranking.sort(key=lambda tup: tup[1])
-                # print(f"Found the current ranking for hole_index {hole_index}: {ranking}")
                 options_rankings[hole_index] = [i for i, _ in ranking]
 
         # filter out unreachable holes, which don't have any option in the ranking
@@ -384,9 +382,6 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         isHyper = isinstance(result, MdpHyperPropertyResult)
         minimizing = result.property.minimizing
 
-
-        # compute the hole on which to split given by the analysis of the secondary scheduler
-        #print(f"primary scores: {result.primary_scores}")
         primary_core_suboptions, primary_other_suboptions, primary_splitter, primary_splitter_score = \
             self.compute_suboptions(result.primary_scores, True, minimizing, mdp)
 
