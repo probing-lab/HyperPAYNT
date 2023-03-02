@@ -114,7 +114,6 @@ class HyperSynthesizerAR(HyperSynthesizer):
         :return (1) family feasibility (True/False/None)
         :return (2) new satisfying assignment (or None)
         """
-        # logger.debug("analyzing family {}".format(family))
         Profiler.start("synthesizer::analyze_family_ar")
 
         self.sketch.quotient.build(family)
@@ -141,11 +140,8 @@ class HyperSynthesizerAR(HyperSynthesizer):
 
         self.sketch.quotient.discarded = 0
 
-        overall_family = family.size
-
         satisfying_assignment = None
         families = [family]
-        i = 0
         while families:
 
             if self.no_optimum_update_limit_reached():
@@ -167,11 +163,6 @@ class HyperSynthesizerAR(HyperSynthesizer):
                 continue
 
             # undecided
-            #if family.size < 1000:
-                #print(f"family that should be splitted: {family}")
-                #print(f"family size: {family.size}")
-                #print(f"overall family size: {overall_family}")
-                #assert False
             subfamilies = self.sketch.quotient.split(family)
             families = families + subfamilies
 
@@ -211,7 +202,6 @@ class HyperSynthesizerCEGIS(HyperSynthesizer):
         assert family.mdp is not None, "analyzed family does not have an associated quotient MPD"
 
         Profiler.start("CEGIS analysis")
-        # print(assignment)
 
         # build DTMC
         dtmc = self.sketch.quotient.build_chain(assignment)
