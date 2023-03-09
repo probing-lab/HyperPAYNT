@@ -353,7 +353,6 @@ class MDP(MarkovChain):
 
     def check_hyperproperty(self, prop):
 
-        sat_selections = []
         # check primary direction
         primary = self.model_check_hyperproperty(prop, alt = False)
 
@@ -393,11 +392,15 @@ class MDP(MarkovChain):
 
         # check if primary scheduler (of state quant) induces a feasible scheduler
         # [[ min(a) ]] is a SAT instance
-        primary_feasibility = prop.meets_op(primary.value + prop.min_bound, secondary.threshold) and primary_consistent
+        primary_feasibility = prop.result_valid(primary.value) and \
+                              prop.meets_op(primary.value + prop.min_bound, secondary.threshold) \
+                              and primary_consistent
 
         # check if secondary scheduler (of other state quant) induces a feasible scheduler
         # [[ max(b) ]] is a SAT instance
-        secondary_feasibility = prop.meets_op(secondary.value + prop.min_bound, primary.threshold) and secondary_consistent
+        secondary_feasibility = prop.result_valid(secondary.value) and \
+                                prop.meets_op(secondary.value + prop.min_bound, primary.threshold) \
+                                and secondary_consistent
 
         joint_feasibility = joint_consistent
         return MdpHyperPropertyResult(prop, primary, secondary, feasibility,
