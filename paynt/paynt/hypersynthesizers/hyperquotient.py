@@ -32,12 +32,6 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
         self.action_to_hole_options = []
 
-        self.same_hole_hyper_split = 0
-        self.split_on_primary = True
-
-        self.sum_splitting = 0
-        self.splits = 0
-
         # a dictionary of corresponding state names to a list of the corresponding instantiated holes
         matching_dictionary = defaultdict(list)
 
@@ -148,6 +142,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
         # with respect to the original implementation
         # we don't want to fill non reachable holes, the choice is left open for them
+        # TODO: switch result and result_alt for the all sat bet
         return self.scheduler_selection_quantitative_hyper(mdp, prop, result, initial_state, result_alt, other_initial_state)
 
     def scheduler_selection_quantitative_pctl(self, mdp, prop, result, initial_state):
@@ -172,7 +167,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
         if consistent:
             hole_assignments = {hole_index: hole.options for hole_index, hole in enumerate(mdp.design_space) if
-                                len(hole.options) > 1 and selection[hole_index]}
+                                len(hole.options) > 1 and initial_state in hole.initial_states}
         else:
             hole_assignments = inconsistent_assignments
 
@@ -180,7 +175,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
         differences = \
             self.estimate_scheduler_difference(mdp, hole_assignments, choice_values,
-                                                     expected_visits, initial_state)
+                                                     expected_visits)
 
         Profiler.resume()
         return selection, choice_values, expected_visits, differences, consistent
@@ -205,25 +200,40 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         joint_consistent = len(inconsistent_assignments) == 0
 
         # extract choice values, compute expected visits
+        primary_choice_values = self.choice_values(mdp, prop, result)
+        primary_expected_visits = self.expected_visits(mdp, prop, scheduler, initial_state)
         secondary_choice_values = self.choice_values(mdp, prop, result_alt)
         secondary_expected_visits = self.expected_visits(mdp, prop, scheduler_alt, other_initial_state, primary_direction=False)
 
+        primary_hole_assignments = {hole_index: options for hole_index, options
+                                    in inconsistent_assignments.items() if primary_selection[hole_index]}
         secondary_hole_assignments = {hole_index: options for hole_index, options
                                             in inconsistent_assignments.items() if secondary_selection[hole_index]}
 
-        take_all = False
+        take_all_primary = False
+        if not primary_hole_assignments:
+            primary_hole_assignments = {hole_index: hole.options for hole_index, hole in enumerate(mdp.design_space) if
+                                        len(hole.options) > 1 and initial_state in hole.initial_states}
+            take_all_primary = True
+
+        take_all_secondary = False
         if not secondary_hole_assignments:
             secondary_hole_assignments = {hole_index: hole.options for hole_index, hole in enumerate(mdp.design_space)
-                                          if len(hole.options) > 1 and secondary_selection[hole_index]}
-            take_all = True
+                                          if len(hole.options) > 1 and other_initial_state in hole.initial_states}
+            take_all_secondary = True
 
+        assert primary_hole_assignments
         assert secondary_hole_assignments
+
+        primary_differences = \
+            self.estimate_scheduler_difference(mdp, primary_hole_assignments, primary_choice_values,
+                                               primary_expected_visits)
+
         secondary_differences = \
             self.estimate_scheduler_difference(mdp, secondary_hole_assignments, secondary_choice_values, secondary_expected_visits)
 
         # re compute due to zero differences
-        if not take_all and max(secondary_differences[0].values()) == 0:
-            logger.info(f"recomputing secondary selection, because of irrelevant differences!!")
+        if not take_all_secondary and max(secondary_differences[0].values()) == 0:
             new_selection = []
             for hole_index, hole_options in enumerate(secondary_selection):
                 if len(hole_options) <= 1:
@@ -237,43 +247,50 @@ class HyperPropertyQuotientContainer(QuotientContainer):
                         new_selection.append([hole_options[0]])
 
             secondary_selection = new_selection
-            joint_selection = [list(set(l1 + l2)) for l1, l2 in zip(primary_selection, secondary_selection)]
 
-            # estimate scheduler difference
-            inconsistent_assignments = {hole_index: options for hole_index, options
-                                        in enumerate(joint_selection) if len(options) > 1}
-            joint_consistent = len(inconsistent_assignments) == 0
+        if not take_all_primary and max(primary_differences[0].values()) == 0:
+            new_selection = []
+            for hole_index, hole_options in enumerate(primary_selection):
+                if len(hole_options) <= 1:
+                    new_selection.append(hole_options)
+                else:
+                    secondary_hole_options = secondary_selection[hole_index]
+                    if len(secondary_hole_options) == 1 and secondary_hole_options[0] in hole_options:
+                        new_selection.append(secondary_hole_options)
+                    else:
+                        # promote any choice
+                        new_selection.append([hole_options[0]])
 
-            secondary_hole_assignments = {hole_index: options for hole_index, options
-                                          in inconsistent_assignments.items() if secondary_selection[hole_index]}
+            primary_selection = new_selection
 
-            if not secondary_hole_assignments:
-                secondary_hole_assignments = {hole_index: hole.options for hole_index, hole in
-                                              enumerate(mdp.design_space) if
-                                              len(hole.options) > 1 and secondary_selection[hole_index]}
+        joint_selection = [list(set(l1 + l2)) for l1, l2 in zip(primary_selection, secondary_selection)]
 
-            assert secondary_hole_assignments
-
-            secondary_differences = \
-                self.estimate_scheduler_difference(mdp, secondary_hole_assignments, secondary_choice_values,secondary_expected_visits)
-
-        ###
-        # primary choice values usually do not have irrelevant inconsistencies
-        primary_choice_values = self.choice_values(mdp, prop, result)
-        primary_expected_visits = self.expected_visits(mdp, prop, scheduler, initial_state)
-
-        primary_hole_assignments = {hole_index:options for hole_index,options
+        # estimate scheduler difference
+        primary_hole_assignments = {hole_index: options for hole_index, options
                                     in inconsistent_assignments.items() if primary_selection[hole_index]}
+        secondary_hole_assignments = {hole_index: options for hole_index, options
+                                      in inconsistent_assignments.items() if secondary_selection[hole_index]}
 
         if not primary_hole_assignments:
             primary_hole_assignments = {hole_index: hole.options for hole_index, hole in enumerate(mdp.design_space) if
-                                len(hole.options) > 1 and primary_selection[hole_index]}
+                                        len(hole.options) > 1 and initial_state in hole.initial_states}
+
+        if not secondary_hole_assignments:
+            secondary_hole_assignments = {hole_index: hole.options for hole_index, hole in enumerate(mdp.design_space)
+                                          if len(hole.options) > 1 and other_initial_state in hole.initial_states}
 
         assert primary_hole_assignments
+        assert secondary_hole_assignments
 
         primary_differences = \
             self.estimate_scheduler_difference(mdp, primary_hole_assignments, primary_choice_values,
-                                                         primary_expected_visits)
+                                               primary_expected_visits)
+
+        secondary_differences = \
+            self.estimate_scheduler_difference(mdp, secondary_hole_assignments, secondary_choice_values,
+                                               secondary_expected_visits)
+        
+        ###
 
         # compute primary and secondary consistent
         primary_consistent = True
@@ -396,6 +413,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         # get the corresponding option for that split, already ordered by choice_value
         options = options_rankings[splitter]
 
+        # TODO: add the not to implement the  all-sat bet.
         take_highest = primary == minimizing
 
         if take_highest:
@@ -422,17 +440,23 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         assert result is not None
         isHyper = isinstance(result, MdpHyperPropertyResult)
         minimizing = result.property.minimizing
+        forced = False
 
         primary_core_suboptions, primary_other_suboptions, primary_splitter, primary_splitter_score = \
             self.compute_suboptions(result.primary_scores, True, minimizing, mdp)
-
-        assert primary_splitter_score > 0
 
         # compute the hole on which to split given by the analysis of the secondary scheduler
         if isHyper:
             secondary_core_suboptions, secondary_other_suboptions, secondary_splitter, secondary_splitter_score = \
                 self.compute_suboptions(result.secondary_scores, False, minimizing, mdp)
-            assert secondary_splitter_score > 0
+            if secondary_splitter_score == 0:
+                secondary_splitter = primary_splitter
+                split_on_primary = True
+                forced = True
+            elif primary_splitter_score == 0:
+                primary_splitter = secondary_splitter
+                split_on_primary = False
+                forced = True
 
         design_subspaces = []
         if not isHyper or primary_splitter == secondary_splitter:
@@ -445,14 +469,13 @@ class HyperPropertyQuotientContainer(QuotientContainer):
                 else:
                     core_suboptions, other_suboptions = primary_core_suboptions, primary_other_suboptions
             else:
-                # TODO: improve the reasoning here, and distinguish between the case when primary and secondary
-                #  are consistent and when they are not.
-                self.same_hole_hyper_split += 1
-                if self.same_hole_hyper_split %1000 == 0:
-                    logger.info(f"{self.same_hole_hyper_split} Hyper splits on the same hole")
-                core_suboptions, other_suboptions = (primary_core_suboptions, primary_other_suboptions) if self.split_on_primary else (secondary_core_suboptions, secondary_other_suboptions)
-                splitter = primary_splitter if self.split_on_primary else secondary_splitter
-                self.split_on_primary = not self.split_on_primary
+                if not forced:
+                    core_suboptions, other_suboptions = self.suboptions_enumerate(mdp, primary_splitter,
+                                                                                  result.joint_selection[primary_splitter])
+                else:
+                    core_suboptions, other_suboptions = (primary_core_suboptions, primary_other_suboptions) if split_on_primary else (secondary_core_suboptions, secondary_other_suboptions)
+
+                splitter = primary_splitter # the two splitters are always the same
 
             if len(other_suboptions) > 0:
                 suboptions_list = [other_suboptions] + core_suboptions  # DFS solves core first
@@ -465,12 +488,18 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             for suboptions in suboptions_list:
                 subholes = new_design_space.subholes([(splitter, suboptions)])
                 design_subspace = DesignSpace(subholes, parent_info)
-                # TODO: do we need this? Isn't it done by subhole method?
                 design_subspace.assume_hole_options(splitter, suboptions)
                 design_subspaces.append(design_subspace)
         else:
-            primary_suboptions = [primary_other_suboptions] + primary_core_suboptions
-            secondary_suboptions = [secondary_other_suboptions] + secondary_core_suboptions
+            if len(primary_other_suboptions) > 0:
+                primary_suboptions = [primary_other_suboptions] + primary_core_suboptions  # DFS solves core first
+            else:
+                primary_suboptions = primary_core_suboptions
+            if len(secondary_other_suboptions) > 0:
+                secondary_suboptions = [secondary_other_suboptions] + secondary_core_suboptions  # DFS solves core first
+            else:
+                secondary_suboptions = secondary_core_suboptions
+
             suboptions_list = [(i, j) for i in primary_suboptions for j in secondary_suboptions]
             # construct corresponding design subspaces
             family.splitters = [primary_splitter, secondary_splitter]
