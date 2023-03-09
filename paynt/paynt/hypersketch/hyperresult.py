@@ -281,13 +281,16 @@ class MdpHyperConstraintsResult:
         for saved_selection in self.sat_selections:
             for found_selection in group_sat_selections:
                 new_selection = []
+                accepted = True
                 for a,b in zip(saved_selection, found_selection):
                     assert len(a) <= 1 and len(b) <= 1
                     if not a or not b or a[0] == b[0]:
                         new_selection.append(list(set(a + b)))
                     else:
+                        accepted = False
                         break
-                new_selections.append(new_selection)
+                if accepted:
+                    new_selections.append(new_selection)
         self.sat_selections = new_selections
 
     def __str__(self):
