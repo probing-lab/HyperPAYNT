@@ -402,7 +402,7 @@ class MDP(MarkovChain):
                                 prop.meets_op(secondary.value + prop.min_bound, primary.threshold) \
                                 and secondary_consistent
 
-        joint_feasibility = joint_consistent
+        joint_feasibility = prop.result_valid(primary.threshold) and joint_consistent
         return MdpHyperPropertyResult(prop, primary, secondary, feasibility,
                                       primary_selection, primary_feasibility, primary_consistent, primary_differences,
                                       secondary_selection, secondary_feasibility, secondary_consistent, secondary_differences,
