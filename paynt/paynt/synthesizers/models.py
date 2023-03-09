@@ -266,9 +266,6 @@ class MDP(MarkovChain):
         secondary = self.model_check_property(prop, alt=True)
         feasibility = True if secondary.sat else None
 
-        #print(f"Primary result on property {prop}: {primary}")
-        #print(f"Secondary result on property {prop}: {secondary}")
-
         if feasibility:
             # no need to explore further
             # we are not constraining at all the selection
@@ -369,9 +366,6 @@ class MDP(MarkovChain):
         secondary = HyperPropertyResult(prop, primary.result_alt, primary.result)
         feasibility = True if secondary.sat else None
 
-        #print(f"Primary result on HYPERproperty {prop}: {primary}")
-        #print(f"Secondary result on HYPERproperty {prop}: {secondary}")
-
         if feasibility:
             # no need to explore further
             # we are not constraining at all any selection
@@ -453,8 +447,6 @@ class MDP(MarkovChain):
         return MdpSchedulerHyperOptimalityResult(prop, primary, improving_assignment, improving_value, can_improve)
 
     def check_hyperspecification(self, hyperspec, property_indices=None, short_evaluation=False):
-        #print(f"-------------------------------")
-        #print(f"checking hyperspecification")
         constraints_result = self.check_hyperconstraints(hyperspec.constraints, property_indices, short_evaluation)
         optimality_result = None
         if hyperspec.has_optimality and not (short_evaluation and constraints_result.feasibility is False):
@@ -466,5 +458,4 @@ class MDP(MarkovChain):
             sched_hyper_optimality_result = self.check_scheduler_hyperoptimality(
                 hyperspec.sched_hyperoptimality)
 
-        #print(f"----------------------------------------")
         return HyperSpecificationResult(constraints_result, optimality_result, sched_hyper_optimality_result)
