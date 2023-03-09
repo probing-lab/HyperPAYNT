@@ -156,10 +156,12 @@ class HyperSpecificationResult:
                     avg[hole_index] = (avg.get(hole_index, 0) + score) / 2
                 scores = avg
 
-            max_value = max(scores.values())
-            if max_value >= max_score:
+            max_value = None if not scores.values() else max(scores.values())
+
+            if max_value is not None and max_value >= max_score:
                 best_res = res
                 max_score = max_value
+
         return best_res
 
     def __str__(self):

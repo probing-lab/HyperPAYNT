@@ -177,6 +177,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             self.estimate_scheduler_difference(mdp, hole_assignments, choice_values,
                                                      expected_visits)
 
+
         Profiler.resume()
         return selection, choice_values, expected_visits, differences, consistent
 
@@ -406,6 +407,9 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
         scores, options_rankings = scores
 
+        if not scores:
+            # we need this for some very rare cases I cannot even know how to explain
+            return [], [], None, 0
         # compute the hole on which to split
         splitters = self.holes_with_max_score(scores)
         splitter = splitters[0]
