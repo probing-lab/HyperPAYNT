@@ -143,7 +143,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         # with respect to the original implementation
         # we don't want to fill non reachable holes, the choice is left open for them
         # TODO: switch result and result_alt for the all sat bet
-        return self.scheduler_selection_quantitative_hyper(mdp, prop, result, initial_state, result_alt, other_initial_state)
+        return self.scheduler_selection_quantitative_hyper(mdp, prop, result_alt, initial_state, result, other_initial_state)
 
     def scheduler_selection_quantitative_pctl(self, mdp, prop, result, initial_state):
         '''
@@ -200,12 +200,38 @@ class HyperPropertyQuotientContainer(QuotientContainer):
                                     in enumerate(joint_selection) if len(options) > 1}
         joint_consistent = len(inconsistent_assignments) == 0
 
+
         # extract choice values, compute expected visits
         primary_choice_values = self.choice_values(mdp, prop, result)
         primary_expected_visits = self.expected_visits(mdp, prop, scheduler, initial_state)
         secondary_choice_values = self.choice_values(mdp, prop, result_alt)
         secondary_expected_visits = self.expected_visits(mdp, prop, scheduler_alt, other_initial_state, primary_direction=False)
 
+        # new code from here
+        if joint_consistent:
+            joint_differences = None
+        else:
+            primary_hole_assignments = {hole_index: options for hole_index, options
+                                        in inconsistent_assignments.items() if primary_selection[hole_index]}
+            secondary_hole_assignments = {hole_index: options for hole_index, options
+                                          in inconsistent_assignments.items() if secondary_selection[hole_index]}
+
+            if not primary_hole_assignments:
+                primary_hole_assignments = {hole_index: hole.options for hole_index, hole in enumerate(mdp.design_space)
+                                            if
+                                            len(hole.options) > 1 and initial_state in hole.initial_states}
+
+            if not secondary_hole_assignments:
+                secondary_hole_assignments = {hole_index: hole.options for hole_index, hole in
+                                              enumerate(mdp.design_space)
+                                              if len(hole.options) > 1 and other_initial_state in hole.initial_states}
+
+            assert primary_hole_assignments
+            assert secondary_hole_assignments
+            joint_differences = self.estimate_scheduler_difference(mdp, primary_hole_assignments, secondary_hole_assignments,
+                                                                   result, result_alt,
+                                                                   primary_expected_visits, secondary_expected_visits)
+        """"
         primary_hole_assignments = {hole_index: options for hole_index, options
                                     in inconsistent_assignments.items() if primary_selection[hole_index]}
         secondary_hole_assignments = {hole_index: options for hole_index, options
@@ -292,6 +318,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
                                                secondary_expected_visits)
         
         ###
+        """
 
         # compute primary and secondary consistent
         primary_consistent = True
@@ -307,8 +334,8 @@ class HyperPropertyQuotientContainer(QuotientContainer):
                 break
 
         Profiler.resume()
-        return primary_selection, primary_consistent, primary_differences, \
-               secondary_selection, secondary_consistent, secondary_differences, \
+        return primary_selection, primary_consistent, joint_differences, \
+               secondary_selection, secondary_consistent, None, \
                joint_selection, joint_consistent
 
     def scheduler_selection(self, mdp, scheduler, initial_state):
@@ -336,58 +363,76 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
         return selection
 
-    def estimate_scheduler_difference(self, mdp, hole_assignments, choice_values, expected_visits):
+    def estimate_scheduler_difference(self, mdp, primary_hole_assignments, secondary_hole_assignments,
+                                      result, result_alt, primary_expected_visits, secondary_expected_visits):
         Profiler.start(" estimate scheduler difference")
 
         # for each hole, compute its difference sum and a number of affected states
-        hole_difference_sum = {hole_index: 0 for hole_index in hole_assignments}
-        hole_states_affected = {hole_index: 0 for hole_index in hole_assignments}
-        hole_difference_max = {hole_index: 0 for hole_index in hole_assignments}
-        options_rankings = {hole_index: [] for hole_index in hole_assignments}
+        hole_difference_sum = {(hole_index1, hole_index2): 0 for hole_index1 in primary_hole_assignments for hole_index2 in secondary_hole_assignments}
+        hole_states_affected = {(hole_index1, hole_index2): 0 for hole_index1 in primary_hole_assignments for hole_index2 in secondary_hole_assignments}
+        hole_difference_max = {(hole_index1, hole_index2): 0 for hole_index1 in primary_hole_assignments for hole_index2 in secondary_hole_assignments}
+        options_rankings = {(hole_index1, hole_index2): 0 for hole_index1 in primary_hole_assignments for hole_index2 in secondary_hole_assignments}
         tm = mdp.model.transition_matrix
 
-        for state in range(mdp.states):
-            # for this state, compute for its hole the difference in choice values between respective options
-            hole_min = None
-            hole_max = None
-            ranking = []
+        for state1 in range(mdp.states):
+            for state2 in range(mdp.states):
+                # for this state, compute for its hole the difference in choice values between respective options
+                hole_min = None
+                hole_max = None
+                ranking = []
 
-            for choice in range(tm.get_row_group_start(state), tm.get_row_group_end(state)):
+                for choice1 in range(tm.get_row_group_start(state1), tm.get_row_group_end(state1)):
+                    for choice2 in range(tm.get_row_group_start(state2), tm.get_row_group_end(state2)):
+                        choice_global1 = mdp.quotient_choice_map[choice1]
+                        if self.default_actions.get(choice_global1):
+                            # there isn't a hole assignment associated with this action
+                            continue
 
-                choice_global = mdp.quotient_choice_map[choice]
-                if self.default_actions.get(choice_global):
-                    # there isn't a hole assignment associated with this action
+                        choice_global2 = mdp.quotient_choice_map[choice2]
+                        if self.default_actions.get(choice_global2):
+                            # there isn't a hole assignment associated with this action
+                            continue
+
+                        choice_options1 = self.action_to_hole_options[choice_global1]
+                        choice_options2 = self.action_to_hole_options[choice_global2]
+                        # every choice corresponds to choosing one option for one hole, the hole of the state
+                        assert len(list(choice_options1.items())) == 1
+                        hole_index1, option1 = list(choice_options1.items())[0]
+
+                        assert len(list(choice_options2.items())) == 1
+                        hole_index2, option2 = list(choice_options2.items())[0]
+
+                        inconsistent_options1 = primary_hole_assignments.get(hole_index1, set())
+                        if option1 not in inconsistent_options1:
+                            continue
+
+                        inconsistent_options2 = secondary_hole_assignments.get(hole_index2, set())
+                        if option2 not in inconsistent_options2:
+                            continue
+
+                        value = sum([pA.value() * pB.value() * (result_alt.at(indexB) - result.at(indexA)) for indexA, pA in enumerate(list(tm[choice1])) for (indexB, pB) in enumerate(list(tm[choice2]))])
+                        if hole_min is None or value < hole_min:
+                            hole_min = value
+                        if hole_max is None or value > hole_max:
+                            hole_max = value
+
+                        options = (option1, option2)
+                        ranking.append((options,  value))
+
+                if hole_min is None or hole_max is None:
+                    # this state has no hole to fill
                     continue
 
-                choice_options = self.action_to_hole_options[choice_global]
-                # every choice corresponds to choosing one option for one hole, the hole of the state
-                assert len(list(choice_options.items())) == 1
-                hole_index, option = list(choice_options.items())[0]
-
-                inconsistent_options = hole_assignments.get(hole_index, set())
-                if option not in inconsistent_options:
-                    continue
-
-                value = choice_values[choice]
-                if hole_min is None or value < hole_min:
-                    hole_min = value
-                if hole_max is None or value > hole_max:
-                    hole_max = value
-                ranking.append((option, value))
-
-            if hole_min is None or hole_max is None:
-                # this state has no hole to fill
-                continue
-
-            # compute the difference and the ranking
-            difference = (hole_max - hole_min) * expected_visits[state]
-            assert not math.isnan(difference)
-            hole_difference_sum[hole_index] += difference
-            hole_states_affected[hole_index] += 1
-            if difference >= hole_difference_max[hole_index]:
-                hole_difference_max[hole_index] = difference
-                ranking.sort(key=lambda tup: tup[1])
-                options_rankings[hole_index] = [i for i, _ in ranking]
+                # compute the difference and the ranking
+                difference = (hole_max - hole_min) * primary_expected_visits[state1] * secondary_expected_visits[state2]
+                assert not math.isnan(difference)
+                hole_index = (hole_index1, hole_index2)
+                hole_difference_sum[hole_index] += difference
+                hole_states_affected[hole_index] += 1
+                if difference >= hole_difference_max[hole_index]:
+                    hole_difference_max[hole_index] = difference
+                    ranking.sort(key=lambda tup: tup[1])
+                    options_rankings[hole_index] = [i for i, _ in ranking]
 
         # filter out unreachable holes, which don't have any option in the ranking
         # but in the current approach we consider only overall reachability in the MDP
@@ -407,15 +452,24 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
         scores, options_rankings = scores
 
+        s = sorted(scores.items(), key=lambda x:x[1])
+        #print(f"sorted scores: {s}")
+        #print(f"ranking: {options_rankings}")
+
         if not scores:
             # we need this for some very rare cases I cannot even know how to explain
             return [], [], None, 0
         # compute the hole on which to split
         splitters = self.holes_with_max_score(scores)
         splitter = splitters[0]
+        primary_splitter, secondary_splitter = splitter
 
         # get the corresponding option for that split, already ordered by choice_value
         options = options_rankings[splitter]
+
+        #print(f"selected splitters: {splitter}")
+        #print(f"options of selected splitters; {options}")
+
 
         # TODO: add the not to implement the  all-sat bet.
         take_highest = primary == minimizing
@@ -426,9 +480,15 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         else:
             core_suboption = options[0]
 
-        other_suboptions = [option for option in mdp.design_space[splitter].options if option != core_suboption]
+        primary_core_suboption, secondary_core_suboption = core_suboption
 
-        return [[core_suboption]], other_suboptions, splitter, scores[splitter]
+        primary_other_suboptions = [option for option in mdp.design_space[primary_splitter].options if option != primary_core_suboption]
+        secondary_other_suboptions = [option for option in mdp.design_space[secondary_splitter].options if option != secondary_core_suboption]
+
+
+        return [[primary_core_suboption]], [[secondary_core_suboption]], \
+               primary_other_suboptions, secondary_other_suboptions, \
+               primary_splitter, secondary_splitter, scores[splitter]
 
 
     def split(self, family):
@@ -446,10 +506,19 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         minimizing = result.property.minimizing
         forced = False
 
-        primary_core_suboptions, primary_other_suboptions, primary_splitter, primary_splitter_score = \
+        primary_core_suboptions, secondary_core_suboptions, \
+        primary_other_suboptions, secondary_other_suboptions, \
+        primary_splitter, secondary_splitter, scores = \
             self.compute_suboptions(result.primary_scores, True, minimizing, mdp)
 
+        primary_core_suboptions, primary_other_suboptions = self.suboptions_enumerate(mdp, primary_splitter,
+                                                                      result.joint_selection[primary_splitter])
+        secondary_core_suboptions, secondary_other_suboptions = self.suboptions_enumerate(mdp, secondary_splitter,
+                                                                                      result.joint_selection[
+                                                                                          secondary_splitter])
+
         # compute the hole on which to split given by the analysis of the secondary scheduler
+        """"
         if isHyper:
             secondary_core_suboptions, secondary_other_suboptions, secondary_splitter, secondary_splitter_score = \
                 self.compute_suboptions(result.secondary_scores, False, minimizing, mdp)
@@ -461,10 +530,12 @@ class HyperPropertyQuotientContainer(QuotientContainer):
                 primary_splitter = secondary_splitter
                 split_on_primary = False
                 forced = True
+        """
 
         design_subspaces = []
         if not isHyper or primary_splitter == secondary_splitter:
             # fix the suboptions
+            """
             if not isHyper:
                 splitter = primary_splitter
                 if not result.primary_consistent:
@@ -473,13 +544,15 @@ class HyperPropertyQuotientContainer(QuotientContainer):
                 else:
                     core_suboptions, other_suboptions = primary_core_suboptions, primary_other_suboptions
             else:
-                if not forced:
-                    core_suboptions, other_suboptions = self.suboptions_enumerate(mdp, primary_splitter,
-                                                                                  result.joint_selection[primary_splitter])
-                else:
-                    core_suboptions, other_suboptions = (primary_core_suboptions, primary_other_suboptions) if split_on_primary else (secondary_core_suboptions, secondary_other_suboptions)
+            """
+            if not forced:
+                core_suboptions, other_suboptions = self.suboptions_enumerate(mdp, primary_splitter,
+                                                                              result.joint_selection[primary_splitter])
+            else:
+                assert False
+                core_suboptions, other_suboptions = (primary_core_suboptions, primary_other_suboptions) if split_on_primary else (secondary_core_suboptions, secondary_other_suboptions)
 
-                splitter = primary_splitter # the two splitters are always the same
+            splitter = primary_splitter # the two splitters are always the same
 
             if len(other_suboptions) > 0:
                 suboptions_list = [other_suboptions] + core_suboptions  # DFS solves core first
