@@ -150,13 +150,11 @@ class HyperSpecificationResult:
         for index in self.constraints_result.undecided_constraints:
             res = self.constraints_result.results[index]
             scores = res.primary_scores[0]
-            """
             if isinstance(res, MdpHyperPropertyResult):
                 avg = res.primary_scores[0].copy()
                 for hole_index, score in res.secondary_scores[0].items():
                     avg[hole_index] = (avg.get(hole_index, 0) + score) / 2
                 scores = avg
-            """
 
             max_value = None if not scores.values() else max(scores.values())
 
