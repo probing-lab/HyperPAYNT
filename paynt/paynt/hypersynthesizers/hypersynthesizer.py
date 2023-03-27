@@ -296,7 +296,10 @@ class HyperSynthesizerCEGIS(HyperSynthesizer):
         Profiler.start("holes::exclude_assignment")
         for conflict in conflicts:
             self.stat.add_conflict(conflict)
-            family.exclude_assignment(assignment, conflict)
+            pruning_estimate = family.exclude_assignment(assignment, conflict)
+            if pruning_estimate > int(self.sketch.design_space.size / 100):
+                logger.info(
+                    f"A CE has just discarded around {int(pruning_estimate / self.sketch.design_space.size * 100)}% of the design space")
 
         Profiler.resume()
         Profiler.resume()
@@ -489,7 +492,9 @@ class SynthesizerHybrid(HyperSynthesizerAR, HyperSynthesizerCEGIS):
                     if not explore_all:
                         break
                     else:
-                        family.exclude_assignment(assignment, [i for i in range(len(assignment))])
+                        pruning_estimate = family.exclude_assignment(assignment, [i for i in range(len(assignment))])
+                        if pruning_estimate > int(self.sketch.design_space.size / 100):
+                            logger.info(f"Discarding a SAT family which represents around {int(pruning_estimate / self.sketch.design_space.size * 100)}% of the design space")
 
                 self.stat.add_dtmc_sat_result(sat)
                 # move on to the next assignment
