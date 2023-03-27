@@ -268,6 +268,7 @@ class HyperSynthesizerCEGIS(HyperSynthesizer):
                     Profiler.start("storm::construct_conflict")
                     conflict = ce_generator.construct_hyperconflict(index, prop.min_bound, bounds, other_bounds, family.mdp.quotient_state_map,
                                                                prop.state, prop.other_state, prop.strict)
+                    Profiler.resume()
 
                     overall_conflict = list(set(overall_conflict + conflict))
                 else:
@@ -283,10 +284,10 @@ class HyperSynthesizerCEGIS(HyperSynthesizer):
                     conflict = ce_generator.construct_conflict(index, prop.threshold, prop.min_bound, bounds,
                                                                     family.mdp.quotient_state_map,
                                                                     prop.state, prop.strict)
-
+                    Profiler.resume()
                     overall_conflict = list(set(overall_conflict + conflict))
 
-                Profiler.resume()
+
             overall_conflict = self.generalize_conflict(assignment, overall_conflict, scheduler_selection)
             conflicts.append(overall_conflict)
 
@@ -297,6 +298,7 @@ class HyperSynthesizerCEGIS(HyperSynthesizer):
             self.stat.add_conflict(conflict)
             family.exclude_assignment(assignment, conflict)
 
+        Profiler.resume()
         Profiler.resume()
         return False, improving
 
