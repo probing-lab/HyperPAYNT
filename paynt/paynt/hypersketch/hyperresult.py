@@ -25,7 +25,7 @@ class HyperPropertyResult:
         self.improves_hyperoptimum = False
 
     def __str__(self):
-        return f"{self.value}(s_ {self.property.state}) vs {self.threshold}(s_{self.property.other_state}): {self.sat}"
+        return f"{self.value}[{self.property.state}] {self.property.op} {self.threshold}[{self.property.other_state}]: {self.sat}"
 
 
 class HyperConstraintsResult:
