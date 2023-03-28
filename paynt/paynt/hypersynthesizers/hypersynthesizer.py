@@ -164,6 +164,7 @@ class HyperSynthesizerAR(HyperSynthesizer):
 
             # undecided
             subfamilies = self.sketch.quotient.split(family)
+            assert subfamilies
             families = families + subfamilies
 
         self.stat.finished(satisfying_assignment)
