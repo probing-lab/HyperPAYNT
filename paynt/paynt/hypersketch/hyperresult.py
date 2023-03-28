@@ -143,8 +143,6 @@ class HyperSpecificationResult:
         return None, None, True
 
     def undecided_result(self):
-        if self.optimality_result is not None and self.optimality_result.can_improve:
-            return self.optimality_result
         best_res = None
         max_score = 0
         for index in self.constraints_result.undecided_constraints:
@@ -162,6 +160,15 @@ class HyperSpecificationResult:
                 best_res = res
                 max_score = max_value
 
+        if self.optimality_result is not None and self.optimality_result.can_improve:
+            res = self.optimality_result
+            scores = res.primary_scores[0]
+            max_value = None if not scores.values() else max(scores.values())
+
+            if max_value is not None and max_value >= max_score:
+                best_res = res
+
+        assert best_res is not None
         return best_res
 
     def __str__(self):
