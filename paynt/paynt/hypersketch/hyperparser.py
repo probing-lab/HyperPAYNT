@@ -393,7 +393,8 @@ class HyperParser:
                     indexes.extend([i])
                     i += 1
 
-            HyperSpecification.disjoint_indexes.append(indexes)
+            if indexes:
+                HyperSpecification.disjoint_indexes.append(indexes)
         return HyperSpecification(properties, self.optimality_property, self.scheduler_optimality_hyperproperty)
 
     def parse_properties(self, sketch_path, properties_path):
