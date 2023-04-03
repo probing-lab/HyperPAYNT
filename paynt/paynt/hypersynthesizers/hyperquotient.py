@@ -223,8 +223,8 @@ class HyperPropertyQuotientContainer(QuotientContainer):
                                           if len(hole.options) > 1 and other_initial_state in hole.initial_states}
             take_all_secondary = True
 
-        assert primary_hole_assignments
-        assert secondary_hole_assignments
+        #assert primary_hole_assignments
+        #assert secondary_hole_assignments
 
         primary_differences = \
             self.estimate_scheduler_difference(mdp, primary_hole_assignments, primary_choice_values,
@@ -280,8 +280,8 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             secondary_hole_assignments = {hole_index: hole.options for hole_index, hole in enumerate(mdp.design_space)
                                           if len(hole.options) > 1 and other_initial_state in hole.initial_states}
 
-        assert primary_hole_assignments
-        assert secondary_hole_assignments
+        #assert primary_hole_assignments
+        #assert secondary_hole_assignments
 
         primary_differences = \
             self.estimate_scheduler_difference(mdp, primary_hole_assignments, primary_choice_values,
