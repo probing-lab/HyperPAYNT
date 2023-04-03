@@ -35,7 +35,7 @@ class HyperProperty(Property):
 
         # minimal distance at which we consider the hyperproperty satisfied
         self.min_bound = min_bound
-        assert min_bound == 0 or min_bound > Property.float_precision
+        assert min_bound == 0 or abs(min_bound) > Property.float_precision
 
         self.threshold = None
 
