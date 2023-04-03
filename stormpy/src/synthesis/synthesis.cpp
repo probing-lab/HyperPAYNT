@@ -42,7 +42,7 @@ void define_synthesis(py::module& m) {
             "construct_hyperconflict",
             &storm::synthesis::CounterexampleGenerator<>::constructHyperConflict,
             "Construct a conflict to a prepared DTMC wrt a single formula.",
-            py::arg("formula_index"), py::arg("bound"), py::arg("mdp_bounds"),py::arg("other_mdp_bounds"),
+            py::arg("primary_formula_index"), py::arg("secondary_formula_index"),py::arg("multitarget"), py::arg("bound"), py::arg("mdp_bounds"),py::arg("other_mdp_bounds"),
             py::arg("mdp_quotient_state_map"), py::arg("state_quant"), py::arg("other_state_quant"), py::arg("strict")
             )
         .def(
