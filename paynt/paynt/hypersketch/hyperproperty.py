@@ -139,12 +139,6 @@ class HyperSpecification(Specification):
             properties += [self.optimality.property]
         return [c.property for c in self.constraints]
 
-    def stormpy_formulae(self):
-        mc_formulae = [c.formula for c in self.constraints]
-        if self.has_optimality:
-            mc_formulae += [self.optimality.formula]
-        return mc_formulae
-
     @classmethod
     def or_filter(cls, results, sub):
         filtered = []
