@@ -11,7 +11,7 @@ class Property:
     # model checking precision
     mc_precision = 1e-7
     # precision for comparing floats
-    float_precision = 1e-3
+    float_precision = 1e-4
 
     ''' Wrapper over a stormpy property. '''
 
