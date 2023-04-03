@@ -76,6 +76,12 @@ class Property:
     def above_float_precision(a, b):
         return abs(a - b) > Property.float_precision
 
+    def stormpy_properties(self):
+        return [self.property]
+
+    def stormpy_formulae(self):
+        return [self.formula]
+
     def meets_op(self, a, b):
         ''' For constraints, we do not want to distinguish between small differences. '''
         if self.strict:
@@ -185,13 +191,22 @@ class Specification:
         return [i for i, _ in enumerate(self.constraints)]
 
     def stormpy_properties(self):
-        properties = [c.property for c in self.constraints]
+        # TODO: the semantics of this has changed, and may disrupt other parts of the code, be careful
+        properties = [f for c in self.constraints for f in c.stormpy_properties()]
         if self.has_optimality:
             properties += [self.optimality.property]
         return properties
 
     def stormpy_formulae(self):
-        mc_formulae = [c.formula for c in self.constraints]
+        mc_formulae = [f for c in self.constraints for f in c.stormpy_formulae()]
         if self.has_optimality:
             mc_formulae += [self.optimality.formula]
         return mc_formulae
+
+    def grouped_stormpy_formulae(self):
+        mc_formulae = [c.stormpy_formulae() for c in self.constraints]
+        if self.has_optimality:
+            mc_formulae.append([self.optimality.formula])
+        return mc_formulae
+
+

@@ -23,7 +23,7 @@ class HyperSynthesizer:
         self.sketch = sketch
         self.stat = Statistic(sketch, self)
         self.explored = 0
-
+        self.multitarget_map = {}
         self.since_last_optimum_update = 0
 
     @property
@@ -60,6 +60,22 @@ class HyperSynthesizer:
     def no_optimum_update_limit_reached(self):
         self.since_last_optimum_update += 1
         return HyperSynthesizer.use_optimum_update_timeout and self.since_last_optimum_update > HyperSynthesizer.optimum_update_iters_limit
+
+    def compute_multitarget_map(self):
+        f_lists = self.sketch.specification.grouped_stormpy_formulae()
+        primary_targets = []
+        secondary_targets = []
+        for l in f_lists:
+            assert 2 >= len(l) >= 1
+            primary_targets.append(l.pop(0))
+            if l:
+                secondary_targets.append(l.pop(0))
+                self.multitarget_map[len(primary_targets) - 1] = len(secondary_targets) - 1
+
+        offset = len(primary_targets)
+        new_map = {x: self.multitarget_map[x] + offset for x in self.multitarget_map}
+        self.multitarget_map = new_map
+        return primary_targets + secondary_targets
 
 
 class HyperSynthesizer1By1(HyperSynthesizer):
@@ -265,8 +281,13 @@ class HyperSynthesizerCEGIS(HyperSynthesizer):
                         other_bounds = property_result.secondary.result
                         scheduler_selection = property_result.primary_selection
 
+                    secondary_index = index
+                    if prop.multitarget:
+                        secondary_index = self.multitarget_map[index]
+
                     Profiler.start("storm::construct_conflict")
-                    conflict = ce_generator.construct_hyperconflict(index, prop.min_bound, bounds, other_bounds, family.mdp.quotient_state_map,
+                    conflict = ce_generator.construct_hyperconflict(index, secondary_index, prop.multitarget,
+                                                                    prop.min_bound, bounds, other_bounds, family.mdp.quotient_state_map,
                                                                prop.state, prop.other_state, prop.strict)
 
                     overall_conflict = list(set(overall_conflict + conflict))
@@ -321,7 +342,7 @@ class HyperSynthesizerCEGIS(HyperSynthesizer):
         quotient_relevant_holes = self.sketch.quotient.state_to_holes
 
         # initialize CE generator
-        formulae = self.sketch.specification.stormpy_formulae()
+        formulae = self.compute_multitarget_map()
         ce_generator = stormpy.synthesis.CounterexampleGenerator(
             self.sketch.quotient.quotient_mdp, self.sketch.design_space.num_holes,
             quotient_relevant_holes, formulae)
@@ -418,7 +439,7 @@ class SynthesizerHybrid(HyperSynthesizerAR, HyperSynthesizerCEGIS):
         self.stage_control = StageControl()
 
         quotient_relevant_holes = self.sketch.quotient.state_to_holes
-        formulae = self.sketch.specification.stormpy_formulae()
+        formulae = self.compute_multitarget_map()
         ce_generator = stormpy.synthesis.CounterexampleGenerator(
             self.sketch.quotient.quotient_mdp, self.sketch.design_space.num_holes,
             quotient_relevant_holes, formulae)

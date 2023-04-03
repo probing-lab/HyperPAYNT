@@ -131,8 +131,8 @@ class MarkovChain:
             hint_alt = hint_seco if not alt else hint_prim
             # hint = self.analysis_hints[prop]
 
-        formula = prop.formula if not alt else prop.formula_alt
-        formula_alt = prop.formula_alt if not alt else prop.formula
+        formula = prop.primary_formula if not alt else prop.primary_formula_alt
+        formula_alt = prop.secondary_formula if not alt else prop.secondary_formula_alt
         if hint is None:
             result = self.model_check_formula(formula)
             result_alt = self.model_check_formula(formula_alt)
@@ -362,8 +362,7 @@ class MDP(MarkovChain):
 
         # primary direction is SAT
         # check secondary direction to show that all SAT
-        # TODO: this does not work if we have a multi targets comparison
-        secondary = HyperPropertyResult(prop, primary.result_alt, primary.result)
+        secondary = self.model_check_hyperproperty(prop, alt = True) if prop.multitarget else HyperPropertyResult(prop, primary.result_alt, primary.result)
         feasibility = True if secondary.sat else None
 
         if feasibility:

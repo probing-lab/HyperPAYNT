@@ -7,9 +7,9 @@ from ..sketch.property import Property, logger, Specification
 class HyperProperty(Property):
     ''' Wrapper over an hyperproperty as a simple comparison of a reachability probability between two states. '''
 
-    def __init__(self, prop, state, other_state, op, min_bound = 0):
-        self.property = prop
-        rf = prop.raw_formula
+    def __init__(self, prop, other_prop, multitarget, state, other_state, op, min_bound = 0):
+        self.primary_property = prop
+        primary_rf = prop.raw_formula
 
         # use operator to deduce optimizing direction
         self.op = op
@@ -17,17 +17,34 @@ class HyperProperty(Property):
         self.strict = op in [operator.lt, operator.gt]
 
         # set optimality type
-        self.formula = rf.clone()
+        self.primary_formula = primary_rf.clone()
         optimality_type = stormpy.OptimizationDirection.Minimize if self.minimizing else stormpy.OptimizationDirection.Maximize
-        self.formula.set_optimality_type(optimality_type)
+        self.primary_formula.set_optimality_type(optimality_type)
 
         # Construct alternative quantitative formula to use in AR.
-        self.formula_alt = self.formula.clone()
+        self.primary_formula_alt = primary_rf.clone()
         optimality_type_alt = stormpy.OptimizationDirection.Maximize if self.minimizing else stormpy.OptimizationDirection.Minimize
-        self.formula_alt.set_optimality_type(optimality_type_alt)
+        self.primary_formula_alt.set_optimality_type(optimality_type_alt)
 
         # for the str function
-        self.formula_str = rf
+        self.primary_formula_str = primary_rf
+
+        # handle multi properties
+        self.multitarget = multitarget
+        if self.multitarget:
+            assert other_prop is not None
+
+            self.secondary_property = other_prop
+
+            secondary_rf = other_prop.raw_formula
+            self.secondary_formula = secondary_rf.clone()
+            self.secondary_formula.set_optimality_type(optimality_type_alt)
+
+            # Construct alternative quantitative formula to use in AR.
+            self.secondary_formula_alt = secondary_rf.clone()
+            self.secondary_formula_alt.set_optimality_type(optimality_type)
+
+            self.secondary_formula_str = secondary_rf
 
         # set the state quantifier
         self.state = state
@@ -45,6 +62,22 @@ class HyperProperty(Property):
 
     def satisfies_threshold(self, value, threshold):
         return self.result_valid(value) and self.meets_op(value + self.min_bound, threshold)
+
+    def stormpy_properties(self):
+        if self.multitarget:
+            return [self.primary_property, self.secondary_property]
+        else:
+            return [self.primary_property]
+
+    def stormpy_formulae(self):
+        if self.multitarget:
+            return [self.primary_formula, self.secondary_formula]
+        else:
+            return [self.primary_formula]
+
+    @property
+    def reward(self):
+        return self.primary_formula.is_reward_operator
 
 
 # TODO: implement optimality hyperproperties
