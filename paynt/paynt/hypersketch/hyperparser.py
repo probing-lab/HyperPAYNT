@@ -309,10 +309,12 @@ class HyperParser:
         match = prop_re.search(prop)
         if match is None:
             raise HyperParsingException(f"input formula is wrong formatted! [{prop}]")
+
+        multitarget = False
         if not match.group(4) == match.group(10):
-            raise NotImplementedError("Comparison of different reachability targets are not supported yet. "
-                                      "Please also check that whitespaces match in the two targets: \""
-                                      + match.group(4) + "\" and \"" + match.group(10) + "\"")
+            multitarget = True
+
+
         # collect information
         state_quant = int(match.group(3))
         compare_state = int(match.group(9))
@@ -325,15 +327,23 @@ class HyperParser:
         if reward_structure_match is None:
             # this is not a reward hyperproperty
             p = match.group(1).replace(match.group(2), "=?")
+            other_p =match.group(7).replace(match.group(8), "=?")
 
         else:
+            # multitarget reward Hyperproperties are not allowed for the moment
+            assert not multitarget
             # this is a Reward Hyperproperty, and has a reward structure
             p = match.group(1).replace(match.group(2), "")
             p = p.replace(match.group(4), reward_structure_match.group(1) + "=?" + reward_structure_match.group(2))
+            other_p = None
 
         ps = stormpy.parse_properties_for_prism_program(p, prism)
         p = ps[0]
-        return HyperProperty(p, state_quant, compare_state, op, bound)
+
+        if multitarget:
+            other_ps = stormpy.parse_properties_for_prism_program(other_p, prism)
+            other_p = other_ps[0]
+        return HyperProperty(p, other_p, multitarget, state_quant, compare_state, op, bound)
 
     def parse_property(self, string, prism):
 
