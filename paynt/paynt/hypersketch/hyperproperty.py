@@ -57,8 +57,8 @@ class HyperProperty(Property):
         self.threshold = None
 
     def __str__(self):
-        return str(self.formula_str) + " {" + str(self.state) + "} " + str(self.op) + " " + str(
-            self.formula_str) + " {" + str(self.other_state) + "}" + " --bound : [" + str(self.min_bound) + "]"
+        secondary_formula_str = self.secondary_formula_str if self.multitarget else self.primary_formula_str
+        return f"{self.primary_formula_str}[{self.state}] {self.op} {secondary_formula_str}[{self.other_state}] -- min_distance: {self.min_bound}"
 
     def satisfies_threshold(self, value, threshold):
         return self.result_valid(value) and self.meets_op(value + self.min_bound, threshold)
