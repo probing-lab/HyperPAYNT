@@ -210,6 +210,7 @@ class HyperParser:
 
     def parse_program(self, path):
         n_sched_quants = len(self.sched_quant_dict)
+        assert n_sched_quants >= 1
         # perform the "duplication trick"
         if n_sched_quants > 1:
             with open(path, "r") as f:
@@ -412,12 +413,6 @@ class HyperParser:
 
     def parse_properties(self, sketch_path, properties_path):
 
-        # parse program
-        logger.info(f"Loading sketch from {sketch_path}...")
-        logger.info(f"Assuming a sketch in a PRISM format ...")
-        prism = self.parse_program(sketch_path)
-        self.prism = prism
-
         # parsing the scheduler quantifiers
         logger.info(f"Loading properties from {properties_path} ...")
         logger.info(f"Parsing scheduler quantifiers ...")
@@ -445,6 +440,12 @@ class HyperParser:
         self.parse_structural_equalities()
         str_structural_equalities = [(c_name, c_schedulers) for (c_name, c_schedulers) in self.structural_equalities]
         logger.info(f"Found the following structural equality constraints: {str_structural_equalities}")
+
+        # parse program
+        logger.info(f"Loading sketch from {sketch_path}...")
+        logger.info(f"Assuming a sketch in a PRISM format ...")
+        prism = self.parse_program(sketch_path)
+        self.prism = prism
 
         # dummy model for instantiating the properties
         builder_options = stormpy.BuilderOptions()
