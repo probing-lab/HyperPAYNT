@@ -6,7 +6,7 @@ mdp
 //  7 |   .  .  . ..... ...
 //  6 | ........t .....  .
 //  5 | . . .   .     .  .
-//  4 | i ... ......  .  .
+//  4 | 0 ... ......  .  .1
 //  3 |       .  .  ...  ..
 //  2 |      ..  .  . .
 //  1 |      .  ..  .....t.
@@ -23,8 +23,11 @@ formula d = (x=0&y=1)|(x=1&y=1)|(x=2&y=1)|(x=3&y=1)|(x=4&y=1)|(x=5&y=1)|(x=17&y=
 formula l = (x=1&y=0)|(x=2&y=0)|(x=3&y=0)|(x=4&y=0)|(x=5&y=0)|(x=6&y=0)|(x=18&y=0)|(x=6&y=1)|(x=9&y=1)|(x=10&y=1)|(x=13&y=1)|(x=14&y=1)|(x=15&y=1)|(x=16&y=1)|(x=17&y=1)|(x=18&y=1)|(x=6&y=2)|(x=7&y=2)|(x=10&y=2)|(x=13&y=2)|(x=15&y=2)|(x=7&y=3)|(x=10&y=3)|(x=13&y=3)|(x=14&y=3)|(x=15&y=3)|(x=18&y=3)|(x=1&y=4)|(x=3&y=4)|(x=4&y=4)|(x=5&y=4)|(x=7&y=4)|(x=8&y=4)|(x=9&y=4)|(x=10&y=4)|(x=11&y=4)|(x=12&y=4)|(x=15&y=4)|(x=18&y=4)|(x=1&y=5)|(x=3&y=5)|(x=5&y=5)|(x=9&y=5)|(x=15&y=5)|(x=18&y=5)|(x=1&y=6)|(x=2&y=6)|(x=3&y=6)|(x=4&y=6)|(x=5&y=6)|(x=6&y=6)|(x=7&y=6)|(x=8&y=6)|(x=9&y=6)|(x=11&y=6)|(x=12&y=6)|(x=13&y=6)|(x=14&y=6)|(x=15&y=6)|(x=18&y=6)|(x=3&y=7)|(x=6&y=7)|(x=9&y=7)|(x=11&y=7)|(x=12&y=7)|(x=13&y=7)|(x=14&y=7)|(x=15&y=7)|(x=17&y=7)|(x=18&y=7)|(x=1&y=8)|(x=2&y=8)|(x=3&y=8)|(x=4&y=8)|(x=6&y=8)|(x=9&y=8)|(x=10&y=8)|(x=11&y=8)|(x=15&y=8)|(x=17&y=8)|(x=4&y=9)|(x=6&y=9)|(x=7&y=9)|(x=9&y=9)|(x=11&y=9)|(x=12&y=9)|(x=15&y=9)|(x=16&y=9)|(x=17&y=9)|(x=1&y=10)|(x=2&y=10)|(x=3&y=10)|(x=4&y=10)|(x=6&y=10)|(x=7&y=10)|(x=9&y=10)|(x=11&y=10)|(x=12&y=10)|(x=13&y=10)|(x=14&y=10)|(x=15&y=10);
 
 
-const int x_init = 0;
-const int y_init = 4;
+const int x0_init = 0;
+const int y0_init = 4;
+
+const int x1_init = 18;
+const int y1_init = 4;
 
 
 formula yu = u ? (y+1) : y;
@@ -33,8 +36,8 @@ formula yd = d ? (y-1) : y;
 formula xl = l ? (x-1) : x;
 
 module maze
-	 x : [0..18] init x_init;
-	 y : [0..10] init y_init;
+	 x : [0..18];
+	 y : [0..10];
 	[up] !goal & u   -> 0.9: (y'=yu) + 0.1: (x'=xr);
 	[ri] !goal & r   -> 0.9: (x'=xr) + 0.1: (y'=yd);
 	[do] !goal & d   -> 0.9: (y'=yd) + 0.1: (x'=xl);
@@ -50,11 +53,11 @@ formula treasure = t0 | t1 | t2 | t3 | t4;
 
 
 module treasures
-	v0 : bool init false;
-	v1 : bool init false;
-	v2 : bool init false;
-	v3 : bool init false;
-	v4 : bool init false;
+	v0 : bool;
+	v1 : bool;
+	v2 : bool;
+	v3 : bool;
+	v4 : bool;
 
 	[up] t0 -> (v0'=true) & (v1'=false) & (v2'=false) & (v3'=false) & (v4'=false);
 	[up] t1 -> (v1'=true) & (v0'=false) & (v2'=false) & (v3'=false) & (v4'=false);
@@ -96,7 +99,7 @@ endrewards
 
 const double discount_factor = 0.9;
 module discounting
-	sink : bool init false;
+	sink : bool;
 	[up] !sink -> discount_factor : true + 1-discount_factor : (sink'=true);
 	[up] sink -> true;
 	[ri] !sink -> discount_factor : true + 1-discount_factor : (sink'=true);
@@ -106,6 +109,11 @@ module discounting
 	[le] !sink -> discount_factor : true + 1-discount_factor : (sink'=true);
 	[le] sink -> true;
 endmodule
+
+init (((x=x0_init & y=y0_init) | (x=x1_init & y=y1_init)) & !v0 & !v1 & !v2 & !v3 & !v4 & !sink) endinit
+
+label "start0" = (x=x0_init & y=y0_init);
+label "start1" = (x=x1_init & y=y1_init);
 
 formula goal = sink;
 
