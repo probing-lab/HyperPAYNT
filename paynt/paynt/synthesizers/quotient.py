@@ -5,6 +5,7 @@ import stormpy.pomdp
 import math
 import re
 
+from ..hypersketch.hyperproperty import HyperProperty
 from ..sketch.jani import JaniUnfolder
 from ..sketch.holes import Hole,Holes,DesignSpace
 
@@ -208,7 +209,7 @@ class QuotientContainer:
 
         # if the associated reward model has state-action rewards, then these must be added to choice values
         if prop.reward:
-            reward_name = prop.formula.reward_name
+            reward_name = prop.primary_formula.reward_name if isinstance(prop, HyperProperty) else prop.formula.reward_name
             rm = mdp.model.reward_models.get(reward_name)
             assert not rm.has_transition_rewards and (rm.has_state_rewards != rm.has_state_action_rewards)
             if rm.has_state_action_rewards:

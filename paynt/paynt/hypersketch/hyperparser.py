@@ -379,7 +379,7 @@ class HyperParser:
             return Property(prop, state_id)
         else:
             # optimality formula
-            return OptimalityProperty(prop, optimality_epsilon, state_id)
+            return OptimalityProperty(prop, state_id, optimality_epsilon)
 
     # parse all the instantiated properties and return a HyperSpecification
     def parse_instantiated_properties(self, prism):
