@@ -45,9 +45,10 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
             # a hole to be created
             state_name = self.quotient_mdp.state_valuations.get_string(state)
-            variable_valuations = parser.parse_state_name(state_name, parse_state_quant=True)
-            initial_states = parser.compute_initial_states(variable_valuations)
-            associated_scheduler = parser.compute_associated_schedulers(variable_valuations)
+            sched_id = parser.parse_scheduler_variable(state_name)
+            variable_expressions = parser.parse_state_name_expression(state_name, parse_state_quant=True)
+            initial_states = parser.compute_initial_states(sched_id)
+            associated_scheduler = parser.compute_associated_schedulers(sched_id)
             asch_list = [associated_scheduler]
 
             #first, check whether this hole belongs to some structural equality constraint
@@ -55,13 +56,12 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             hole_index = None
             hole_name = state_name
             for constraint in parser.structural_equalities:
-                (c_valuations, c_name, c_schedulers) = constraint
-                is_constrained = parser.check_constraint_inclusion(c_valuations, c_schedulers, variable_valuations, associated_scheduler)
+                (c_name, c_schedulers) = constraint
+                is_constrained = parser.check_constraint_inclusion(c_name, c_schedulers, variable_expressions, associated_scheduler)
                 if is_constrained:
                     hole_index = holes.lookup_hole_index(c_name, c_schedulers)
                     # update the name of the hole that we are currently creating
                     hole_name = c_name
-                    variable_valuations = c_valuations
                     asch_list = c_schedulers
                     break
 
@@ -102,9 +102,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             hole_option_labels = [str(labels) for labels in hole_option_labels]
             parser.update_corresponding_holes(hole_index, state_name)
 
-            hole = Hole(hole_name, hole_options, hole_option_labels, initial_states=initial_states,
-                        variable_valuations=variable_valuations, associated_schedulers=asch_list)
-
+            hole = Hole(hole_name, hole_options, hole_option_labels, initial_states=initial_states, associated_schedulers=asch_list)
             holes.append(hole)
 
         # now sketch has the corresponding design space

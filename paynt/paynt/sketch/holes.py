@@ -22,14 +22,13 @@ class Hole:
       this order must be preserved in the refining process.
     '''
 
-    def __init__(self, name, options, option_labels, initial_states=None, variable_valuations=None, associated_schedulers=None):
+    def __init__(self, name, options, option_labels, initial_states=None, associated_schedulers=None):
         self.name = name
         self.options = options
         self.option_labels = option_labels
 
         # the initial states from which this hole is reachable
         self.initial_states = initial_states
-        self.variable_valuations = variable_valuations
 
         self.associated_schedulers = associated_schedulers
 
@@ -61,8 +60,7 @@ class Hole:
     def copy(self):
         # note that the copy is shallow, but after assuming some options
         # the options pointer points to the new list, hence the original hole is not modified.
-        return Hole(self.name, self.options, self.option_labels, initial_states=self.initial_states,
-                    variable_valuations=self.variable_valuations, associated_schedulers=self.associated_schedulers)
+        return Hole(self.name, self.options, self.option_labels, initial_states=self.initial_states, associated_schedulers=self.associated_schedulers)
 
 class Holes(list):
     ''' List of holes. '''
