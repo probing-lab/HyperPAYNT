@@ -79,6 +79,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
                         labels = str(labels)
                         if label == str(labels):
                             index = idx
+                            break
 
                     assert index is not None
                     assert index not in index_list
