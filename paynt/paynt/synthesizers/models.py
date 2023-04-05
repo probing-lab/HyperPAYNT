@@ -132,7 +132,10 @@ class MarkovChain:
             # hint = self.analysis_hints[prop]
 
         formula = prop.primary_formula if not alt else prop.primary_formula_alt
-        formula_alt = prop.secondary_formula if not alt else prop.secondary_formula_alt
+        if prop.multitarget:
+            formula_alt = prop.secondary_formula if not alt else prop.secondary_formula_alt
+        else:
+            formula_alt = prop.primary_formula_alt if not alt else prop.primary_formula
         if hint is None:
             result = self.model_check_formula(formula)
             result_alt = self.model_check_formula(formula_alt)
