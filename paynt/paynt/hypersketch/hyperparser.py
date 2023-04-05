@@ -295,7 +295,6 @@ class HyperParser:
                 spread_lines = list(map(lambda x: self.grow_vertically(x, state_var, initial_states), self.lines))
                 self.lines = [item for sublist in spread_lines for item in sublist]
 
-    # TODO: add support for the multi target comparison
     def parse_hyperproperty(self, prop, prism):
         bound_re = re.compile(r'(.*?)\s--\s(.*?)$')
         prop_re = re.compile(r'(.*?(\{(\w+)\})(.*?))(\s(<=|<|=>|>)\s)(.*?(\{(\w+)\})(.*?))$')
