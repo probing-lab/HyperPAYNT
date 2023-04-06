@@ -52,20 +52,21 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             asch_list = [associated_scheduler]
 
             #first, check whether this hole belongs to some structural equality constraint
-            is_constrained = False
             hole_index = None
             hole_name = state_name
+            has_been_constrained = False
             for constraint in parser.structural_equalities:
                 (c_name, c_schedulers) = constraint
                 is_constrained = parser.check_constraint_inclusion(c_name, c_schedulers, variable_expressions, associated_scheduler)
                 if is_constrained:
+                    assert not has_been_constrained
                     hole_index = holes.lookup_hole_index(c_name, c_schedulers)
                     # update the name of the hole that we are currently creating
                     hole_name = c_name
                     asch_list = c_schedulers
-                    break
+                    has_been_constrained = True
 
-            if is_constrained and hole_index is not None:
+            if has_been_constrained and hole_index is not None:
                 # this hole has already been defined somewhere, and it is in the list
                 holes[hole_index].initial_states = holes[hole_index].initial_states.union(initial_states)
                 parser.update_corresponding_holes(hole_index, state_name)
