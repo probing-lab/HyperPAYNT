@@ -200,12 +200,7 @@ class HyperParser:
             for sched_name in scheduler_names:
                 if sched_name not in list(self.sched_quant_dict.keys()):
                     raise Exception(f"Free Occurrence of a scheduler variable: {sched_name}")
-            #if self.structural_equalities:
-                #for constr in self.structural_equalities:
-                    #(valuations, _, snames) = constr
-                    #if self.compatible(valuations, valuations_dict, snames, scheduler_names):
-                        #raise Exception(f"Two compatible structural equalities have been specified: {valuations}, {snames}) - ({valuations_dict}, {scheduler_names})")
-
+                
             self.structural_equalities.append((structural_constraint, scheduler_names))
 
     def parse_program(self, path):
