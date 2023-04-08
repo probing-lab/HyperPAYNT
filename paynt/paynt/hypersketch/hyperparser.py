@@ -43,6 +43,10 @@ class HyperParser:
         # parsed structural equality constraints
         self.structural_equalities = []
 
+        # formulas in the structural constraints that need to be substituted before evaluating them
+        self.parsed_formulas = {}
+
+
         DesignSpace.matching_hole_indexes = defaultdict(list)
 
         self.prism = None
@@ -206,12 +210,13 @@ class HyperParser:
     def parse_program(self, path):
         n_sched_quants = len(self.sched_quant_dict)
         assert n_sched_quants >= 1
+        with open(path, "r") as f:
+            lines = f.readlines()
+            self.parse_formulas(lines)
+            f.close()
+
         # perform the "duplication trick"
         if n_sched_quants > 1:
-            with open(path, "r") as f:
-                lines = f.readlines()
-                f.close()
-
             with open(path, "a") as f:
                 # add a global variable to distinguish two initial states
                 # note: this does not work if the file is empty or if the PRISM file already contains the global variable sched_quant
@@ -228,6 +233,18 @@ class HyperParser:
             return prism
         else:
             return stormpy.parse_prism_program(path, prism_compat=True)
+
+    def parse_formulas(self, lines):
+        print(f"PARSING FORMULAS OF THE INPUT PRISM FILE--")
+        formula_re = re.compile(r'formula(.*?)\=(.*);$')
+        for line in lines:
+            match = formula_re.search(line.replace(' ', ''))
+            if match is not None:
+                for f in self.parsed_formulas:
+                    if match.group(1) in f or f in match.group(1):
+                        logger.info(f"Warning. One formula token is contained in another: {match.group(1)} vs {f}. "
+                                    f"This may cause disruption or unintended behaviours when parsing structural constraints.")
+                self.parsed_formulas[match.group(1)] = match.group(2)
 
     # "horizontally" means to add some more properties in disjunction with the ones found in the current line
     def grow_horizontally(self, line, state_name, initial_states):
@@ -529,6 +546,14 @@ class HyperParser:
     def check_constraint_inclusion(self, structural_constraint, c_schedulers, variable_expressions, associated_scheduler):
         expression_parser = stormpy.storage.ExpressionParser(self.prism.expression_manager)
         expression_parser.set_identifier_mapping(variable_expressions)
+        modified = True
+        while modified:
+            modified = False
+            for f, expr in self.parsed_formulas.items():
+                if f in structural_constraint:
+                    modified = True
+                    structural_constraint = structural_constraint.replace(f"{f}",f"({expr})")
+
         is_constrained = expression_parser.parse(structural_constraint).evaluate_as_bool()
         return is_constrained and associated_scheduler in c_schedulers
 
