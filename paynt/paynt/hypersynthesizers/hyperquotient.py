@@ -404,7 +404,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
         if not scores:
             # we need this for some very rare cases I cannot even know how to explain
-            return [], [], None, 0
+            return [], [], None, -1
         # compute the hole on which to split
         splitters = self.holes_with_max_score(scores)
         splitter = splitters[0]
@@ -448,11 +448,13 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         if isHyper:
             secondary_core_suboptions, secondary_other_suboptions, secondary_splitter, secondary_splitter_score = \
                 self.compute_suboptions(result.secondary_scores, False, minimizing, mdp)
-            if secondary_splitter_score == 0:
+            assert not (primary_splitter_score == -1 and secondary_splitter_score == -1)
+
+            if secondary_splitter_score <= 0 and not primary_splitter_score == -1:
                 secondary_splitter = primary_splitter
                 split_on_primary = True
                 forced = True
-            elif primary_splitter_score == 0:
+            elif primary_splitter_score <= 0 and not secondary_splitter_score == -1:
                 primary_splitter = secondary_splitter
                 split_on_primary = False
                 forced = True
