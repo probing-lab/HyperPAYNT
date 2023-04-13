@@ -172,8 +172,11 @@ class HyperSpecificationResult:
         return best_res
 
     def __str__(self):
-        return str(self.constraints_result) + "\n" + str(self.optimality_result) + "\n" + str(
-            self.sched_hyperoptimality_result)
+        con_res = "No constraints specified" if not self.constraints_result.results else f"{self.constraints_result}"
+        opt_res = "No optimality constraint specified" if not self.optimality_result else f"Optimality: {self.optimality_result}"
+        sched_hyperopt_res = "No scheduler hyperoptimalty constraint specified" if not self.sched_hyperoptimality_result \
+            else f"Scheduler Hyperoptimality: {self.sched_hyperoptimality_result}"
+        return f"{con_res}\n {opt_res}\n {sched_hyperopt_res}"
 
 
 class MdpHyperPropertyResult:

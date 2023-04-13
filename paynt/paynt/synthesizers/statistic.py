@@ -135,7 +135,8 @@ class Statistic:
 
     def get_summary(self):
         spec = self.sketch.specification
-        specification = "\n".join([f"constraint {i + 1}: {str(f)}" for i,f in enumerate(spec.constraints)]) + "\n"
+        specification = "\n".join([f"constraint {i + 1}: {str(f)}" for i,f in enumerate(spec.constraints)]) + "\n" \
+                        + f"Optimality objective: {spec.optimality}\n Scheduler Hyperoptimality objective: {spec.sched_hyperoptimality}\n"
         disjoint_indexes = f" Indexes of formulae in OR relation with each other: {spec.disjoint_indexes}\n"
 
         fraction_explored = int((self.synthesizer.explored / self.sketch.design_space.size) * 100)
