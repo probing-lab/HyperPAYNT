@@ -1,0 +1,71 @@
+mdp
+
+//  6 | .... ..
+//  5 |    . ..
+//  4 | .... .
+//  3 |   t  .
+//  2 | ........t
+//  1 | . . .   .
+//  0 | i .t. ......
+//    --------------
+//      ............
+
+formula up = (x=0&y=0)|(x=2&y=0)|(x=4&y=0)|(x=8&y=0)|(x=0&y=1)|(x=1&y=1)|(x=2&y=1)|(x=3&y=1)|(x=4&y=1)|(x=5&y=1)|(x=6&y=1)|(x=7&y=1)|(x=8&y=1)|(x=2&y=2)|(x=5&y=2)|(x=0&y=3)|(x=1&y=3)|(x=2&y=3)|(x=3&y=3)|(x=5&y=3)|(x=3&y=4)|(x=5&y=4)|(x=6&y=4)|(x=0&y=5)|(x=1&y=5)|(x=2&y=5)|(x=3&y=5)|(x=5&y=5)|(x=6&y=5);
+
+formula right = (x=1&y=0)|(x=2&y=0)|(x=3&y=0)|(x=5&y=0)|(x=6&y=0)|(x=7&y=0)|(x=8&y=0)|(x=9&y=0)|(x=10&y=0)|(x=1&y=1)|(x=3&y=1)|(x=7&y=1)|(x=0&y=2)|(x=1&y=2)|(x=2&y=2)|(x=3&y=2)|(x=4&y=2)|(x=5&y=2)|(x=6&y=2)|(x=7&y=2)|(x=1&y=3)|(x=4&y=3)|(x=0&y=4)|(x=1&y=4)|(x=2&y=4)|(x=4&y=4)|(x=2&y=5)|(x=4&y=5)|(x=5&y=5)|(x=0&y=6)|(x=1&y=6)|(x=2&y=6)|(x=4&y=6)|(x=5&y=6);
+
+formula down = (x=0&y=1)|(x=2&y=1)|(x=3&y=1)|(x=4&y=1)|(x=6&y=1)|(x=7&y=1)|(x=8&y=1)|(x=9&y=1)|(x=10&y=1)|(x=11&y=1)|(x=0&y=2)|(x=2&y=2)|(x=4&y=2)|(x=8&y=2)|(x=0&y=3)|(x=1&y=3)|(x=2&y=3)|(x=3&y=3)|(x=4&y=3)|(x=5&y=3)|(x=6&y=3)|(x=7&y=3)|(x=8&y=3)|(x=2&y=4)|(x=5&y=4)|(x=0&y=5)|(x=1&y=5)|(x=2&y=5)|(x=3&y=5)|(x=5&y=5)|(x=3&y=6)|(x=5&y=6)|(x=6&y=6);
+
+formula left = (x=1&y=0)|(x=3&y=0)|(x=4&y=0)|(x=5&y=0)|(x=7&y=0)|(x=8&y=0)|(x=9&y=0)|(x=10&y=0)|(x=11&y=0)|(x=1&y=1)|(x=3&y=1)|(x=5&y=1)|(x=9&y=1)|(x=1&y=2)|(x=2&y=2)|(x=3&y=2)|(x=4&y=2)|(x=5&y=2)|(x=6&y=2)|(x=7&y=2)|(x=8&y=2)|(x=9&y=2)|(x=3&y=3)|(x=6&y=3)|(x=1&y=4)|(x=2&y=4)|(x=3&y=4)|(x=4&y=4)|(x=6&y=4)|(x=4&y=5)|(x=6&y=5)|(x=7&y=5)|(x=1&y=6)|(x=2&y=6)|(x=3&y=6)|(x=4&y=6)|(x=6&y=6)|(x=7&y=6);
+
+
+const int x_init = 0;
+const int y_init = 0;
+
+
+formula yu = up ? (y+1) : y;
+formula xr = right ? (x+1) : x;
+formula yd = down ? (y-1) : y;
+formula xl = left ? (x-1) : x;
+
+
+module maze
+         x : [0..11];
+         y : [0..6];
+        [up] !goal & up   -> 0.9: (y'=yu) + 0.1: (x'=xr);
+        [ri] !goal & right   -> 0.9: (x'=xr) + 0.1: (y'=yd);
+        [do] !goal & down   -> 0.9: (y'=yd) + 0.1: (x'=xl);
+        [le] !goal & left   -> 0.9: (x'=xl) + 0.1: (y'=yu);
+endmodule
+
+formula t0 = (x=3&y=0);
+formula t1 = (x=8&y=2);
+formula t2 = (x=2&y=3);
+formula treasure = t0 | t1 | t2;
+formula current_treasure = t0 ? 0 : (t1 ? 1 : (t2 ? 2 : (last_treasure)));
+
+module treasures
+        last_treasure : [-1..2];
+        [up] true -> (last_treasure'=current_treasure);
+        [ri] true -> (last_treasure'=current_treasure);
+        [do] true -> (last_treasure'=current_treasure);
+        [le] true -> (last_treasure'=current_treasure);
+endmodule
+
+rewards "rew"
+        current_treasure!=last_treasure : 100;
+endrewards
+
+
+formula goal = sink;
+
+const double discount_factor = 0.90;
+module discounting
+        sink : bool;
+        [up] true -> discount_factor : true + 1-discount_factor : (sink'=true);
+        [ri] true -> discount_factor : true + 1-discount_factor : (sink'=true);
+        [do] true -> discount_factor : true + 1-discount_factor : (sink'=true);
+        [le] true -> discount_factor : true + 1-discount_factor : (sink'=true);
+endmodule
+
+init (x=x_init & y=y_init & !sink & last_treasure=-1) endinit
