@@ -151,7 +151,7 @@ class MarkovChain:
 
         # TODO: rewrite this in functional style
         min = prop.minimizing if not alt else not prop.minimizing
-        for matching_holes_indexes in DesignSpace.matching_hole_indexes.values():
+        for matching_holes_indexes in DesignSpace.matching_hole_indexes:
             if min:
                 diff_count = diff_count + 1 if set.isdisjoint \
                     (*map(lambda x: set(family[x].options), matching_holes_indexes)) else diff_count

@@ -109,7 +109,7 @@ class SchedulerOptimalityHyperProperty(HyperProperty):
 
     # there is no epsilon - better threshold scheduler differences can only be natural numbers
     def satisfies_threshold(self, value):
-        self.meets_op(value, self.hyperoptimum)
+        return self.meets_op(value, self.hyperoptimum)
 
     def improves_hyperoptimum(self, value):
         return self.meets_op(value, self.hyperoptimum)

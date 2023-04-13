@@ -63,6 +63,7 @@ class SchedulerOptimalityHyperPropertyResult(HyperPropertyResult):
 
         self.sat = prop.satisfies_threshold(self.value)
         self.improves_hyperoptimum = prop.improves_hyperoptimum(self.value)
+        assert self.sat == self.improves_hyperoptimum
 
         # the rest are useless
         self.result = None

@@ -45,15 +45,12 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
             # a hole to be created
             state_name = self.quotient_mdp.state_valuations.get_string(state)
-            sched_id = parser.parse_scheduler_variable(state_name)
+            sched_id, associated_scheduler, initial_states, hole_name = parser.parse_scheduler_variable(state_name)
             variable_expressions = parser.parse_state_name_expression(state_name, parse_state_quant=True)
-            initial_states = parser.compute_initial_states(sched_id)
-            associated_scheduler = parser.compute_associated_schedulers(sched_id)
             asch_list = [associated_scheduler]
 
-            #first, check whether this hole belongs to some structural equality constraint
+            # first, check whether this hole belongs to some structural equality constraint
             hole_index = None
-            hole_name = state_name
             has_been_constrained = False
             for constraint in parser.structural_equalities:
                 (c_name, c_schedulers) = constraint
@@ -69,7 +66,6 @@ class HyperPropertyQuotientContainer(QuotientContainer):
             if has_been_constrained and hole_index is not None:
                 # this hole has already been defined somewhere, and it is in the list
                 holes[hole_index].initial_states = holes[hole_index].initial_states.union(initial_states)
-                parser.update_corresponding_holes(hole_index, state_name)
                 index_list = []
                 for offset in range(num_actions):
                     choice = self.quotient_mdp.get_choice_index(state, offset)
@@ -102,13 +98,12 @@ class HyperPropertyQuotientContainer(QuotientContainer):
                 self.action_to_hole_options.append({hole_index:offset})
 
             hole_option_labels = [str(labels) for labels in hole_option_labels]
-            parser.update_corresponding_holes(hole_index, state_name)
 
             hole = Hole(hole_name, hole_options, hole_option_labels, initial_states=initial_states, associated_schedulers=asch_list)
             holes.append(hole)
 
         # now sketch has the corresponding design space
-        self.sketch.design_space = DesignSpace(holes)
+        self.sketch.design_space = DesignSpace(holes=holes, has_scheduler_hyperoptimality=sketch.specification.has_scheduler_hyperoptimality)
         self.sketch.design_space.property_indices = self.sketch.specification.all_constraint_indices()
 
         self.compute_default_actions()

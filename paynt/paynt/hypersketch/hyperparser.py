@@ -181,6 +181,8 @@ class HyperParser:
 
         if len(self.sched_quant_dict) == 1:
             raise Exception("Cannot impose MIN/MAX scheduler difference with just one scheduler quantification\n")
+        if len(self.sched_quant_dict) > 2:
+            raise Exception("Imposing MIN/MAX scheduler difference with more than 2 quantification is currently not supported\n")
         minimizing = True if match.group(1) == "MIN" else False
         self.scheduler_optimality_hyperproperty = SchedulerOptimalityHyperProperty(minimizing)
 
@@ -472,38 +474,21 @@ class HyperParser:
         logger.info(f"Found the following specification:\n {specification}")
         return specification, prism
 
-    def compute_initial_states(self,sched_index):
-        sched_name = list(self.sched_quant_dict.keys())[int(sched_index)]
-        return self.sched_quant_to_initial_states[sched_name]
-
-    def compute_associated_schedulers(self, sched_index):
-        sched_name = list(self.sched_quant_dict.keys())[int(sched_index)]
-        return sched_name
-
-    def update_corresponding_holes(self, hole_index, state_name):
-        n_sched_quants = len(self.sched_quant_dict)
-
-        if n_sched_quants > 1:
-            for sched_index in range(n_sched_quants):
-                # deleting the sched_quant variable from state valuations
-                sched_quant_ref = f"sched_quant={sched_index}"
-                if sched_quant_ref in state_name:
-                    state_name = state_name.replace(sched_quant_ref, "")
-
-        # set matching holes
-        DesignSpace.matching_hole_indexes[state_name].append(hole_index)
-
     def parse_scheduler_variable(self, state_name):
 
         n_sched_quants = len(self.sched_quant_dict)
+        sched_index = 0
         if n_sched_quants > 1:
-            for sched_index in range(n_sched_quants):
-                # deleting the sched_quant variable from state valuations
-                sched_quant_ref = f"sched_quant={sched_index}"
-                if sched_quant_ref in state_name:
-                    return sched_index
-        else:
-            return 0
+            for i in range(n_sched_quants):
+                if f"& sched_quant={i}" in state_name:
+                    sched_index = i
+                    break
+
+        sched_quant_ref = f"& sched_quant={sched_index}"
+        sched_name = list(self.sched_quant_dict.keys())[sched_index]
+        initial_states = self.sched_quant_to_initial_states[sched_name]
+        hole_name = state_name.replace(sched_quant_ref, "")
+        return sched_index, sched_name, initial_states, hole_name
 
     def parse_state_name_expression(self, state_name, parse_state_quant= False):
         expression_parser = stormpy.storage.ExpressionParser(self.prism.expression_manager)
@@ -530,17 +515,6 @@ class HyperParser:
             valuations_dict["sched_quant"] = expression_parser.parse("0")
 
         return valuations_dict
-
-    def compatible(self, valuations1, valuations2, snames1, snames2):
-        for varName in list(valuations1.keys()):
-            if varName in valuations2 and valuations1[varName] != valuations2[varName]:
-                return False
-
-        for varName in list(valuations2.keys()):
-            if varName in valuations1 and valuations1[varName] != valuations2[varName]:
-                return False
-
-        return set.intersection(set(snames1), set(snames2))
 
     def check_constraint_inclusion(self, structural_constraint, c_schedulers, variable_expressions, associated_scheduler):
         expression_parser = stormpy.storage.ExpressionParser(self.prism.expression_manager)
