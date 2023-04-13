@@ -235,7 +235,6 @@ class HyperParser:
             return stormpy.parse_prism_program(path, prism_compat=True)
 
     def parse_formulas(self, lines):
-        print(f"PARSING FORMULAS OF THE INPUT PRISM FILE--")
         formula_re = re.compile(r'formula(.*?)\=(.*);$')
         for line in lines:
             match = formula_re.search(line.replace(' ', ''))
