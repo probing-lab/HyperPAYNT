@@ -19,6 +19,10 @@ if [ -n "$2" ]; then
   projects_dir="$2"
 fi
 
+param=''
+if [ -n "$3" ]; then
+  param="$3"
+fi
 
 # ------------------------------------------------------------------------------
 # functions
@@ -27,7 +31,7 @@ function paynt() {
     local project="--project $1"
     local method="--method $2"
 
-    local paynt_call="python3 ${paynt_exe} ${project} ${method}"
+    local paynt_call="python3 ${paynt_exe} ${project} ${method} ${param}"
     echo \$ ${paynt_call}
     eval timeout ${timeout} ${paynt_call} >> ${log_file}
 }
