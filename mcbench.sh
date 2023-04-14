@@ -41,6 +41,11 @@ rm -rf $log_dir
 mkdir $log_dir
 touch $log_file
 
-for d in $projects_dir/*/; do
-  paynt $d $method
+cwd=$(pwd)
+cd $projects_dir
+dirs=$(find . -type d -exec sh -c '(ls -p "{}"|grep />/dev/null)||echo "{}"' \;)
+cd $cwd
+for d in $dirs; do
+  paynt "${projects_dir}/${d}" $method
 done
+
