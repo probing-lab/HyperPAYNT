@@ -2,6 +2,7 @@ ES sched ES sched1
 A s0(sched) A s1(sched1)
 Restrict s0 start0 Restrict s1 start1
 X[goal](sched,sched1)
+//free choices
 X[!goal & up & right & down & left & treasure & memory=0](sched)
 X[!goal & up & right & down & left & treasure & memory=1](sched)
 X[!goal & up & right & down & left & !treasure & memory=0](sched)
@@ -10,6 +11,7 @@ X[!goal & up & right & down & left & treasure & memory=0](sched1)
 X[!goal & up & right & down & left & treasure & memory=1](sched1)
 X[!goal & up & right & down & left & !treasure & memory=0](sched1)
 X[!goal & up & right & down & left & !treasure & memory=1](sched1)
+// the same choices in the two schedulers
 X[!goal & up & right & down & !left & treasure & memory=0](sched,sched1)
 X[!goal & up & right & down & !left & treasure & memory=1](sched,sched1)
 X[!goal & up & right & down & !left & !treasure & memory=0](sched,sched1)
@@ -74,3 +76,5 @@ R{s0}{"rew"}>40 [F goal]
 R{s1}{"rew"}>40 [F goal]
 R{s1}{"rew"}[F goal] <= R{s0}{"rew"}[F goal]
 R{s0}{"rew"}[F goal] <= R{s1}{"rew"}[F goal]
+//max s0 = 43.42
+//max s1 = 101.31
