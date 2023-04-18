@@ -68,7 +68,7 @@ X[!goal & !up & !right & !down & !left & !treasure & memory=0](sched)
 X[!goal & !up & !right & !down & !left & !treasure & memory=1](sched)
 R{s0}{"rew"}>40 [F goal]
 R{s1}{"rew"}>40 [F goal]
-//R{s1}{"rew"}[F goal] <= R{s0}{"rew"}[F goal]
-//R{s0}{"rew"}[F goal] <= R{s1}{"rew"}[F goal]
+R{s1}{"rew"}[F goal] <= R{s0}{"rew"}[F goal]
+R{s0}{"rew"}[F goal] <= R{s1}{"rew"}[F goal]
 //max s0 = 43.42
 //max s1 = 101.31
