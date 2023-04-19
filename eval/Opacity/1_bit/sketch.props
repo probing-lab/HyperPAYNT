@@ -131,8 +131,8 @@ X[!goal & !up & !right & !down & !left & treasure & memory=0](sched1)
 X[!goal & !up & !right & !down & !left & treasure & memory=1](sched1)
 X[!goal & !up & !right & !down & !left & !treasure & memory=0](sched1)
 X[!goal & !up & !right & !down & !left & !treasure & memory=1](sched1)
-R{s0}{"rew"}>=138 [F goal]
-R{s1}{"rew"}>=138 [F goal]
+R{s0}{"rew"}>=43 [F goal]
+R{s1}{"rew"}>=43 [F goal]
 R{s1}{"rew"}[F goal] <= R{s0}{"rew"}[F goal]
 R{s0}{"rew"}[F goal] <= R{s1}{"rew"}[F goal]
-//max Reward from (0,0): 138.51
+//max Reward from (0,0): 43.42

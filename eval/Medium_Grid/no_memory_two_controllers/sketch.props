@@ -42,3 +42,5 @@ R{s0}{"rew"}>0 [F goal]
 R{s1}{"rew"}>0 [F goal]
 R{s1}{"rew"}[F goal] <= R{s0}{"rew"}[F goal]
 R{s0}{"rew"}[F goal] <= R{s1}{"rew"}[F goal]
+//max s0 = 39.35
+//max s1 = 91.84
