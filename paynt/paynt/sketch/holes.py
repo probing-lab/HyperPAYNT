@@ -7,6 +7,8 @@ from ..profiler import Profiler
 
 import logging
 
+from collections import defaultdict
+
 logger = logging.getLogger(__name__)
 
 
@@ -22,14 +24,13 @@ class Hole:
       this order must be preserved in the refining process.
     '''
 
-    def __init__(self, name, options, option_labels, initial_states=None, variable_valuations=None, associated_schedulers=None):
+    def __init__(self, name, options, option_labels, initial_states=None, associated_schedulers=None):
         self.name = name
         self.options = options
         self.option_labels = option_labels
 
         # the initial states from which this hole is reachable
         self.initial_states = initial_states
-        self.variable_valuations = variable_valuations
 
         self.associated_schedulers = associated_schedulers
 
@@ -61,8 +62,7 @@ class Hole:
     def copy(self):
         # note that the copy is shallow, but after assuming some options
         # the options pointer points to the new list, hence the original hole is not modified.
-        return Hole(self.name, self.options, self.option_labels, initial_states=self.initial_states,
-                    variable_valuations=self.variable_valuations, associated_schedulers=self.associated_schedulers)
+        return Hole(self.name, self.options, self.option_labels, initial_states=self.initial_states, associated_schedulers=self.associated_schedulers)
 
 class Holes(list):
     ''' List of holes. '''
@@ -102,7 +102,7 @@ class Holes(list):
 
     # for checking Scheduler Optimizing Hyperproperty
     def assume_minimizing_options(self):
-        for matching_holes_indexes in DesignSpace.matching_hole_indexes.values():
+        for matching_holes_indexes in DesignSpace.matching_hole_indexes:
             shared_options = set.intersection(*map(lambda x: set(self[x].options), matching_holes_indexes))
             if shared_options:
                 option = shared_options.pop()
@@ -112,8 +112,12 @@ class Holes(list):
                 for index in matching_holes_indexes:
                     self[index].assume_options([self[index].options[0]])
 
+        for hole in self:
+            if not hole.is_trivial:
+                hole.assume_options([hole.options[0]])
+
     def assume_maximizing_options(self):
-        for matching_holes_indexes in DesignSpace.matching_hole_indexes.values():
+        for matching_holes_indexes in DesignSpace.matching_hole_indexes:
             domain_size_sorted = sorted(matching_holes_indexes, key=lambda x: len(self[x].options))
             chosen_options = set()
             for index in domain_size_sorted:
@@ -121,6 +125,10 @@ class Holes(list):
                 chosen_option = filtered_options[0] if filtered_options else self[index].options[0]
                 chosen_options.add(chosen_option)
                 self[index].assume_options([chosen_option])
+
+        for hole in self:
+            if not hole.is_trivial:
+                hole.assume_options([hole.options[0]])
 
     def assume_optimizing_options(self, minimizing):
         if minimizing:
@@ -247,7 +255,7 @@ class DesignSpace(Holes):
     # "matching" means that they are the corresponding ones in the "duplications" of the MDP
     matching_hole_indexes = []
 
-    def __init__(self, holes = [], parent_info = None):
+    def __init__(self, holes = [], parent_info = None, has_scheduler_hyperoptimality = None):
         super().__init__(holes)
 
         self.mdp = None
@@ -267,6 +275,17 @@ class DesignSpace(Holes):
         if parent_info is not None:
             self.refinement_depth = parent_info.refinement_depth + 1
             self.property_indices = parent_info.property_indices
+
+        if has_scheduler_hyperoptimality:
+            matching_holes = defaultdict(list)
+            for hole_index, hole in enumerate(self):
+                # this hole regards more than one scheduler
+                if len(hole.associated_schedulers) > 1:
+                    continue
+
+                matching_holes[hole.name].append(hole_index)
+
+            DesignSpace.matching_hole_indexes = matching_holes.values()
 
     def __str__(self):
         holes = [str(hole) for hole in self]

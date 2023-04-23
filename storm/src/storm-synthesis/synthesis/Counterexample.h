@@ -82,7 +82,9 @@ namespace storm {
                 );
 
             std::vector<uint_fast64_t> constructHyperConflict(
-                uint_fast64_t formula_index,
+                uint_fast64_t primary_formula_index,
+                uint_fast64_t secondary_formula_index,
+                bool multitarget,
                 ValueType bound,
                 std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> mdp_bounds,
                 std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> other_mdp_bounds,

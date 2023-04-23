@@ -40,5 +40,5 @@ class HyperSketch:
         logger.info(f"Design space: {self.design_space}")
         logger.info(f"Sketch parsing complete.")
 
-        logger.info(f"Matching holes: {DesignSpace.matching_hole_indexes.values()}")
+        logger.info(f"Matching holes: {DesignSpace.matching_hole_indexes}")
         Profiler.stop()

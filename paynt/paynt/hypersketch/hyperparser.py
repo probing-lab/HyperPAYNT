@@ -11,6 +11,8 @@ import operator
 
 import logging
 
+import stormpy
+
 
 
 logger = logging.getLogger(__name__)
@@ -41,7 +43,13 @@ class HyperParser:
         # parsed structural equality constraints
         self.structural_equalities = []
 
+        # formulas in the structural constraints that need to be substituted before evaluating them
+        self.parsed_formulas = {}
+
+
         DesignSpace.matching_hole_indexes = defaultdict(list)
+
+        self.prism = None
 
     def parse_scheduler_quants(self, path):
         # read lines
@@ -173,6 +181,8 @@ class HyperParser:
 
         if len(self.sched_quant_dict) == 1:
             raise Exception("Cannot impose MIN/MAX scheduler difference with just one scheduler quantification\n")
+        if len(self.sched_quant_dict) > 2:
+            raise Exception("Imposing MIN/MAX scheduler difference with more than 2 quantification is currently not supported\n")
         minimizing = True if match.group(1) == "MIN" else False
         self.scheduler_optimality_hyperproperty = SchedulerOptimalityHyperProperty(minimizing)
 
@@ -188,7 +198,7 @@ class HyperParser:
                 self.lines = [line] + self.lines
                 return
 
-            valuations_dict = self.parse_state_name(match.group(1))
+            structural_constraint = match.group(1).replace('[', '').replace(']', '')
 
             scheduler_names = re.split(r'\W+', match.group(2))
 
@@ -196,22 +206,19 @@ class HyperParser:
             for sched_name in scheduler_names:
                 if sched_name not in list(self.sched_quant_dict.keys()):
                     raise Exception(f"Free Occurrence of a scheduler variable: {sched_name}")
-            if self.structural_equalities:
-                for constr in self.structural_equalities:
-                    (valuations, _, snames) = constr
-                    if self.compatible(valuations, valuations_dict, snames, scheduler_names):
-                        raise Exception(f"Two compatible structural equalities have been specified: {valuations}, {snames}) - ({valuations_dict}, {scheduler_names})")
-
-            self.structural_equalities.append((valuations_dict, match.group(1), scheduler_names))
+                
+            self.structural_equalities.append((structural_constraint, scheduler_names))
 
     def parse_program(self, path):
         n_sched_quants = len(self.sched_quant_dict)
+        assert n_sched_quants >= 1
+        with open(path, "r") as f:
+            lines = f.readlines()
+            self.parse_formulas(lines)
+            f.close()
+
         # perform the "duplication trick"
         if n_sched_quants > 1:
-            with open(path, "r") as f:
-                lines = f.readlines()
-                f.close()
-
             with open(path, "a") as f:
                 # add a global variable to distinguish two initial states
                 # note: this does not work if the file is empty or if the PRISM file already contains the global variable sched_quant
@@ -228,6 +235,17 @@ class HyperParser:
             return prism
         else:
             return stormpy.parse_prism_program(path, prism_compat=True)
+
+    def parse_formulas(self, lines):
+        formula_re = re.compile(r'formula(.*?)\=(.*);$')
+        for line in lines:
+            match = formula_re.search(line.replace(' ', ''))
+            if match is not None:
+                for f in self.parsed_formulas:
+                    if match.group(1) in f or f in match.group(1):
+                        logger.info(f"Warning. One formula token is contained in another: {match.group(1)} vs {f}. "
+                                    f"This may cause disruption or unintended behaviours when parsing structural constraints.")
+                self.parsed_formulas[match.group(1)] = match.group(2)
 
     # "horizontally" means to add some more properties in disjunction with the ones found in the current line
     def grow_horizontally(self, line, state_name, initial_states):
@@ -295,7 +313,6 @@ class HyperParser:
                 spread_lines = list(map(lambda x: self.grow_vertically(x, state_var, initial_states), self.lines))
                 self.lines = [item for sublist in spread_lines for item in sublist]
 
-    # TODO: add support for the multi target comparison
     def parse_hyperproperty(self, prop, prism):
         bound_re = re.compile(r'(.*?)\s--\s(.*?)$')
         prop_re = re.compile(r'(.*?(\{(\w+)\})(.*?))(\s(<=|<|=>|>)\s)(.*?(\{(\w+)\})(.*?))$')
@@ -309,10 +326,12 @@ class HyperParser:
         match = prop_re.search(prop)
         if match is None:
             raise HyperParsingException(f"input formula is wrong formatted! [{prop}]")
+
+        multitarget = False
         if not match.group(4) == match.group(10):
-            raise NotImplementedError("Comparison of different reachability targets are not supported yet. "
-                                      "Please also check that whitespaces match in the two targets: \""
-                                      + match.group(4) + "\" and \"" + match.group(10) + "\"")
+            multitarget = True
+
+
         # collect information
         state_quant = int(match.group(3))
         compare_state = int(match.group(9))
@@ -325,15 +344,23 @@ class HyperParser:
         if reward_structure_match is None:
             # this is not a reward hyperproperty
             p = match.group(1).replace(match.group(2), "=?")
+            other_p =match.group(7).replace(match.group(8), "=?")
 
         else:
+            # multitarget reward Hyperproperties are not allowed for the moment
+            assert not multitarget
             # this is a Reward Hyperproperty, and has a reward structure
             p = match.group(1).replace(match.group(2), "")
             p = p.replace(match.group(4), reward_structure_match.group(1) + "=?" + reward_structure_match.group(2))
+            other_p = None
 
         ps = stormpy.parse_properties_for_prism_program(p, prism)
         p = ps[0]
-        return HyperProperty(p, state_quant, compare_state, op, bound)
+
+        if multitarget:
+            other_ps = stormpy.parse_properties_for_prism_program(other_p, prism)
+            other_p = other_ps[0]
+        return HyperProperty(p, other_p, multitarget, state_quant, compare_state, op, bound)
 
     def parse_property(self, string, prism):
 
@@ -366,7 +393,7 @@ class HyperParser:
             return Property(prop, state_id)
         else:
             # optimality formula
-            return OptimalityProperty(prop, optimality_epsilon, state_id)
+            return OptimalityProperty(prop, state_id, optimality_epsilon)
 
     # parse all the instantiated properties and return a HyperSpecification
     def parse_instantiated_properties(self, prism):
@@ -393,10 +420,12 @@ class HyperParser:
                     indexes.extend([i])
                     i += 1
 
-            HyperSpecification.disjoint_indexes.append(indexes)
+            if indexes:
+                HyperSpecification.disjoint_indexes.append(indexes)
         return HyperSpecification(properties, self.optimality_property, self.scheduler_optimality_hyperproperty)
 
     def parse_properties(self, sketch_path, properties_path):
+
         # parsing the scheduler quantifiers
         logger.info(f"Loading properties from {properties_path} ...")
         logger.info(f"Parsing scheduler quantifiers ...")
@@ -422,13 +451,14 @@ class HyperParser:
         # parsing, if present, the structural equality constraints
         logger.info(f"Parsing structural constraints (if any)")
         self.parse_structural_equalities()
-        str_structural_equalities = [(c_name, c_schedulers) for (_, c_name, c_schedulers) in self.structural_equalities]
+        str_structural_equalities = [(c_name, c_schedulers) for (c_name, c_schedulers) in self.structural_equalities]
         logger.info(f"Found the following structural equality constraints: {str_structural_equalities}")
 
         # parse program
         logger.info(f"Loading sketch from {sketch_path}...")
         logger.info(f"Assuming a sketch in a PRISM format ...")
         prism = self.parse_program(sketch_path)
+        self.prism = prism
 
         # dummy model for instantiating the properties
         builder_options = stormpy.BuilderOptions()
@@ -444,65 +474,59 @@ class HyperParser:
         logger.info(f"Found the following specification:\n {specification}")
         return specification, prism
 
-    def compute_initial_states(self,variable_valuations):
-        sched_index = variable_valuations["sched_quant"]
-        sched_name = list(self.sched_quant_dict.keys())[int(sched_index)]
-        return self.sched_quant_to_initial_states[sched_name]
+    def parse_scheduler_variable(self, state_name):
 
-    def compute_associated_schedulers(self, variable_valuations):
-        sched_index = variable_valuations["sched_quant"]
-        sched_name = list(self.sched_quant_dict.keys())[int(sched_index)]
-        return sched_name
-
-    def update_corresponding_holes(self, hole_index, state_name):
         n_sched_quants = len(self.sched_quant_dict)
-
+        sched_index = 0
         if n_sched_quants > 1:
-            for sched_index in range(n_sched_quants):
-                # deleting the sched_quant variable from state valuations
-                sched_quant_ref = f"sched_quant={sched_index}"
-                if sched_quant_ref in state_name:
-                    state_name = state_name.replace(sched_quant_ref, "")
+            for i in range(n_sched_quants):
+                if f"& sched_quant={i}" in state_name:
+                    sched_index = i
+                    break
 
-        # set matching holes
-        DesignSpace.matching_hole_indexes[state_name].append(hole_index)
+        sched_quant_ref = f"& sched_quant={sched_index}"
+        sched_name = list(self.sched_quant_dict.keys())[sched_index]
+        initial_states = self.sched_quant_to_initial_states[sched_name]
+        hole_name = state_name.replace(sched_quant_ref, "")
+        return sched_index, sched_name, initial_states, hole_name
 
-    def parse_state_name(self, state_name, parse_state_quant= False):
+    def parse_state_name_expression(self, state_name, parse_state_quant= False):
+        expression_parser = stormpy.storage.ExpressionParser(self.prism.expression_manager)
+        expression_parser.set_identifier_mapping(dict())
         valuations_dict = {}
-        l = state_name.replace('[','').replace(']','').split('&')
+        l = state_name.replace('[', '').replace(']', '').split('&')
         for valuation in l:
             if '=' not in valuation: # boolean variable
                 if '!' in valuation:
                     valuation = re.sub(r'\W', '', valuation)
-                    valuations_dict[valuation] = "false"
+                    valuations_dict[valuation] = expression_parser.parse("false")
                 else:
                     valuation = re.sub(r'\W', '', valuation)
-                    valuations_dict[valuation] = "true"
+                    valuations_dict[valuation] = expression_parser.parse("true")
                 continue
 
             valuation = valuation.split('=')
             varName = re.sub(r'\W', '', valuation[0])
             value = re.sub(r'\W', '', valuation[1])
-            valuations_dict[varName] = value
+            valuations_dict[varName] = expression_parser.parse(value)
 
         # handle the case of a single scheduler quantification
         if not "sched_quant" in valuations_dict and parse_state_quant:
-            valuations_dict["sched_quant"] = 0
+            valuations_dict["sched_quant"] = expression_parser.parse("0")
 
         return valuations_dict
 
-    def compatible(self, valuations1, valuations2, snames1, snames2):
-        for varName in list(valuations1.keys()):
-            if varName in valuations2 and valuations1[varName] != valuations2[varName]:
-                return False
+    def check_constraint_inclusion(self, structural_constraint, c_schedulers, variable_expressions, associated_scheduler):
+        expression_parser = stormpy.storage.ExpressionParser(self.prism.expression_manager)
+        expression_parser.set_identifier_mapping(variable_expressions)
+        modified = True
+        while modified:
+            modified = False
+            for f, expr in self.parsed_formulas.items():
+                if f in structural_constraint:
+                    modified = True
+                    structural_constraint = structural_constraint.replace(f"{f}",f"({expr})")
 
-        for varName in list(valuations2.keys()):
-            if varName in valuations1 and valuations1[varName] != valuations2[varName]:
-                return False
-
-        return set.intersection(set(snames1), set(snames2))
-
-    def check_constraint_inclusion(self,c_valuations, c_schedulers, valuations, associated_scheduler):
-        is_constrained = all(item in valuations.items() for item in c_valuations.items())
+        is_constrained = expression_parser.parse(structural_constraint).evaluate_as_bool()
         return is_constrained and associated_scheduler in c_schedulers
 

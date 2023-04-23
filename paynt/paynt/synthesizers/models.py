@@ -131,8 +131,11 @@ class MarkovChain:
             hint_alt = hint_seco if not alt else hint_prim
             # hint = self.analysis_hints[prop]
 
-        formula = prop.formula if not alt else prop.formula_alt
-        formula_alt = prop.formula_alt if not alt else prop.formula
+        formula = prop.primary_formula if not alt else prop.primary_formula_alt
+        if prop.multitarget:
+            formula_alt = prop.secondary_formula if not alt else prop.secondary_formula_alt
+        else:
+            formula_alt = prop.primary_formula_alt if not alt else prop.primary_formula
         if hint is None:
             result = self.model_check_formula(formula)
             result_alt = self.model_check_formula(formula_alt)
@@ -148,7 +151,7 @@ class MarkovChain:
 
         # TODO: rewrite this in functional style
         min = prop.minimizing if not alt else not prop.minimizing
-        for matching_holes_indexes in DesignSpace.matching_hole_indexes.values():
+        for matching_holes_indexes in DesignSpace.matching_hole_indexes:
             if min:
                 diff_count = diff_count + 1 if set.isdisjoint \
                     (*map(lambda x: set(family[x].options), matching_holes_indexes)) else diff_count
@@ -260,22 +263,27 @@ class MDP(MarkovChain):
 
         # no need to check secondary direction if primary direction yields UNSAT
         if not primary.sat:
-            return MdpPropertyResult(prop, primary, None, False, None, None, None, None, None, None)
-
-        # primary direction is SAT
-        # check if the primary scheduler is consistent
-        selection, choice_values, expected_visits, scores, consistent = self.quotient_container.scheduler_consistent(
-            self, prop, primary.result, prop.state)
-
-        # regardless of whether it is consistent or not, we compute secondary direction to show that all SAT
+            return MdpPropertyResult(prop, primary, None, False, None, None, None, None)
 
         # compute secondary direction
         secondary = self.model_check_property(prop, alt=True)
-
         feasibility = True if secondary.sat else None
-        primary_feasibility = primary.sat if consistent else False
+
+        if feasibility:
+            # no need to explore further
+            # we are not constraining at all the selection
+            selection = [ [] for hole_index in self.design_space.hole_indices]
+            return MdpPropertyResult(prop, primary, secondary, feasibility,
+                                     selection, True, None, True)
+
+        # check if the primary scheduler is consistent
+        selection, _, _, scores, consistent = self.quotient_container.scheduler_consistent_pctl(
+            self, prop, primary.result, prop.state)
+
+        primary_feasibility = consistent
+
         return MdpPropertyResult(prop, primary, secondary, feasibility,
-                                 selection, primary_feasibility, choice_values, expected_visits, scores, consistent)
+                                 selection, primary_feasibility, scores, consistent)
 
     def check_constraints(self, properties, property_indices = None, short_evaluation = False):
         if property_indices is None:
@@ -298,11 +306,11 @@ class MDP(MarkovChain):
         # LB = lower bound
         if not primary.improves_optimum:
             # OPT <= LB
-            return MdpOptimalityResult(prop, primary, None, None, None, False, None, None, None, None, False)
+            return MdpOptimalityResult(prop, primary, None, None, None, False, None, None, False)
 
         # LB < OPT
         # check if LB is tight
-        selection,choice_values,expected_visits,scores,consistent = self.quotient_container.scheduler_consistent(self, prop, primary.result, prop.state)
+        selection, _, _,scores,consistent = self.quotient_container.scheduler_consistent_pctl(self, prop, primary.result, prop.state)
         if consistent:
             # LB is tight and LB < OPT
             scheduler_assignment = self.design_space.copy()
@@ -315,10 +323,10 @@ class MDP(MarkovChain):
             scheduler_assignment.assume_options(filled_selection)
             improving_assignment, improving_value = self.quotient_container.double_check_hyperassignment(scheduler_assignment)
             can_improve = False if improving_assignment is not None else True
-            return MdpOptimalityResult(prop, primary, None, improving_assignment, improving_value, can_improve, selection, choice_values, expected_visits, scores, consistent)
+            return MdpOptimalityResult(prop, primary, None, improving_assignment, improving_value, can_improve, selection, scores, consistent)
 
         if not MDP.compute_secondary_direction:
-            return MdpOptimalityResult(prop, primary, None, None, None, True, selection, choice_values, expected_visits, scores, consistent)
+            return MdpOptimalityResult(prop, primary, None, None, None, True, selection, scores, consistent)
 
         # UB might improve the optimum
         secondary = self.model_check_property(prop, alt = True)
@@ -326,15 +334,15 @@ class MDP(MarkovChain):
         if not secondary.improves_optimum:
             # LB < OPT < UB :  T < LB < OPT < UB (cannot improve) or LB < T < OPT < UB (can improve)
             can_improve = primary.sat
-            return MdpOptimalityResult(prop, primary, secondary, None, None, can_improve, selection, choice_values, expected_visits, scores, consistent)
+            return MdpOptimalityResult(prop, primary, secondary, None, None, can_improve, selection, scores, consistent)
 
         # LB < UB < OPT
         # this family definitely improves the optimum
         assignment = self.design_space.pick_any()
-        improving_assignment, improving_value = self.quotient_container.double_check_hyperassignment(assignment, prop)
+        improving_assignment, improving_value = self.quotient_container.double_check_hyperassignment(assignment)
         # either LB < T, LB < UB < OPT (can improve) or T < LB < UB < OPT (cannot improve)
         can_improve = primary.sat
-        return MdpOptimalityResult(prop, primary, secondary, improving_assignment, improving_value, can_improve, selection, choice_values, scores, consistent)
+        return MdpOptimalityResult(prop, primary, secondary, improving_assignment, improving_value, can_improve, selection, scores, consistent)
 
     def check_specification(self, specification, property_indices = None, short_evaluation = False):
         constraints_result = self.check_constraints(specification.constraints, property_indices, short_evaluation)
@@ -350,43 +358,51 @@ class MDP(MarkovChain):
 
         # no need to check secondary direction if primary direction yields UNSAT
         if not primary.sat:
-            return MdpHyperPropertyResult(prop, primary, None, False, None, False, None, None, None, None, None, None, None, None, None)
+            return MdpHyperPropertyResult(prop, primary, None, False,
+                                          None, False, None, None,
+                                          None, False, None, None,
+                                          None, False, None)
 
         # primary direction is SAT
         # check secondary direction to show that all SAT
-        # TODO: this does not work if we have a multi targets comparison
-        secondary = HyperPropertyResult(prop, primary.result_alt, primary.result)
+        secondary = self.model_check_hyperproperty(prop, alt = True) if prop.multitarget else HyperPropertyResult(prop, primary.result_alt, primary.result)
         feasibility = True if secondary.sat else None
 
         if feasibility:
             # no need to explore further
-            # we are not constraining at all the primary selection
-            primary_selection = [ [] for hole_index in self.design_space.hole_indices]
-            return MdpHyperPropertyResult(prop, primary, secondary, feasibility, primary_selection, True, None,
-                                          None, None, True, None, None, None, None, None)
-
-        # check if primary scheduler (of state quant) induces a feasible scheduler
-        value = primary.value
-        threshold = secondary.threshold
-        primary_feasibility = prop.meets_op(value, threshold)
+            # we are not constraining at all any selection
+            sat_selection = [ [] for hole_index in self.design_space.hole_indices]
+            return MdpHyperPropertyResult(prop, primary, secondary, feasibility,
+                                          sat_selection, True, None, None,
+                                          None, False, None, None,
+                                          None, False, None)
 
         # prepare for splitting on this property
-        # TODO: implement the betting strategy here
-        unsat_bet = True
         state = prop.state
         other_state = prop.other_state
         # compute the scores for splitting
-        primary_selection, primary_choice_values, primary_expected_visits, primary_scores, primary_consistent = self.quotient_container.scheduler_consistent(
-            self, prop, primary.result, state)
+        primary_selection, primary_consistent, primary_differences, \
+            secondary_selection, secondary_consistent, secondary_differences, \
+            joint_selection, joint_consistent = self.quotient_container.scheduler_consistent_hyper(
+            self, prop, primary.result, state, primary.result_alt, other_state)
 
-        primary_feasibility = primary_feasibility and primary_consistent
-        secondary_selection, secondary_choice_values, secondary_expected_visits, secondary_scores, secondary_consistent = self.quotient_container.scheduler_consistent(
-            self, prop, primary.result_alt, other_state)
+        # check if primary scheduler (of state quant) induces a feasible scheduler
+        # [[ min(a) ]] is a SAT instance
+        primary_feasibility = prop.result_valid(primary.value) and \
+                              prop.meets_op(primary.value + prop.min_bound, secondary.threshold) \
+                              and primary_consistent
 
-        return MdpHyperPropertyResult(prop, primary, secondary, feasibility, primary_selection, primary_feasibility,
-                                      primary_choice_values, primary_expected_visits, primary_scores, primary_consistent,
-                                      secondary_selection, secondary_choice_values, secondary_expected_visits, secondary_scores,
-                                      secondary_consistent)
+        # check if secondary scheduler (of other state quant) induces a feasible scheduler
+        # [[ max(b) ]] is a SAT instance
+        secondary_feasibility = prop.result_valid(secondary.value) and \
+                                prop.meets_op(secondary.value + prop.min_bound, primary.threshold) \
+                                and secondary_consistent
+
+        joint_feasibility = prop.result_valid(primary.threshold) and joint_consistent
+        return MdpHyperPropertyResult(prop, primary, secondary, feasibility,
+                                      primary_selection, primary_feasibility, primary_consistent, primary_differences,
+                                      secondary_selection, secondary_feasibility, secondary_consistent, secondary_differences,
+                                      joint_selection, joint_feasibility, joint_consistent)
 
     def check_hyperconstraints(self, properties, property_indices=None, short_evaluation=False):
         if property_indices is None:
@@ -406,7 +422,6 @@ class MDP(MarkovChain):
                 unfeasible = False if result.feasibility is not False else unfeasible
             if short_evaluation and unfeasible:
                 return MdpHyperConstraintsResult(results)
-        # TODO: check that, if there are no constraints, this object will have attribute sat == true
         return MdpHyperConstraintsResult(results)
 
     # TODO: implement Optimal HyperProperties
@@ -434,7 +449,6 @@ class MDP(MarkovChain):
         return MdpSchedulerHyperOptimalityResult(prop, primary, improving_assignment, improving_value, can_improve)
 
     def check_hyperspecification(self, hyperspec, property_indices=None, short_evaluation=False):
-
         constraints_result = self.check_hyperconstraints(hyperspec.constraints, property_indices, short_evaluation)
         optimality_result = None
         if hyperspec.has_optimality and not (short_evaluation and constraints_result.feasibility is False):

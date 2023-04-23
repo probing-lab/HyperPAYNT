@@ -5,6 +5,7 @@ import stormpy.pomdp
 import math
 import re
 
+from ..hypersketch.hyperproperty import HyperProperty
 from ..sketch.jani import JaniUnfolder
 from ..sketch.holes import Hole,Holes,DesignSpace
 
@@ -208,7 +209,7 @@ class QuotientContainer:
 
         # if the associated reward model has state-action rewards, then these must be added to choice values
         if prop.reward:
-            reward_name = prop.formula.reward_name
+            reward_name = prop.primary_formula.reward_name if isinstance(prop, HyperProperty) else prop.formula.reward_name
             rm = mdp.model.reward_models.get(reward_name)
             assert not rm.has_transition_rewards and (rm.has_state_rewards != rm.has_state_action_rewards)
             if rm.has_state_action_rewards:
@@ -222,16 +223,16 @@ class QuotientContainer:
             assert not math.isnan(choice_values[choice])
 
         Profiler.resume()
-
         return choice_values
 
-    def expected_visits(self, mdp, prop, scheduler, initial_state = None):
+    def expected_visits(self, mdp, prop, scheduler, initial_state = None, primary_direction = True):
         '''
         Compute expected number of visits in the states of DTMC induced by
         this scheduler.
         '''
 
         if initial_state is None:
+            assert len(mdp.model.initial_states) == 1
             initial_state = mdp.model.initial_states[0]
 
         # extract DTMC induced by this MDP-scheduler
@@ -245,7 +246,8 @@ class QuotientContainer:
         dtmc_visits = list(dtmc_visits)
 
         # handle infinity- and zero-visits
-        if prop.minimizing:
+        minimizing = prop.minimizing == primary_direction
+        if minimizing:
             dtmc_visits = QuotientContainer.make_vector_defined(dtmc_visits)
         else:
             dtmc_visits = [ value if value != math.inf else 0 for value in dtmc_visits]
@@ -388,7 +390,7 @@ class QuotientContainer:
         return suboptions
 
     def suboptions_enumerate(self, mdp, splitter, used_options):
-        assert len(used_options) > 1
+        assert len(used_options) >= 1
         core_suboptions = [[option] for option in used_options]
         other_suboptions = [option for option in mdp.design_space[splitter].options if option not in used_options]
         return core_suboptions, other_suboptions

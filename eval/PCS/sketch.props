@@ -1,5 +1,0 @@
-ES sched ES sched1
-E s0(sched) E s1(sched1)
-MIN SD
-P{s0}<0.01 [F "unfair"]
-P{s1}>0.05 [F "unfair"]

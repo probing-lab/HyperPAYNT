@@ -1,7 +1,0 @@
-ES sched ES sched1
-A s0(sched) A s1(sched1)
-MAX SD
-P{s0} [F "done"] <= P{s1} [F "done"]
-P{s1} [F "done"] <= P{s0} [F "done"]
-P{s0}>=0.90 [F "done"]
-P{s1}>=0.90 [F "done"]

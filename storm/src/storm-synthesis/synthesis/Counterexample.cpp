@@ -735,7 +735,9 @@ namespace storm {
 
         template <typename ValueType, typename StateType>
         std::vector<uint_fast64_t> CounterexampleGenerator<ValueType,StateType>::constructHyperConflict (
-            uint_fast64_t formula_index,
+            uint_fast64_t primary_formula_index,
+            uint_fast64_t secondary_formula_index,
+            bool multitarget,
             ValueType bound,
             std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> mdp_bounds,
             std::shared_ptr<storm::modelchecker::ExplicitQuantitativeCheckResult<ValueType> const> other_mdp_bounds,
@@ -758,7 +760,7 @@ namespace storm {
             storm::models::sparse::StateLabeling labeling_subdtmc(dtmc_states+2);
             std::unordered_map<std::string, storm::models::sparse::StandardRewardModel<ValueType>> reward_models_subdtmc;
             this->prepareSubdtmc(
-                formula_index, mdp_bounds, mdp_quotient_state_map, matrix_subdtmc,
+                primary_formula_index, mdp_bounds, mdp_quotient_state_map, matrix_subdtmc,
                 labeling_subdtmc, reward_models_subdtmc, state_quant, false
             );
 
@@ -767,8 +769,8 @@ namespace storm {
             storm::models::sparse::StateLabeling other_labeling_subdtmc(dtmc_states+2);
             std::unordered_map<std::string, storm::models::sparse::StandardRewardModel<ValueType>> other_reward_models_subdtmc;
             this->prepareSubdtmc(
-                formula_index, other_mdp_bounds, mdp_quotient_state_map, other_matrix_subdtmc,
-                other_labeling_subdtmc, other_reward_models_subdtmc, other_state_quant, true
+                secondary_formula_index, other_mdp_bounds, mdp_quotient_state_map, other_matrix_subdtmc,
+                other_labeling_subdtmc, other_reward_models_subdtmc, other_state_quant, ! multitarget
             );
 
             // Explore subDTMCs wave by wave
@@ -780,24 +782,24 @@ namespace storm {
 
                 // explore primary direction
                 ValueType result = this->expandAndCheck(
-                    formula_index, matrix_subdtmc, labeling_subdtmc,
+                    primary_formula_index, matrix_subdtmc, labeling_subdtmc,
                     reward_models_subdtmc, this->wave_states[wave], this->hint_result, state_quant
                 );
 
                 // explore secondary direction
                 ValueType formula_bound = this->expandAndCheck(
-                        formula_index, other_matrix_subdtmc, other_labeling_subdtmc,
+                        secondary_formula_index, other_matrix_subdtmc, other_labeling_subdtmc,
                         other_reward_models_subdtmc, this->wave_states[wave], this->other_hint_result, other_state_quant
                     );
 
                 result = result + bound;
-                if(this->formula_safety[formula_index] && !strict) {
+                if(this->formula_safety[primary_formula_index] && !strict) {
                     // the formula is of type P <= bound
                     sat = (result <= formula_bound) || abs(result - formula_bound) < exp(-5);
                 } else if (!strict){
                     // the formula is of type P >= bound
                     sat = (result >= formula_bound) || abs(result - formula_bound) < exp(-5);
-                } else if (this->formula_safety[formula_index]) {
+                } else if (this->formula_safety[primary_formula_index]) {
                     // the formula is of type P < bound
                     sat = (result < formula_bound) && abs(result - formula_bound) > exp(-5);
 
