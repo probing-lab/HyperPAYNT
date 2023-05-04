@@ -137,7 +137,6 @@ class HyperPropertyQuotientContainer(QuotientContainer):
 
         # with respect to the original implementation
         # we don't want to fill non reachable holes, the choice is left open for them
-        # TODO: switch result and result_alt for the all sat bet
         return self.scheduler_selection_quantitative_hyper(mdp, prop, result, initial_state, result_alt, other_initial_state)
 
     def scheduler_selection_quantitative_pctl(self, mdp, prop, result, initial_state):
@@ -218,9 +217,6 @@ class HyperPropertyQuotientContainer(QuotientContainer):
                                           if len(hole.options) > 1 and other_initial_state in hole.initial_states}
             take_all_secondary = True
 
-        #assert primary_hole_assignments
-        #assert secondary_hole_assignments
-
         primary_differences = \
             self.estimate_scheduler_difference(mdp, primary_hole_assignments, primary_choice_values,
                                                primary_expected_visits)
@@ -274,9 +270,6 @@ class HyperPropertyQuotientContainer(QuotientContainer):
         if not secondary_hole_assignments:
             secondary_hole_assignments = {hole_index: hole.options for hole_index, hole in enumerate(mdp.design_space)
                                           if len(hole.options) > 1 and other_initial_state in hole.initial_states}
-
-        #assert primary_hole_assignments
-        #assert secondary_hole_assignments
 
         primary_differences = \
             self.estimate_scheduler_difference(mdp, primary_hole_assignments, primary_choice_values,
@@ -385,10 +378,7 @@ class HyperPropertyQuotientContainer(QuotientContainer):
                 options_rankings[hole_index] = [i for i, _ in ranking]
 
         # filter out unreachable holes, which don't have any option in the ranking
-        # but in the current approach we consider only overall reachability in the MDP
-        # TODO: handle the case where some holes are not reachable from current initial state
-        # i.e., expected visits of the state are zero
-        # for example, for PC this holds for all holes from the initial state of the DTMC
+        # despite all the checks, this still may happen
         options_rankings = {key: value for key,value in options_rankings.items() if value}
         hole_differences = {key: hole_difference_sum[key] / hole_states_affected[key] for key in options_rankings}
 

@@ -184,8 +184,8 @@ class MdpHyperPropertyResult:
     def __init__(self,
                  prop, primary, secondary, feasibility,
                  primary_selection, primary_feasibility, primary_consistent, primary_scores,
-                secondary_selection, secondary_feasibility, secondary_consistent, secondary_scores,
-                joint_selection, joint_feasibility, joint_consistent
+                 secondary_selection, secondary_feasibility, secondary_consistent, secondary_scores,
+                 joint_selection, joint_feasibility, joint_consistent
                  ):
         self.property = prop
         self.primary = primary
