@@ -71,7 +71,7 @@ module discounting
         [le] true -> discount_factor : true + 1-discount_factor : (sink'=true);
 endmodule
 
-init ((x=x0_init & y=y0_init) | (x=x1_init & y=y1_init) & !sink & last_treasure=-1) endinit
+init (((x=x0_init & y=y0_init) | (x=x1_init & y=y1_init)) & !sink & last_treasure=-1) endinit
 
 label "start0" = (x=x0_init & y=y0_init);
 label "start1" = (x=x1_init & y=y1_init);
