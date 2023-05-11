@@ -1,0 +1,51 @@
+mdp
+// 3 | x x x x
+// 2 | x x x x
+// 1 | x x x x
+// 0 | x x x x
+// y _________
+//   x 0 1 2 3
+
+// walls in the maze
+formula u = y<3;
+formula r = x<3;
+formula d = y>0;
+formula l = x>0;
+
+// updates of coordinates (if possible)
+formula yu = u ? (y+1) : y;
+formula xr = r ? (x+1) : x;
+formula yd = d ? (y-1) : y;
+formula xl = l ? (x-1) : x;
+
+// trap state
+formula bad = (x=0&y=1) | (x=1&y=2) | (x=2&y=2);
+formula splashy = (y=0);
+formula good = !bad & !splashy;
+
+// specification of the maze
+// for every choice, there is still some small probability to not actually going where desired
+module maze
+    x : [0..3];
+    y : [0..3];
+	// moving around the maze (all combinations)
+    [up]       good  -> 0.8: (y'=yu) + 0.08: (x'=xr) + 0.08: (x'=xl) + 0.04: (y'=yd);
+    [right]    good  -> 0.8: (x'=xr) + 0.08: (y'=yu) + 0.08: (y'=yd) + 0.04: (x'=xl);
+    [down]     good  -> 0.8: (y'=yd) + 0.08: (x'=xr) + 0.08: (x'=xl) + 0.04: (y'=yu);
+    [left]     good  -> 0.8: (x'=xl) + 0.08: (y'=yu) + 0.08: (y'=yd) + 0.04: (x'=xr);
+
+    // moving around the maze (all combinations)
+    [up]       splashy  -> 0.55: (y'=yu) + 0.15: (x'=xr) + 0.15: (x'=xl) + 0.15: (y'=yd);
+    [right]    splashy  -> 0.55: (x'=xr) + 0.15: (y'=yu) + 0.15: (y'=yd) + 0.15: (x'=xl);
+    [down]     splashy  -> 0.55: (y'=yd) + 0.15: (x'=xr) + 0.15: (x'=xl) + 0.15: (y'=yu);
+    [left]     splashy  -> 0.55: (x'=xl) + 0.15: (y'=yu) + 0.15: (y'=yd) + 0.15: (x'=xr);
+
+endmodule
+
+// we have two initial states
+init (x=0&y=2 | x=3&y=0) endinit
+
+// goal of the robot
+label "target" = (x=1&y=1);
+label "start0" = (x=0)&(y=2);
+label "start1" = (x=3)&(y=0);
