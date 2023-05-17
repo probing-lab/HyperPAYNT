@@ -244,9 +244,6 @@ class HyperSynthesizerCEGIS(HyperSynthesizer):
         # construct conflict wrt each unsatisfiable property
         # pack all unsatisfiable properties as well as their MDP results (if exists)
         conflict_requests = {}
-        print(f"-------")
-        print(f"res: {spec.constraints_result}")
-        print(f"----------")
         for index in family.property_indices:
             if spec.constraints_result.isSat(index):
                 continue
@@ -281,11 +278,8 @@ class HyperSynthesizerCEGIS(HyperSynthesizer):
                     bounds = None
                     other_bounds = None
                     if property_result is not None:
-                        print(f"index: {index} - prop: {prop}")
-                        print(f"property result: {property_result}")
                         bounds = property_result.primary.result
                         other_bounds = property_result.secondary.result
-                        print(f"other bounds: {other_bounds}")
                         scheduler_selection = property_result.primary_selection
 
                     secondary_index = index
@@ -508,7 +502,6 @@ class SynthesizerHybrid(HyperSynthesizerAR, HyperSynthesizerCEGIS):
                     break
 
                 # pick assignment
-                print(f"start cegis assignement analysis")
                 assignment = family.pick_assignment_priority(None)
                 if assignment is None:
                     break
