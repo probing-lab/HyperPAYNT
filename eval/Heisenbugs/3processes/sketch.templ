@@ -1,0 +1,77 @@
+// Peterson algorithm with probabilistic scheduling and non-deterministic propagation to shared memory
+
+mdp
+
+const n = 3;
+
+global last_to_enter0 : [0..2];
+global last_to_enter1 : [0..2]; 
+
+global critical : [0..2];
+global error : [0..2];
+
+global thread : [0..2];
+
+const zero = 0;
+const one = 1;
+const two = 2;
+
+module P0
+    pc0 : [0..13];
+    level0 : [-1..(n-1)];
+
+//try to enter critical
+//---- iteration l = 0    
+    // level[i] = l
+    [] (thread=zero) & (pc0=0) -> 1/n : (pc0' = pc0 + 1) & (level0' = 0) & (thread' = 0) + 1/n : (pc0' = pc0 + 1) & (level0' = 0) & (thread' = 1) + 1/n : (pc0' = pc0 + 1) & (level0' = 0) & (thread' = 2);
+    [] (thread=zero) & (pc0=0) -> 1/n : (pc0' = pc0 + 1) & (thread' = 0) + 1/n : (pc0' = pc0 + 1) & (thread' = 1) + 1/n : (pc0' = pc0 + 1) & (thread' = 2);
+
+    //last_to_enter[l] = i
+    [] (thread=zero) & (pc0=1) -> 1/n : (pc0' = pc0 + 1) & (last_to_enter0' = zero) & (thread' = 0) + 1/n : (pc0' = pc0 + 1) & (last_to_enter0' = zero) & (thread' = 1) + 1/n : (pc0' = pc0 + 1) & (last_to_enter0' = zero) & (thread' = 2);
+
+    //while last_to_enter[0] = i and there exists k != i, such that level[k] >= l {wait}
+    [] (thread=zero) & (pc0=2) & (last_to_enter0=zero) & (level1 >= 0 | level2 >= 0) -> 1/n : (thread' = 0) + 1/n : (thread' = 1) + 1/n : (thread' = 2);
+
+    [] (thread=zero) & (pc0=2) & !(last_to_enter0=zero & (level1 >= 0 | level2 >= 0)) -> 1/n : (pc0' = pc0 + 1) & (thread' = 0) + 1/n : (pc0' = pc0 + 1) & (thread' = 1) + 1/n : (pc0' = pc0 + 1) & (thread' = 2);
+
+//---- iteration l = 1    
+    // level[i] = l
+    [] (thread=zero) & (pc0=3) -> 1/n : (pc0' = pc0 + 1) & (level0' = 1) & (thread' = 0) + 1/n : (pc0' = pc0 + 1) & (level0' = 1) & (thread' = 1) + 1/n : (pc0' = pc0 + 1) & (level0' = 1) & (thread' = 2);
+
+    //last_to_enter[l] = i
+    [] (thread=zero) & (pc0=4) -> 1/n : (pc0' = pc0 + 1) & (last_to_enter1' = zero) & (thread' = 0) + 1/n : (pc0' = pc0 + 1) & (last_to_enter1' = zero) & (thread' = 1) + 1/n : (pc0' = pc0 + 1) & (last_to_enter1' = zero) & (thread' = 2);
+
+    //while last_to_enter[0] = i and there exists k != i, such that level[k] >= l {wait}
+    [] (thread=zero) & (pc0=5) & (last_to_enter1=zero & (level1 >= 1 | level2 >= 1)) -> 1/n : (thread' = 0) + 1/n : (thread' = 1) + 1/n : (thread' = 2);
+
+    [] (thread=zero) & (pc0=5) & !(last_to_enter1=zero & (level1 >= 1 | level2 >= 1)) -> 1/n : (pc0' = pc0 + 1) & (thread' = 0) + 1/n : (pc0' = pc0 + 1) & (thread' = 1) + 1/n : (pc0' = pc0 + 1) & (thread' = 2);
+
+
+//enter critical
+//critical++
+    [] (thread=zero) & (pc0=6) -> 1/n : (pc0' = pc0 + 1) & (critical' = critical + 1) & (thread' = 0) + 1/n : (pc0' = pc0 + 1) & (critical' = critical + 1) & (thread' = 1) + 1/n : (pc0' = pc0 + 1) & (critical' = critical + 1) & (thread' = 2);
+
+
+// if(critical != 1) {error++}
+    [] (thread=zero) & (pc0=7) & !(critical=1) -> 1/n : (pc0' = pc0 + 1) & (error' = error + 1) & (thread' = 0) + 1/n : (pc0' = pc0 + 1) & (error' = error + 1) & (thread' = 1) + 1/n : (pc0' = pc0 + 1) & (error' = error + 1) & (thread' = 2);
+
+    [] (thread=zero) & (pc0=7) & (critical=1) -> 1/n : (pc0' = pc0 + 1) & (thread' = 0) + 1/n : (pc0' = pc0 + 1) & (thread' = 1) + 1/n : (pc0' = pc0 + 1) & (thread' = 2);
+
+//critical--
+    [] (thread=zero) & (pc0=8) -> 1/n : (pc0' = pc0 + 1) & (critical' = critical - 1) & (thread' = 0) + 1/n : (pc0' = pc0 + 1) & (critical' = critical - 1) & (thread' = 1) + 1/n : (pc0' = pc0 + 1) & (critical' = critical - 1) & (thread' = 2);
+
+
+// exit critical
+    [] (thread=zero) & (pc0=9) -> 1/n : (pc0' = pc0 + 1) & (level0' = -1) & (thread' = 0) + 1/n : (pc0' = pc0 + 1) & (level0' = -1) & (thread' = 1) + 1/n : (pc0' = pc0 + 1) & (level0' = -1) & (thread' = 2);
+
+    [] (thread=zero) & (pc0 > 9) -> 1/(n-1) : (thread' = one) + 1/(n-1) : (thread' = two); //finished processes give up control
+
+endmodule
+
+module P1 = P0 [ pc0=pc1, level0=level1, level1=level0, zero=one, one=zero] endmodule
+
+module P2 = P0 [ pc0=pc2, level0=level2, level2=level0, zero=two, two=zero] endmodule
+
+init (last_to_enter0=0 & last_to_enter1=0 & critical=0 & error=0 & level0=-1 & level1=-1 & level2=-1 & pc0=0 & pc1=0 & pc2=0 & thread=0) endinit
+
+label "bug" = (error > 0 & pc0=10 & pc1=10 & pc2=10);

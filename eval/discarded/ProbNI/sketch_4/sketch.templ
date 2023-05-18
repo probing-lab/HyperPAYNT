@@ -1,0 +1,26 @@
+mdp
+
+const int N = 4;
+const int M = N;
+
+formula slip = 1/100 + 1/(400 * x) + y/400;
+//formula slip = (1/3);
+//formula slip = 0;
+
+module main
+x : [1..N];
+y : [1..M];
+trap : bool;
+[east] !trap -> slip: (trap'=true) + (1-slip):(x'=min(x+1,N));
+[west] !trap -> slip: (trap'=true) + (1-slip): (x'=max(x-1,1));
+[north] !trap -> slip: (trap'=true) + (1-slip):(y'=min(y+1, M));
+[south] !trap -> slip: (trap'=true) + (1-slip):(y'=max(y-1, 1));
+endmodule
+
+label "done0" = (x=N & y=M);
+label "done1" = (x=N & y=1);
+
+label "start0" = (x=1 & y=1);
+label "start1" = (x=1 & y=M);
+
+init (x=1 & y=1 & !trap) | (x=1 & y=M & !trap) endinit

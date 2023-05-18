@@ -1,0 +1,63 @@
+mdp
+// 6 | x x x x x x
+// 5 | x x x x x x
+// 4 | x x x x x x
+// 3 | x x x x x x
+// 2 | x x x x x x
+// 1 | x x x x x x
+// 0 | x x x x x x
+// y ________________
+//   x 0 1 2 3 4 5
+
+// walls in the maze
+formula u = y<6;
+formula r = x<6;
+formula d = y>0;
+formula l = x>0;
+
+// updates of coordinates (if possible)
+formula yu = u ? (y+1) : y;
+formula xr = r ? (x+1) : x;
+formula yd = d ? (y-1) : y;
+formula xl = l ? (x-1) : x;
+
+// trap states
+formula bad = (x=0) | (y=6) | (x=2&y=1) | (x=2&y=2) | (x=2&y=3) | (x=2&y=4) | (x=3&y=1) | (x=3&y=4) | (x=4&y=4) | (x=5&y=3) | (x=5&y=4);
+formula trainD = (x=1&y=4) | (x=1&y=3) | (x=1&y=2) | (x=1&y=1);
+formula trainR = (x=2&y=5) | (x=3&y=5) | (x=4&y=5) | (x=5&y=5);
+formula good = (x=1&y=5) | (x=1&y=0) | (x=2&y=0) | (x=3&y=0) | (x=6&y=3) | (x=6&y=4) | (x=6&y=5);
+formula splashy = !bad & !good & !trainD & !trainR;
+
+
+// specification of the maze
+// for every choice, there is still some small probability to not actually going where desired
+module maze
+    x : [0..6];
+    y : [0..6];
+	// moving around the maze (all combinations)
+    [up]       good  -> 0.8: (y'=yu) + 0.08: (x'=xr) + 0.08: (x'=xl) + 0.04: (y'=yd);
+    [right]    good  -> 0.8: (x'=xr) + 0.08: (y'=yu) + 0.08: (y'=yd) + 0.04: (x'=xl);
+    [down]     good  -> 0.8: (y'=yd) + 0.08: (x'=xr) + 0.08: (x'=xl) + 0.04: (y'=yu);
+    [left]     good  -> 0.8: (x'=xl) + 0.08: (y'=yu) + 0.08: (y'=yd) + 0.04: (x'=xr);
+
+    // moving around the maze (all combinations)
+    [up]       splashy  -> 0.55: (y'=yu) + 0.15: (x'=xr) + 0.15: (x'=xl) + 0.15: (y'=yd);
+    [right]    splashy  -> 0.55: (x'=xr) + 0.15: (y'=yu) + 0.15: (y'=yd) + 0.15: (x'=xl);
+    [down]     splashy  -> 0.55: (y'=yd) + 0.15: (x'=xr) + 0.15: (x'=xl) + 0.15: (y'=yu);
+    [left]     splashy  -> 0.55: (x'=xl) + 0.15: (y'=yu) + 0.15: (y'=yd) + 0.15: (x'=xr);
+
+    //train down
+    [trainD] trainD -> 0.70: (y'=yd) + 0.15: (x'=xl) + 0.15: (x'=xr);
+
+    //train right
+    [trainR] trainR -> 0.70: (x'=xr) + 0.15: (y'=yu) + 0.15: (y'=yd);
+
+endmodule
+
+// we have two initial states
+init (x=1&y=5 | x=6&y=0) endinit
+
+// goal of the robot
+label "target" = (x=3&y=3) | (x=4&y=3);
+label "start0" = (x=1)&(y=5);
+label "start1" = (x=6)&(y=0);

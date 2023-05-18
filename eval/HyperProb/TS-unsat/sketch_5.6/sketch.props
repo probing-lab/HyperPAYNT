@@ -1,0 +1,4 @@
+ES sched
+A s0(sched) A s1(sched)
+P{s0}[F "l1"] <= P{s1}[F "l1"]
+P{s0}[F "l2"] <= P{s1}[F "l2"]

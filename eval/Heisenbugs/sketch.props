@@ -1,0 +1,5 @@
+ES sched1 ES sched2
+A s1(sched1) A s2(sched2)
+MIN SD
+P{s1}<=0.0 [F "bug"]
+P{s2}>0.24  [F "bug"]
