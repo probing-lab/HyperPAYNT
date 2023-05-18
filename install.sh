@@ -87,3 +87,5 @@ python3 setup.py install
 #[TEST] python3 setup.py test
 deactivate
 cd $SYNTHESIS
+
+source $SYNTHESIS_ENV/bin/activate
