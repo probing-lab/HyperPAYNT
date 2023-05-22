@@ -45,7 +45,7 @@ def setup_logger(log_path = None):
 def paynt(
         project, sketch, props, method, explore_all
 ):
-    logger.info("This is Paynt version {}.".format(version()))
+    logger.info("This is HyperPaynt version {}.".format(version()))
 
     # parse sketch
     if not os.path.isdir(project):
