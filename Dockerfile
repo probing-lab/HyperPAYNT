@@ -34,7 +34,7 @@ RUN rm -rf pycarl
 RUN mv pycarl-2.0.5 pycarl
 
 # python environment
-RUN pip3 install scipy pysmt z3-solver click termcolor
+RUN pip3 install scipy pysmt z3-solver click termcolor tabulate
 
 #carl
 WORKDIR /HyperPaynt/prerequisites/carl/build
