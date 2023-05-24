@@ -15,7 +15,7 @@ ENTRYPOINT ["/bin/bash"]
 # main directory
 RUN apt update
 RUN apt -y install git
-RUN apt -y install unzip
+RUN apt -y install unzip nano
 RUN apt -y install build-essential git automake cmake libboost-all-dev libcln-dev libgmp-dev libginac-dev libglpk-dev libhwloc-dev libz3-dev libxerces-c-dev libeigen3-dev
 #RUN apt -y install texlive-latex-extra
 RUN apt -y install maven uuid-dev python3-dev libffi-dev libssl-dev python3-pip python3-venv
