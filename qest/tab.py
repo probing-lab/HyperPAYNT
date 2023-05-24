@@ -154,7 +154,7 @@ if __name__ == '__main__':
     if argument == "hyperprob_sd":
         path= "./qest/logs/SD-Hyperprob.txt"
         header = ["Maze", "variables", "subformulae", "Encoding Time", "Solving Time"]
-        parseHyperprob(path, "qest/Table3_Hyperprob.csv", header, [maze_alt_re, vars_re, fs_re, encoding_re, solving_re])
+        parseHyperprob(path, "qest/Table3-Hyperprob.csv", header, [maze_alt_re, vars_re, fs_re, encoding_re, solving_re])
 
     if argument == "explore_all":
         path = "./qest/logs/SD_explore_all.txt"
