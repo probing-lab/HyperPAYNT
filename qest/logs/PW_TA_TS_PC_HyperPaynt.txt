@@ -1,6 +1,0 @@
-$ python3 /mnt/c/Users/fpontigg/Github/HyperProject/paynt/paynt.py --project /mnt/c/Users/fpontigg/Github/HyperProject/eval/qest/HyperProb_bench/./PC_sketch_4 --method ar
-$ python3 /mnt/c/Users/fpontigg/Github/HyperProject/paynt/paynt.py --project /mnt/c/Users/fpontigg/Github/HyperProject/eval/qest/HyperProb_bench/./PW_origin_sketch_4 --method ar
-$ python3 /mnt/c/Users/fpontigg/Github/HyperProject/paynt/paynt.py --project /mnt/c/Users/fpontigg/Github/HyperProject/eval/qest/HyperProb_bench/./PW_sketch_4 --method ar
-$ python3 /mnt/c/Users/fpontigg/Github/HyperProject/paynt/paynt.py --project /mnt/c/Users/fpontigg/Github/HyperProject/eval/qest/HyperProb_bench/./TA_origin_sketch_4 --method ar
-$ python3 /mnt/c/Users/fpontigg/Github/HyperProject/paynt/paynt.py --project /mnt/c/Users/fpontigg/Github/HyperProject/eval/qest/HyperProb_bench/./TA_sketch_4 --method ar
-$ python3 /mnt/c/Users/fpontigg/Github/HyperProject/paynt/paynt.py --project /mnt/c/Users/fpontigg/Github/HyperProject/eval/qest/HyperProb_bench/./TS_sketch_10.20 --method ar
