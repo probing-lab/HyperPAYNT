@@ -28,7 +28,7 @@ function paynt() {
 #---------------------------------------------
 
 # empty the current content of the log dir
-sudo rm -rf $log_dir
+rm -rf $log_dir
 mkdir $log_dir
 
 # ------------------------ TAB 2
@@ -44,7 +44,7 @@ for d in $dirs; do
 done
 
 #parse the generated logs and generate Table 2
-call="sudo python3 qest/tab.py hyperprob_comparison"
+call=" python3 qest/tab.py hyperprob_comparison"
 eval ${call}
 
 log_file_hyperprob="${log_dir}/PW_TA_TS_PC_HyperProb.txt"
@@ -82,7 +82,7 @@ echo \$ ${hyperprob_call} >> ${log_file_hyperprob}
 eval timeout ${timeout} ${hyperprob_call} >> ${log_file_hyperprob}
 
 cd $hyperpaynt_dir
-call="sudo python3 qest/tab.py hyperprob"
+call=" python3 qest/tab.py hyperprob"
 eval ${call}
 
 # ------------------------ TAB 3
@@ -98,7 +98,7 @@ for d in $dirs; do
 done
 
 #parse the generated logs and generate Table 3
-call="sudo python3 qest/tab.py sd"
+call=" python3 qest/tab.py sd"
 eval ${call}
 
 log_file_hyperprob_sd="${log_dir}/SD_HyperProb.txt"
@@ -141,7 +141,7 @@ echo \$ ${hyperprob_call7} >> ${log_file_hyperprob_sd}
 eval timeout ${timeout} ${hyperprob_call7} >> ${log_file_hyperprob_sd}
 
 cd $hyperpaynt_dir
-call="sudo python3 qest/tab.py hyperprob_sd"
+call=" python3 qest/tab.py hyperprob_sd"
 eval ${call}
 
 # -----------------------------
@@ -185,7 +185,7 @@ for d in $dirs; do
 done
 
 #parse the generated logs and generate Table 5 - Probabilistic NonInterference
-call="sudo python3 qest/tab.py probni"
+call=" python3 qest/tab.py probni"
 eval ${call}
 
 log_file_op="${log_dir}/Opacity.txt"
@@ -199,7 +199,7 @@ for d in $dirs; do
 done
 
 #parse the generated logs and generate Table 5 - Opacity
-call="sudo python3 qest/tab.py opacity"
+call=" python3 qest/tab.py opacity"
 eval ${call}
 # -------------------------------------
 
