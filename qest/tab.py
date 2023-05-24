@@ -2,7 +2,7 @@ import re
 from tabulate import tabulate
 import argparse
 
-maze_re = re.compile(f'Loading properties from ./eval/qest/.*?/./(.*?)/')
+maze_re = re.compile(f'Loading properties from .*?eval/qest/.*?/./(.*?)/')
 time_re = re.compile(f'synthesis time: ([0-9]+\.[0-9]+)(.*)$') # match.group(1) is the time required by the experiment
 iters_re = re.compile(f'iterations: ([0-9]+)(.*)') # match.group(1) is the number of iterations
 sat_members_re = re.compile(f'AR Sat members found: ([0-9]+)(.*)$') # match.group(1) is the number of sat members
@@ -29,13 +29,20 @@ init_hyperprob_re = re.compile(f'python hyperprob.py')
 def remap(required, found, previous_line):
     res = []
     for r,f in zip(required, found):
+        appended = False
         if f is None:
             if r == time_re:
                 res.append("Time Out")
+                appended = True
             else:
-                regex = to_dictionary[r]
-                match = regex.search(previous_line)
-                res.append(match.group(1))
+                regex = to_dictionary.get(r, None)
+                if regex is not None:
+                    match = regex.search(previous_line)
+                    if match is not None:
+                        res.append(match.group(1))
+                        appended = True
+            if not appended:
+                res.append("?")
         else:
             res.append(f)
     return res
@@ -47,6 +54,12 @@ def parse(path, tab_name, header, required):
         first_exp = True
         previous_line = None
         for line in file:
+
+            # little optimization
+            if line.startswith(">"):
+                previous_line= line
+                continue
+
             # mark the beginning of a new experiment
             match = init_re.search(line)
             if match is not None:
@@ -61,9 +74,11 @@ def parse(path, tab_name, header, required):
 
             # check all the required regex
             for index, regex in enumerate(required):
-                match = regex.search(line)
-                if match is not None:
-                    temp[index] = match.group(1)
+                # if such regex has not been found yet
+                if temp[index] is None:
+                    match = regex.search(line)
+                    if match is not None:
+                        temp[index] = match.group(1)
 
             # update previous line (used for time out experiments)
             previous_line = line
@@ -74,14 +89,12 @@ def parse(path, tab_name, header, required):
             temp = remap(required, temp, previous_line)
         results.append(temp)
 
-    print(f"results: {results}")
     tabResults = tabulate(results, headers=header)
     text_file = open(tab_name, "w")
     text_file.write(tabResults)
     text_file.close()
 
 def parseHyperprob(path, tab_name, header, required):
-
     results = []
     with open(path) as file:
         temp = [None for h in header]
@@ -101,14 +114,13 @@ def parseHyperprob(path, tab_name, header, required):
 
             # check all the required regex
             for index, regex in enumerate(required):
-                match = regex.search(line)
-                if match is not None:
-                    temp[index] = match.group(1)
+                if temp[index] is None:
+                    match = regex.search(line)
+                    if match is not None:
+                        temp[index] = match.group(1)
 
     # handle last experiment
-    if None in temp:
-        # timeout experiment
-        temp = remap(required, temp, previous_line)
+    temp = ["Time Out" if t is None else t for t in temp]
     results.append(temp)
 
     tabResults = tabulate(results, headers=header)
@@ -122,7 +134,6 @@ if __name__ == '__main__':
     args = argp.parse_args()
 
     argument = args.exp[0]
-
     if argument == "hyperprob_comparison":
         path = "./qest/logs/PW_TA_TS_PC_HyperPaynt.txt"
         header = [
@@ -132,7 +143,7 @@ if __name__ == '__main__':
     if argument == "hyperprob":
         path = "./qest/logs/PW_TA_TS_PC_HyperProb.txt"
         header = ["Case Study", "variables", "subformulae", "Encoding Time", "Solving Time"]
-        parseHyperprob(path, "qest/Table2-HyperProb.csv", header, [maze_alt_re, vars_re, fs_re, encoding_re, solving_re])
+        parseHyperprob(path, "qest/Table2-Hyperprob.csv", header, [maze_alt_re, vars_re, fs_re, encoding_re, solving_re])
 
     if argument == "sd":
         path = "./qest/logs/SD_HyperPaynt.txt"
@@ -141,15 +152,15 @@ if __name__ == '__main__':
         parse(path, "qest/Table3-HyperPaynt.csv", header, [maze_re, feas_re, mdp_size_re, family_size_re, time_re, iters_re, explored_re])
 
     if argument == "hyperprob_sd":
-        path= "./qest/logs/SD_Hyperprob.txt"
+        path= "./qest/logs/SD-Hyperprob.txt"
         header = ["Maze", "variables", "subformulae", "Encoding Time", "Solving Time"]
-        parseHyperprob(path, "qest/Table3_HyperProb.csv", header, [maze_re, vars_re, fs_re, encoding_re, solving_re])
+        parseHyperprob(path, "qest/Table3_Hyperprob.csv", header, [maze_alt_re, vars_re, fs_re, encoding_re, solving_re])
 
     if argument == "explore_all":
         path = "./qest/logs/SD_explore_all.txt"
         header = [
             "Maze", "AR time", "AR iters", "Percentage explored", "Feasible instances"]
-        parse(path, "qest/Table4.csv", header, [maze_re, ime_re, iters_re, explored_re, sat_members_re])
+        parse(path, "qest/Table4.csv", header, [maze_re, time_re, iters_re, explored_re, sat_members_re])
 
     if argument == "probni":
         path = "./qest/logs/Probni.txt"
