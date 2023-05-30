@@ -4,13 +4,13 @@
 method="ar"
 # default timeout
 timeout=3600
+timeout1=6000
 
 # workspace settings
 hyperpaynt_dir=$(pwd)
 paynt_exe="${hyperpaynt_dir}/paynt/paynt.py"
 log_dir="${hyperpaynt_dir}/qest/logs"
 hyperprob_dir="${hyperpaynt_dir}/../HyperProb"
-
 
 # ------------------------------------------------------------------------------
 # functions
@@ -24,13 +24,13 @@ function paynt() {
     echo \$ ${paynt_call} >> ${log_file}
     eval timeout ${timeout} ${paynt_call} >> ${log_file}
 }
-
 #---------------------------------------------
 
 # empty the current content of the log dir
 rm -rf $log_dir
 mkdir $log_dir
 
+source env/bin/activate
 # ------------------------ TAB 2
 #prepare the log file
 log_file_hyperprob_comp="${log_dir}/PW_TA_TS_PC_HyperPaynt.txt"
@@ -101,7 +101,7 @@ done
 call=" python3 qest/tab.py sd"
 eval ${call}
 
-log_file_hyperprob_sd="${log_dir}/SD_HyperProb.txt"
+log_file_hyperprob_sd="${log_dir}/SD-Hyperprob.txt"
 touch $log_file_hyperprob_sd
 # HyperProb commands
 cd $hyperprob_dir
@@ -156,20 +156,20 @@ cd $hyperpaynt_dir
 paynt_call="python3 ${paynt_exe} --project eval/qest/SD/./splash-1 --method ${method} --explore_all"
 echo \$ ${paynt_call}
 echo \$ ${paynt_call} >> ${log_file_explore_all}
-eval ${paynt_call} >> ${log_file_explore_all}
+eval timeout ${timeout1} ${paynt_call} >> ${log_file_explore_all}
 
 paynt_call="python3 ${paynt_exe} --project eval/qest/SD/./larger-1 --method ${method} --explore_all"
 echo \$ ${paynt_call}
 echo \$ ${paynt_call} >> ${log_file_explore_all}
-eval ${paynt_call} >> ${log_file_explore_all}
+eval timeout ${timeout1} ${paynt_call} >> ${log_file_explore_all}
 
 paynt_call="python3 ${paynt_exe} --project eval/qest/SD/./larger-3 --method ${method} --explore_all"
 echo \$ ${paynt_call}
 echo \$ ${paynt_call} >> ${log_file_explore_all}
-eval ${paynt_call} >> ${log_file_explore_all}
+eval timeout ${timeout1} ${paynt_call} >> ${log_file_explore_all}
 
 #parse the generated logs and generate Table 4
-call="python3 qest/tab.py explore_all"
+call=" python3 qest/tab.py explore_all"
 eval ${call}
 # ---------------------------------------------------
 

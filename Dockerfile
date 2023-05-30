@@ -14,11 +14,9 @@ ENTRYPOINT ["/bin/bash"]
 
 # main directory
 RUN apt update
-RUN apt -y install git
-RUN apt -y install unzip nano
 RUN apt -y install build-essential git automake cmake libboost-all-dev libcln-dev libgmp-dev libginac-dev libglpk-dev libhwloc-dev libz3-dev libxerces-c-dev libeigen3-dev
 #RUN apt -y install texlive-latex-extra
-RUN apt -y install maven uuid-dev python3-dev libffi-dev libssl-dev python3-pip python3-venv
+RUN apt -y install maven uuid-dev python3-dev libffi-dev libssl-dev python3-pip python3-venv unzip nano git
 
 # download everything
 # using --depth 1 to make the download faster and the image smaller
@@ -34,7 +32,7 @@ RUN rm -rf pycarl
 RUN mv pycarl-2.0.5 pycarl
 
 # python environment
-RUN pip3 install scipy pysmt z3-solver click termcolor tabulate
+RUN pip3 install scipy pysmt z3-solver click termcolor tabulate lark
 
 #carl
 WORKDIR /HyperPaynt/prerequisites/carl/build
@@ -60,3 +58,4 @@ RUN python3 setup.py install
 
 #initial directory
 WORKDIR /HyperPaynt
+

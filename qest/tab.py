@@ -1,6 +1,7 @@
 import re
 from tabulate import tabulate
 import argparse
+import os
 
 maze_re = re.compile(f'Loading properties from .*?eval/qest/.*?/./(.*?)/')
 time_re = re.compile(f'synthesis time: ([0-9]+\.[0-9]+)(.*)$') # match.group(1) is the time required by the experiment
@@ -11,7 +12,7 @@ mdp_size_re = re.compile(f'Constructed quotient MDP having ([0-9]+)(.*) states')
 family_size_re = re.compile(f'Design space size: ([0-9]+)(.*)$') # match.group(1) is the family size
 explored_re = re.compile(f'explored: ([0-9]+ %)$') #match.group(1) is the percentage explored
 distance_re = re.compile(f'Current optimal value: ([0-9]+)(.*)$') # match.group(1) is the max distance
-init_re = re.compile(f'cli.py - This is HyperPaynt version 0.1.0.') # first log mesasge of any experiment
+init_re = re.compile(f'python3') # first log mesasge of any experiment
 
 # alternatives for TO
 explored_re_alt = re.compile(f'Progress ([0-9]+\.[0-9]+%)')
@@ -19,17 +20,18 @@ iters_re_alt = re.compile(f'iters = \(([0-9]+), 0\)')
 to_dictionary = {explored_re: explored_re_alt, iters_re: iters_re_alt}
 
 # hyperprob data
-maze_alt_re = re.compile(f'python hyperprob.py -modelPath benchmark_files/mdp/(.*?)/')
+maze_alt_re = re.compile(f'python3 hyperprob.py -modelPath benchmark_files/mdp/(.*?)/')
 vars_re = re.compile(f'Number of variables: ([0-9]+)')
 fs_re = re.compile(f'Number of formula checked: ([0-9]+)')
 encoding_re = re.compile(f'Encoding time: ([0-9]+\.[0-9]+)')
 solving_re = re.compile(f'Time required by z3 in seconds: ([0-9]+\.[0-9]+)')
-init_hyperprob_re = re.compile(f'python hyperprob.py')
+init_hyperprob_re = re.compile(f'python3 hyperprob.py')
 
 def remap(required, found, previous_line):
     res = []
     for r,f in zip(required, found):
         appended = False
+        # not present due to timeout
         if f is None:
             if r == time_re:
                 res.append("Time Out")
@@ -54,10 +56,9 @@ def parse(path, tab_name, header, required):
         first_exp = True
         previous_line = None
         for line in file:
-
             # little optimization
             if line.startswith(">"):
-                previous_line= line
+                previous_line = line
                 continue
 
             # mark the beginning of a new experiment
@@ -90,6 +91,11 @@ def parse(path, tab_name, header, required):
         results.append(temp)
 
     tabResults = tabulate(results, headers=header)
+
+    # remove potential previous data for security
+    if os.path.exists(tab_name):
+        os.remove(tab_name)
+
     text_file = open(tab_name, "w")
     text_file.write(tabResults)
     text_file.close()
