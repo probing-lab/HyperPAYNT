@@ -30,7 +30,8 @@ function paynt() {
 rm -rf $log_dir
 mkdir $log_dir
 
-source env/bin/activate
+# uncomment this when not in Docker.
+#source env/bin/activate
 # ------------------------ TAB 2
 #prepare the log file
 log_file_hyperprob_comp="${log_dir}/PW_TA_TS_PC_HyperPaynt.txt"
