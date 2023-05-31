@@ -4,7 +4,7 @@
 method="ar"
 # default timeout
 timeout=3600
-timeout1=6000
+timeout1=7200
 
 # workspace settings
 hyperpaynt_dir=$(pwd)
