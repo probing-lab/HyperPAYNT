@@ -173,7 +173,7 @@ if __name__ == '__main__':
         header = [
             "Maze", "Feasible", "MDP size", "AR family size", "AR time", "AR iters"]
         parse(path, "qest/Table5-ProbNI.csv", header,
-              [maze_re, mdp_size_re, family_size_re, time_re, iters_re])
+              [maze_re, feas_re, mdp_size_re, family_size_re, time_re, iters_re])
 
     if argument == "opacity":
         path = "./qest/logs/Opacity.txt"
