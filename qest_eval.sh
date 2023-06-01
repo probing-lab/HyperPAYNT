@@ -45,7 +45,7 @@ for d in $dirs; do
 done
 
 #parse the generated logs and generate Table 2
-call=" python3 qest/tab.py hyperprob_comparison"
+call=" python3 tab.py hyperprob_comparison"
 eval ${call}
 
 log_file_hyperprob="${log_dir}/PW_TA_TS_PC_HyperProb.txt"
@@ -83,7 +83,7 @@ echo \$ ${hyperprob_call} >> ${log_file_hyperprob}
 eval timeout ${timeout} ${hyperprob_call} >> ${log_file_hyperprob}
 
 cd $hyperpaynt_dir
-call=" python3 qest/tab.py hyperprob"
+call=" python3 tab.py hyperprob"
 eval ${call}
 
 # ------------------------ TAB 3
@@ -99,7 +99,7 @@ for d in $dirs; do
 done
 
 #parse the generated logs and generate Table 3
-call=" python3 qest/tab.py sd"
+call=" python3 tab.py sd"
 eval ${call}
 
 log_file_hyperprob_sd="${log_dir}/SD-Hyperprob.txt"
@@ -142,7 +142,7 @@ echo \$ ${hyperprob_call7} >> ${log_file_hyperprob_sd}
 eval timeout ${timeout} ${hyperprob_call7} >> ${log_file_hyperprob_sd}
 
 cd $hyperpaynt_dir
-call=" python3 qest/tab.py hyperprob_sd"
+call=" python3 tab.py hyperprob_sd"
 eval ${call}
 
 # -----------------------------
@@ -170,7 +170,7 @@ echo \$ ${paynt_call} >> ${log_file_explore_all}
 eval timeout ${timeout1} ${paynt_call} >> ${log_file_explore_all}
 
 #parse the generated logs and generate Table 4
-call=" python3 qest/tab.py explore_all"
+call=" python3 tab.py explore_all"
 eval ${call}
 # ---------------------------------------------------
 
@@ -186,7 +186,7 @@ for d in $dirs; do
 done
 
 #parse the generated logs and generate Table 5 - Probabilistic NonInterference
-call=" python3 qest/tab.py probni"
+call=" python3 tab.py probni"
 eval ${call}
 
 log_file_op="${log_dir}/Opacity.txt"
@@ -200,7 +200,7 @@ for d in $dirs; do
 done
 
 #parse the generated logs and generate Table 5 - Opacity
-call=" python3 qest/tab.py opacity"
+call=" python3 tab.py opacity"
 eval ${call}
 # -------------------------------------
 
