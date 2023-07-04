@@ -9,7 +9,8 @@ timeout1=7200
 # workspace settings
 hyperpaynt_dir=$(pwd)
 paynt_exe="${hyperpaynt_dir}/paynt/paynt.py"
-log_dir="${hyperpaynt_dir}/qest/logs"
+qest_dir="${hyperpaynt_dir}/qest"
+log_dir="${qest_dir}/logs"
 hyperprob_dir="${hyperpaynt_dir}/../HyperProb"
 
 # ------------------------------------------------------------------------------
@@ -27,6 +28,9 @@ function paynt() {
 #---------------------------------------------
 
 # empty the current content of the log dir
+rm -rf $qest_dir
+mkdir $qest_dir
+
 rm -rf $log_dir
 mkdir $log_dir
 
