@@ -1,0 +1,858 @@
+$ python3 hyperprob.py -modelPath benchmark_files/mdp/PW_4_variant/password_leakage8.nm -hyperString "AS sh . A s1 . A s2 . ~((start0(s1) & start1(s2)) & ~((P(F counter0(s1)) = P(F counter0(s2))) & ((P(F counter1(s1)) = P(F counter1(s2))) & ((P(F counter2(s1)) = P(F counter2(s2))) & ((P(F counter3(s1)) = P(F counter3(s2))) & ((P(F counter4(s1)) = P(F counter4(s2))) & ((P(F counter5(s1)) = P(F counter5(s2))) & ((P(F counter6(s1)) = P(F counter6(s2))) & ((P(F counter7(s1)) = P(F counter8(s2))) & (P(F counter8(s1)) = P(F counter8(s2))))))))))))"
+
+Total number of states: 298
+Total number of actions: 370
+Total number of transitions: 514
+
+Encoded actions in the MDP...
+Encoded state quantifiers
+Encoded non-quantified formula...
+Encoding time: 547.2856007600203
+Number of variables: 1792172
+Number of formula checked: 597
+$ python3 hyperprob.py -modelPath benchmark_files/mdp/PW_4/password_leakage8.nm -hyperString "AS sh . A s1 . A s2 . ((start0(s1) & start1(s2)) -> (P(F counter0(s1)) = P(F counter0(s2))))"
+
+Total number of states: 298
+Total number of actions: 370
+Total number of transitions: 514
+
+Encoded actions in the MDP...
+Encoded state quantifiers
+Encoded non-quantified formula...
+Encoding time: 93.87372612953186
+Number of variables: 357898
+Number of formula checked: 597
+Checking...
+
+The property DOES NOT hold!
+
+The actions at the corresponding states of a counterexample are:
+At state 0 choose action 0
+At state 1 choose action 0
+At state 2 choose action 0
+At state 3 choose action 0
+At state 4 choose action 1
+At state 5 choose action 0
+At state 6 choose action 0
+At state 7 choose action 0
+At state 8 choose action 0
+At state 9 choose action 0
+At state 10 choose action 0
+At state 11 choose action 0
+At state 12 choose action 1
+At state 13 choose action 0
+At state 14 choose action 1
+At state 15 choose action 0
+At state 16 choose action 0
+At state 17 choose action 0
+At state 18 choose action 1
+At state 19 choose action 0
+At state 20 choose action 1
+At state 21 choose action 0
+At state 22 choose action 0
+At state 23 choose action 0
+At state 24 choose action 1
+At state 25 choose action 0
+At state 26 choose action 0
+At state 27 choose action 0
+At state 28 choose action 1
+At state 29 choose action 0
+At state 30 choose action 0
+At state 31 choose action 0
+At state 32 choose action 1
+At state 33 choose action 0
+At state 34 choose action 0
+At state 35 choose action 0
+At state 36 choose action 0
+At state 37 choose action 0
+At state 38 choose action 0
+At state 39 choose action 0
+At state 40 choose action 1
+At state 41 choose action 0
+At state 42 choose action 0
+At state 43 choose action 0
+At state 44 choose action 0
+At state 45 choose action 0
+At state 46 choose action 1
+At state 47 choose action 0
+At state 48 choose action 0
+At state 49 choose action 0
+At state 50 choose action 1
+At state 51 choose action 0
+At state 52 choose action 0
+At state 53 choose action 0
+At state 54 choose action 0
+At state 55 choose action 0
+At state 56 choose action 1
+At state 57 choose action 0
+At state 58 choose action 0
+At state 59 choose action 0
+At state 60 choose action 0
+At state 61 choose action 0
+At state 62 choose action 0
+At state 63 choose action 0
+At state 64 choose action 0
+At state 65 choose action 0
+At state 66 choose action 0
+At state 67 choose action 0
+At state 68 choose action 1
+At state 69 choose action 0
+At state 70 choose action 0
+At state 71 choose action 0
+At state 72 choose action 1
+At state 73 choose action 0
+At state 74 choose action 0
+At state 75 choose action 0
+At state 76 choose action 0
+At state 77 choose action 0
+At state 78 choose action 0
+At state 79 choose action 0
+At state 80 choose action 1
+At state 81 choose action 0
+At state 82 choose action 0
+At state 83 choose action 0
+At state 84 choose action 1
+At state 85 choose action 0
+At state 86 choose action 1
+At state 87 choose action 0
+At state 88 choose action 0
+At state 89 choose action 0
+At state 90 choose action 1
+At state 91 choose action 0
+At state 92 choose action 0
+At state 93 choose action 0
+At state 94 choose action 0
+At state 95 choose action 0
+At state 96 choose action 0
+At state 97 choose action 0
+At state 98 choose action 1
+At state 99 choose action 0
+At state 100 choose action 1
+At state 101 choose action 0
+At state 102 choose action 0
+At state 103 choose action 0
+At state 104 choose action 1
+At state 105 choose action 0
+At state 106 choose action 0
+At state 107 choose action 0
+At state 108 choose action 1
+At state 109 choose action 0
+At state 110 choose action 0
+At state 111 choose action 0
+At state 112 choose action 1
+At state 113 choose action 0
+At state 114 choose action 0
+At state 115 choose action 0
+At state 116 choose action 1
+At state 117 choose action 0
+At state 118 choose action 0
+At state 119 choose action 0
+At state 120 choose action 1
+At state 121 choose action 0
+At state 122 choose action 0
+At state 123 choose action 0
+At state 124 choose action 1
+At state 125 choose action 0
+At state 126 choose action 0
+At state 127 choose action 0
+At state 128 choose action 1
+At state 129 choose action 0
+At state 130 choose action 0
+At state 131 choose action 0
+At state 132 choose action 1
+At state 133 choose action 0
+At state 134 choose action 0
+At state 135 choose action 0
+At state 136 choose action 1
+At state 137 choose action 0
+At state 138 choose action 0
+At state 139 choose action 0
+At state 140 choose action 1
+At state 141 choose action 0
+At state 142 choose action 0
+At state 143 choose action 0
+At state 144 choose action 1
+At state 145 choose action 1
+At state 146 choose action 0
+At state 147 choose action 0
+At state 148 choose action 0
+At state 149 choose action 1
+At state 150 choose action 0
+At state 151 choose action 0
+At state 152 choose action 0
+At state 153 choose action 0
+At state 154 choose action 0
+At state 155 choose action 0
+At state 156 choose action 0
+At state 157 choose action 1
+At state 158 choose action 0
+At state 159 choose action 0
+At state 160 choose action 0
+At state 161 choose action 1
+At state 162 choose action 0
+At state 163 choose action 0
+At state 164 choose action 0
+At state 165 choose action 0
+At state 166 choose action 1
+At state 167 choose action 0
+At state 168 choose action 0
+At state 169 choose action 0
+At state 170 choose action 1
+At state 171 choose action 0
+At state 172 choose action 0
+At state 173 choose action 0
+At state 174 choose action 1
+At state 175 choose action 0
+At state 176 choose action 0
+At state 177 choose action 0
+At state 178 choose action 1
+At state 179 choose action 0
+At state 180 choose action 0
+At state 181 choose action 0
+At state 182 choose action 0
+At state 183 choose action 0
+At state 184 choose action 0
+At state 185 choose action 0
+At state 186 choose action 0
+At state 187 choose action 0
+At state 188 choose action 0
+At state 189 choose action 0
+At state 190 choose action 0
+At state 191 choose action 1
+At state 192 choose action 0
+At state 193 choose action 1
+At state 194 choose action 0
+At state 195 choose action 0
+At state 196 choose action 0
+At state 197 choose action 0
+At state 198 choose action 0
+At state 199 choose action 1
+At state 200 choose action 0
+At state 201 choose action 0
+At state 202 choose action 0
+At state 203 choose action 1
+At state 204 choose action 0
+At state 205 choose action 0
+At state 206 choose action 0
+At state 207 choose action 0
+At state 208 choose action 0
+At state 209 choose action 1
+At state 210 choose action 0
+At state 211 choose action 0
+At state 212 choose action 0
+At state 213 choose action 0
+At state 214 choose action 0
+At state 215 choose action 1
+At state 216 choose action 0
+At state 217 choose action 0
+At state 218 choose action 0
+At state 219 choose action 1
+At state 220 choose action 0
+At state 221 choose action 0
+At state 222 choose action 0
+At state 223 choose action 0
+At state 224 choose action 0
+At state 225 choose action 0
+At state 226 choose action 0
+At state 227 choose action 0
+At state 228 choose action 0
+At state 229 choose action 1
+At state 230 choose action 0
+At state 231 choose action 0
+At state 232 choose action 0
+At state 233 choose action 1
+At state 234 choose action 0
+At state 235 choose action 0
+At state 236 choose action 0
+At state 237 choose action 0
+At state 238 choose action 0
+At state 239 choose action 0
+At state 240 choose action 0
+At state 241 choose action 0
+At state 242 choose action 0
+At state 243 choose action 0
+At state 244 choose action 0
+At state 245 choose action 0
+At state 246 choose action 0
+At state 247 choose action 1
+At state 248 choose action 0
+At state 249 choose action 0
+At state 250 choose action 0
+At state 251 choose action 0
+At state 252 choose action 0
+At state 253 choose action 0
+At state 254 choose action 0
+At state 255 choose action 1
+At state 256 choose action 0
+At state 257 choose action 0
+At state 258 choose action 0
+At state 259 choose action 1
+At state 260 choose action 0
+At state 261 choose action 0
+At state 262 choose action 0
+At state 263 choose action 0
+At state 264 choose action 0
+At state 265 choose action 0
+At state 266 choose action 0
+At state 267 choose action 1
+At state 268 choose action 0
+At state 269 choose action 0
+At state 270 choose action 0
+At state 271 choose action 0
+At state 272 choose action 0
+At state 273 choose action 0
+At state 274 choose action 0
+At state 275 choose action 1
+At state 276 choose action 0
+At state 277 choose action 0
+At state 278 choose action 0
+At state 279 choose action 0
+At state 280 choose action 0
+At state 281 choose action 0
+At state 282 choose action 0
+At state 283 choose action 1
+At state 284 choose action 0
+At state 285 choose action 0
+At state 286 choose action 0
+At state 287 choose action 0
+At state 288 choose action 1
+At state 289 choose action 0
+At state 290 choose action 0
+At state 291 choose action 0
+At state 292 choose action 0
+At state 293 choose action 0
+At state 294 choose action 0
+At state 295 choose action 0
+At state 296 choose action 0
+At state 297 choose action 0
+
+Time to encode in seconds: 93.87
+Time required by z3 in seconds: 39.35
+Number of variables: 357898
+Number of formula checked: 597
+z3 statistics:
+(:added-eqs                   2519622
+ :arith-eq-adapter            26348
+ :arith-bound-propagations-lp 110111
+ :arith-conflicts             23
+ :arith-diseq                 228720
+ :arith-fixed-eqs             10587
+ :arith-lower                 651346
+ :arith-make-feasible         15090
+ :arith-max-columns           26705
+ :arith-max-rows              26248
+ :arith-offset-eqs            1404963
+ :arith-upper                 465627
+ :binary-propagations         1871202
+ :conflicts                   135
+ :decisions                   18802
+ :del-clause                  36023
+ :elim-unconstrained          352
+ :final-checks                1
+ :max-memory                  1896.65
+ :memory                      1323.72
+ :minimized-lits              50
+ :mk-bool-var                 170789
+ :mk-clause                   105906
+ :mk-clause-binary            222138
+ :num-allocs                  295898200051.00
+ :num-checks                  1
+ :propagations                3004014
+ :restarts                    1
+ :rlimit-count                88842210
+ :solve-eqs-elim-vars         286223
+ :solve-eqs-steps             287631
+ :time                        39.35)
+
+
+$ python3 hyperprob.py -modelPath benchmark_files/mdp/TA_4_variant/timing_attack8.nm -hyperString "AS sh . A s1 . A s2 . ~((start0(s1) & start1(s2)) & ~((P(F counter0(s1)) = P(F counter0(s2))) & ((P(F counter1(s1)) = P(F counter1(s2))) & ((P(F counter2(s1)) = P(F counter2(s2))) & ((P(F counter3(s1)) = P(F counter3(s2))) & ((P(F counter4(s1)) = P(F counter4(s2))) & ((P(F counter5(s1)) = P(F counter5(s2))) & ((P(F counter6(s1)) = P(F counter6(s2))) & ((P(F counter7(s1)) = P(F counter7(s2))) & (P(F counter8(s1)) = P(F counter8(s2))))))))))))"
+
+Total number of states: 244
+Total number of actions: 316
+Total number of transitions: 460
+
+Encoded actions in the MDP...
+Encoded state quantifiers
+Encoded non-quantified formula...
+Encoding time: 370.55118186958134
+Number of variables: 1204628
+Number of formula checked: 489
+$ python3 hyperprob.py -modelPath benchmark_files/mdp/TA_4/timing_attack8.nm -hyperString "AS sh . A s1 . A s2 . ((start0(s1) & start1(s2)) -> (P(F counter0(s1)) = P(F counter0(s2))))"
+
+Total number of states: 244
+Total number of actions: 316
+Total number of transitions: 460
+
+Encoded actions in the MDP...
+Encoded state quantifiers
+Encoded non-quantified formula...
+Encoding time: 63.19103817921132
+Number of variables: 240340
+Number of formula checked: 489
+Checking...
+
+The property DOES NOT hold!
+
+The actions at the corresponding states of a counterexample are:
+At state 0 choose action 0
+At state 1 choose action 0
+At state 2 choose action 1
+At state 3 choose action 0
+At state 4 choose action 0
+At state 5 choose action 0
+At state 6 choose action 0
+At state 7 choose action 0
+At state 8 choose action 1
+At state 9 choose action 0
+At state 10 choose action 0
+At state 11 choose action 0
+At state 12 choose action 0
+At state 13 choose action 0
+At state 14 choose action 0
+At state 15 choose action 0
+At state 16 choose action 0
+At state 17 choose action 1
+At state 18 choose action 0
+At state 19 choose action 0
+At state 20 choose action 1
+At state 21 choose action 0
+At state 22 choose action 0
+At state 23 choose action 0
+At state 24 choose action 0
+At state 25 choose action 0
+At state 26 choose action 0
+At state 27 choose action 0
+At state 28 choose action 0
+At state 29 choose action 1
+At state 30 choose action 0
+At state 31 choose action 0
+At state 32 choose action 0
+At state 33 choose action 0
+At state 34 choose action 0
+At state 35 choose action 0
+At state 36 choose action 1
+At state 37 choose action 0
+At state 38 choose action 0
+At state 39 choose action 0
+At state 40 choose action 1
+At state 41 choose action 0
+At state 42 choose action 1
+At state 43 choose action 0
+At state 44 choose action 1
+At state 45 choose action 0
+At state 46 choose action 0
+At state 47 choose action 0
+At state 48 choose action 1
+At state 49 choose action 0
+At state 50 choose action 0
+At state 51 choose action 0
+At state 52 choose action 0
+At state 53 choose action 0
+At state 54 choose action 0
+At state 55 choose action 0
+At state 56 choose action 0
+At state 57 choose action 0
+At state 58 choose action 0
+At state 59 choose action 0
+At state 60 choose action 1
+At state 61 choose action 0
+At state 62 choose action 0
+At state 63 choose action 0
+At state 64 choose action 0
+At state 65 choose action 0
+At state 66 choose action 0
+At state 67 choose action 0
+At state 68 choose action 0
+At state 69 choose action 0
+At state 70 choose action 0
+At state 71 choose action 0
+At state 72 choose action 1
+At state 73 choose action 0
+At state 74 choose action 0
+At state 75 choose action 0
+At state 76 choose action 0
+At state 77 choose action 0
+At state 78 choose action 0
+At state 79 choose action 0
+At state 80 choose action 0
+At state 81 choose action 0
+At state 82 choose action 0
+At state 83 choose action 0
+At state 84 choose action 0
+At state 85 choose action 0
+At state 86 choose action 0
+At state 87 choose action 0
+At state 88 choose action 1
+At state 89 choose action 0
+At state 90 choose action 1
+At state 91 choose action 0
+At state 92 choose action 0
+At state 93 choose action 0
+At state 94 choose action 0
+At state 95 choose action 0
+At state 96 choose action 0
+At state 97 choose action 0
+At state 98 choose action 0
+At state 99 choose action 0
+At state 100 choose action 0
+At state 101 choose action 0
+At state 102 choose action 0
+At state 103 choose action 0
+At state 104 choose action 0
+At state 105 choose action 0
+At state 106 choose action 0
+At state 107 choose action 0
+At state 108 choose action 0
+At state 109 choose action 0
+At state 110 choose action 0
+At state 111 choose action 0
+At state 112 choose action 0
+At state 113 choose action 0
+At state 114 choose action 1
+At state 115 choose action 0
+At state 116 choose action 1
+At state 117 choose action 0
+At state 118 choose action 0
+At state 119 choose action 0
+At state 120 choose action 1
+At state 121 choose action 0
+At state 122 choose action 0
+At state 123 choose action 0
+At state 124 choose action 0
+At state 125 choose action 0
+At state 126 choose action 0
+At state 127 choose action 0
+At state 128 choose action 1
+At state 129 choose action 0
+At state 130 choose action 1
+At state 131 choose action 0
+At state 132 choose action 0
+At state 133 choose action 0
+At state 134 choose action 0
+At state 135 choose action 0
+At state 136 choose action 0
+At state 137 choose action 0
+At state 138 choose action 0
+At state 139 choose action 0
+At state 140 choose action 0
+At state 141 choose action 0
+At state 142 choose action 0
+At state 143 choose action 0
+At state 144 choose action 1
+At state 145 choose action 0
+At state 146 choose action 0
+At state 147 choose action 0
+At state 148 choose action 0
+At state 149 choose action 1
+At state 150 choose action 0
+At state 151 choose action 0
+At state 152 choose action 0
+At state 153 choose action 0
+At state 154 choose action 0
+At state 155 choose action 1
+At state 156 choose action 0
+At state 157 choose action 1
+At state 158 choose action 0
+At state 159 choose action 0
+At state 160 choose action 0
+At state 161 choose action 1
+At state 162 choose action 0
+At state 163 choose action 0
+At state 164 choose action 0
+At state 165 choose action 0
+At state 166 choose action 0
+At state 167 choose action 1
+At state 168 choose action 0
+At state 169 choose action 1
+At state 170 choose action 0
+At state 171 choose action 1
+At state 172 choose action 0
+At state 173 choose action 1
+At state 174 choose action 0
+At state 175 choose action 0
+At state 176 choose action 0
+At state 177 choose action 0
+At state 178 choose action 0
+At state 179 choose action 1
+At state 180 choose action 0
+At state 181 choose action 0
+At state 182 choose action 0
+At state 183 choose action 0
+At state 184 choose action 1
+At state 185 choose action 0
+At state 186 choose action 0
+At state 187 choose action 0
+At state 188 choose action 0
+At state 189 choose action 0
+At state 190 choose action 1
+At state 191 choose action 0
+At state 192 choose action 0
+At state 193 choose action 0
+At state 194 choose action 0
+At state 195 choose action 1
+At state 196 choose action 0
+At state 197 choose action 0
+At state 198 choose action 0
+At state 199 choose action 0
+At state 200 choose action 1
+At state 201 choose action 0
+At state 202 choose action 1
+At state 203 choose action 0
+At state 204 choose action 0
+At state 205 choose action 0
+At state 206 choose action 0
+At state 207 choose action 0
+At state 208 choose action 0
+At state 209 choose action 1
+At state 210 choose action 0
+At state 211 choose action 0
+At state 212 choose action 0
+At state 213 choose action 0
+At state 214 choose action 0
+At state 215 choose action 0
+At state 216 choose action 0
+At state 217 choose action 0
+At state 218 choose action 1
+At state 219 choose action 0
+At state 220 choose action 0
+At state 221 choose action 0
+At state 222 choose action 0
+At state 223 choose action 0
+At state 224 choose action 0
+At state 225 choose action 0
+At state 226 choose action 0
+At state 227 choose action 0
+At state 228 choose action 0
+At state 229 choose action 0
+At state 230 choose action 0
+At state 231 choose action 1
+At state 232 choose action 0
+At state 233 choose action 0
+At state 234 choose action 0
+At state 235 choose action 1
+At state 236 choose action 0
+At state 237 choose action 0
+At state 238 choose action 0
+At state 239 choose action 0
+At state 240 choose action 0
+At state 241 choose action 0
+At state 242 choose action 0
+At state 243 choose action 0
+
+Time to encode in seconds: 63.19
+Time required by z3 in seconds: 487.83
+Number of variables: 240340
+Number of formula checked: 489
+z3 statistics:
+(:added-eqs                   3314991
+ :arith-eq-adapter            35532
+ :arith-bound-propagations-lp 1432112
+ :arith-conflicts             386
+ :arith-diseq                 1690290
+ :arith-fixed-eqs             12020
+ :arith-lower                 1459934
+ :arith-make-feasible         123711
+ :arith-max-columns           35474
+ :arith-max-rows              34956
+ :arith-offset-eqs            1444315
+ :arith-upper                 1245002
+ :binary-propagations         4555717
+ :conflicts                   662
+ :decisions                   175832
+ :del-clause                  173586
+ :elim-unconstrained          168
+ :final-checks                1
+ :max-memory                  1350.04
+ :memory                      732.57
+ :minimized-lits              696
+ :mk-bool-var                 194639
+ :mk-clause                   209518
+ :mk-clause-binary            224386
+ :num-allocs                  1330776192828.00
+ :num-checks                  1
+ :propagations                7286269
+ :restarts                    6
+ :rlimit-count                141866556
+ :solve-eqs-elim-vars         183017
+ :solve-eqs-steps             184385
+ :time                        487.83)
+
+
+$ python3 hyperprob.py -modelPath benchmark_files/mdp/TS_10.20/thread_scheduler10_20.nm -hyperString "AS sh . A s1 . A s2 . ~((h1(s1) & h2(s2)) & ~((P(F l1(s1)) = P(F l1(s2))) & (P(F l2(s1)) = P(F l2(s2)))))"
+
+Total number of states: 45
+Total number of actions: 66
+Total number of transitions: 108
+
+Encoded actions in the MDP...
+Encoded state quantifiers
+Encoded non-quantified formula...
+Encoding time: 3.606807337142527
+Number of variables: 12825
+Number of formula checked: 91
+Checking...
+
+The property DOES NOT hold!
+
+The actions at the corresponding states of a counterexample are:
+At state 0 choose action 0
+At state 1 choose action 0
+At state 2 choose action 0
+At state 3 choose action 0
+At state 4 choose action 0
+At state 5 choose action 0
+At state 6 choose action 0
+At state 7 choose action 0
+At state 8 choose action 1
+At state 9 choose action 0
+At state 10 choose action 1
+At state 11 choose action 0
+At state 12 choose action 1
+At state 13 choose action 0
+At state 14 choose action 0
+At state 15 choose action 0
+At state 16 choose action 1
+At state 17 choose action 0
+At state 18 choose action 0
+At state 19 choose action 0
+At state 20 choose action 0
+At state 21 choose action 0
+At state 22 choose action 1
+At state 23 choose action 0
+At state 24 choose action 0
+At state 25 choose action 0
+At state 26 choose action 1
+At state 27 choose action 0
+At state 28 choose action 0
+At state 29 choose action 0
+At state 30 choose action 1
+At state 31 choose action 0
+At state 32 choose action 1
+At state 33 choose action 0
+At state 34 choose action 0
+At state 35 choose action 0
+At state 36 choose action 1
+At state 37 choose action 0
+At state 38 choose action 1
+At state 39 choose action 0
+At state 40 choose action 0
+At state 41 choose action 0
+At state 42 choose action 0
+At state 43 choose action 0
+At state 44 choose action 0
+
+Time to encode in seconds: 3.61
+Time required by z3 in seconds: 0.54
+Number of variables: 12825
+Number of formula checked: 91
+z3 statistics:
+(:added-eqs                   32933
+ :arith-eq-adapter            1218
+ :arith-bound-propagations-lp 9592
+ :arith-conflicts             12
+ :arith-diseq                 14090
+ :arith-fixed-eqs             390
+ :arith-lower                 18207
+ :arith-make-feasible         1423
+ :arith-max-columns           1341
+ :arith-max-rows              1164
+ :arith-offset-eqs            15707
+ :arith-upper                 10814
+ :binary-propagations         88459
+ :conflicts                   96
+ :decisions                   1393
+ :del-clause                  29
+ :elim-unconstrained          3068
+ :final-checks                1
+ :max-memory                  74.52
+ :memory                      56.62
+ :minimized-lits              32
+ :mk-bool-var                 11565
+ :mk-clause                   8209
+ :mk-clause-binary            20312
+ :num-allocs                  147497210
+ :num-checks                  1
+ :propagations                111093
+ :rlimit-count                3830089
+ :solve-eqs-elim-vars         6746
+ :solve-eqs-steps             6746
+ :time                        0.54)
+
+
+$ python3 hyperprob.py -modelPath benchmark_files/mdp/PC_4/synthesis0_1_2_3_4.nm -hyperString "ES sh . A s1 . E s2 . ~((start1(s1) & start2(s2)) & ~((P(F die1(s1)) = P(F die1(s2))) & ((P(F die2(s1)) = P(F die2(s2))) & ((P(F die3(s1)) = P(F die3(s2))) & ((P(F die4(s1)) = P(F die4(s2))) & ((P(F die5(s1)) = P(F die5(s2))) & (P(F die6(s1)) = P(F die6(s2))) ) ) ) ) ) )"
+
+Total number of states: 20
+Total number of actions: 405
+Total number of transitions: 802
+
+Encoded actions in the MDP...
+Encoded state quantifiers
+Encoded non-quantified formula...
+Encoding time: 7.271405918523669
+Number of variables: 6780
+Number of formula checked: 41
+Checking...
+
+The property HOLDS!
+
+The values of variables of the witness are:
+At state 0 choose action 0
+At state 1 choose action 11
+At state 2 choose action 0
+At state 3 choose action 0
+At state 4 choose action 0
+At state 5 choose action 0
+At state 6 choose action 0
+At state 7 choose action 0
+At state 8 choose action 29
+At state 9 choose action 20
+At state 10 choose action 72
+At state 11 choose action 49
+At state 12 choose action 0
+At state 13 choose action 0
+At state 14 choose action 0
+At state 15 choose action 0
+At state 16 choose action 0
+At state 17 choose action 0
+At state 18 choose action 0
+At state 19 choose action 0
+
+Time to encode in seconds: 7.27
+Time required by z3 in seconds: 0.88
+Number of variables: 6780
+Number of formula checked: 41
+z3 statistics:
+(:added-eqs                   73358
+ :arith-eq-adapter            2404
+ :arith-bound-propagations-lp 16495
+ :arith-conflicts             13
+ :arith-diseq                 35465
+ :arith-fixed-eqs             668
+ :arith-lower                 31843
+ :arith-make-feasible         2247
+ :arith-max-columns           2671
+ :arith-max-rows              2362
+ :arith-offset-eqs            29831
+ :arith-upper                 24864
+ :binary-propagations         197814
+ :conflicts                   276
+ :decisions                   8653
+ :del-clause                  668
+ :elim-unconstrained          512
+ :final-checks                1
+ :max-memory                  84.18
+ :memory                      59.02
+ :minimized-lits              1272
+ :mk-bool-var                 18847
+ :mk-clause                   24338
+ :mk-clause-binary            41196
+ :num-allocs                  347777188
+ :num-checks                  1
+ :propagations                295668
+ :restarts                    2
+ :rlimit-count                6043928
+ :solve-eqs-elim-vars         3192
+ :solve-eqs-steps             3528
+ :time                        0.88)
+
+

@@ -1,0 +1,187 @@
+$ python3 hyperprob.py -modelPath benchmark_files/mdp/simple/maze.nm -hyperString "ES sh . A s1 . A s2 . ~((start1(s2) & start0(s1)) & ~(P(F target(s2)) < P(F target(s1))))"
+
+Total number of states: 10
+Total number of actions: 34
+Total number of transitions: 98
+
+Encoded actions in the MDP...
+Encoded state quantifiers
+Encoded non-quantified formula...
+Encoding time: 0.22212231904268265
+Number of variables: 590
+Number of formula checked: 21
+Checking...
+
+The property DOES NOT hold!
+
+Time to encode in seconds: 0.22
+Time required by z3 in seconds: 1.11
+Number of variables: 590
+Number of formula checked: 21
+z3 statistics:
+(:added-eqs                   17871
+ :arith-eq-adapter            48
+ :arith-bound-propagations-lp 6750
+ :arith-conflicts             854
+ :arith-diseq                 1966
+ :arith-fixed-eqs             23
+ :arith-lower                 17235
+ :arith-make-feasible         3491
+ :arith-max-columns           142
+ :arith-max-rows              107
+ :arith-offset-eqs            410
+ :arith-upper                 7489
+ :binary-propagations         60377
+ :conflicts                   1560
+ :decisions                   3139
+ :del-clause                  877
+ :elim-unconstrained          192
+ :max-memory                  23.23
+ :memory                      21.03
+ :minimized-lits              2120
+ :mk-bool-var                 532
+ :mk-clause                   8356
+ :mk-clause-binary            461
+ :num-allocs                  49480596
+ :num-checks                  1
+ :propagations                112564
+ :restarts                    13
+ :rlimit-count                651372
+ :solve-eqs-elim-vars         368
+ :solve-eqs-steps             368
+ :time                        1.11)
+
+
+$ python3 hyperprob.py -modelPath benchmark_files/mdp/larger-1/maze.nm -hyperString "ES sh . A s1 . A s2 . ~((start1(s2) & start0(s1)) & ~(P(F target(s2)) < P(F target(s1))))"
+
+Total number of states: 25
+Total number of actions: 85
+Total number of transitions: 309
+
+Encoded actions in the MDP...
+Encoded state quantifiers
+Encoded non-quantified formula...
+Encoding time: 0.9844186315312982
+Number of variables: 3350
+Number of formula checked: 51
+$ python3 hyperprob.py -modelPath benchmark_files/mdp/larger-2/maze.nm -hyperString "ES sh . A s1 . A s2 . ~((start1(s2) & start0(s1)) & ~(P(F target(s2)) < P(F target(s1))))"
+
+Total number of states: 25
+Total number of actions: 82
+Total number of transitions: 294
+
+Encoded actions in the MDP...
+Encoded state quantifiers
+Encoded non-quantified formula...
+Encoding time: 0.9913273798301816
+Number of variables: 3350
+Number of formula checked: 51
+$ python3 hyperprob.py -modelPath benchmark_files/mdp/larger-3/maze.nm -hyperString "ES sh . A s1 . A s2 . ~((start1(s2) & start0(s1)) & ~(P(F target(s2)) < P(F target(s1))))"
+
+Total number of states: 25
+Total number of actions: 82
+Total number of transitions: 294
+
+Encoded actions in the MDP...
+Encoded state quantifiers
+Encoded non-quantified formula...
+Encoding time: 0.9929789109155536
+Number of variables: 3350
+Number of formula checked: 51
+$ python3 hyperprob.py -modelPath benchmark_files/mdp/splash-1/maze.nm -hyperString "ES sh . A s1 . A s2 . ~((start1(s2) & start0(s1)) & ~(P(F target(s2)) < P(F target(s1))))"
+
+Total number of states: 16
+Total number of actions: 55
+Total number of transitions: 195
+
+Encoded actions in the MDP...
+Encoded state quantifiers
+Encoded non-quantified formula...
+Encoding time: 0.47674034908413887
+Number of variables: 1424
+Number of formula checked: 33
+Checking...
+
+The property HOLDS!
+
+The values of variables of the witness are:
+At state 0 choose action 3
+At state 1 choose action 0
+At state 2 choose action 3
+At state 3 choose action 3
+At state 4 choose action 1
+At state 5 choose action 0
+At state 6 choose action 0
+At state 7 choose action 2
+At state 8 choose action 3
+At state 9 choose action 3
+At state 10 choose action 1
+At state 11 choose action 2
+At state 12 choose action 0
+At state 13 choose action 2
+At state 14 choose action 0
+At state 15 choose action 1
+
+Time to encode in seconds: 0.48
+Time required by z3 in seconds: 49.25
+Number of variables: 1424
+Number of formula checked: 33
+z3 statistics:
+(:added-eqs                   115330
+ :arith-eq-adapter            92
+ :arith-bound-propagations-lp 28001
+ :arith-conflicts             4417
+ :arith-diseq                 11682
+ :arith-fixed-eqs             95
+ :arith-lower                 104488
+ :arith-make-feasible         21947
+ :arith-max-columns           337
+ :arith-max-rows              272
+ :arith-offset-eqs            578
+ :arith-upper                 54427
+ :binary-propagations         386696
+ :conflicts                   7917
+ :decisions                   24541
+ :del-clause                  2679
+ :elim-unconstrained          478
+ :final-checks                1
+ :max-memory                  28.78
+ :memory                      23.15
+ :minimized-lits              14051
+ :mk-bool-var                 1184
+ :mk-clause                   32402
+ :mk-clause-binary            968
+ :num-allocs                  91483199672.00
+ :num-checks                  1
+ :propagations                740423
+ :restarts                    58
+ :rlimit-count                5651734
+ :solve-eqs-elim-vars         877
+ :solve-eqs-steps             877
+ :time                        49.25)
+
+
+$ python3 hyperprob.py -modelPath benchmark_files/mdp/splash-2/maze.nm -hyperString "ES sh . A s1 . A s2 . ~((start1(s2) & start0(s1)) & ~(P(F target(s2)) < P(F target(s1))))"
+
+Total number of states: 25
+Total number of actions: 85
+Total number of transitions: 309
+
+Encoded actions in the MDP...
+Encoded state quantifiers
+Encoded non-quantified formula...
+Encoding time: 0.9798116805031896
+Number of variables: 3350
+Number of formula checked: 51
+$ python3 hyperprob.py -modelPath benchmark_files/mdp/train/maze.nm -hyperString "ES sh . A s1 . A s2 . ~((start1(s2) & start0(s1)) & ~(P(F target(s2)) < P(F target(s1))))"
+
+Total number of states: 48
+Total number of actions: 105
+Total number of transitions: 345
+
+Encoded actions in the MDP...
+Encoded state quantifiers
+Encoded non-quantified formula...
+Encoding time: 2.8878281908109784
+Number of variables: 11952
+Number of formula checked: 97

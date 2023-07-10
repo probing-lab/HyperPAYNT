@@ -1,0 +1,2309 @@
+$ python3 /home/francesco/HyperProject/paynt/paynt.py --project /home/francesco/HyperProject/eval/qest/HyperProb_bench/./PW_4_variant --method ar
+2023-07-04 11:16:53,750 - cli.py - This is HyperPaynt version 0.1.0.
+2023-07-04 11:16:53,750 - hyperparser.py - Loading properties from /home/francesco/HyperProject/eval/qest/HyperProb_bench/./PW_4_variant/sketch.props ...
+2023-07-04 11:16:53,750 - hyperparser.py - Parsing scheduler quantifiers ...
+2023-07-04 11:16:53,751 - hyperparser.py - Found the following scheduler quantifiers: {'sched1': 'ES', 'sched2': 'ES'}
+2023-07-04 11:16:53,751 - hyperparser.py - Parsing state quantifiers...
+2023-07-04 11:16:53,751 - hyperparser.py - Found the following state quantifiers: {'s0': ('E', 'sched1'), 's1': ('E', 'sched2')}
+2023-07-04 11:16:53,751 - hyperparser.py - Parsing restrictions
+2023-07-04 11:16:53,751 - hyperparser.py - Found the following restrictions: {}
+2023-07-04 11:16:53,751 - hyperparser.py - Parsing scheduler optimality ( if required)
+2023-07-04 11:16:53,751 - hyperparser.py - Scheduler optimality property not found.
+2023-07-04 11:16:53,751 - hyperparser.py - Parsing structural constraints (if any)
+2023-07-04 11:16:53,752 - hyperparser.py - Found the following structural equality constraints: []
+2023-07-04 11:16:53,752 - hyperparser.py - Loading sketch from /home/francesco/HyperProject/eval/qest/HyperProb_bench/./PW_4_variant/sketch.templ...
+2023-07-04 11:16:53,752 - hyperparser.py - Assuming a sketch in a PRISM format ...
+2023-07-04 11:16:53,769 - hyperparser.py - The model has 2 initial states...
+2023-07-04 11:16:53,770 - hyperparser.py - Instantiating the properties for the quantified initial states
+2023-07-04 11:16:53,770 - hyperparser.py - initial states for s0: [0]
+2023-07-04 11:16:53,770 - hyperparser.py - initial states for s0 after restrictions: [0]
+2023-07-04 11:16:53,770 - hyperparser.py - initial states for s1: [1]
+2023-07-04 11:16:53,770 - hyperparser.py - initial states for s1 after restrictions: [1]
+2023-07-04 11:16:53,770 - hyperparser.py - Assuming an hyperproperty with index 0...
+2023-07-04 11:16:53,771 - hyperparser.py - Assuming an hyperproperty with index 1...
+2023-07-04 11:16:53,771 - hyperparser.py - Assuming an hyperproperty with index 2...
+2023-07-04 11:16:53,771 - hyperparser.py - Assuming an hyperproperty with index 3...
+2023-07-04 11:16:53,771 - hyperparser.py - Assuming an hyperproperty with index 4...
+2023-07-04 11:16:53,772 - hyperparser.py - Assuming an hyperproperty with index 5...
+2023-07-04 11:16:53,772 - hyperparser.py - Assuming an hyperproperty with index 6...
+2023-07-04 11:16:53,772 - hyperparser.py - Assuming an hyperproperty with index 7...
+2023-07-04 11:16:53,772 - hyperparser.py - Assuming an hyperproperty with index 8...
+2023-07-04 11:16:53,772 - hyperparser.py - Assuming an hyperproperty with index 9...
+2023-07-04 11:16:53,773 - hyperparser.py - Assuming an hyperproperty with index 10...
+2023-07-04 11:16:53,773 - hyperparser.py - Assuming an hyperproperty with index 11...
+2023-07-04 11:16:53,773 - hyperparser.py - Assuming an hyperproperty with index 12...
+2023-07-04 11:16:53,773 - hyperparser.py - Assuming an hyperproperty with index 13...
+2023-07-04 11:16:53,773 - hyperparser.py - Assuming an hyperproperty with index 14...
+2023-07-04 11:16:53,774 - hyperparser.py - Assuming an hyperproperty with index 15...
+2023-07-04 11:16:53,774 - hyperparser.py - Assuming an hyperproperty with index 16...
+2023-07-04 11:16:53,774 - hyperparser.py - Assuming an hyperproperty with index 17...
+2023-07-04 11:16:53,774 - hyperparser.py - Found the following specification:
+ constraints: P=? [F "c0"][0] <built-in function lt> P=? [F "c0"][1] -- min_distance: 0;
+P=? [F "c0"][1] <built-in function lt> P=? [F "c0"][0] -- min_distance: 0;
+P=? [F "c1"][0] <built-in function lt> P=? [F "c1"][1] -- min_distance: 0;
+P=? [F "c1"][1] <built-in function lt> P=? [F "c1"][0] -- min_distance: 0;
+P=? [F "c2"][0] <built-in function lt> P=? [F "c2"][1] -- min_distance: 0;
+P=? [F "c2"][1] <built-in function lt> P=? [F "c2"][0] -- min_distance: 0;
+P=? [F "c3"][0] <built-in function lt> P=? [F "c3"][1] -- min_distance: 0;
+P=? [F "c3"][1] <built-in function lt> P=? [F "c3"][0] -- min_distance: 0;
+P=? [F "c4"][0] <built-in function lt> P=? [F "c4"][1] -- min_distance: 0;
+P=? [F "c4"][1] <built-in function lt> P=? [F "c4"][0] -- min_distance: 0;
+P=? [F "c5"][0] <built-in function lt> P=? [F "c5"][1] -- min_distance: 0;
+P=? [F "c5"][1] <built-in function lt> P=? [F "c5"][0] -- min_distance: 0;
+P=? [F "c6"][0] <built-in function lt> P=? [F "c6"][1] -- min_distance: 0;
+P=? [F "c6"][1] <built-in function lt> P=? [F "c6"][0] -- min_distance: 0;
+P=? [F "c7"][0] <built-in function lt> P=? [F "c7"][1] -- min_distance: 0;
+P=? [F "c7"][1] <built-in function lt> P=? [F "c7"][0] -- min_distance: 0;
+P=? [F "c8"][0] <built-in function lt> P=? [F "c8"][1] -- min_distance: 0;
+P=? [F "c8"][1] <built-in function lt> P=? [F "c8"][0] -- min_distance: 0.
+ Optimality objective: none.
+ Scheduler Optimality hyperobjective: none
+ 
+2023-07-04 11:16:53,774 - hypersketch.py - Processing actions and Initializing the quotient and the design space...
+2023-07-04 11:16:53,788 - hyperquotient.py - Constructed quotient MDP having 298 states and 370 actions.
+2023-07-04 11:16:53,798 - hypersketch.py - Sketch has 72 holes
+2023-07-04 11:16:53,799 - hypersketch.py - Design space size: 4722366482869645213696
+2023-07-04 11:16:53,799 - hypersketch.py - Design space: [h=4	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=1	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=1	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2']
+2023-07-04 11:16:53,799 - hypersketch.py - Sketch parsing complete.
+2023-07-04 11:16:53,799 - hypersketch.py - Matching holes: defaultdict(<class 'list'>, {})
+2023-07-04 11:16:53,799 - cli.py - Synthetizing an MDP scheduler wrt a hyperproperty
+2023-07-04 11:16:53,799 - hypersynthesizer.py - Synthesis initiated.
+2023-07-04 11:16:53,866 - hypersynthesizer.py - Printing synthesized assignment below:
+2023-07-04 11:16:53,867 - hypersynthesizer.py - [h=4	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=0	& e=0	]={'b'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=1	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=1	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched2']
+2023-07-04 11:16:53,870 - hypersynthesizer.py - Double-checking specification satisfiability:
+0.0312499999999999[0] <built-in function lt> 0.24999999999999994[1]: True;
+0.24999999999999994[1] <built-in function lt> 0.0312499999999999[0]: False;
+0.07812499999999999[0] <built-in function lt> 0.14062499999999994[1]: True;
+0.14062499999999994[1] <built-in function lt> 0.07812499999999999[0]: False;
+0.11718749999999996[0] <built-in function lt> 0.10156249999999994[1]: False;
+0.10156249999999994[1] <built-in function lt> 0.11718749999999996[0]: True;
+0.1367187499999999[0] <built-in function lt> 0.08984374999999989[1]: False;
+0.08984374999999989[1] <built-in function lt> 0.1367187499999999[0]: True;
+0.13671875000000008[0] <built-in function lt> 0.08398437500000011[1]: False;
+0.08398437500000011[1] <built-in function lt> 0.13671875000000008[0]: True;
+0.12304687499999989[0] <built-in function lt> 0.07617187499999989[1]: False;
+0.07617187499999989[1] <built-in function lt> 0.12304687499999989[0]: True;
+0.10253906250000012[0] <built-in function lt> 0.06542968750000011[1]: False;
+0.06542968750000011[1] <built-in function lt> 0.10253906250000012[0]: True;
+0.08056640625000028[0] <built-in function lt> 0.05322265625000034[1]: False;
+0.05322265625000034[1] <built-in function lt> 0.08056640625000028[0]: True;
+0.1938476562500002[0] <built-in function lt> 0.13916015625000022[1]: False;
+0.13916015625000022[1] <built-in function lt> 0.1938476562500002[0]: True
+ No optimality constraint specified
+ No scheduler hyperoptimalty constraint specified
+--------------------
+Synthesis summary
+constraint 1: P=? [F "c0"][0] <built-in function lt> P=? [F "c0"][1] -- min_distance: 0
+constraint 2: P=? [F "c0"][1] <built-in function lt> P=? [F "c0"][0] -- min_distance: 0
+constraint 3: P=? [F "c1"][0] <built-in function lt> P=? [F "c1"][1] -- min_distance: 0
+constraint 4: P=? [F "c1"][1] <built-in function lt> P=? [F "c1"][0] -- min_distance: 0
+constraint 5: P=? [F "c2"][0] <built-in function lt> P=? [F "c2"][1] -- min_distance: 0
+constraint 6: P=? [F "c2"][1] <built-in function lt> P=? [F "c2"][0] -- min_distance: 0
+constraint 7: P=? [F "c3"][0] <built-in function lt> P=? [F "c3"][1] -- min_distance: 0
+constraint 8: P=? [F "c3"][1] <built-in function lt> P=? [F "c3"][0] -- min_distance: 0
+constraint 9: P=? [F "c4"][0] <built-in function lt> P=? [F "c4"][1] -- min_distance: 0
+constraint 10: P=? [F "c4"][1] <built-in function lt> P=? [F "c4"][0] -- min_distance: 0
+constraint 11: P=? [F "c5"][0] <built-in function lt> P=? [F "c5"][1] -- min_distance: 0
+constraint 12: P=? [F "c5"][1] <built-in function lt> P=? [F "c5"][0] -- min_distance: 0
+constraint 13: P=? [F "c6"][0] <built-in function lt> P=? [F "c6"][1] -- min_distance: 0
+constraint 14: P=? [F "c6"][1] <built-in function lt> P=? [F "c6"][0] -- min_distance: 0
+constraint 15: P=? [F "c7"][0] <built-in function lt> P=? [F "c7"][1] -- min_distance: 0
+constraint 16: P=? [F "c7"][1] <built-in function lt> P=? [F "c7"][0] -- min_distance: 0
+constraint 17: P=? [F "c8"][0] <built-in function lt> P=? [F "c8"][1] -- min_distance: 0
+constraint 18: P=? [F "c8"][1] <built-in function lt> P=? [F "c8"][0] -- min_distance: 0
+Optimality objective: None
+ Scheduler Hyperoptimality objective: None
+ Indexes of formulae in OR relation with each other: [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]]
+
+method: AR, synthesis time: 0.07 s
+number of holes: 72, family size: 4722366482869645213696, super quotient: 298 states / 370 actions 
+explored: 0 %
+AR stats: avg MDP size: 298, iterations: 1, decided families: 0, average decided families size: 0.0, AR Sat members found: 0, AR Unsat Members found: 0
+
+feasible: yes
+--------------------
+
+$ python3 /home/francesco/HyperProject/paynt/paynt.py --project /home/francesco/HyperProject/eval/qest/HyperProb_bench/./TA_4_variant --method ar
+2023-07-04 11:16:54,049 - cli.py - This is HyperPaynt version 0.1.0.
+2023-07-04 11:16:54,049 - hyperparser.py - Loading properties from /home/francesco/HyperProject/eval/qest/HyperProb_bench/./TA_4_variant/sketch.props ...
+2023-07-04 11:16:54,049 - hyperparser.py - Parsing scheduler quantifiers ...
+2023-07-04 11:16:54,049 - hyperparser.py - Found the following scheduler quantifiers: {'sched1': 'ES', 'sched2': 'ES'}
+2023-07-04 11:16:54,049 - hyperparser.py - Parsing state quantifiers...
+2023-07-04 11:16:54,050 - hyperparser.py - Found the following state quantifiers: {'s0': ('E', 'sched1'), 's1': ('E', 'sched2')}
+2023-07-04 11:16:54,050 - hyperparser.py - Parsing restrictions
+2023-07-04 11:16:54,050 - hyperparser.py - Found the following restrictions: {}
+2023-07-04 11:16:54,050 - hyperparser.py - Parsing scheduler optimality ( if required)
+2023-07-04 11:16:54,050 - hyperparser.py - Scheduler optimality property not found.
+2023-07-04 11:16:54,050 - hyperparser.py - Parsing structural constraints (if any)
+2023-07-04 11:16:54,050 - hyperparser.py - Found the following structural equality constraints: []
+2023-07-04 11:16:54,050 - hyperparser.py - Loading sketch from /home/francesco/HyperProject/eval/qest/HyperProb_bench/./TA_4_variant/sketch.templ...
+2023-07-04 11:16:54,050 - hyperparser.py - Assuming a sketch in a PRISM format ...
+2023-07-04 11:16:54,067 - hyperparser.py - The model has 2 initial states...
+2023-07-04 11:16:54,067 - hyperparser.py - Instantiating the properties for the quantified initial states
+2023-07-04 11:16:54,067 - hyperparser.py - initial states for s0: [0]
+2023-07-04 11:16:54,067 - hyperparser.py - initial states for s0 after restrictions: [0]
+2023-07-04 11:16:54,067 - hyperparser.py - initial states for s1: [1]
+2023-07-04 11:16:54,067 - hyperparser.py - initial states for s1 after restrictions: [1]
+2023-07-04 11:16:54,068 - hyperparser.py - Assuming an hyperproperty with index 0...
+2023-07-04 11:16:54,068 - hyperparser.py - Assuming an hyperproperty with index 1...
+2023-07-04 11:16:54,068 - hyperparser.py - Assuming an hyperproperty with index 2...
+2023-07-04 11:16:54,069 - hyperparser.py - Assuming an hyperproperty with index 3...
+2023-07-04 11:16:54,069 - hyperparser.py - Assuming an hyperproperty with index 4...
+2023-07-04 11:16:54,069 - hyperparser.py - Assuming an hyperproperty with index 5...
+2023-07-04 11:16:54,069 - hyperparser.py - Assuming an hyperproperty with index 6...
+2023-07-04 11:16:54,069 - hyperparser.py - Assuming an hyperproperty with index 7...
+2023-07-04 11:16:54,070 - hyperparser.py - Assuming an hyperproperty with index 8...
+2023-07-04 11:16:54,070 - hyperparser.py - Assuming an hyperproperty with index 9...
+2023-07-04 11:16:54,070 - hyperparser.py - Assuming an hyperproperty with index 10...
+2023-07-04 11:16:54,070 - hyperparser.py - Assuming an hyperproperty with index 11...
+2023-07-04 11:16:54,070 - hyperparser.py - Assuming an hyperproperty with index 12...
+2023-07-04 11:16:54,070 - hyperparser.py - Assuming an hyperproperty with index 13...
+2023-07-04 11:16:54,071 - hyperparser.py - Assuming an hyperproperty with index 14...
+2023-07-04 11:16:54,071 - hyperparser.py - Assuming an hyperproperty with index 15...
+2023-07-04 11:16:54,071 - hyperparser.py - Assuming an hyperproperty with index 16...
+2023-07-04 11:16:54,071 - hyperparser.py - Assuming an hyperproperty with index 17...
+2023-07-04 11:16:54,072 - hyperparser.py - Found the following specification:
+ constraints: P=? [F "c0"][0] <built-in function lt> P=? [F "c0"][1] -- min_distance: 0;
+P=? [F "c0"][1] <built-in function lt> P=? [F "c0"][0] -- min_distance: 0;
+P=? [F "c1"][0] <built-in function lt> P=? [F "c1"][1] -- min_distance: 0;
+P=? [F "c1"][1] <built-in function lt> P=? [F "c1"][0] -- min_distance: 0;
+P=? [F "c2"][0] <built-in function lt> P=? [F "c2"][1] -- min_distance: 0;
+P=? [F "c2"][1] <built-in function lt> P=? [F "c2"][0] -- min_distance: 0;
+P=? [F "c3"][0] <built-in function lt> P=? [F "c3"][1] -- min_distance: 0;
+P=? [F "c3"][1] <built-in function lt> P=? [F "c3"][0] -- min_distance: 0;
+P=? [F "c4"][0] <built-in function lt> P=? [F "c4"][1] -- min_distance: 0;
+P=? [F "c4"][1] <built-in function lt> P=? [F "c4"][0] -- min_distance: 0;
+P=? [F "c5"][0] <built-in function lt> P=? [F "c5"][1] -- min_distance: 0;
+P=? [F "c5"][1] <built-in function lt> P=? [F "c5"][0] -- min_distance: 0;
+P=? [F "c6"][0] <built-in function lt> P=? [F "c6"][1] -- min_distance: 0;
+P=? [F "c6"][1] <built-in function lt> P=? [F "c6"][0] -- min_distance: 0;
+P=? [F "c7"][0] <built-in function lt> P=? [F "c7"][1] -- min_distance: 0;
+P=? [F "c7"][1] <built-in function lt> P=? [F "c7"][0] -- min_distance: 0;
+P=? [F "c8"][0] <built-in function lt> P=? [F "c8"][1] -- min_distance: 0;
+P=? [F "c8"][1] <built-in function lt> P=? [F "c8"][0] -- min_distance: 0.
+ Optimality objective: none.
+ Scheduler Optimality hyperobjective: none
+ 
+2023-07-04 11:16:54,072 - hypersketch.py - Processing actions and Initializing the quotient and the design space...
+2023-07-04 11:16:54,084 - hyperquotient.py - Constructed quotient MDP having 244 states and 316 actions.
+2023-07-04 11:16:54,094 - hypersketch.py - Sketch has 72 holes
+2023-07-04 11:16:54,094 - hypersketch.py - Design space size: 4722366482869645213696
+2023-07-04 11:16:54,094 - hypersketch.py - Design space: [h=4	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=1	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=1	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2']
+2023-07-04 11:16:54,094 - hypersketch.py - Sketch parsing complete.
+2023-07-04 11:16:54,094 - hypersketch.py - Matching holes: defaultdict(<class 'list'>, {})
+2023-07-04 11:16:54,094 - cli.py - Synthetizing an MDP scheduler wrt a hyperproperty
+2023-07-04 11:16:54,094 - hypersynthesizer.py - Synthesis initiated.
+2023-07-04 11:16:54,158 - hypersynthesizer.py - Printing synthesized assignment below:
+2023-07-04 11:16:54,158 - hypersynthesizer.py - [h=4	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=0	& e=0	]={'b'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=0	& e=0	]={'b'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=0	& e=0	]={'b'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=0	& e=0	]={'b'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=1	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=1	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched2']
+2023-07-04 11:16:54,162 - hypersynthesizer.py - Double-checking specification satisfiability:
+0.0019531250000001154[0] <built-in function lt> 0.03125000000000014[1]: True;
+0.03125000000000014[1] <built-in function lt> 0.0019531250000001154[0]: False;
+0.008789062499999943[0] <built-in function lt> 0.03027343749999997[1]: True;
+0.03027343749999997[1] <built-in function lt> 0.008789062499999943[0]: False;
+0.021972656250000167[0] <built-in function lt> 0.04052734375000009[1]: True;
+0.04052734375000009[1] <built-in function lt> 0.021972656250000167[0]: False;
+0.04028320312500031[0] <built-in function lt> 0.05493164062500028[1]: True;
+0.05493164062500028[1] <built-in function lt> 0.04028320312500031[0]: False;
+0.06042480468749986[0] <built-in function lt> 0.06945800781249992[1]: True;
+0.06945800781249992[1] <built-in function lt> 0.06042480468749986[0]: False;
+0.07855224609374997[0] <built-in function lt> 0.08123779296874999[1]: True;
+0.08123779296874999[1] <built-in function lt> 0.07855224609374997[0]: False;
+0.09164428710937593[0] <built-in function lt> 0.08847045898437593[1]: False;
+0.08847045898437593[1] <built-in function lt> 0.09164428710937593[0]: True;
+0.09819030761718812[0] <built-in function lt> 0.09049987792968812[1]: False;
+0.09049987792968812[1] <built-in function lt> 0.09819030761718812[0]: True;
+0.5981903076171875[0] <built-in function lt> 0.5133514404296875[1]: False;
+0.5133514404296875[1] <built-in function lt> 0.5981903076171875[0]: True
+ No optimality constraint specified
+ No scheduler hyperoptimalty constraint specified
+--------------------
+Synthesis summary
+constraint 1: P=? [F "c0"][0] <built-in function lt> P=? [F "c0"][1] -- min_distance: 0
+constraint 2: P=? [F "c0"][1] <built-in function lt> P=? [F "c0"][0] -- min_distance: 0
+constraint 3: P=? [F "c1"][0] <built-in function lt> P=? [F "c1"][1] -- min_distance: 0
+constraint 4: P=? [F "c1"][1] <built-in function lt> P=? [F "c1"][0] -- min_distance: 0
+constraint 5: P=? [F "c2"][0] <built-in function lt> P=? [F "c2"][1] -- min_distance: 0
+constraint 6: P=? [F "c2"][1] <built-in function lt> P=? [F "c2"][0] -- min_distance: 0
+constraint 7: P=? [F "c3"][0] <built-in function lt> P=? [F "c3"][1] -- min_distance: 0
+constraint 8: P=? [F "c3"][1] <built-in function lt> P=? [F "c3"][0] -- min_distance: 0
+constraint 9: P=? [F "c4"][0] <built-in function lt> P=? [F "c4"][1] -- min_distance: 0
+constraint 10: P=? [F "c4"][1] <built-in function lt> P=? [F "c4"][0] -- min_distance: 0
+constraint 11: P=? [F "c5"][0] <built-in function lt> P=? [F "c5"][1] -- min_distance: 0
+constraint 12: P=? [F "c5"][1] <built-in function lt> P=? [F "c5"][0] -- min_distance: 0
+constraint 13: P=? [F "c6"][0] <built-in function lt> P=? [F "c6"][1] -- min_distance: 0
+constraint 14: P=? [F "c6"][1] <built-in function lt> P=? [F "c6"][0] -- min_distance: 0
+constraint 15: P=? [F "c7"][0] <built-in function lt> P=? [F "c7"][1] -- min_distance: 0
+constraint 16: P=? [F "c7"][1] <built-in function lt> P=? [F "c7"][0] -- min_distance: 0
+constraint 17: P=? [F "c8"][0] <built-in function lt> P=? [F "c8"][1] -- min_distance: 0
+constraint 18: P=? [F "c8"][1] <built-in function lt> P=? [F "c8"][0] -- min_distance: 0
+Optimality objective: None
+ Scheduler Hyperoptimality objective: None
+ Indexes of formulae in OR relation with each other: [[0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17]]
+
+method: AR, synthesis time: 0.06 s
+number of holes: 72, family size: 4722366482869645213696, super quotient: 244 states / 316 actions 
+explored: 0 %
+AR stats: avg MDP size: 244, iterations: 1, decided families: 0, average decided families size: 0.0, AR Sat members found: 0, AR Unsat Members found: 0
+
+feasible: yes
+--------------------
+
+$ python3 /home/francesco/HyperProject/paynt/paynt.py --project /home/francesco/HyperProject/eval/qest/HyperProb_bench/./PC_4 --method ar
+2023-07-04 11:16:54,342 - cli.py - This is HyperPaynt version 0.1.0.
+2023-07-04 11:16:54,343 - hyperparser.py - Loading properties from /home/francesco/HyperProject/eval/qest/HyperProb_bench/./PC_4/sketch.props ...
+2023-07-04 11:16:54,343 - hyperparser.py - Parsing scheduler quantifiers ...
+2023-07-04 11:16:54,343 - hyperparser.py - Found the following scheduler quantifiers: {'sched': 'ES'}
+2023-07-04 11:16:54,343 - hyperparser.py - Parsing state quantifiers...
+2023-07-04 11:16:54,343 - hyperparser.py - Found the following state quantifiers: {'s0': ('A', 'sched'), 's1': ('A', 'sched')}
+2023-07-04 11:16:54,343 - hyperparser.py - Parsing restrictions
+2023-07-04 11:16:54,343 - hyperparser.py - Found the following restrictions: {}
+2023-07-04 11:16:54,343 - hyperparser.py - Parsing scheduler optimality ( if required)
+2023-07-04 11:16:54,343 - hyperparser.py - Scheduler optimality property not found.
+2023-07-04 11:16:54,343 - hyperparser.py - Parsing structural constraints (if any)
+2023-07-04 11:16:54,344 - hyperparser.py - Found the following structural equality constraints: []
+2023-07-04 11:16:54,344 - hyperparser.py - Loading sketch from /home/francesco/HyperProject/eval/qest/HyperProb_bench/./PC_4/sketch.templ...
+2023-07-04 11:16:54,344 - hyperparser.py - Assuming a sketch in a PRISM format ...
+2023-07-04 11:16:54,412 - hyperparser.py - The model has 2 initial states...
+2023-07-04 11:16:54,413 - hyperparser.py - Instantiating the properties for the quantified initial states
+2023-07-04 11:16:54,413 - hyperparser.py - initial states for s0: [0, 1]
+2023-07-04 11:16:54,413 - hyperparser.py - initial states for s0 after restrictions: [0, 1]
+2023-07-04 11:16:54,413 - hyperparser.py - initial states for s1: [0, 1]
+2023-07-04 11:16:54,413 - hyperparser.py - initial states for s1 after restrictions: [0, 1]
+2023-07-04 11:16:54,413 - hyperparser.py - Assuming an hyperproperty with index 0...
+2023-07-04 11:16:54,414 - hyperparser.py - Assuming an hyperproperty with index 1...
+2023-07-04 11:16:54,414 - hyperparser.py - Assuming an hyperproperty with index 2...
+2023-07-04 11:16:54,414 - hyperparser.py - Assuming an hyperproperty with index 3...
+2023-07-04 11:16:54,414 - hyperparser.py - Assuming an hyperproperty with index 4...
+2023-07-04 11:16:54,414 - hyperparser.py - Assuming an hyperproperty with index 5...
+2023-07-04 11:16:54,415 - hyperparser.py - Assuming an hyperproperty with index 6...
+2023-07-04 11:16:54,415 - hyperparser.py - Assuming an hyperproperty with index 7...
+2023-07-04 11:16:54,415 - hyperparser.py - Assuming an hyperproperty with index 8...
+2023-07-04 11:16:54,415 - hyperparser.py - Assuming an hyperproperty with index 9...
+2023-07-04 11:16:54,415 - hyperparser.py - Assuming an hyperproperty with index 10...
+2023-07-04 11:16:54,416 - hyperparser.py - Assuming an hyperproperty with index 11...
+2023-07-04 11:16:54,416 - hyperparser.py - Found the following specification:
+ constraints: P=? [F "die1"][0] <built-in function le> P=? [F "die1"][1] -- min_distance: 0;
+P=? [F "die1"][1] <built-in function le> P=? [F "die1"][0] -- min_distance: 0;
+P=? [F "die2"][0] <built-in function le> P=? [F "die2"][1] -- min_distance: 0;
+P=? [F "die2"][1] <built-in function le> P=? [F "die2"][0] -- min_distance: 0;
+P=? [F "die3"][0] <built-in function le> P=? [F "die3"][1] -- min_distance: 0;
+P=? [F "die3"][1] <built-in function le> P=? [F "die3"][0] -- min_distance: 0;
+P=? [F "die4"][0] <built-in function le> P=? [F "die4"][1] -- min_distance: 0;
+P=? [F "die4"][1] <built-in function le> P=? [F "die4"][0] -- min_distance: 0;
+P=? [F "die5"][0] <built-in function le> P=? [F "die5"][1] -- min_distance: 0;
+P=? [F "die5"][1] <built-in function le> P=? [F "die5"][0] -- min_distance: 0;
+P=? [F "die6"][0] <built-in function le> P=? [F "die6"][1] -- min_distance: 0;
+P=? [F "die6"][1] <built-in function le> P=? [F "die6"][0] -- min_distance: 0.
+ Optimality objective: none.
+ Scheduler Optimality hyperobjective: none
+ 
+2023-07-04 11:16:54,416 - hypersketch.py - Processing actions and Initializing the quotient and the design space...
+2023-07-04 11:16:54,443 - hyperquotient.py - Constructed quotient MDP having 20 states and 405 actions.
+2023-07-04 11:16:54,453 - hypersketch.py - Sketch has 5 holes
+2023-07-04 11:16:54,453 - hypersketch.py - Design space size: 2887174368
+2023-07-04 11:16:54,453 - hypersketch.py - Design space: [die=0	& s=0	& f=1]: {{'a'},{'b'},{'c'},{'d'},{'e'},{'f'},{'g'},{'h'},{'i'},{'j'},{'k'},{'l'},{'m'},{'n'},{'o'},{'p'},{'q'},{'r'},{'s'},{'t'},{'u'},{'v'},{'w'},{'x'},{'y'},{'z'},{'aa'},{'ab'},{'ac'},{'ad'},{'ae'},{'af'},{'ag'},{'ah'},{'ai'},{'al'},{'am'},{'an'},{'ao'},{'ap'},{'aq'},{'ar'},{'as'},{'at'},{'au'},{'av'},{'aw'},{'ax'},{'ay'},{'az'},{'ba'},{'bb'},{'bc'},{'bd'},{'be'},{'bf'},{'bg'},{'bh'},{'bi'},{'bl'},{'bm'},{'bn'},{'bo'},{'bp'},{'bq'},{'br'},{'bs'},{'bt'},{'bu'},{'bv'},{'bw'},{'bx'},{'by'},{'bz'},{'ca'},{'cb'},{'cc'},{'cd'}} - scheduler(s): ['sched'];
+[die=0	& s=1	& f=1]: {{'a'},{'b'},{'c'},{'d'},{'e'},{'f'},{'g'},{'h'},{'i'},{'j'},{'k'},{'l'},{'m'},{'n'},{'o'},{'p'},{'q'},{'r'},{'s'},{'t'},{'u'},{'v'},{'w'},{'x'},{'y'},{'z'},{'aa'},{'ab'},{'ac'},{'ad'},{'ae'},{'af'},{'ag'},{'ah'},{'ai'},{'aj'},{'ak'},{'al'},{'am'},{'an'},{'ao'},{'ap'},{'aq'},{'ar'},{'as'},{'at'},{'au'},{'aw'},{'ax'},{'ay'},{'az'},{'ba'},{'bb'},{'bc'},{'bd'},{'be'},{'bf'},{'bg'},{'bh'},{'bi'},{'bj'},{'bk'},{'bl'},{'bm'},{'bn'},{'bo'},{'bp'},{'bq'},{'br'},{'bs'},{'bt'},{'bu'},{'bw'},{'bx'},{'by'},{'bz'},{'ca'},{'cb'}} - scheduler(s): ['sched'];
+[die=0	& s=2	& f=1]: {{'a'},{'b'},{'c'},{'d'},{'e'},{'f'},{'g'},{'h'},{'i'},{'j'},{'k'},{'l'},{'m'},{'n'},{'o'},{'p'},{'q'},{'r'},{'s'},{'t'},{'u'},{'v'},{'w'},{'x'},{'y'},{'z'},{'aa'},{'ab'},{'ac'},{'ad'},{'ae'},{'af'},{'ag'},{'ah'},{'ai'},{'aj'},{'ak'},{'al'},{'am'},{'an'},{'ao'},{'ap'},{'aq'},{'ar'},{'as'},{'at'},{'au'},{'av'},{'aw'},{'ax'},{'ay'},{'az'},{'ba'},{'bb'},{'bc'},{'bd'},{'be'},{'bf'},{'bg'},{'bh'},{'bi'},{'bj'},{'bk'},{'bl'},{'bm'},{'bn'},{'bo'},{'bp'},{'bq'},{'br'},{'bs'},{'bt'},{'bu'},{'bv'},{'bw'},{'bx'},{'by'},{'bz'}} - scheduler(s): ['sched'];
+[die=0	& s=3	& f=1]: {{'a'},{'b'},{'c'},{'d'},{'e'},{'f'},{'g'},{'h'},{'i'},{'j'},{'k'},{'l'},{'m'},{'n'},{'o'},{'p'},{'q'},{'r'},{'s'},{'t'},{'u'},{'v'},{'w'},{'x'},{'y'},{'z'},{'aa'},{'ab'},{'ac'},{'ad'},{'ae'},{'af'},{'ag'},{'ah'},{'ai'},{'aj'},{'ak'},{'al'},{'am'},{'an'},{'ao'},{'ap'},{'aq'},{'ar'},{'as'},{'at'},{'au'},{'av'},{'aw'},{'ax'},{'ay'},{'az'},{'ba'},{'bb'},{'bc'},{'bd'},{'be'},{'bf'},{'bg'},{'bh'},{'bi'},{'bj'},{'bk'},{'bl'},{'bm'},{'bn'},{'bo'},{'bp'},{'bq'},{'br'},{'bs'},{'bt'},{'bu'},{'bv'},{'bw'},{'bx'},{'by'},{'bz'}} - scheduler(s): ['sched'];
+[die=0	& s=4	& f=1]: {{'a'},{'b'},{'c'},{'d'},{'e'},{'f'},{'g'},{'h'},{'i'},{'j'},{'k'},{'l'},{'m'},{'n'},{'o'},{'p'},{'q'},{'r'},{'s'},{'t'},{'u'},{'v'},{'w'},{'x'},{'y'},{'z'},{'aa'},{'ab'},{'ac'},{'ad'},{'ae'},{'af'},{'ag'},{'ah'},{'ai'},{'aj'},{'ak'},{'al'},{'am'},{'an'},{'ao'},{'ap'},{'aq'},{'ar'},{'as'},{'at'},{'au'},{'av'},{'aw'},{'ax'},{'ay'},{'az'},{'ba'},{'bb'},{'bc'},{'bd'},{'be'},{'bf'},{'bg'},{'bh'},{'bi'},{'bj'},{'bk'},{'bl'},{'bm'},{'bn'},{'bo'},{'bp'},{'bq'},{'br'},{'bs'},{'bt'},{'bu'},{'bv'},{'bw'},{'bx'},{'by'},{'bz'}} - scheduler(s): ['sched']
+2023-07-04 11:16:54,453 - hypersketch.py - Sketch parsing complete.
+2023-07-04 11:16:54,453 - hypersketch.py - Matching holes: defaultdict(<class 'list'>, {})
+2023-07-04 11:16:54,453 - cli.py - Synthetizing an MDP scheduler wrt a hyperproperty
+2023-07-04 11:16:54,453 - hypersynthesizer.py - Synthesis initiated.
+> Progress 8.0377%, elapsed 3.0 s, iters = (286, 0)
+> Progress 8.0378%, elapsed 6.0 s, iters = (665, 0)
+> Progress 8.0378%, elapsed 9.0 s, iters = (1020, 0)
+> Progress 8.0379%, elapsed 12.0 s, iters = (1400, 0)
+> Progress 8.038%, elapsed 15.0 s, iters = (1774, 0)
+> Progress 8.0381%, elapsed 18.0 s, iters = (2146, 0)
+> Progress 8.0382%, elapsed 21.0 s, iters = (2522, 0)
+> Progress 8.0382%, elapsed 24.0 s, iters = (2897, 0)
+> Progress 8.0382%, elapsed 27.0 s, iters = (3276, 0)
+> Progress 8.0383%, elapsed 30.0 s, iters = (3640, 0)
+> Progress 8.0384%, elapsed 33.0 s, iters = (4020, 0)
+> Progress 8.0385%, elapsed 36.0 s, iters = (4386, 0)
+> Progress 8.0385%, elapsed 39.0 s, iters = (4758, 0)
+> Progress 8.0386%, elapsed 42.0 s, iters = (5114, 0)
+> Progress 8.0387%, elapsed 45.0 s, iters = (5494, 0)
+> Progress 8.0387%, elapsed 48.0 s, iters = (5862, 0)
+> Progress 8.0389%, elapsed 51.0 s, iters = (6248, 0)
+> Progress 8.0389%, elapsed 54.0 s, iters = (6602, 0)
+> Progress 8.039%, elapsed 57.0 s, iters = (6974, 0)
+> Progress 8.0391%, elapsed 60.0 s, iters = (7352, 0)
+> Progress 8.0392%, elapsed 63.0 s, iters = (7719, 0)
+> Progress 8.0393%, elapsed 66.0 s, iters = (8086, 0)
+> Progress 8.0393%, elapsed 69.0 s, iters = (8444, 0)
+> Progress 8.0394%, elapsed 72.0 s, iters = (8810, 0)
+> Progress 8.0394%, elapsed 75.0 s, iters = (9169, 0)
+> Progress 8.0395%, elapsed 78.0 s, iters = (9524, 0)
+> Progress 8.0396%, elapsed 81.0 s, iters = (9878, 0)
+> Progress 8.0397%, elapsed 84.0 s, iters = (10248, 0)
+> Progress 8.0397%, elapsed 87.0 s, iters = (10620, 0)
+> Progress 8.0398%, elapsed 90.0 s, iters = (10978, 0)
+> Progress 8.0399%, elapsed 93.0 s, iters = (11346, 0)
+> Progress 8.04%, elapsed 96.0 s, iters = (11718, 0)
+> Progress 8.0401%, elapsed 99.0 s, iters = (12094, 0)
+> Progress 8.0401%, elapsed 102.0 s, iters = (12458, 0)
+> Progress 8.0403%, elapsed 105.0 s, iters = (12791, 0)
+> Progress 8.041%, elapsed 108.0 s, iters = (13084, 0)
+> Progress 8.041%, elapsed 111.0 s, iters = (13436, 0)
+> Progress 8.0411%, elapsed 114.0 s, iters = (13794, 0)
+> Progress 8.0411%, elapsed 117.0 s, iters = (14181, 0)
+> Progress 8.0414%, elapsed 120.0 s, iters = (14542, 0)
+> Progress 8.0415%, elapsed 123.0 s, iters = (14916, 0)
+> Progress 8.0417%, elapsed 126.0 s, iters = (15298, 0)
+> Progress 8.0418%, elapsed 129.0 s, iters = (15681, 0)
+> Progress 8.0419%, elapsed 132.0 s, iters = (16048, 0)
+> Progress 8.042%, elapsed 135.0 s, iters = (16422, 0)
+> Progress 8.0421%, elapsed 138.0 s, iters = (16796, 0)
+> Progress 8.0423%, elapsed 141.0 s, iters = (17159, 0)
+> Progress 8.0424%, elapsed 144.0 s, iters = (17526, 0)
+> Progress 8.0425%, elapsed 147.0 s, iters = (17911, 0)
+> Progress 8.0426%, elapsed 150.0 s, iters = (18277, 0)
+> Progress 8.0427%, elapsed 153.0 s, iters = (18643, 0)
+> Progress 8.0428%, elapsed 156.0 s, iters = (19024, 0)
+> Progress 8.0429%, elapsed 159.0 s, iters = (19398, 0)
+> Progress 8.043%, elapsed 162.0 s, iters = (19764, 0)
+> Progress 8.0447%, elapsed 165.0 s, iters = (20096, 0)
+> Progress 8.0447%, elapsed 168.0 s, iters = (20464, 0)
+> Progress 8.0449%, elapsed 171.0 s, iters = (20822, 0)
+> Progress 8.045%, elapsed 174.0 s, iters = (21192, 0)
+> Progress 8.0453%, elapsed 177.0 s, iters = (21556, 0)
+> Progress 8.0484%, elapsed 180.0 s, iters = (21914, 0)
+> Progress 8.0484%, elapsed 183.0 s, iters = (22310, 0)
+> Progress 8.0485%, elapsed 186.0 s, iters = (22684, 0)
+> Progress 8.0486%, elapsed 189.0 s, iters = (23068, 0)
+> Progress 8.0487%, elapsed 192.0 s, iters = (23456, 0)
+> Progress 8.0487%, elapsed 195.0 s, iters = (23834, 0)
+> Progress 8.0488%, elapsed 198.0 s, iters = (24218, 0)
+> Progress 8.0488%, elapsed 201.0 s, iters = (24602, 0)
+> Progress 8.0489%, elapsed 204.0 s, iters = (24988, 0)
+> Progress 8.049%, elapsed 207.0 s, iters = (25366, 0)
+> Progress 8.0491%, elapsed 210.0 s, iters = (25762, 0)
+> Progress 8.0491%, elapsed 213.0 s, iters = (26140, 0)
+> Progress 8.0491%, elapsed 216.0 s, iters = (26520, 0)
+> Progress 8.0492%, elapsed 219.0 s, iters = (26906, 0)
+> Progress 8.0492%, elapsed 222.0 s, iters = (27294, 0)
+> Progress 8.0494%, elapsed 225.0 s, iters = (27669, 0)
+> Progress 8.0494%, elapsed 228.0 s, iters = (28050, 0)
+> Progress 8.0495%, elapsed 231.0 s, iters = (28426, 0)
+> Progress 8.0495%, elapsed 234.0 s, iters = (28804, 0)
+> Progress 8.0496%, elapsed 237.0 s, iters = (29194, 0)
+> Progress 8.0496%, elapsed 240.0 s, iters = (29568, 0)
+> Progress 8.0497%, elapsed 243.0 s, iters = (29960, 0)
+> Progress 8.0498%, elapsed 246.0 s, iters = (30329, 0)
+> Progress 8.0498%, elapsed 249.0 s, iters = (30724, 0)
+> Progress 8.0499%, elapsed 252.0 s, iters = (31099, 0)
+> Progress 8.0499%, elapsed 255.0 s, iters = (31486, 0)
+> Progress 8.05%, elapsed 258.0 s, iters = (31880, 0)
+> Progress 8.05%, elapsed 261.0 s, iters = (32253, 0)
+> Progress 8.0501%, elapsed 264.0 s, iters = (32640, 0)
+> Progress 8.0501%, elapsed 267.0 s, iters = (33050, 0)
+> Progress 8.0502%, elapsed 270.0 s, iters = (33416, 0)
+> Progress 8.0502%, elapsed 273.0 s, iters = (33810, 0)
+> Progress 8.0503%, elapsed 276.0 s, iters = (34202, 0)
+> Progress 8.0503%, elapsed 279.0 s, iters = (34606, 0)
+> Progress 8.0504%, elapsed 282.0 s, iters = (35000, 0)
+> Progress 8.0505%, elapsed 285.0 s, iters = (35377, 0)
+> Progress 8.0505%, elapsed 288.0 s, iters = (35798, 0)
+> Progress 8.0506%, elapsed 291.0 s, iters = (36158, 0)
+> Progress 8.0506%, elapsed 294.0 s, iters = (36537, 0)
+> Progress 8.0507%, elapsed 297.0 s, iters = (36916, 0)
+> Progress 8.0507%, elapsed 300.0 s, iters = (37290, 0)
+> Progress 8.0508%, elapsed 303.0 s, iters = (37674, 0)
+> Progress 8.0509%, elapsed 306.0 s, iters = (38045, 0)
+> Progress 8.051%, elapsed 309.0 s, iters = (38436, 0)
+> Progress 8.051%, elapsed 312.0 s, iters = (38794, 0)
+> Progress 8.051%, elapsed 315.0 s, iters = (39164, 0)
+> Progress 8.0511%, elapsed 318.0 s, iters = (39538, 0)
+> Progress 8.0511%, elapsed 321.0 s, iters = (39906, 0)
+> Progress 8.0512%, elapsed 324.0 s, iters = (40296, 0)
+> Progress 8.0513%, elapsed 327.0 s, iters = (40642, 0)
+> Progress 8.0514%, elapsed 330.0 s, iters = (41004, 0)
+> Progress 8.0514%, elapsed 333.0 s, iters = (41376, 0)
+> Progress 8.0514%, elapsed 336.0 s, iters = (41773, 0)
+> Progress 8.0515%, elapsed 339.0 s, iters = (42141, 0)
+> Progress 8.0516%, elapsed 342.0 s, iters = (42516, 0)
+> Progress 8.0516%, elapsed 345.0 s, iters = (42902, 0)
+> Progress 8.0517%, elapsed 348.0 s, iters = (43298, 0)
+> Progress 8.0518%, elapsed 351.0 s, iters = (43692, 0)
+> Progress 8.0518%, elapsed 354.0 s, iters = (44058, 0)
+> Progress 8.0518%, elapsed 357.0 s, iters = (44453, 0)
+> Progress 8.052%, elapsed 360.0 s, iters = (44780, 0)
+> Progress 8.0525%, elapsed 363.0 s, iters = (45062, 0)
+> Progress 8.0525%, elapsed 366.0 s, iters = (45420, 0)
+> Progress 8.0525%, elapsed 369.0 s, iters = (45800, 0)
+> Progress 8.0526%, elapsed 372.0 s, iters = (46162, 0)
+> Progress 8.0526%, elapsed 375.0 s, iters = (46544, 0)
+> Progress 8.0535%, elapsed 378.0 s, iters = (46921, 0)
+> Progress 8.0543%, elapsed 381.0 s, iters = (47257, 0)
+> Progress 8.0552%, elapsed 384.0 s, iters = (47591, 0)
+> Progress 8.0592%, elapsed 387.0 s, iters = (47923, 0)
+> Progress 8.0593%, elapsed 390.0 s, iters = (48284, 0)
+> Progress 8.0593%, elapsed 393.0 s, iters = (48676, 0)
+> Progress 8.0593%, elapsed 396.0 s, iters = (49064, 0)
+> Progress 8.0594%, elapsed 399.0 s, iters = (49434, 0)
+> Progress 8.0595%, elapsed 402.0 s, iters = (49812, 0)
+> Progress 8.0596%, elapsed 405.0 s, iters = (50172, 0)
+> Progress 8.0597%, elapsed 408.0 s, iters = (50551, 0)
+> Progress 8.0597%, elapsed 411.0 s, iters = (50942, 0)
+> Progress 8.0597%, elapsed 414.0 s, iters = (51338, 0)
+> Progress 8.0597%, elapsed 417.0 s, iters = (51758, 0)
+> Progress 8.0598%, elapsed 420.0 s, iters = (52130, 0)
+> Progress 8.0598%, elapsed 423.0 s, iters = (52523, 0)
+> Progress 8.0599%, elapsed 426.0 s, iters = (52918, 0)
+> Progress 8.06%, elapsed 429.0 s, iters = (53274, 0)
+> Progress 8.0601%, elapsed 432.0 s, iters = (53652, 0)
+> Progress 8.0601%, elapsed 435.0 s, iters = (54040, 0)
+> Progress 8.0601%, elapsed 438.0 s, iters = (54446, 0)
+> Progress 8.0602%, elapsed 441.0 s, iters = (54828, 0)
+> Progress 8.0603%, elapsed 444.0 s, iters = (55212, 0)
+> Progress 8.0603%, elapsed 447.0 s, iters = (55602, 0)
+> Progress 8.0604%, elapsed 450.0 s, iters = (55954, 0)
+> Progress 8.0605%, elapsed 453.0 s, iters = (56325, 0)
+> Progress 8.0605%, elapsed 456.0 s, iters = (56709, 0)
+> Progress 8.0605%, elapsed 459.0 s, iters = (57105, 0)
+> Progress 8.0606%, elapsed 462.0 s, iters = (57472, 0)
+> Progress 8.0607%, elapsed 465.0 s, iters = (57860, 0)
+> Progress 8.0608%, elapsed 468.0 s, iters = (58212, 0)
+> Progress 8.0608%, elapsed 471.0 s, iters = (58570, 0)
+> Progress 8.0609%, elapsed 474.0 s, iters = (58932, 0)
+> Progress 8.0609%, elapsed 477.0 s, iters = (59292, 0)
+> Progress 8.061%, elapsed 480.0 s, iters = (59654, 0)
+> Progress 8.0611%, elapsed 483.0 s, iters = (60005, 0)
+> Progress 8.0612%, elapsed 486.0 s, iters = (60364, 0)
+> Progress 8.0612%, elapsed 489.0 s, iters = (60726, 0)
+> Progress 8.0613%, elapsed 492.0 s, iters = (61090, 0)
+> Progress 8.0613%, elapsed 495.0 s, iters = (61450, 0)
+> Progress 8.0614%, elapsed 498.0 s, iters = (61836, 0)
+> Progress 8.0615%, elapsed 501.0 s, iters = (62213, 0)
+> Progress 8.0616%, elapsed 504.0 s, iters = (62585, 0)
+> Progress 8.0616%, elapsed 507.0 s, iters = (62964, 0)
+> Progress 8.0617%, elapsed 510.0 s, iters = (63320, 0)
+> Progress 8.0618%, elapsed 513.0 s, iters = (63682, 0)
+> Progress 8.0625%, elapsed 516.0 s, iters = (63980, 0)
+> Progress 8.0625%, elapsed 519.0 s, iters = (64352, 0)
+> Progress 8.0626%, elapsed 522.0 s, iters = (64718, 0)
+> Progress 8.0626%, elapsed 525.0 s, iters = (65094, 0)
+> Progress 8.0629%, elapsed 528.0 s, iters = (65456, 0)
+> Progress 8.0631%, elapsed 531.0 s, iters = (65786, 0)
+> Progress 8.0635%, elapsed 534.0 s, iters = (66127, 0)
+> Progress 8.0642%, elapsed 537.0 s, iters = (66453, 0)
+> Progress 8.0662%, elapsed 540.0 s, iters = (66755, 0)
+> Progress 8.0699%, elapsed 543.0 s, iters = (67044, 0)
+> Progress 8.0699%, elapsed 546.0 s, iters = (67429, 0)
+> Progress 8.07%, elapsed 549.0 s, iters = (67806, 0)
+> Progress 8.0701%, elapsed 552.0 s, iters = (68198, 0)
+> Progress 8.0702%, elapsed 555.0 s, iters = (68580, 0)
+> Progress 8.0703%, elapsed 558.0 s, iters = (68956, 0)
+> Progress 8.0704%, elapsed 561.0 s, iters = (69346, 0)
+> Progress 8.0704%, elapsed 564.0 s, iters = (69732, 0)
+> Progress 8.0705%, elapsed 567.0 s, iters = (70122, 0)
+> Progress 8.0706%, elapsed 570.0 s, iters = (70512, 0)
+> Progress 8.0706%, elapsed 573.0 s, iters = (70900, 0)
+> Progress 8.0707%, elapsed 576.0 s, iters = (71294, 0)
+> Progress 8.0707%, elapsed 579.0 s, iters = (71666, 0)
+> Progress 8.0708%, elapsed 582.0 s, iters = (72056, 0)
+> Progress 8.0709%, elapsed 585.0 s, iters = (72445, 0)
+> Progress 8.071%, elapsed 588.0 s, iters = (72830, 0)
+> Progress 8.071%, elapsed 591.0 s, iters = (73222, 0)
+> Progress 8.0711%, elapsed 594.0 s, iters = (73610, 0)
+> Progress 8.0711%, elapsed 597.0 s, iters = (73993, 0)
+> Progress 8.0712%, elapsed 600.0 s, iters = (74367, 0)
+> Progress 8.0714%, elapsed 603.0 s, iters = (74752, 0)
+> Progress 8.0714%, elapsed 606.0 s, iters = (75132, 0)
+> Progress 8.0715%, elapsed 609.0 s, iters = (75510, 0)
+> Progress 8.0715%, elapsed 612.0 s, iters = (75881, 0)
+> Progress 8.0717%, elapsed 615.0 s, iters = (76250, 0)
+> Progress 8.0718%, elapsed 618.0 s, iters = (76629, 0)
+> Progress 8.0718%, elapsed 621.0 s, iters = (77006, 0)
+> Progress 8.0719%, elapsed 624.0 s, iters = (77384, 0)
+> Progress 8.0719%, elapsed 627.0 s, iters = (77764, 0)
+> Progress 8.0721%, elapsed 630.0 s, iters = (78136, 0)
+> Progress 8.0722%, elapsed 633.0 s, iters = (78522, 0)
+> Progress 8.0722%, elapsed 636.0 s, iters = (78907, 0)
+> Progress 8.0723%, elapsed 639.0 s, iters = (79286, 0)
+> Progress 8.0723%, elapsed 642.0 s, iters = (79664, 0)
+> Progress 8.0725%, elapsed 645.0 s, iters = (80030, 0)
+> Progress 8.0725%, elapsed 648.0 s, iters = (80394, 0)
+> Progress 8.0726%, elapsed 651.0 s, iters = (80766, 0)
+> Progress 8.0726%, elapsed 654.0 s, iters = (81138, 0)
+> Progress 8.0727%, elapsed 657.0 s, iters = (81508, 0)
+> Progress 8.0728%, elapsed 660.0 s, iters = (81864, 0)
+> Progress 8.0729%, elapsed 663.0 s, iters = (82236, 0)
+> Progress 8.0729%, elapsed 666.0 s, iters = (82610, 0)
+> Progress 8.073%, elapsed 669.0 s, iters = (82990, 0)
+> Progress 8.073%, elapsed 672.0 s, iters = (83368, 0)
+> Progress 8.0731%, elapsed 675.0 s, iters = (83749, 0)
+> Progress 8.0732%, elapsed 678.0 s, iters = (84140, 0)
+> Progress 8.0733%, elapsed 681.0 s, iters = (84512, 0)
+> Progress 8.0734%, elapsed 684.0 s, iters = (84893, 0)
+> Progress 8.0735%, elapsed 687.0 s, iters = (85217, 0)
+> Progress 8.074%, elapsed 690.0 s, iters = (85523, 0)
+> Progress 8.074%, elapsed 693.0 s, iters = (85898, 0)
+> Progress 8.0741%, elapsed 696.0 s, iters = (86266, 0)
+> Progress 8.0741%, elapsed 699.0 s, iters = (86666, 0)
+> Progress 8.0743%, elapsed 702.0 s, iters = (87035, 0)
+> Progress 8.0746%, elapsed 705.0 s, iters = (87399, 0)
+> Progress 8.0754%, elapsed 708.0 s, iters = (87685, 0)
+> Progress 8.0765%, elapsed 711.0 s, iters = (87977, 0)
+> Progress 8.0771%, elapsed 714.0 s, iters = (88291, 0)
+> Progress 8.0774%, elapsed 717.0 s, iters = (88637, 0)
+> Progress 8.078%, elapsed 720.0 s, iters = (88929, 0)
+> Progress 8.0787%, elapsed 723.0 s, iters = (89219, 0)
+> Progress 8.0806%, elapsed 726.0 s, iters = (89556, 0)
+> Progress 8.0808%, elapsed 729.0 s, iters = (89930, 0)
+> Progress 8.0808%, elapsed 732.0 s, iters = (90289, 0)
+> Progress 8.0809%, elapsed 735.0 s, iters = (90669, 0)
+> Progress 8.081%, elapsed 738.0 s, iters = (91040, 0)
+> Progress 8.0811%, elapsed 741.0 s, iters = (91412, 0)
+> Progress 8.0812%, elapsed 744.0 s, iters = (91790, 0)
+> Progress 8.0812%, elapsed 747.0 s, iters = (92160, 0)
+> Progress 8.0812%, elapsed 750.0 s, iters = (92544, 0)
+> Progress 8.0813%, elapsed 753.0 s, iters = (92902, 0)
+> Progress 8.0813%, elapsed 756.0 s, iters = (93288, 0)
+> Progress 8.0815%, elapsed 759.0 s, iters = (93648, 0)
+> Progress 8.0815%, elapsed 762.0 s, iters = (94028, 0)
+> Progress 8.0816%, elapsed 765.0 s, iters = (94382, 0)
+> Progress 8.0817%, elapsed 768.0 s, iters = (94760, 0)
+> Progress 8.0817%, elapsed 771.0 s, iters = (95128, 0)
+> Progress 8.0818%, elapsed 774.0 s, iters = (95510, 0)
+> Progress 8.0819%, elapsed 777.0 s, iters = (95868, 0)
+> Progress 8.082%, elapsed 780.0 s, iters = (96230, 0)
+> Progress 8.0821%, elapsed 783.0 s, iters = (96603, 0)
+> Progress 8.0821%, elapsed 786.0 s, iters = (96965, 0)
+> Progress 8.0823%, elapsed 789.0 s, iters = (97336, 0)
+> Progress 8.0823%, elapsed 792.0 s, iters = (97689, 0)
+> Progress 8.0824%, elapsed 795.0 s, iters = (98055, 0)
+> Progress 8.0824%, elapsed 798.0 s, iters = (98410, 0)
+> Progress 8.0825%, elapsed 801.0 s, iters = (98764, 0)
+> Progress 8.0826%, elapsed 804.0 s, iters = (99114, 0)
+> Progress 8.0827%, elapsed 807.0 s, iters = (99484, 0)
+> Progress 8.0827%, elapsed 810.0 s, iters = (99848, 0)
+> Progress 8.0828%, elapsed 813.0 s, iters = (100215, 0)
+> Progress 8.0829%, elapsed 816.0 s, iters = (100590, 0)
+> Progress 8.083%, elapsed 819.0 s, iters = (100956, 0)
+> Progress 8.0831%, elapsed 822.0 s, iters = (101331, 0)
+> Progress 8.0831%, elapsed 825.0 s, iters = (101699, 0)
+> Progress 8.0833%, elapsed 828.0 s, iters = (102029, 0)
+> Progress 8.084%, elapsed 831.0 s, iters = (102314, 0)
+> Progress 8.084%, elapsed 834.0 s, iters = (102672, 0)
+> Progress 8.0841%, elapsed 837.0 s, iters = (103028, 0)
+> Progress 8.0841%, elapsed 840.0 s, iters = (103412, 0)
+> Progress 8.0844%, elapsed 843.0 s, iters = (103774, 0)
+> Progress 8.0845%, elapsed 846.0 s, iters = (104148, 0)
+> Progress 8.0846%, elapsed 849.0 s, iters = (104528, 0)
+> Progress 8.0848%, elapsed 852.0 s, iters = (104908, 0)
+> Progress 8.0849%, elapsed 855.0 s, iters = (105276, 0)
+> Progress 8.085%, elapsed 858.0 s, iters = (105652, 0)
+> Progress 8.0851%, elapsed 861.0 s, iters = (106032, 0)
+> Progress 8.0852%, elapsed 864.0 s, iters = (106399, 0)
+> Progress 8.0854%, elapsed 867.0 s, iters = (106772, 0)
+> Progress 8.0855%, elapsed 870.0 s, iters = (107157, 0)
+> Progress 8.0856%, elapsed 873.0 s, iters = (107521, 0)
+> Progress 8.0857%, elapsed 876.0 s, iters = (107887, 0)
+> Progress 8.0858%, elapsed 879.0 s, iters = (108274, 0)
+> Progress 8.0859%, elapsed 882.0 s, iters = (108650, 0)
+> Progress 8.086%, elapsed 885.0 s, iters = (109018, 0)
+> Progress 8.0876%, elapsed 888.0 s, iters = (109351, 0)
+> Progress 8.0877%, elapsed 891.0 s, iters = (109714, 0)
+> Progress 8.0879%, elapsed 894.0 s, iters = (110078, 0)
+> Progress 8.088%, elapsed 897.0 s, iters = (110452, 0)
+> Progress 8.0914%, elapsed 900.0 s, iters = (110806, 0)
+> Progress 8.0914%, elapsed 903.0 s, iters = (111172, 0)
+> Progress 8.0914%, elapsed 906.0 s, iters = (111567, 0)
+> Progress 8.0915%, elapsed 909.0 s, iters = (111936, 0)
+> Progress 8.0916%, elapsed 912.0 s, iters = (112337, 0)
+> Progress 8.0917%, elapsed 915.0 s, iters = (112733, 0)
+> Progress 8.0917%, elapsed 918.0 s, iters = (113141, 0)
+> Progress 8.0918%, elapsed 921.0 s, iters = (113520, 0)
+> Progress 8.0918%, elapsed 924.0 s, iters = (113900, 0)
+> Progress 8.0919%, elapsed 927.0 s, iters = (114278, 0)
+> Progress 8.092%, elapsed 930.0 s, iters = (114663, 0)
+> Progress 8.092%, elapsed 933.0 s, iters = (115052, 0)
+> Progress 8.0921%, elapsed 936.0 s, iters = (115423, 0)
+> Progress 8.0921%, elapsed 939.0 s, iters = (115817, 0)
+> Progress 8.0922%, elapsed 942.0 s, iters = (116188, 0)
+> Progress 8.0923%, elapsed 945.0 s, iters = (116570, 0)
+> Progress 8.0924%, elapsed 948.0 s, iters = (116952, 0)
+> Progress 8.0924%, elapsed 951.0 s, iters = (117340, 0)
+> Progress 8.0925%, elapsed 954.0 s, iters = (117720, 0)
+> Progress 8.0925%, elapsed 957.0 s, iters = (118100, 0)
+> Progress 8.0926%, elapsed 960.0 s, iters = (118486, 0)
+> Progress 8.0926%, elapsed 963.0 s, iters = (118870, 0)
+> Progress 8.0927%, elapsed 966.0 s, iters = (119246, 0)
+> Progress 8.0928%, elapsed 969.0 s, iters = (119619, 0)
+> Progress 8.0929%, elapsed 972.0 s, iters = (120008, 0)
+> Progress 8.0929%, elapsed 975.0 s, iters = (120382, 0)
+> Progress 8.0929%, elapsed 978.0 s, iters = (120768, 0)
+> Progress 8.093%, elapsed 981.0 s, iters = (121158, 0)
+> Progress 8.093%, elapsed 984.0 s, iters = (121540, 0)
+> Progress 8.0931%, elapsed 987.0 s, iters = (121926, 0)
+> Progress 8.0931%, elapsed 990.0 s, iters = (122328, 0)
+> Progress 8.0932%, elapsed 993.0 s, iters = (122698, 0)
+> Progress 8.0932%, elapsed 996.0 s, iters = (123086, 0)
+> Progress 8.0933%, elapsed 999.0 s, iters = (123457, 0)
+> Progress 8.0933%, elapsed 1002.0 s, iters = (123840, 0)
+> Progress 8.0934%, elapsed 1005.0 s, iters = (124226, 0)
+> Progress 8.0935%, elapsed 1008.0 s, iters = (124598, 0)
+> Progress 8.0935%, elapsed 1011.0 s, iters = (125014, 0)
+> Progress 8.0936%, elapsed 1014.0 s, iters = (125394, 0)
+> Progress 8.0936%, elapsed 1017.0 s, iters = (125782, 0)
+> Progress 8.0937%, elapsed 1020.0 s, iters = (126182, 0)
+> Progress 8.0937%, elapsed 1023.0 s, iters = (126573, 0)
+> Progress 8.0938%, elapsed 1026.0 s, iters = (126958, 0)
+> Progress 8.0939%, elapsed 1029.0 s, iters = (127332, 0)
+> Progress 8.0939%, elapsed 1032.0 s, iters = (127722, 0)
+> Progress 8.094%, elapsed 1035.0 s, iters = (128080, 0)
+> Progress 8.094%, elapsed 1038.0 s, iters = (128450, 0)
+> Progress 8.0941%, elapsed 1041.0 s, iters = (128826, 0)
+> Progress 8.0941%, elapsed 1044.0 s, iters = (129193, 0)
+> Progress 8.0942%, elapsed 1047.0 s, iters = (129580, 0)
+> Progress 8.0942%, elapsed 1050.0 s, iters = (129922, 0)
+> Progress 8.0943%, elapsed 1053.0 s, iters = (130278, 0)
+> Progress 8.0944%, elapsed 1056.0 s, iters = (130656, 0)
+> Progress 8.0944%, elapsed 1059.0 s, iters = (131040, 0)
+> Progress 8.0945%, elapsed 1062.0 s, iters = (131410, 0)
+> Progress 8.0945%, elapsed 1065.0 s, iters = (131782, 0)
+> Progress 8.0946%, elapsed 1068.0 s, iters = (132162, 0)
+> Progress 8.0947%, elapsed 1071.0 s, iters = (132538, 0)
+> Progress 8.0948%, elapsed 1074.0 s, iters = (132928, 0)
+> Progress 8.0948%, elapsed 1077.0 s, iters = (133300, 0)
+> Progress 8.0948%, elapsed 1080.0 s, iters = (133674, 0)
+> Progress 8.0949%, elapsed 1083.0 s, iters = (134028, 0)
+> Progress 8.0953%, elapsed 1086.0 s, iters = (134337, 0)
+> Progress 8.0955%, elapsed 1089.0 s, iters = (134666, 0)
+> Progress 8.0955%, elapsed 1092.0 s, iters = (135026, 0)
+> Progress 8.0956%, elapsed 1095.0 s, iters = (135390, 0)
+> Progress 8.0956%, elapsed 1098.0 s, iters = (135767, 0)
+> Progress 8.0956%, elapsed 1101.0 s, iters = (136162, 0)
+> Progress 8.0968%, elapsed 1104.0 s, iters = (136495, 0)
+> Progress 8.0977%, elapsed 1107.0 s, iters = (136843, 0)
+> Progress 8.1021%, elapsed 1110.0 s, iters = (137166, 0)
+> Progress 8.1022%, elapsed 1113.0 s, iters = (137526, 0)
+> Progress 8.1023%, elapsed 1116.0 s, iters = (137906, 0)
+> Progress 8.1023%, elapsed 1119.0 s, iters = (138284, 0)
+> Progress 8.1024%, elapsed 1122.0 s, iters = (138664, 0)
+> Progress 8.1024%, elapsed 1125.0 s, iters = (139037, 0)
+> Progress 8.1025%, elapsed 1128.0 s, iters = (139398, 0)
+> Progress 8.1026%, elapsed 1131.0 s, iters = (139764, 0)
+> Progress 8.1027%, elapsed 1134.0 s, iters = (140144, 0)
+> Progress 8.1027%, elapsed 1137.0 s, iters = (140545, 0)
+> Progress 8.1027%, elapsed 1140.0 s, iters = (140938, 0)
+> Progress 8.1028%, elapsed 1143.0 s, iters = (141344, 0)
+> Progress 8.1028%, elapsed 1146.0 s, iters = (141708, 0)
+> Progress 8.1028%, elapsed 1149.0 s, iters = (142098, 0)
+> Progress 8.103%, elapsed 1152.0 s, iters = (142460, 0)
+> Progress 8.103%, elapsed 1155.0 s, iters = (142814, 0)
+> Progress 8.1031%, elapsed 1158.0 s, iters = (143178, 0)
+> Progress 8.1031%, elapsed 1161.0 s, iters = (143572, 0)
+> Progress 8.1032%, elapsed 1164.0 s, iters = (143984, 0)
+> Progress 8.1032%, elapsed 1167.0 s, iters = (144352, 0)
+> Progress 8.1033%, elapsed 1170.0 s, iters = (144740, 0)
+> Progress 8.1034%, elapsed 1173.0 s, iters = (145106, 0)
+> Progress 8.1034%, elapsed 1176.0 s, iters = (145456, 0)
+> Progress 8.1035%, elapsed 1179.0 s, iters = (145824, 0)
+> Progress 8.1035%, elapsed 1182.0 s, iters = (146208, 0)
+> Progress 8.1036%, elapsed 1185.0 s, iters = (146592, 0)
+> Progress 8.1036%, elapsed 1188.0 s, iters = (146956, 0)
+> Progress 8.1037%, elapsed 1191.0 s, iters = (147324, 0)
+> Progress 8.1038%, elapsed 1194.0 s, iters = (147672, 0)
+> Progress 8.1038%, elapsed 1197.0 s, iters = (148025, 0)
+> Progress 8.1039%, elapsed 1200.0 s, iters = (148372, 0)
+> Progress 8.1039%, elapsed 1203.0 s, iters = (148734, 0)
+> Progress 8.104%, elapsed 1206.0 s, iters = (149074, 0)
+> Progress 8.1041%, elapsed 1209.0 s, iters = (149419, 0)
+> Progress 8.1042%, elapsed 1212.0 s, iters = (149764, 0)
+> Progress 8.1043%, elapsed 1215.0 s, iters = (150128, 0)
+> Progress 8.1043%, elapsed 1218.0 s, iters = (150478, 0)
+> Progress 8.1043%, elapsed 1221.0 s, iters = (150844, 0)
+> Progress 8.1044%, elapsed 1224.0 s, iters = (151214, 0)
+> Progress 8.1046%, elapsed 1227.0 s, iters = (151600, 0)
+> Progress 8.1046%, elapsed 1230.0 s, iters = (151962, 0)
+> Progress 8.1046%, elapsed 1233.0 s, iters = (152334, 0)
+> Progress 8.1047%, elapsed 1236.0 s, iters = (152670, 0)
+> Progress 8.1052%, elapsed 1239.0 s, iters = (153015, 0)
+> Progress 8.1055%, elapsed 1242.0 s, iters = (153314, 0)
+> Progress 8.1055%, elapsed 1245.0 s, iters = (153674, 0)
+> Progress 8.1056%, elapsed 1248.0 s, iters = (154028, 0)
+> Progress 8.1056%, elapsed 1251.0 s, iters = (154420, 0)
+> Progress 8.1062%, elapsed 1254.0 s, iters = (154701, 0)
+> Progress 8.1068%, elapsed 1257.0 s, iters = (155043, 0)
+> Progress 8.1073%, elapsed 1260.0 s, iters = (155387, 0)
+> Progress 8.1092%, elapsed 1263.0 s, iters = (155695, 0)
+> Progress 8.1129%, elapsed 1266.0 s, iters = (155981, 0)
+> Progress 8.1129%, elapsed 1269.0 s, iters = (156354, 0)
+> Progress 8.113%, elapsed 1272.0 s, iters = (156726, 0)
+> Progress 8.1131%, elapsed 1275.0 s, iters = (157106, 0)
+> Progress 8.1132%, elapsed 1278.0 s, iters = (157486, 0)
+> Progress 8.1133%, elapsed 1281.0 s, iters = (157862, 0)
+> Progress 8.1133%, elapsed 1284.0 s, iters = (158258, 0)
+> Progress 8.1134%, elapsed 1287.0 s, iters = (158638, 0)
+> Progress 8.1135%, elapsed 1290.0 s, iters = (159023, 0)
+> Progress 8.1135%, elapsed 1293.0 s, iters = (159414, 0)
+> Progress 8.1136%, elapsed 1296.0 s, iters = (159798, 0)
+> Progress 8.1137%, elapsed 1299.0 s, iters = (160194, 0)
+> Progress 8.1137%, elapsed 1302.0 s, iters = (160570, 0)
+> Progress 8.1138%, elapsed 1305.0 s, iters = (160958, 0)
+> Progress 8.1138%, elapsed 1308.0 s, iters = (161340, 0)
+> Progress 8.114%, elapsed 1311.0 s, iters = (161726, 0)
+> Progress 8.114%, elapsed 1314.0 s, iters = (162112, 0)
+> Progress 8.1141%, elapsed 1317.0 s, iters = (162508, 0)
+> Progress 8.1141%, elapsed 1320.0 s, iters = (162883, 0)
+> Progress 8.1142%, elapsed 1323.0 s, iters = (163258, 0)
+> Progress 8.1144%, elapsed 1326.0 s, iters = (163644, 0)
+> Progress 8.1144%, elapsed 1329.0 s, iters = (164027, 0)
+> Progress 8.1145%, elapsed 1332.0 s, iters = (164408, 0)
+> Progress 8.1145%, elapsed 1335.0 s, iters = (164778, 0)
+> Progress 8.1146%, elapsed 1338.0 s, iters = (165156, 0)
+> Progress 8.1147%, elapsed 1341.0 s, iters = (165535, 0)
+> Progress 8.1148%, elapsed 1344.0 s, iters = (165907, 0)
+> Progress 8.1149%, elapsed 1347.0 s, iters = (166286, 0)
+> Progress 8.1149%, elapsed 1350.0 s, iters = (166656, 0)
+> Progress 8.115%, elapsed 1353.0 s, iters = (167038, 0)
+> Progress 8.1151%, elapsed 1356.0 s, iters = (167424, 0)
+> Progress 8.1152%, elapsed 1359.0 s, iters = (167800, 0)
+> Progress 8.1153%, elapsed 1362.0 s, iters = (168186, 0)
+> Progress 8.1153%, elapsed 1365.0 s, iters = (168568, 0)
+> Progress 8.1154%, elapsed 1368.0 s, iters = (168941, 0)
+> Progress 8.1155%, elapsed 1371.0 s, iters = (169310, 0)
+> Progress 8.1156%, elapsed 1374.0 s, iters = (169687, 0)
+> Progress 8.1156%, elapsed 1377.0 s, iters = (170060, 0)
+> Progress 8.1157%, elapsed 1380.0 s, iters = (170434, 0)
+> Progress 8.1157%, elapsed 1383.0 s, iters = (170790, 0)
+> Progress 8.1158%, elapsed 1386.0 s, iters = (171156, 0)
+> Progress 8.1159%, elapsed 1389.0 s, iters = (171531, 0)
+> Progress 8.116%, elapsed 1392.0 s, iters = (171912, 0)
+> Progress 8.116%, elapsed 1395.0 s, iters = (172292, 0)
+> Progress 8.1161%, elapsed 1398.0 s, iters = (172674, 0)
+> Progress 8.1161%, elapsed 1401.0 s, iters = (173062, 0)
+> Progress 8.1163%, elapsed 1404.0 s, iters = (173433, 0)
+> Progress 8.1163%, elapsed 1407.0 s, iters = (173821, 0)
+> Progress 8.1165%, elapsed 1410.0 s, iters = (174147, 0)
+> Progress 8.1169%, elapsed 1413.0 s, iters = (174458, 0)
+> Progress 8.117%, elapsed 1416.0 s, iters = (174826, 0)
+> Progress 8.1171%, elapsed 1419.0 s, iters = (175191, 0)
+> Progress 8.1171%, elapsed 1422.0 s, iters = (175588, 0)
+> Progress 8.1173%, elapsed 1425.0 s, iters = (175964, 0)
+> Progress 8.1174%, elapsed 1428.0 s, iters = (176333, 0)
+> Progress 8.1184%, elapsed 1431.0 s, iters = (176620, 0)
+> Progress 8.1195%, elapsed 1434.0 s, iters = (176917, 0)
+> Progress 8.1201%, elapsed 1437.0 s, iters = (177226, 0)
+> Progress 8.1203%, elapsed 1440.0 s, iters = (177579, 0)
+> Progress 8.121%, elapsed 1443.0 s, iters = (177869, 0)
+> Progress 8.1216%, elapsed 1446.0 s, iters = (178157, 0)
+> Progress 8.1236%, elapsed 1449.0 s, iters = (178486, 0)
+> Progress 8.1237%, elapsed 1452.0 s, iters = (178868, 0)
+> Progress 8.1238%, elapsed 1455.0 s, iters = (179244, 0)
+> Progress 8.1238%, elapsed 1458.0 s, iters = (179616, 0)
+> Progress 8.1239%, elapsed 1461.0 s, iters = (180007, 0)
+> Progress 8.1239%, elapsed 1464.0 s, iters = (180366, 0)
+> Progress 8.124%, elapsed 1467.0 s, iters = (180742, 0)
+> Progress 8.124%, elapsed 1470.0 s, iters = (181112, 0)
+> Progress 8.1242%, elapsed 1473.0 s, iters = (181490, 0)
+> Progress 8.1242%, elapsed 1476.0 s, iters = (181868, 0)
+> Progress 8.1242%, elapsed 1479.0 s, iters = (182243, 0)
+> Progress 8.1243%, elapsed 1482.0 s, iters = (182624, 0)
+> Progress 8.1243%, elapsed 1485.0 s, iters = (182992, 0)
+> Progress 8.1244%, elapsed 1488.0 s, iters = (183374, 0)
+> Progress 8.1245%, elapsed 1491.0 s, iters = (183740, 0)
+> Progress 8.1245%, elapsed 1494.0 s, iters = (184126, 0)
+> Progress 8.1246%, elapsed 1497.0 s, iters = (184500, 0)
+> Progress 8.1246%, elapsed 1500.0 s, iters = (184878, 0)
+> Progress 8.1246%, elapsed 1503.0 s, iters = (185254, 0)
+> Progress 8.1247%, elapsed 1506.0 s, iters = (185650, 0)
+> Progress 8.1247%, elapsed 1509.0 s, iters = (186014, 0)
+> Progress 8.1247%, elapsed 1512.0 s, iters = (186394, 0)
+> Progress 8.1247%, elapsed 1515.0 s, iters = (186772, 0)
+> Progress 8.1248%, elapsed 1518.0 s, iters = (187160, 0)
+> Progress 8.1249%, elapsed 1521.0 s, iters = (187524, 0)
+> Progress 8.1249%, elapsed 1524.0 s, iters = (187910, 0)
+> Progress 8.125%, elapsed 1527.0 s, iters = (188290, 0)
+> Progress 8.125%, elapsed 1530.0 s, iters = (188653, 0)
+> Progress 8.125%, elapsed 1533.0 s, iters = (189050, 0)
+> Progress 8.1251%, elapsed 1536.0 s, iters = (189422, 0)
+> Progress 8.1251%, elapsed 1539.0 s, iters = (189790, 0)
+> Progress 8.1252%, elapsed 1542.0 s, iters = (190172, 0)
+> Progress 8.1252%, elapsed 1545.0 s, iters = (190545, 0)
+> Progress 8.1253%, elapsed 1548.0 s, iters = (190910, 0)
+> Progress 8.1253%, elapsed 1551.0 s, iters = (191285, 0)
+> Progress 8.1254%, elapsed 1554.0 s, iters = (191652, 0)
+> Progress 8.1254%, elapsed 1557.0 s, iters = (192026, 0)
+> Progress 8.1255%, elapsed 1560.0 s, iters = (192391, 0)
+> Progress 8.1255%, elapsed 1563.0 s, iters = (192748, 0)
+> Progress 8.1256%, elapsed 1566.0 s, iters = (193116, 0)
+> Progress 8.1257%, elapsed 1569.0 s, iters = (193488, 0)
+> Progress 8.1257%, elapsed 1572.0 s, iters = (193860, 0)
+> Progress 8.1258%, elapsed 1575.0 s, iters = (194242, 0)
+> Progress 8.1258%, elapsed 1578.0 s, iters = (194612, 0)
+> Progress 8.1259%, elapsed 1581.0 s, iters = (194998, 0)
+> Progress 8.1259%, elapsed 1584.0 s, iters = (195364, 0)
+> Progress 8.126%, elapsed 1587.0 s, iters = (195750, 0)
+> Progress 8.1261%, elapsed 1590.0 s, iters = (196114, 0)
+> Progress 8.1261%, elapsed 1593.0 s, iters = (196476, 0)
+> Progress 8.1262%, elapsed 1596.0 s, iters = (196832, 0)
+> Progress 8.1263%, elapsed 1599.0 s, iters = (197169, 0)
+> Progress 8.1269%, elapsed 1602.0 s, iters = (197446, 0)
+> Progress 8.127%, elapsed 1605.0 s, iters = (197804, 0)
+> Progress 8.1271%, elapsed 1608.0 s, iters = (198178, 0)
+> Progress 8.1271%, elapsed 1611.0 s, iters = (198552, 0)
+> Progress 8.1271%, elapsed 1614.1 s, iters = (198942, 0)
+> Progress 8.1275%, elapsed 1617.0 s, iters = (199270, 0)
+> Progress 8.1276%, elapsed 1620.0 s, iters = (199620, 0)
+> Progress 8.1277%, elapsed 1623.0 s, iters = (199992, 0)
+> Progress 8.1279%, elapsed 1626.0 s, iters = (200326, 0)
+> Progress 8.128%, elapsed 1629.0 s, iters = (200674, 0)
+> Progress 8.1281%, elapsed 1632.0 s, iters = (201021, 0)
+> Progress 8.1282%, elapsed 1635.0 s, iters = (201375, 0)
+> Progress 8.1283%, elapsed 1638.0 s, iters = (201727, 0)
+> Progress 8.1284%, elapsed 1641.0 s, iters = (202090, 0)
+> Progress 8.1285%, elapsed 1644.0 s, iters = (202450, 0)
+> Progress 8.1286%, elapsed 1647.0 s, iters = (202810, 0)
+> Progress 8.1287%, elapsed 1650.0 s, iters = (203175, 0)
+> Progress 8.1288%, elapsed 1653.0 s, iters = (203532, 0)
+> Progress 8.1289%, elapsed 1656.0 s, iters = (203890, 0)
+> Progress 8.129%, elapsed 1659.0 s, iters = (204248, 0)
+> Progress 8.1291%, elapsed 1662.0 s, iters = (204595, 0)
+> Progress 8.1291%, elapsed 1665.0 s, iters = (204954, 0)
+> Progress 8.1293%, elapsed 1668.0 s, iters = (205303, 0)
+> Progress 8.1294%, elapsed 1671.0 s, iters = (205646, 0)
+> Progress 8.1295%, elapsed 1674.0 s, iters = (205988, 0)
+> Progress 8.1295%, elapsed 1677.0 s, iters = (206356, 0)
+> Progress 8.1296%, elapsed 1680.0 s, iters = (206710, 0)
+> Progress 8.1297%, elapsed 1683.0 s, iters = (207054, 0)
+> Progress 8.1298%, elapsed 1686.0 s, iters = (207415, 0)
+> Progress 8.1299%, elapsed 1689.0 s, iters = (207756, 0)
+> Progress 8.13%, elapsed 1692.0 s, iters = (208106, 0)
+> Progress 8.1301%, elapsed 1695.0 s, iters = (208455, 0)
+> Progress 8.1318%, elapsed 1698.0 s, iters = (208796, 0)
+> Progress 8.1322%, elapsed 1701.0 s, iters = (209126, 0)
+> Progress 8.1322%, elapsed 1704.0 s, iters = (209488, 0)
+> Progress 8.1323%, elapsed 1707.0 s, iters = (209849, 0)
+> Progress 8.1324%, elapsed 1710.0 s, iters = (210208, 0)
+> Progress 8.1325%, elapsed 1713.0 s, iters = (210574, 0)
+> Progress 8.1325%, elapsed 1716.0 s, iters = (210932, 0)
+> Progress 8.1344%, elapsed 1719.0 s, iters = (211283, 0)
+> Progress 8.1344%, elapsed 1722.0 s, iters = (211667, 0)
+> Progress 8.1344%, elapsed 1725.0 s, iters = (212054, 0)
+> Progress 8.1345%, elapsed 1728.0 s, iters = (212458, 0)
+> Progress 8.1345%, elapsed 1731.0 s, iters = (212860, 0)
+> Progress 8.1346%, elapsed 1734.0 s, iters = (213275, 0)
+> Progress 8.1347%, elapsed 1737.0 s, iters = (213675, 0)
+> Progress 8.1347%, elapsed 1740.0 s, iters = (214080, 0)
+> Progress 8.1348%, elapsed 1743.0 s, iters = (214484, 0)
+> Progress 8.1348%, elapsed 1746.0 s, iters = (214874, 0)
+> Progress 8.1348%, elapsed 1749.0 s, iters = (215264, 0)
+> Progress 8.1349%, elapsed 1752.0 s, iters = (215648, 0)
+> Progress 8.1349%, elapsed 1755.0 s, iters = (216036, 0)
+> Progress 8.135%, elapsed 1758.0 s, iters = (216436, 0)
+> Progress 8.1351%, elapsed 1761.0 s, iters = (216824, 0)
+> Progress 8.1351%, elapsed 1764.0 s, iters = (217213, 0)
+> Progress 8.1352%, elapsed 1767.0 s, iters = (217609, 0)
+> Progress 8.1352%, elapsed 1770.0 s, iters = (217996, 0)
+> Progress 8.1352%, elapsed 1773.0 s, iters = (218396, 0)
+> Progress 8.1353%, elapsed 1776.0 s, iters = (218778, 0)
+> Progress 8.1353%, elapsed 1779.0 s, iters = (219165, 0)
+> Progress 8.1354%, elapsed 1782.0 s, iters = (219560, 0)
+> Progress 8.1355%, elapsed 1785.0 s, iters = (219936, 0)
+> Progress 8.1355%, elapsed 1788.0 s, iters = (220326, 0)
+> Progress 8.1355%, elapsed 1791.0 s, iters = (220732, 0)
+> Progress 8.1356%, elapsed 1794.0 s, iters = (221108, 0)
+> Progress 8.1356%, elapsed 1797.0 s, iters = (221500, 0)
+> Progress 8.1357%, elapsed 1800.0 s, iters = (221894, 0)
+> Progress 8.1357%, elapsed 1803.0 s, iters = (222286, 0)
+> Progress 8.1358%, elapsed 1806.0 s, iters = (222680, 0)
+> Progress 8.1359%, elapsed 1809.0 s, iters = (223072, 0)
+> Progress 8.1359%, elapsed 1812.0 s, iters = (223462, 0)
+> Progress 8.1359%, elapsed 1815.0 s, iters = (223856, 0)
+> Progress 8.136%, elapsed 1818.0 s, iters = (224254, 0)
+> Progress 8.136%, elapsed 1821.0 s, iters = (224640, 0)
+> Progress 8.1361%, elapsed 1824.0 s, iters = (225040, 0)
+> Progress 8.1361%, elapsed 1827.0 s, iters = (225424, 0)
+> Progress 8.1362%, elapsed 1830.0 s, iters = (225812, 0)
+> Progress 8.1362%, elapsed 1833.0 s, iters = (226226, 0)
+> Progress 8.1363%, elapsed 1836.0 s, iters = (226618, 0)
+> Progress 8.1363%, elapsed 1839.0 s, iters = (227012, 0)
+> Progress 8.1363%, elapsed 1842.0 s, iters = (227413, 0)
+> Progress 8.1363%, elapsed 1845.0 s, iters = (227831, 0)
+> Progress 8.1364%, elapsed 1848.0 s, iters = (228210, 0)
+> Progress 8.1364%, elapsed 1851.0 s, iters = (228616, 0)
+> Progress 8.1364%, elapsed 1854.0 s, iters = (229016, 0)
+> Progress 8.1365%, elapsed 1857.0 s, iters = (229440, 0)
+> Progress 8.1365%, elapsed 1860.0 s, iters = (229820, 0)
+> Progress 8.1366%, elapsed 1863.0 s, iters = (230206, 0)
+> Progress 8.1366%, elapsed 1866.0 s, iters = (230608, 0)
+> Progress 8.1367%, elapsed 1869.0 s, iters = (231011, 0)
+> Progress 8.1367%, elapsed 1872.0 s, iters = (231392, 0)
+> Progress 8.1367%, elapsed 1875.0 s, iters = (231794, 0)
+> Progress 8.1368%, elapsed 1878.0 s, iters = (232188, 0)
+> Progress 8.1368%, elapsed 1881.0 s, iters = (232571, 0)
+> Progress 8.1369%, elapsed 1884.0 s, iters = (232964, 0)
+> Progress 8.1369%, elapsed 1887.0 s, iters = (233397, 0)
+> Progress 8.1369%, elapsed 1890.0 s, iters = (233758, 0)
+> Progress 8.137%, elapsed 1893.0 s, iters = (234128, 0)
+> Progress 8.137%, elapsed 1896.0 s, iters = (234512, 0)
+> Progress 8.1371%, elapsed 1899.0 s, iters = (234884, 0)
+> Progress 8.1371%, elapsed 1902.0 s, iters = (235276, 0)
+> Progress 8.1371%, elapsed 1905.0 s, iters = (235674, 0)
+> Progress 8.1372%, elapsed 1908.0 s, iters = (236028, 0)
+> Progress 8.1373%, elapsed 1911.0 s, iters = (236386, 0)
+> Progress 8.1373%, elapsed 1914.0 s, iters = (236765, 0)
+> Progress 8.1374%, elapsed 1917.0 s, iters = (237148, 0)
+> Progress 8.1374%, elapsed 1920.0 s, iters = (237546, 0)
+> Progress 8.1375%, elapsed 1923.0 s, iters = (237924, 0)
+> Progress 8.1375%, elapsed 1926.0 s, iters = (238316, 0)
+> Progress 8.1375%, elapsed 1929.0 s, iters = (238710, 0)
+> Progress 8.1376%, elapsed 1932.0 s, iters = (239090, 0)
+> Progress 8.1377%, elapsed 1935.0 s, iters = (239476, 0)
+> Progress 8.1377%, elapsed 1938.0 s, iters = (239878, 0)
+> Progress 8.1378%, elapsed 1941.0 s, iters = (240256, 0)
+> Progress 8.1378%, elapsed 1944.0 s, iters = (240640, 0)
+> Progress 8.1379%, elapsed 1947.0 s, iters = (241024, 0)
+> Progress 8.138%, elapsed 1950.0 s, iters = (241380, 0)
+> Progress 8.1384%, elapsed 1953.0 s, iters = (241672, 0)
+> Progress 8.1385%, elapsed 1956.0 s, iters = (242042, 0)
+> Progress 8.1385%, elapsed 1959.0 s, iters = (242423, 0)
+> Progress 8.1386%, elapsed 1962.0 s, iters = (242797, 0)
+> Progress 8.1386%, elapsed 1965.0 s, iters = (243180, 0)
+> Progress 8.1386%, elapsed 1968.0 s, iters = (243574, 0)
+> Progress 8.1389%, elapsed 1971.0 s, iters = (243976, 0)
+> Progress 8.1399%, elapsed 1974.0 s, iters = (244295, 0)
+> Progress 8.1414%, elapsed 1977.0 s, iters = (244653, 0)
+> Progress 8.1423%, elapsed 1980.0 s, iters = (245027, 0)
+> Progress 8.1451%, elapsed 1983.0 s, iters = (245354, 0)
+> Progress 8.1451%, elapsed 1986.0 s, iters = (245708, 0)
+> Progress 8.1452%, elapsed 1989.0 s, iters = (246084, 0)
+> Progress 8.1453%, elapsed 1992.0 s, iters = (246464, 0)
+> Progress 8.1453%, elapsed 1995.0 s, iters = (246856, 0)
+> Progress 8.1453%, elapsed 1998.0 s, iters = (247260, 0)
+> Progress 8.1454%, elapsed 2001.0 s, iters = (247666, 0)
+> Progress 8.1454%, elapsed 2004.0 s, iters = (248040, 0)
+> Progress 8.1454%, elapsed 2007.0 s, iters = (248430, 0)
+> Progress 8.1455%, elapsed 2010.0 s, iters = (248800, 0)
+> Progress 8.1456%, elapsed 2013.0 s, iters = (249172, 0)
+> Progress 8.1457%, elapsed 2016.0 s, iters = (249554, 0)
+> Progress 8.1457%, elapsed 2019.0 s, iters = (249948, 0)
+> Progress 8.1457%, elapsed 2022.0 s, iters = (250340, 0)
+> Progress 8.1458%, elapsed 2025.0 s, iters = (250756, 0)
+> Progress 8.1458%, elapsed 2028.0 s, iters = (251129, 0)
+> Progress 8.1458%, elapsed 2031.0 s, iters = (251506, 0)
+> Progress 8.1459%, elapsed 2034.0 s, iters = (251892, 0)
+> Progress 8.146%, elapsed 2037.0 s, iters = (252250, 0)
+> Progress 8.146%, elapsed 2040.0 s, iters = (252624, 0)
+> Progress 8.146%, elapsed 2043.0 s, iters = (253000, 0)
+> Progress 8.1461%, elapsed 2046.0 s, iters = (253382, 0)
+> Progress 8.1461%, elapsed 2049.0 s, iters = (253780, 0)
+> Progress 8.1461%, elapsed 2052.0 s, iters = (254202, 0)
+> Progress 8.1461%, elapsed 2055.0 s, iters = (254615, 0)
+> Progress 8.1461%, elapsed 2058.0 s, iters = (255047, 0)
+> Progress 8.1462%, elapsed 2061.0 s, iters = (255420, 0)
+> Progress 8.1462%, elapsed 2064.0 s, iters = (255802, 0)
+> Progress 8.1462%, elapsed 2067.0 s, iters = (256188, 0)
+> Progress 8.1463%, elapsed 2070.0 s, iters = (256592, 0)
+> Progress 8.1463%, elapsed 2073.0 s, iters = (256976, 0)
+> Progress 8.1464%, elapsed 2076.0 s, iters = (257342, 0)
+> Progress 8.1464%, elapsed 2079.0 s, iters = (257722, 0)
+> Progress 8.1464%, elapsed 2082.0 s, iters = (258103, 0)
+> Progress 8.1465%, elapsed 2085.0 s, iters = (258478, 0)
+> Progress 8.1465%, elapsed 2088.0 s, iters = (258872, 0)
+> Progress 8.1465%, elapsed 2091.0 s, iters = (259294, 0)
+> Progress 8.1466%, elapsed 2094.0 s, iters = (259692, 0)
+> Progress 8.1466%, elapsed 2097.0 s, iters = (260068, 0)
+> Progress 8.1466%, elapsed 2100.0 s, iters = (260456, 0)
+> Progress 8.1467%, elapsed 2103.0 s, iters = (260854, 0)
+> Progress 8.1467%, elapsed 2106.0 s, iters = (261232, 0)
+> Progress 8.1468%, elapsed 2109.0 s, iters = (261582, 0)
+> Progress 8.1468%, elapsed 2112.0 s, iters = (261942, 0)
+> Progress 8.1469%, elapsed 2115.0 s, iters = (262302, 0)
+> Progress 8.1469%, elapsed 2118.0 s, iters = (262664, 0)
+> Progress 8.1469%, elapsed 2121.0 s, iters = (263038, 0)
+> Progress 8.147%, elapsed 2124.0 s, iters = (263412, 0)
+> Progress 8.147%, elapsed 2127.0 s, iters = (263758, 0)
+> Progress 8.1471%, elapsed 2130.0 s, iters = (264122, 0)
+> Progress 8.1472%, elapsed 2133.0 s, iters = (264487, 0)
+> Progress 8.1472%, elapsed 2136.0 s, iters = (264856, 0)
+> Progress 8.1472%, elapsed 2139.0 s, iters = (265240, 0)
+> Progress 8.1473%, elapsed 2142.0 s, iters = (265608, 0)
+> Progress 8.1473%, elapsed 2145.0 s, iters = (265970, 0)
+> Progress 8.1473%, elapsed 2148.1 s, iters = (266350, 0)
+> Progress 8.1474%, elapsed 2151.0 s, iters = (266727, 0)
+> Progress 8.1474%, elapsed 2154.0 s, iters = (267128, 0)
+> Progress 8.1475%, elapsed 2157.0 s, iters = (267538, 0)
+> Progress 8.1476%, elapsed 2160.0 s, iters = (267914, 0)
+> Progress 8.1476%, elapsed 2163.0 s, iters = (268294, 0)
+> Progress 8.1476%, elapsed 2166.0 s, iters = (268692, 0)
+> Progress 8.1477%, elapsed 2169.0 s, iters = (269044, 0)
+> Progress 8.1478%, elapsed 2172.0 s, iters = (269398, 0)
+> Progress 8.1484%, elapsed 2175.0 s, iters = (269686, 0)
+> Progress 8.1485%, elapsed 2178.0 s, iters = (270044, 0)
+> Progress 8.1485%, elapsed 2181.0 s, iters = (270414, 0)
+> Progress 8.1486%, elapsed 2184.0 s, iters = (270776, 0)
+> Progress 8.1486%, elapsed 2187.0 s, iters = (271152, 0)
+> Progress 8.1486%, elapsed 2190.0 s, iters = (271545, 0)
+> Progress 8.1489%, elapsed 2193.0 s, iters = (271911, 0)
+> Progress 8.1492%, elapsed 2196.0 s, iters = (272275, 0)
+> Progress 8.1497%, elapsed 2199.0 s, iters = (272559, 0)
+> Progress 8.15%, elapsed 2202.0 s, iters = (272925, 0)
+> Progress 8.1505%, elapsed 2205.0 s, iters = (273271, 0)
+> Progress 8.151%, elapsed 2208.0 s, iters = (273627, 0)
+> Progress 8.1514%, elapsed 2211.0 s, iters = (274003, 0)
+> Progress 8.152%, elapsed 2214.0 s, iters = (274339, 0)
+> Progress 8.1538%, elapsed 2217.0 s, iters = (274640, 0)
+> Progress 8.1539%, elapsed 2220.0 s, iters = (274968, 0)
+> Progress 8.154%, elapsed 2223.0 s, iters = (275296, 0)
+> Progress 8.1544%, elapsed 2226.0 s, iters = (275629, 0)
+> Progress 8.1546%, elapsed 2229.0 s, iters = (276020, 0)
+> Progress 8.1548%, elapsed 2232.0 s, iters = (276390, 0)
+> Progress 8.1552%, elapsed 2235.0 s, iters = (276755, 0)
+> Progress 8.1554%, elapsed 2238.0 s, iters = (277135, 0)
+> Progress 8.1559%, elapsed 2241.0 s, iters = (277499, 0)
+> Progress 8.1559%, elapsed 2244.0 s, iters = (277888, 0)
+> Progress 8.156%, elapsed 2247.0 s, iters = (278276, 0)
+> Progress 8.156%, elapsed 2250.0 s, iters = (278640, 0)
+> Progress 8.1561%, elapsed 2253.0 s, iters = (279034, 0)
+> Progress 8.1561%, elapsed 2256.0 s, iters = (279440, 0)
+> Progress 8.1561%, elapsed 2259.0 s, iters = (279820, 0)
+> Progress 8.1563%, elapsed 2262.0 s, iters = (280212, 0)
+> Progress 8.1563%, elapsed 2265.0 s, iters = (280582, 0)
+> Progress 8.1563%, elapsed 2268.0 s, iters = (280980, 0)
+> Progress 8.1564%, elapsed 2271.0 s, iters = (281360, 0)
+> Progress 8.1564%, elapsed 2274.0 s, iters = (281736, 0)
+> Progress 8.1565%, elapsed 2277.0 s, iters = (282126, 0)
+> Progress 8.1565%, elapsed 2280.0 s, iters = (282526, 0)
+> Progress 8.1566%, elapsed 2283.0 s, iters = (282906, 0)
+> Progress 8.1567%, elapsed 2286.0 s, iters = (283296, 0)
+> Progress 8.1567%, elapsed 2289.0 s, iters = (283676, 0)
+> Progress 8.1567%, elapsed 2292.0 s, iters = (284048, 0)
+> Progress 8.1567%, elapsed 2295.0 s, iters = (284454, 0)
+> Progress 8.1568%, elapsed 2298.0 s, iters = (284838, 0)
+> Progress 8.1568%, elapsed 2301.0 s, iters = (285214, 0)
+> Progress 8.1568%, elapsed 2304.0 s, iters = (285616, 0)
+> Progress 8.1569%, elapsed 2307.0 s, iters = (286026, 0)
+> Progress 8.1569%, elapsed 2310.0 s, iters = (286416, 0)
+> Progress 8.157%, elapsed 2313.0 s, iters = (286798, 0)
+> Progress 8.157%, elapsed 2316.0 s, iters = (287192, 0)
+> Progress 8.157%, elapsed 2319.0 s, iters = (287596, 0)
+> Progress 8.1571%, elapsed 2322.0 s, iters = (287971, 0)
+> Progress 8.1571%, elapsed 2325.0 s, iters = (288346, 0)
+> Progress 8.1571%, elapsed 2328.0 s, iters = (288736, 0)
+> Progress 8.1572%, elapsed 2331.0 s, iters = (289136, 0)
+> Progress 8.1572%, elapsed 2334.0 s, iters = (289510, 0)
+> Progress 8.1573%, elapsed 2337.0 s, iters = (289898, 0)
+> Progress 8.1573%, elapsed 2340.0 s, iters = (290308, 0)
+> Progress 8.1574%, elapsed 2343.0 s, iters = (290680, 0)
+> Progress 8.1574%, elapsed 2346.0 s, iters = (291064, 0)
+> Progress 8.1574%, elapsed 2349.0 s, iters = (291470, 0)
+> Progress 8.1575%, elapsed 2352.0 s, iters = (291848, 0)
+> Progress 8.1575%, elapsed 2355.0 s, iters = (292227, 0)
+> Progress 8.1576%, elapsed 2358.0 s, iters = (292620, 0)
+> Progress 8.1576%, elapsed 2361.0 s, iters = (292996, 0)
+> Progress 8.1577%, elapsed 2364.0 s, iters = (293386, 0)
+> Progress 8.1578%, elapsed 2367.0 s, iters = (293784, 0)
+> Progress 8.1578%, elapsed 2370.0 s, iters = (294162, 0)
+> Progress 8.1578%, elapsed 2373.0 s, iters = (294560, 0)
+> Progress 8.1579%, elapsed 2376.0 s, iters = (294942, 0)
+> Progress 8.1579%, elapsed 2379.0 s, iters = (295316, 0)
+> Progress 8.158%, elapsed 2382.0 s, iters = (295702, 0)
+> Progress 8.158%, elapsed 2385.0 s, iters = (296080, 0)
+> Progress 8.1581%, elapsed 2388.0 s, iters = (296470, 0)
+> Progress 8.1582%, elapsed 2391.0 s, iters = (296864, 0)
+> Progress 8.1582%, elapsed 2394.0 s, iters = (297250, 0)
+> Progress 8.1582%, elapsed 2397.0 s, iters = (297654, 0)
+> Progress 8.1583%, elapsed 2400.0 s, iters = (298052, 0)
+> Progress 8.1583%, elapsed 2403.0 s, iters = (298436, 0)
+> Progress 8.1583%, elapsed 2406.0 s, iters = (298832, 0)
+> Progress 8.1584%, elapsed 2409.0 s, iters = (299220, 0)
+> Progress 8.1584%, elapsed 2412.0 s, iters = (299596, 0)
+> Progress 8.1585%, elapsed 2415.0 s, iters = (299974, 0)
+> Progress 8.1585%, elapsed 2418.0 s, iters = (300376, 0)
+> Progress 8.1586%, elapsed 2421.0 s, iters = (300752, 0)
+> Progress 8.1586%, elapsed 2424.0 s, iters = (301138, 0)
+> Progress 8.1586%, elapsed 2427.0 s, iters = (301544, 0)
+> Progress 8.1587%, elapsed 2430.0 s, iters = (301900, 0)
+> Progress 8.1587%, elapsed 2433.0 s, iters = (302272, 0)
+> Progress 8.1588%, elapsed 2436.0 s, iters = (302644, 0)
+> Progress 8.1588%, elapsed 2439.0 s, iters = (303024, 0)
+> Progress 8.1589%, elapsed 2442.0 s, iters = (303406, 0)
+> Progress 8.1589%, elapsed 2445.0 s, iters = (303806, 0)
+> Progress 8.159%, elapsed 2448.0 s, iters = (304190, 0)
+> Progress 8.159%, elapsed 2451.0 s, iters = (304568, 0)
+> Progress 8.159%, elapsed 2454.0 s, iters = (304972, 0)
+> Progress 8.1591%, elapsed 2457.0 s, iters = (305358, 0)
+> Progress 8.1591%, elapsed 2460.0 s, iters = (305746, 0)
+> Progress 8.1592%, elapsed 2463.0 s, iters = (306157, 0)
+> Progress 8.1592%, elapsed 2466.0 s, iters = (306542, 0)
+> Progress 8.1593%, elapsed 2469.0 s, iters = (306926, 0)
+> Progress 8.1593%, elapsed 2472.0 s, iters = (307330, 0)
+> Progress 8.1594%, elapsed 2475.0 s, iters = (307681, 0)
+> Progress 8.1598%, elapsed 2478.0 s, iters = (308028, 0)
+> Progress 8.1599%, elapsed 2481.0 s, iters = (308335, 0)
+> Progress 8.16%, elapsed 2484.0 s, iters = (308711, 0)
+> Progress 8.1601%, elapsed 2487.0 s, iters = (309082, 0)
+> Progress 8.1601%, elapsed 2490.0 s, iters = (309462, 0)
+> Progress 8.1601%, elapsed 2493.0 s, iters = (309850, 0)
+> Progress 8.1602%, elapsed 2496.0 s, iters = (310248, 0)
+> Progress 8.1603%, elapsed 2499.0 s, iters = (310620, 0)
+> Progress 8.1604%, elapsed 2502.0 s, iters = (310970, 0)
+> Progress 8.1604%, elapsed 2505.0 s, iters = (311337, 0)
+> Progress 8.1612%, elapsed 2508.0 s, iters = (311637, 0)
+> Progress 8.1618%, elapsed 2511.0 s, iters = (311946, 0)
+> Progress 8.1624%, elapsed 2514.0 s, iters = (312247, 0)
+> Progress 8.1626%, elapsed 2517.0 s, iters = (312598, 0)
+> Progress 8.1629%, elapsed 2520.0 s, iters = (312935, 0)
+> Progress 8.1639%, elapsed 2523.0 s, iters = (313239, 0)
+> Progress 8.1652%, elapsed 2526.0 s, iters = (313541, 0)
+> Progress 8.1666%, elapsed 2529.0 s, iters = (313878, 0)
+> Progress 8.1666%, elapsed 2532.0 s, iters = (314256, 0)
+> Progress 8.1668%, elapsed 2535.0 s, iters = (314628, 0)
+> Progress 8.1668%, elapsed 2538.0 s, iters = (314986, 0)
+> Progress 8.1669%, elapsed 2541.0 s, iters = (315372, 0)
+> Progress 8.1669%, elapsed 2544.0 s, iters = (315732, 0)
+> Progress 8.167%, elapsed 2547.0 s, iters = (316105, 0)
+> Progress 8.167%, elapsed 2550.0 s, iters = (316464, 0)
+> Progress 8.1671%, elapsed 2553.0 s, iters = (316842, 0)
+> Progress 8.1672%, elapsed 2556.0 s, iters = (317208, 0)
+> Progress 8.1672%, elapsed 2559.0 s, iters = (317576, 0)
+> Progress 8.1673%, elapsed 2562.0 s, iters = (317953, 0)
+> Progress 8.1673%, elapsed 2565.0 s, iters = (318326, 0)
+> Progress 8.1674%, elapsed 2568.0 s, iters = (318704, 0)
+> Progress 8.1675%, elapsed 2571.0 s, iters = (319076, 0)
+> Progress 8.1675%, elapsed 2574.0 s, iters = (319452, 0)
+> Progress 8.1676%, elapsed 2577.0 s, iters = (319828, 0)
+> Progress 8.1676%, elapsed 2580.0 s, iters = (320195, 0)
+> Progress 8.1676%, elapsed 2583.0 s, iters = (320574, 0)
+> Progress 8.1677%, elapsed 2586.0 s, iters = (320961, 0)
+> Progress 8.1677%, elapsed 2589.0 s, iters = (321334, 0)
+> Progress 8.1677%, elapsed 2592.0 s, iters = (321718, 0)
+> Progress 8.1677%, elapsed 2595.0 s, iters = (322094, 0)
+> Progress 8.1678%, elapsed 2598.0 s, iters = (322476, 0)
+> Progress 8.1679%, elapsed 2601.0 s, iters = (322838, 0)
+> Progress 8.1679%, elapsed 2604.0 s, iters = (323222, 0)
+> Progress 8.168%, elapsed 2607.0 s, iters = (323594, 0)
+> Progress 8.168%, elapsed 2610.0 s, iters = (323957, 0)
+> Progress 8.1681%, elapsed 2613.0 s, iters = (324344, 0)
+> Progress 8.1681%, elapsed 2616.0 s, iters = (324696, 0)
+> Progress 8.1681%, elapsed 2619.0 s, iters = (325066, 0)
+> Progress 8.1681%, elapsed 2622.0 s, iters = (325450, 0)
+> Progress 8.1682%, elapsed 2625.0 s, iters = (325812, 0)
+> Progress 8.1683%, elapsed 2628.0 s, iters = (326170, 0)
+> Progress 8.1684%, elapsed 2631.0 s, iters = (326544, 0)
+> Progress 8.1684%, elapsed 2634.0 s, iters = (326908, 0)
+> Progress 8.1684%, elapsed 2637.0 s, iters = (327289, 0)
+> Progress 8.1685%, elapsed 2640.0 s, iters = (327630, 0)
+> Progress 8.1685%, elapsed 2643.0 s, iters = (327980, 0)
+> Progress 8.1686%, elapsed 2646.0 s, iters = (328356, 0)
+> Progress 8.1687%, elapsed 2649.0 s, iters = (328720, 0)
+> Progress 8.1687%, elapsed 2652.0 s, iters = (329092, 0)
+> Progress 8.1688%, elapsed 2655.0 s, iters = (329450, 0)
+> Progress 8.1688%, elapsed 2658.0 s, iters = (329810, 0)
+> Progress 8.1689%, elapsed 2661.0 s, iters = (330188, 0)
+> Progress 8.1689%, elapsed 2664.0 s, iters = (330556, 0)
+> Progress 8.169%, elapsed 2667.0 s, iters = (330942, 0)
+> Progress 8.1691%, elapsed 2670.0 s, iters = (331302, 0)
+> Progress 8.1691%, elapsed 2673.0 s, iters = (331676, 0)
+> Progress 8.1692%, elapsed 2676.0 s, iters = (332011, 0)
+> Progress 8.1697%, elapsed 2679.0 s, iters = (332347, 0)
+> Progress 8.1699%, elapsed 2682.0 s, iters = (332622, 0)
+> Progress 8.17%, elapsed 2685.0 s, iters = (332972, 0)
+> Progress 8.1701%, elapsed 2688.0 s, iters = (333334, 0)
+> Progress 8.1701%, elapsed 2691.0 s, iters = (333692, 0)
+> Progress 8.1702%, elapsed 2694.0 s, iters = (334063, 0)
+> Progress 8.1705%, elapsed 2697.0 s, iters = (334386, 0)
+> Progress 8.1706%, elapsed 2700.0 s, iters = (334727, 0)
+> Progress 8.1708%, elapsed 2703.0 s, iters = (335061, 0)
+> Progress 8.1709%, elapsed 2706.0 s, iters = (335414, 0)
+> Progress 8.171%, elapsed 2709.0 s, iters = (335760, 0)
+> Progress 8.1711%, elapsed 2712.0 s, iters = (336108, 0)
+> Progress 8.1712%, elapsed 2715.0 s, iters = (336455, 0)
+> Progress 8.1713%, elapsed 2718.0 s, iters = (336813, 0)
+> Progress 8.1714%, elapsed 2721.0 s, iters = (337168, 0)
+> Progress 8.1715%, elapsed 2724.0 s, iters = (337520, 0)
+> Progress 8.1716%, elapsed 2727.0 s, iters = (337862, 0)
+> Progress 8.1717%, elapsed 2730.0 s, iters = (338207, 0)
+> Progress 8.1718%, elapsed 2733.0 s, iters = (338568, 0)
+> Progress 8.1719%, elapsed 2736.0 s, iters = (338904, 0)
+> Progress 8.172%, elapsed 2739.0 s, iters = (339240, 0)
+> Progress 8.1721%, elapsed 2742.0 s, iters = (339585, 0)
+> Progress 8.1721%, elapsed 2745.0 s, iters = (339942, 0)
+> Progress 8.1723%, elapsed 2748.0 s, iters = (340282, 0)
+> Progress 8.1724%, elapsed 2751.0 s, iters = (340628, 0)
+> Progress 8.1725%, elapsed 2754.0 s, iters = (340967, 0)
+> Progress 8.1725%, elapsed 2757.0 s, iters = (341334, 0)
+> Progress 8.1726%, elapsed 2760.0 s, iters = (341698, 0)
+> Progress 8.1727%, elapsed 2763.0 s, iters = (342054, 0)
+> Progress 8.1728%, elapsed 2766.0 s, iters = (342425, 0)
+> Progress 8.1729%, elapsed 2769.0 s, iters = (342786, 0)
+> Progress 8.173%, elapsed 2772.0 s, iters = (343129, 0)
+> Progress 8.1731%, elapsed 2775.0 s, iters = (343464, 0)
+> Progress 8.1751%, elapsed 2778.0 s, iters = (343792, 0)
+> Progress 8.1752%, elapsed 2781.0 s, iters = (344132, 0)
+> Progress 8.1752%, elapsed 2784.0 s, iters = (344476, 0)
+> Progress 8.1753%, elapsed 2787.0 s, iters = (344818, 0)
+> Progress 8.1754%, elapsed 2790.0 s, iters = (345153, 0)
+> Progress 8.1754%, elapsed 2793.0 s, iters = (345508, 0)
+> Progress 8.1755%, elapsed 2796.0 s, iters = (345843, 0)
+> Progress 8.1774%, elapsed 2799.0 s, iters = (346184, 0)
+> Progress 8.1774%, elapsed 2802.0 s, iters = (346560, 0)
+> Progress 8.1774%, elapsed 2805.0 s, iters = (346964, 0)
+> Progress 8.1775%, elapsed 2808.0 s, iters = (347340, 0)
+> Progress 8.1775%, elapsed 2811.0 s, iters = (347748, 0)
+> Progress 8.1776%, elapsed 2814.0 s, iters = (348117, 0)
+> Progress 8.1777%, elapsed 2817.0 s, iters = (348504, 0)
+> Progress 8.1778%, elapsed 2820.0 s, iters = (348886, 0)
+> Progress 8.1778%, elapsed 2823.0 s, iters = (349274, 0)
+> Progress 8.1779%, elapsed 2826.0 s, iters = (349651, 0)
+> Progress 8.1779%, elapsed 2829.0 s, iters = (350040, 0)
+> Progress 8.178%, elapsed 2832.0 s, iters = (350418, 0)
+> Progress 8.1781%, elapsed 2835.0 s, iters = (350818, 0)
+> Progress 8.1782%, elapsed 2838.0 s, iters = (351224, 0)
+> Progress 8.1782%, elapsed 2841.0 s, iters = (351606, 0)
+> Progress 8.1783%, elapsed 2844.0 s, iters = (352000, 0)
+> Progress 8.1783%, elapsed 2847.0 s, iters = (352388, 0)
+> Progress 8.1784%, elapsed 2850.0 s, iters = (352782, 0)
+> Progress 8.1784%, elapsed 2853.0 s, iters = (353204, 0)
+> Progress 8.1784%, elapsed 2856.0 s, iters = (353591, 0)
+> Progress 8.1785%, elapsed 2859.0 s, iters = (353974, 0)
+> Progress 8.1785%, elapsed 2862.0 s, iters = (354388, 0)
+> Progress 8.1786%, elapsed 2865.0 s, iters = (354782, 0)
+> Progress 8.1786%, elapsed 2868.0 s, iters = (355174, 0)
+> Progress 8.1786%, elapsed 2871.0 s, iters = (355572, 0)
+> Progress 8.1786%, elapsed 2874.0 s, iters = (355999, 0)
+> Progress 8.1787%, elapsed 2877.0 s, iters = (356396, 0)
+> Progress 8.1787%, elapsed 2880.0 s, iters = (356776, 0)
+> Progress 8.1788%, elapsed 2883.0 s, iters = (357180, 0)
+> Progress 8.1789%, elapsed 2886.0 s, iters = (357554, 0)
+> Progress 8.1789%, elapsed 2889.0 s, iters = (357956, 0)
+> Progress 8.179%, elapsed 2892.0 s, iters = (358330, 0)
+> Progress 8.179%, elapsed 2895.0 s, iters = (358720, 0)
+> Progress 8.1791%, elapsed 2898.0 s, iters = (359110, 0)
+> Progress 8.1791%, elapsed 2901.0 s, iters = (359490, 0)
+> Progress 8.1792%, elapsed 2904.0 s, iters = (359896, 0)
+> Progress 8.1793%, elapsed 2907.0 s, iters = (360276, 0)
+> Progress 8.1793%, elapsed 2910.0 s, iters = (360682, 0)
+> Progress 8.1794%, elapsed 2913.0 s, iters = (361056, 0)
+> Progress 8.1794%, elapsed 2916.0 s, iters = (361449, 0)
+> Progress 8.1795%, elapsed 2919.0 s, iters = (361834, 0)
+> Progress 8.1795%, elapsed 2922.0 s, iters = (362212, 0)
+> Progress 8.1796%, elapsed 2925.0 s, iters = (362632, 0)
+> Progress 8.1797%, elapsed 2928.0 s, iters = (363022, 0)
+> Progress 8.1797%, elapsed 2931.0 s, iters = (363404, 0)
+> Progress 8.1798%, elapsed 2934.0 s, iters = (363812, 0)
+> Progress 8.1798%, elapsed 2937.0 s, iters = (364182, 0)
+> Progress 8.1798%, elapsed 2940.0 s, iters = (364594, 0)
+> Progress 8.1799%, elapsed 2943.0 s, iters = (365007, 0)
+> Progress 8.1799%, elapsed 2946.0 s, iters = (365364, 0)
+> Progress 8.18%, elapsed 2949.0 s, iters = (365740, 0)
+> Progress 8.1801%, elapsed 2952.0 s, iters = (366108, 0)
+> Progress 8.1801%, elapsed 2955.0 s, iters = (366497, 0)
+> Progress 8.1802%, elapsed 2958.0 s, iters = (366868, 0)
+> Progress 8.1802%, elapsed 2961.0 s, iters = (367234, 0)
+> Progress 8.1803%, elapsed 2964.0 s, iters = (367604, 0)
+> Progress 8.1804%, elapsed 2967.0 s, iters = (367998, 0)
+> Progress 8.1805%, elapsed 2970.0 s, iters = (368386, 0)
+> Progress 8.1805%, elapsed 2973.0 s, iters = (368752, 0)
+> Progress 8.1806%, elapsed 2976.0 s, iters = (369152, 0)
+> Progress 8.1806%, elapsed 2979.0 s, iters = (369528, 0)
+> Progress 8.1806%, elapsed 2982.0 s, iters = (369942, 0)
+> Progress 8.1807%, elapsed 2985.0 s, iters = (370310, 0)
+> Progress 8.1808%, elapsed 2988.0 s, iters = (370710, 0)
+> Progress 8.1809%, elapsed 2991.0 s, iters = (371066, 0)
+> Progress 8.1813%, elapsed 2994.0 s, iters = (371401, 0)
+> Progress 8.1814%, elapsed 2997.0 s, iters = (371730, 0)
+> Progress 8.1815%, elapsed 3000.0 s, iters = (372108, 0)
+> Progress 8.1816%, elapsed 3003.0 s, iters = (372486, 0)
+> Progress 8.1816%, elapsed 3006.0 s, iters = (372870, 0)
+> Progress 8.1817%, elapsed 3009.0 s, iters = (373277, 0)
+> Progress 8.1829%, elapsed 3012.0 s, iters = (373597, 0)
+> Progress 8.1844%, elapsed 3015.0 s, iters = (373952, 0)
+> Progress 8.1853%, elapsed 3018.0 s, iters = (374329, 0)
+> Progress 8.1881%, elapsed 3021.0 s, iters = (374658, 0)
+> Progress 8.1881%, elapsed 3024.0 s, iters = (375009, 0)
+> Progress 8.1882%, elapsed 3027.0 s, iters = (375392, 0)
+> Progress 8.1883%, elapsed 3030.0 s, iters = (375771, 0)
+> Progress 8.1883%, elapsed 3033.0 s, iters = (376168, 0)
+> Progress 8.1884%, elapsed 3036.0 s, iters = (376562, 0)
+> Progress 8.1884%, elapsed 3039.0 s, iters = (376942, 0)
+> Progress 8.1885%, elapsed 3042.0 s, iters = (377322, 0)
+> Progress 8.1885%, elapsed 3045.0 s, iters = (377694, 0)
+> Progress 8.1887%, elapsed 3048.0 s, iters = (378064, 0)
+> Progress 8.1887%, elapsed 3051.0 s, iters = (378452, 0)
+> Progress 8.1887%, elapsed 3054.0 s, iters = (378870, 0)
+> Progress 8.1888%, elapsed 3057.0 s, iters = (379236, 0)
+> Progress 8.1888%, elapsed 3060.0 s, iters = (379628, 0)
+> Progress 8.1889%, elapsed 3063.0 s, iters = (379995, 0)
+> Progress 8.189%, elapsed 3066.0 s, iters = (380360, 0)
+> Progress 8.189%, elapsed 3069.0 s, iters = (380740, 0)
+> Progress 8.189%, elapsed 3072.0 s, iters = (381119, 0)
+> Progress 8.1891%, elapsed 3075.0 s, iters = (381502, 0)
+> Progress 8.1891%, elapsed 3078.0 s, iters = (381918, 0)
+> Progress 8.1891%, elapsed 3081.0 s, iters = (382324, 0)
+> Progress 8.1891%, elapsed 3084.0 s, iters = (382752, 0)
+> Progress 8.1892%, elapsed 3087.0 s, iters = (383149, 0)
+> Progress 8.1892%, elapsed 3090.0 s, iters = (383532, 0)
+> Progress 8.1892%, elapsed 3093.0 s, iters = (383912, 0)
+> Progress 8.1892%, elapsed 3096.0 s, iters = (384304, 0)
+> Progress 8.1893%, elapsed 3099.0 s, iters = (384712, 0)
+> Progress 8.1893%, elapsed 3102.0 s, iters = (385062, 0)
+> Progress 8.1894%, elapsed 3105.0 s, iters = (385440, 0)
+> Progress 8.1894%, elapsed 3108.0 s, iters = (385814, 0)
+> Progress 8.1895%, elapsed 3111.0 s, iters = (386180, 0)
+> Progress 8.1895%, elapsed 3114.0 s, iters = (386596, 0)
+> Progress 8.1896%, elapsed 3117.0 s, iters = (387002, 0)
+> Progress 8.1896%, elapsed 3120.0 s, iters = (387374, 0)
+> Progress 8.1896%, elapsed 3123.0 s, iters = (387764, 0)
+> Progress 8.1896%, elapsed 3126.0 s, iters = (388178, 0)
+> Progress 8.1897%, elapsed 3129.0 s, iters = (388526, 0)
+> Progress 8.1898%, elapsed 3132.0 s, iters = (388878, 0)
+> Progress 8.1899%, elapsed 3135.0 s, iters = (389232, 0)
+> Progress 8.1899%, elapsed 3138.0 s, iters = (389582, 0)
+> Progress 8.1899%, elapsed 3141.0 s, iters = (389964, 0)
+> Progress 8.19%, elapsed 3144.0 s, iters = (390306, 0)
+> Progress 8.19%, elapsed 3147.0 s, iters = (390666, 0)
+> Progress 8.1901%, elapsed 3150.0 s, iters = (391026, 0)
+> Progress 8.1902%, elapsed 3153.0 s, iters = (391388, 0)
+> Progress 8.1903%, elapsed 3156.0 s, iters = (391757, 0)
+> Progress 8.1903%, elapsed 3159.0 s, iters = (392106, 0)
+> Progress 8.1904%, elapsed 3162.0 s, iters = (392480, 0)
+> Progress 8.1904%, elapsed 3165.0 s, iters = (392856, 0)
+> Progress 8.1905%, elapsed 3168.0 s, iters = (393269, 0)
+> Progress 8.1906%, elapsed 3171.0 s, iters = (393638, 0)
+> Progress 8.1906%, elapsed 3174.0 s, iters = (394014, 0)
+> Progress 8.1907%, elapsed 3177.0 s, iters = (394388, 0)
+> Progress 8.1907%, elapsed 3180.0 s, iters = (394734, 0)
+> Progress 8.1913%, elapsed 3183.0 s, iters = (395069, 0)
+> Progress 8.1914%, elapsed 3186.0 s, iters = (395360, 0)
+> Progress 8.1915%, elapsed 3189.0 s, iters = (395710, 0)
+> Progress 8.1915%, elapsed 3192.0 s, iters = (396080, 0)
+> Progress 8.1916%, elapsed 3195.0 s, iters = (396432, 0)
+> Progress 8.1916%, elapsed 3198.0 s, iters = (396805, 0)
+> Progress 8.1918%, elapsed 3201.0 s, iters = (397181, 0)
+> Progress 8.1922%, elapsed 3204.0 s, iters = (397519, 0)
+> Progress 8.1928%, elapsed 3207.0 s, iters = (397800, 0)
+> Progress 8.1931%, elapsed 3210.0 s, iters = (398161, 0)
+> Progress 8.1936%, elapsed 3213.0 s, iters = (398507, 0)
+> Progress 8.1941%, elapsed 3216.0 s, iters = (398858, 0)
+> Progress 8.1945%, elapsed 3219.0 s, iters = (399221, 0)
+> Progress 8.195%, elapsed 3222.0 s, iters = (399543, 0)
+> Progress 8.1969%, elapsed 3225.0 s, iters = (399831, 0)
+> Progress 8.197%, elapsed 3228.0 s, iters = (400138, 0)
+> Progress 8.1971%, elapsed 3231.0 s, iters = (400465, 0)
+> Progress 8.1974%, elapsed 3234.0 s, iters = (400796, 0)
+> Progress 8.1976%, elapsed 3237.0 s, iters = (401189, 0)
+> Progress 8.1979%, elapsed 3240.0 s, iters = (401560, 0)
+> Progress 8.1982%, elapsed 3243.0 s, iters = (401934, 0)
+> Progress 8.1988%, elapsed 3246.0 s, iters = (402316, 0)
+> Progress 8.1989%, elapsed 3249.0 s, iters = (402684, 0)
+> Progress 8.199%, elapsed 3252.0 s, iters = (403075, 0)
+> Progress 8.199%, elapsed 3255.0 s, iters = (403447, 0)
+> Progress 8.199%, elapsed 3258.0 s, iters = (403824, 0)
+> Progress 8.1991%, elapsed 3261.0 s, iters = (404226, 0)
+> Progress 8.1991%, elapsed 3264.0 s, iters = (404602, 0)
+> Progress 8.1992%, elapsed 3267.0 s, iters = (404998, 0)
+> Progress 8.1993%, elapsed 3270.0 s, iters = (405360, 0)
+> Progress 8.1993%, elapsed 3273.0 s, iters = (405754, 0)
+> Progress 8.1994%, elapsed 3276.0 s, iters = (406125, 0)
+> Progress 8.1994%, elapsed 3279.0 s, iters = (406493, 0)
+> Progress 8.1995%, elapsed 3282.0 s, iters = (406910, 0)
+> Progress 8.1995%, elapsed 3285.0 s, iters = (407276, 0)
+> Progress 8.1996%, elapsed 3288.0 s, iters = (407668, 0)
+> Progress 8.1997%, elapsed 3291.0 s, iters = (408043, 0)
+> Progress 8.1997%, elapsed 3294.0 s, iters = (408414, 0)
+> Progress 8.1997%, elapsed 3297.0 s, iters = (408798, 0)
+> Progress 8.1998%, elapsed 3300.0 s, iters = (409206, 0)
+> Progress 8.1998%, elapsed 3303.0 s, iters = (409578, 0)
+> Progress 8.1998%, elapsed 3306.0 s, iters = (409974, 0)
+> Progress 8.1999%, elapsed 3309.0 s, iters = (410368, 0)
+> Progress 8.1999%, elapsed 3312.0 s, iters = (410774, 0)
+> Progress 8.1999%, elapsed 3315.0 s, iters = (411152, 0)
+> Progress 8.2%, elapsed 3318.0 s, iters = (411534, 0)
+> Progress 8.2%, elapsed 3321.0 s, iters = (411932, 0)
+> Progress 8.2001%, elapsed 3324.0 s, iters = (412312, 0)
+> Progress 8.2001%, elapsed 3327.0 s, iters = (412683, 0)
+> Progress 8.2001%, elapsed 3330.0 s, iters = (413068, 0)
+> Progress 8.2002%, elapsed 3333.0 s, iters = (413469, 0)
+> Progress 8.2002%, elapsed 3336.0 s, iters = (413832, 0)
+> Progress 8.2002%, elapsed 3339.0 s, iters = (414236, 0)
+> Progress 8.2003%, elapsed 3342.0 s, iters = (414624, 0)
+> Progress 8.2004%, elapsed 3345.0 s, iters = (414990, 0)
+> Progress 8.2004%, elapsed 3348.0 s, iters = (415382, 0)
+> Progress 8.2005%, elapsed 3351.0 s, iters = (415782, 0)
+> Progress 8.2005%, elapsed 3354.0 s, iters = (416139, 0)
+> Progress 8.2005%, elapsed 3357.0 s, iters = (416518, 0)
+> Progress 8.2006%, elapsed 3360.0 s, iters = (416886, 0)
+> Progress 8.2006%, elapsed 3363.0 s, iters = (417260, 0)
+> Progress 8.2007%, elapsed 3366.0 s, iters = (417654, 0)
+> Progress 8.2008%, elapsed 3369.0 s, iters = (418018, 0)
+> Progress 8.2008%, elapsed 3372.0 s, iters = (418389, 0)
+> Progress 8.2009%, elapsed 3375.0 s, iters = (418782, 0)
+> Progress 8.2009%, elapsed 3378.0 s, iters = (419134, 0)
+> Progress 8.201%, elapsed 3381.0 s, iters = (419520, 0)
+> Progress 8.201%, elapsed 3384.0 s, iters = (419894, 0)
+> Progress 8.2011%, elapsed 3387.0 s, iters = (420264, 0)
+> Progress 8.2011%, elapsed 3390.0 s, iters = (420660, 0)
+> Progress 8.2012%, elapsed 3393.0 s, iters = (421024, 0)
+> Progress 8.2012%, elapsed 3396.0 s, iters = (421428, 0)
+> Progress 8.2013%, elapsed 3399.0 s, iters = (421814, 0)
+> Progress 8.2013%, elapsed 3402.0 s, iters = (422180, 0)
+> Progress 8.2013%, elapsed 3405.0 s, iters = (422582, 0)
+> Progress 8.2014%, elapsed 3408.0 s, iters = (422936, 0)
+> Progress 8.2014%, elapsed 3411.0 s, iters = (423306, 0)
+> Progress 8.2015%, elapsed 3414.0 s, iters = (423676, 0)
+> Progress 8.2016%, elapsed 3417.0 s, iters = (424065, 0)
+> Progress 8.2016%, elapsed 3420.0 s, iters = (424428, 0)
+> Progress 8.2016%, elapsed 3423.0 s, iters = (424830, 0)
+> Progress 8.2017%, elapsed 3426.0 s, iters = (425166, 0)
+> Progress 8.2017%, elapsed 3429.0 s, iters = (425514, 0)
+> Progress 8.2018%, elapsed 3432.0 s, iters = (425880, 0)
+> Progress 8.2018%, elapsed 3435.0 s, iters = (426250, 0)
+> Progress 8.2019%, elapsed 3438.0 s, iters = (426624, 0)
+> Progress 8.202%, elapsed 3441.0 s, iters = (427028, 0)
+> Progress 8.202%, elapsed 3444.0 s, iters = (427384, 0)
+> Progress 8.202%, elapsed 3447.0 s, iters = (427770, 0)
+> Progress 8.2021%, elapsed 3450.0 s, iters = (428160, 0)
+> Progress 8.2021%, elapsed 3453.0 s, iters = (428528, 0)
+> Progress 8.2021%, elapsed 3456.0 s, iters = (428936, 0)
+> Progress 8.2022%, elapsed 3459.0 s, iters = (429308, 0)
+> Progress 8.2023%, elapsed 3462.0 s, iters = (429680, 0)
+> Progress 8.2023%, elapsed 3465.0 s, iters = (430086, 0)
+> Progress 8.2024%, elapsed 3468.0 s, iters = (430408, 0)
+> Progress 8.2028%, elapsed 3471.0 s, iters = (430737, 0)
+> Progress 8.2029%, elapsed 3474.0 s, iters = (431033, 0)
+> Progress 8.203%, elapsed 3477.0 s, iters = (431388, 0)
+> Progress 8.203%, elapsed 3480.0 s, iters = (431754, 0)
+> Progress 8.2031%, elapsed 3483.0 s, iters = (432118, 0)
+> Progress 8.2031%, elapsed 3486.0 s, iters = (432510, 0)
+> Progress 8.2032%, elapsed 3489.0 s, iters = (432875, 0)
+> Progress 8.2032%, elapsed 3492.0 s, iters = (433273, 0)
+> Progress 8.2034%, elapsed 3495.0 s, iters = (433610, 0)
+> Progress 8.2036%, elapsed 3498.0 s, iters = (433943, 0)
+> Progress 8.2043%, elapsed 3501.0 s, iters = (434243, 0)
+> Progress 8.205%, elapsed 3504.0 s, iters = (434545, 0)
+> Progress 8.2056%, elapsed 3507.0 s, iters = (434842, 0)
+> Progress 8.2056%, elapsed 3510.0 s, iters = (435198, 0)
+> Progress 8.2063%, elapsed 3513.0 s, iters = (435491, 0)
+> Progress 8.2075%, elapsed 3516.0 s, iters = (435793, 0)
+> Progress 8.2094%, elapsed 3519.0 s, iters = (436094, 0)
+> Progress 8.2096%, elapsed 3522.0 s, iters = (436438, 0)
+> Progress 8.2097%, elapsed 3525.0 s, iters = (436802, 0)
+> Progress 8.2097%, elapsed 3528.0 s, iters = (437158, 0)
+> Progress 8.2098%, elapsed 3531.0 s, iters = (437510, 0)
+> Progress 8.2099%, elapsed 3534.0 s, iters = (437876, 0)
+> Progress 8.2099%, elapsed 3537.0 s, iters = (438230, 0)
+> Progress 8.21%, elapsed 3540.0 s, iters = (438595, 0)
+> Progress 8.21%, elapsed 3543.0 s, iters = (438942, 0)
+> Progress 8.2101%, elapsed 3546.0 s, iters = (439308, 0)
+> Progress 8.2102%, elapsed 3549.0 s, iters = (439668, 0)
+> Progress 8.2102%, elapsed 3552.0 s, iters = (440024, 0)
+> Progress 8.2103%, elapsed 3555.0 s, iters = (440384, 0)
+> Progress 8.2103%, elapsed 3558.0 s, iters = (440748, 0)
+> Progress 8.2104%, elapsed 3561.0 s, iters = (441104, 0)
+> Progress 8.2104%, elapsed 3564.0 s, iters = (441464, 0)
+> Progress 8.2105%, elapsed 3567.0 s, iters = (441834, 0)
+> Progress 8.2105%, elapsed 3570.0 s, iters = (442199, 0)
+> Progress 8.2106%, elapsed 3573.0 s, iters = (442550, 0)
+> Progress 8.2106%, elapsed 3576.0 s, iters = (442914, 0)
+> Progress 8.2107%, elapsed 3579.0 s, iters = (443290, 0)
+> Progress 8.2107%, elapsed 3582.0 s, iters = (443650, 0)
+> Progress 8.2107%, elapsed 3585.0 s, iters = (444020, 0)
+> Progress 8.2107%, elapsed 3588.0 s, iters = (444392, 0)
+> Progress 8.2108%, elapsed 3591.0 s, iters = (444762, 0)
+> Progress 8.2108%, elapsed 3594.0 s, iters = (445106, 0)
+$ python3 /home/francesco/HyperProject/paynt/paynt.py --project /home/francesco/HyperProject/eval/qest/HyperProb_bench/./TS_10.20 --method ar
+2023-07-04 12:16:54,358 - cli.py - This is HyperPaynt version 0.1.0.
+2023-07-04 12:16:54,358 - hyperparser.py - Loading properties from /home/francesco/HyperProject/eval/qest/HyperProb_bench/./TS_10.20/sketch.props ...
+2023-07-04 12:16:54,359 - hyperparser.py - Parsing scheduler quantifiers ...
+2023-07-04 12:16:54,359 - hyperparser.py - Found the following scheduler quantifiers: {'sched': 'ES'}
+2023-07-04 12:16:54,359 - hyperparser.py - Parsing state quantifiers...
+2023-07-04 12:16:54,359 - hyperparser.py - Found the following state quantifiers: {'s0': ('E', 'sched'), 's1': ('E', 'sched')}
+2023-07-04 12:16:54,359 - hyperparser.py - Parsing restrictions
+2023-07-04 12:16:54,359 - hyperparser.py - Found the following restrictions: {}
+2023-07-04 12:16:54,359 - hyperparser.py - Parsing scheduler optimality ( if required)
+2023-07-04 12:16:54,359 - hyperparser.py - Scheduler optimality property not found.
+2023-07-04 12:16:54,359 - hyperparser.py - Parsing structural constraints (if any)
+2023-07-04 12:16:54,360 - hyperparser.py - Found the following structural equality constraints: []
+2023-07-04 12:16:54,360 - hyperparser.py - Loading sketch from /home/francesco/HyperProject/eval/qest/HyperProb_bench/./TS_10.20/sketch.templ...
+2023-07-04 12:16:54,360 - hyperparser.py - Assuming a sketch in a PRISM format ...
+2023-07-04 12:16:54,376 - hyperparser.py - The model has 2 initial states...
+2023-07-04 12:16:54,376 - hyperparser.py - Instantiating the properties for the quantified initial states
+2023-07-04 12:16:54,376 - hyperparser.py - initial states for s0: [0, 1]
+2023-07-04 12:16:54,376 - hyperparser.py - initial states for s0 after restrictions: [0, 1]
+2023-07-04 12:16:54,376 - hyperparser.py - initial states for s1: [0, 1]
+2023-07-04 12:16:54,376 - hyperparser.py - initial states for s1 after restrictions: [0, 1]
+2023-07-04 12:16:54,376 - hyperparser.py - Assuming an hyperproperty with index 0...
+2023-07-04 12:16:54,377 - hyperparser.py - Assuming an hyperproperty with index 1...
+2023-07-04 12:16:54,377 - hyperparser.py - Assuming an hyperproperty with index 2...
+2023-07-04 12:16:54,377 - hyperparser.py - Assuming an hyperproperty with index 3...
+2023-07-04 12:16:54,378 - hyperparser.py - Found the following specification:
+ constraints: P=? [F "l1"][0] <built-in function lt> P=? [F "l1"][1] -- min_distance: 0;
+P=? [F "l1"][1] <built-in function lt> P=? [F "l1"][0] -- min_distance: 0;
+P=? [F "l2"][0] <built-in function lt> P=? [F "l2"][1] -- min_distance: 0;
+P=? [F "l2"][1] <built-in function lt> P=? [F "l2"][0] -- min_distance: 0.
+ Optimality objective: none.
+ Scheduler Optimality hyperobjective: none
+ 
+2023-07-04 12:16:54,378 - hypersketch.py - Processing actions and Initializing the quotient and the design space...
+2023-07-04 12:16:54,390 - hyperquotient.py - Constructed quotient MDP having 45 states and 66 actions.
+2023-07-04 12:16:54,392 - hypersketch.py - Sketch has 21 holes
+2023-07-04 12:16:54,392 - hypersketch.py - Design space size: 2097152
+2023-07-04 12:16:54,392 - hypersketch.py - Design space: [h=10	& l=0	& f1=0	& f2=0]: {{'a'},{'c'}} - scheduler(s): ['sched'];
+[h=20	& l=0	& f1=0	& f2=0]: {{'a'},{'c'}} - scheduler(s): ['sched'];
+[h=9	& l=0	& f1=0	& f2=0]: {{'a'},{'c'}} - scheduler(s): ['sched'];
+[h=19	& l=0	& f1=0	& f2=0]: {{'a'},{'c'}} - scheduler(s): ['sched'];
+[h=8	& l=0	& f1=0	& f2=0]: {{'a'},{'c'}} - scheduler(s): ['sched'];
+[h=18	& l=0	& f1=0	& f2=0]: {{'a'},{'c'}} - scheduler(s): ['sched'];
+[h=7	& l=0	& f1=0	& f2=0]: {{'a'},{'c'}} - scheduler(s): ['sched'];
+[h=17	& l=0	& f1=0	& f2=0]: {{'a'},{'c'}} - scheduler(s): ['sched'];
+[h=6	& l=0	& f1=0	& f2=0]: {{'a'},{'c'}} - scheduler(s): ['sched'];
+[h=16	& l=0	& f1=0	& f2=0]: {{'a'},{'c'}} - scheduler(s): ['sched'];
+[h=5	& l=0	& f1=0	& f2=0]: {{'a'},{'c'}} - scheduler(s): ['sched'];
+[h=15	& l=0	& f1=0	& f2=0]: {{'a'},{'c'}} - scheduler(s): ['sched'];
+[h=4	& l=0	& f1=0	& f2=0]: {{'a'},{'c'}} - scheduler(s): ['sched'];
+[h=14	& l=0	& f1=0	& f2=0]: {{'a'},{'c'}} - scheduler(s): ['sched'];
+[h=3	& l=0	& f1=0	& f2=0]: {{'a'},{'c'}} - scheduler(s): ['sched'];
+[h=13	& l=0	& f1=0	& f2=0]: {{'a'},{'c'}} - scheduler(s): ['sched'];
+[h=2	& l=0	& f1=0	& f2=0]: {{'a'},{'c'}} - scheduler(s): ['sched'];
+[h=12	& l=0	& f1=0	& f2=0]: {{'a'},{'c'}} - scheduler(s): ['sched'];
+[h=1	& l=0	& f1=0	& f2=0]: {{'a'},{'c'}} - scheduler(s): ['sched'];
+[h=11	& l=0	& f1=0	& f2=0]: {{'a'},{'c'}} - scheduler(s): ['sched'];
+[h=0	& l=0	& f1=0	& f2=0]: {{'b'},{'d'}} - scheduler(s): ['sched']
+2023-07-04 12:16:54,392 - hypersketch.py - Sketch parsing complete.
+2023-07-04 12:16:54,392 - hypersketch.py - Matching holes: defaultdict(<class 'list'>, {})
+2023-07-04 12:16:54,392 - cli.py - Synthetizing an MDP scheduler wrt a hyperproperty
+2023-07-04 12:16:54,392 - hypersynthesizer.py - Synthesis initiated.
+2023-07-04 12:16:54,393 - hypersynthesizer.py - Printing synthesized assignment below:
+2023-07-04 12:16:54,393 - hypersynthesizer.py - [h=10	& l=0	& f1=0	& f2=0]={'a'} - scheduler(s): ['sched'];
+[h=20	& l=0	& f1=0	& f2=0]={'a'} - scheduler(s): ['sched'];
+[h=9	& l=0	& f1=0	& f2=0]={'a'} - scheduler(s): ['sched'];
+[h=19	& l=0	& f1=0	& f2=0]={'a'} - scheduler(s): ['sched'];
+[h=8	& l=0	& f1=0	& f2=0]={'a'} - scheduler(s): ['sched'];
+[h=18	& l=0	& f1=0	& f2=0]={'a'} - scheduler(s): ['sched'];
+[h=7	& l=0	& f1=0	& f2=0]={'a'} - scheduler(s): ['sched'];
+[h=17	& l=0	& f1=0	& f2=0]={'a'} - scheduler(s): ['sched'];
+[h=6	& l=0	& f1=0	& f2=0]={'a'} - scheduler(s): ['sched'];
+[h=16	& l=0	& f1=0	& f2=0]={'a'} - scheduler(s): ['sched'];
+[h=5	& l=0	& f1=0	& f2=0]={'a'} - scheduler(s): ['sched'];
+[h=15	& l=0	& f1=0	& f2=0]={'a'} - scheduler(s): ['sched'];
+[h=4	& l=0	& f1=0	& f2=0]={'a'} - scheduler(s): ['sched'];
+[h=14	& l=0	& f1=0	& f2=0]={'a'} - scheduler(s): ['sched'];
+[h=3	& l=0	& f1=0	& f2=0]={'a'} - scheduler(s): ['sched'];
+[h=13	& l=0	& f1=0	& f2=0]={'a'} - scheduler(s): ['sched'];
+[h=2	& l=0	& f1=0	& f2=0]={'a'} - scheduler(s): ['sched'];
+[h=12	& l=0	& f1=0	& f2=0]={'a'} - scheduler(s): ['sched'];
+[h=1	& l=0	& f1=0	& f2=0]={'a'} - scheduler(s): ['sched'];
+[h=11	& l=0	& f1=0	& f2=0]={'a'} - scheduler(s): ['sched'];
+[h=0	& l=0	& f1=0	& f2=0]={'b'} - scheduler(s): ['sched']
+2023-07-04 12:16:54,394 - hypersynthesizer.py - Double-checking specification satisfiability:
+0.9995117187499999[0] <built-in function lt> 0.9999995231628417[1]: True;
+0.9999995231628417[1] <built-in function lt> 0.9995117187499999[0]: False;
+0.0004882812500001613[0] <built-in function lt> 4.768371583251983e-07[1]: False;
+4.768371583251983e-07[1] <built-in function lt> 0.0004882812500001613[0]: True
+ No optimality constraint specified
+ No scheduler hyperoptimalty constraint specified
+--------------------
+Synthesis summary
+constraint 1: P=? [F "l1"][0] <built-in function lt> P=? [F "l1"][1] -- min_distance: 0
+constraint 2: P=? [F "l1"][1] <built-in function lt> P=? [F "l1"][0] -- min_distance: 0
+constraint 3: P=? [F "l2"][0] <built-in function lt> P=? [F "l2"][1] -- min_distance: 0
+constraint 4: P=? [F "l2"][1] <built-in function lt> P=? [F "l2"][0] -- min_distance: 0
+Optimality objective: None
+ Scheduler Hyperoptimality objective: None
+ Indexes of formulae in OR relation with each other: [[0, 1, 2, 3]]
+
+method: AR, synthesis time: 0.0 s
+number of holes: 21, family size: 2097152, super quotient: 45 states / 66 actions 
+explored: 0 %
+AR stats: avg MDP size: 45, iterations: 1, decided families: 0, average decided families size: 0.0, AR Sat members found: 0, AR Unsat Members found: 0
+
+feasible: yes
+--------------------
+
+$ python3 /home/francesco/HyperProject/paynt/paynt.py --project /home/francesco/HyperProject/eval/qest/HyperProb_bench/./TA_4 --method ar
+2023-07-04 12:16:54,575 - cli.py - This is HyperPaynt version 0.1.0.
+2023-07-04 12:16:54,575 - hyperparser.py - Loading properties from /home/francesco/HyperProject/eval/qest/HyperProb_bench/./TA_4/sketch.props ...
+2023-07-04 12:16:54,575 - hyperparser.py - Parsing scheduler quantifiers ...
+2023-07-04 12:16:54,575 - hyperparser.py - Found the following scheduler quantifiers: {'sched1': 'ES', 'sched2': 'ES'}
+2023-07-04 12:16:54,575 - hyperparser.py - Parsing state quantifiers...
+2023-07-04 12:16:54,575 - hyperparser.py - Found the following state quantifiers: {'s0': ('E', 'sched1'), 's1': ('E', 'sched2')}
+2023-07-04 12:16:54,576 - hyperparser.py - Parsing restrictions
+2023-07-04 12:16:54,576 - hyperparser.py - Found the following restrictions: {}
+2023-07-04 12:16:54,576 - hyperparser.py - Parsing scheduler optimality ( if required)
+2023-07-04 12:16:54,576 - hyperparser.py - Scheduler optimality property not found.
+2023-07-04 12:16:54,576 - hyperparser.py - Parsing structural constraints (if any)
+2023-07-04 12:16:54,576 - hyperparser.py - Found the following structural equality constraints: []
+2023-07-04 12:16:54,576 - hyperparser.py - Loading sketch from /home/francesco/HyperProject/eval/qest/HyperProb_bench/./TA_4/sketch.templ...
+2023-07-04 12:16:54,576 - hyperparser.py - Assuming a sketch in a PRISM format ...
+2023-07-04 12:16:54,592 - hyperparser.py - The model has 2 initial states...
+2023-07-04 12:16:54,592 - hyperparser.py - Instantiating the properties for the quantified initial states
+2023-07-04 12:16:54,593 - hyperparser.py - initial states for s0: [0]
+2023-07-04 12:16:54,593 - hyperparser.py - initial states for s0 after restrictions: [0]
+2023-07-04 12:16:54,593 - hyperparser.py - initial states for s1: [1]
+2023-07-04 12:16:54,593 - hyperparser.py - initial states for s1 after restrictions: [1]
+2023-07-04 12:16:54,593 - hyperparser.py - Assuming an hyperproperty with index 0...
+2023-07-04 12:16:54,594 - hyperparser.py - Assuming an hyperproperty with index 1...
+2023-07-04 12:16:54,594 - hyperparser.py - Found the following specification:
+ constraints: P=? [F "c0"][0] <built-in function lt> P=? [F "c0"][1] -- min_distance: 0;
+P=? [F "c0"][1] <built-in function lt> P=? [F "c0"][0] -- min_distance: 0.
+ Optimality objective: none.
+ Scheduler Optimality hyperobjective: none
+ 
+2023-07-04 12:16:54,594 - hypersketch.py - Processing actions and Initializing the quotient and the design space...
+2023-07-04 12:16:54,606 - hyperquotient.py - Constructed quotient MDP having 244 states and 316 actions.
+2023-07-04 12:16:54,615 - hypersketch.py - Sketch has 72 holes
+2023-07-04 12:16:54,615 - hypersketch.py - Design space size: 4722366482869645213696
+2023-07-04 12:16:54,615 - hypersketch.py - Design space: [h=4	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=1	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=1	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2']
+2023-07-04 12:16:54,615 - hypersketch.py - Sketch parsing complete.
+2023-07-04 12:16:54,615 - hypersketch.py - Matching holes: defaultdict(<class 'list'>, {})
+2023-07-04 12:16:54,615 - cli.py - Synthetizing an MDP scheduler wrt a hyperproperty
+2023-07-04 12:16:54,615 - hypersynthesizer.py - Synthesis initiated.
+2023-07-04 12:16:54,623 - hypersynthesizer.py - Printing synthesized assignment below:
+2023-07-04 12:16:54,623 - hypersynthesizer.py - [h=4	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=0	& e=0	]={'b'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=0	& e=0	]={'b'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=0	& e=0	]={'b'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=0	& e=0	]={'b'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=1	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=1	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched2']
+2023-07-04 12:16:54,624 - hypersynthesizer.py - Double-checking specification satisfiability:
+0.0019531250000001154[0] <built-in function lt> 0.03125000000000014[1]: True;
+0.03125000000000014[1] <built-in function lt> 0.0019531250000001154[0]: False
+ No optimality constraint specified
+ No scheduler hyperoptimalty constraint specified
+--------------------
+Synthesis summary
+constraint 1: P=? [F "c0"][0] <built-in function lt> P=? [F "c0"][1] -- min_distance: 0
+constraint 2: P=? [F "c0"][1] <built-in function lt> P=? [F "c0"][0] -- min_distance: 0
+Optimality objective: None
+ Scheduler Hyperoptimality objective: None
+ Indexes of formulae in OR relation with each other: [[0, 1]]
+
+method: AR, synthesis time: 0.01 s
+number of holes: 72, family size: 4722366482869645213696, super quotient: 244 states / 316 actions 
+explored: 0 %
+AR stats: avg MDP size: 244, iterations: 1, decided families: 0, average decided families size: 0.0, AR Sat members found: 0, AR Unsat Members found: 0
+
+feasible: yes
+--------------------
+
+$ python3 /home/francesco/HyperProject/paynt/paynt.py --project /home/francesco/HyperProject/eval/qest/HyperProb_bench/./PW_4 --method ar
+2023-07-04 12:16:54,802 - cli.py - This is HyperPaynt version 0.1.0.
+2023-07-04 12:16:54,802 - hyperparser.py - Loading properties from /home/francesco/HyperProject/eval/qest/HyperProb_bench/./PW_4/sketch.props ...
+2023-07-04 12:16:54,802 - hyperparser.py - Parsing scheduler quantifiers ...
+2023-07-04 12:16:54,802 - hyperparser.py - Found the following scheduler quantifiers: {'sched1': 'ES', 'sched2': 'ES'}
+2023-07-04 12:16:54,802 - hyperparser.py - Parsing state quantifiers...
+2023-07-04 12:16:54,802 - hyperparser.py - Found the following state quantifiers: {'s0': ('E', 'sched1'), 's1': ('E', 'sched2')}
+2023-07-04 12:16:54,802 - hyperparser.py - Parsing restrictions
+2023-07-04 12:16:54,803 - hyperparser.py - Found the following restrictions: {}
+2023-07-04 12:16:54,803 - hyperparser.py - Parsing scheduler optimality ( if required)
+2023-07-04 12:16:54,803 - hyperparser.py - Scheduler optimality property not found.
+2023-07-04 12:16:54,803 - hyperparser.py - Parsing structural constraints (if any)
+2023-07-04 12:16:54,803 - hyperparser.py - Found the following structural equality constraints: []
+2023-07-04 12:16:54,803 - hyperparser.py - Loading sketch from /home/francesco/HyperProject/eval/qest/HyperProb_bench/./PW_4/sketch.templ...
+2023-07-04 12:16:54,803 - hyperparser.py - Assuming a sketch in a PRISM format ...
+2023-07-04 12:16:54,819 - hyperparser.py - The model has 2 initial states...
+2023-07-04 12:16:54,819 - hyperparser.py - Instantiating the properties for the quantified initial states
+2023-07-04 12:16:54,820 - hyperparser.py - initial states for s0: [0]
+2023-07-04 12:16:54,820 - hyperparser.py - initial states for s0 after restrictions: [0]
+2023-07-04 12:16:54,820 - hyperparser.py - initial states for s1: [1]
+2023-07-04 12:16:54,820 - hyperparser.py - initial states for s1 after restrictions: [1]
+2023-07-04 12:16:54,820 - hyperparser.py - Assuming an hyperproperty with index 0...
+2023-07-04 12:16:54,821 - hyperparser.py - Assuming an hyperproperty with index 1...
+2023-07-04 12:16:54,821 - hyperparser.py - Found the following specification:
+ constraints: P=? [F "c0"][0] <built-in function lt> P=? [F "c0"][1] -- min_distance: 0;
+P=? [F "c0"][1] <built-in function lt> P=? [F "c0"][0] -- min_distance: 0.
+ Optimality objective: none.
+ Scheduler Optimality hyperobjective: none
+ 
+2023-07-04 12:16:54,821 - hypersketch.py - Processing actions and Initializing the quotient and the design space...
+2023-07-04 12:16:54,833 - hyperquotient.py - Constructed quotient MDP having 298 states and 370 actions.
+2023-07-04 12:16:54,843 - hypersketch.py - Sketch has 72 holes
+2023-07-04 12:16:54,843 - hypersketch.py - Design space size: 4722366482869645213696
+2023-07-04 12:16:54,843 - hypersketch.py - Design space: [h=4	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=0	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=4	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=1	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=4	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=2	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=3	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=1	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=4	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=1	& pc=0	& c=8	& e=0	]: {{'c'},{'d'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=5	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=6	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=7	& e=0	]: {{'a'},{'b'}} - scheduler(s): ['sched2']
+2023-07-04 12:16:54,843 - hypersketch.py - Sketch parsing complete.
+2023-07-04 12:16:54,843 - hypersketch.py - Matching holes: defaultdict(<class 'list'>, {})
+2023-07-04 12:16:54,843 - cli.py - Synthetizing an MDP scheduler wrt a hyperproperty
+2023-07-04 12:16:54,843 - hypersynthesizer.py - Synthesis initiated.
+2023-07-04 12:16:54,851 - hypersynthesizer.py - Printing synthesized assignment below:
+2023-07-04 12:16:54,851 - hypersynthesizer.py - [h=4	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=0	& e=0	]={'b'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=0	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=4	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=1	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=4	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=2	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=3	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=3	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=3	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=1	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=4	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=1	& pc=0	& c=8	& e=0	]={'c'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=2	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=5	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=2	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=6	& e=0	]={'a'} - scheduler(s): ['sched2'];
+[h=1	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched1'];
+[h=1	& pc=1	& c=7	& e=0	]={'a'} - scheduler(s): ['sched2']
+2023-07-04 12:16:54,852 - hypersynthesizer.py - Double-checking specification satisfiability:
+0.0312499999999999[0] <built-in function lt> 0.24999999999999994[1]: True;
+0.24999999999999994[1] <built-in function lt> 0.0312499999999999[0]: False
+ No optimality constraint specified
+ No scheduler hyperoptimalty constraint specified
+--------------------
+Synthesis summary
+constraint 1: P=? [F "c0"][0] <built-in function lt> P=? [F "c0"][1] -- min_distance: 0
+constraint 2: P=? [F "c0"][1] <built-in function lt> P=? [F "c0"][0] -- min_distance: 0
+Optimality objective: None
+ Scheduler Hyperoptimality objective: None
+ Indexes of formulae in OR relation with each other: [[0, 1]]
+
+method: AR, synthesis time: 0.01 s
+number of holes: 72, family size: 4722366482869645213696, super quotient: 298 states / 370 actions 
+explored: 0 %
+AR stats: avg MDP size: 298, iterations: 1, decided families: 0, average decided families size: 0.0, AR Sat members found: 0, AR Unsat Members found: 0
+
+feasible: yes
+--------------------
+

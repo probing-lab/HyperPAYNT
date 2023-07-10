@@ -1,0 +1,882 @@
+$ python3 /home/francesco/HyperProject/paynt/paynt.py --project /home/francesco/HyperProject/eval/qest/Opacity/./larger-4+mem --method ar
+2023-07-04 22:07:05,251 - cli.py - This is HyperPaynt version 0.1.0.
+2023-07-04 22:07:05,251 - hyperparser.py - Loading properties from /home/francesco/HyperProject/eval/qest/Opacity/./larger-4+mem/sketch.props ...
+2023-07-04 22:07:05,251 - hyperparser.py - Parsing scheduler quantifiers ...
+2023-07-04 22:07:05,251 - hyperparser.py - Found the following scheduler quantifiers: {'sched': 'ES', 'sched1': 'ES'}
+2023-07-04 22:07:05,251 - hyperparser.py - Parsing state quantifiers...
+2023-07-04 22:07:05,251 - hyperparser.py - Found the following state quantifiers: {'s0': ('A', 'sched'), 's1': ('A', 'sched1')}
+2023-07-04 22:07:05,251 - hyperparser.py - Parsing restrictions
+2023-07-04 22:07:05,252 - hyperparser.py - Found the following restrictions: {}
+2023-07-04 22:07:05,252 - hyperparser.py - Parsing scheduler optimality ( if required)
+2023-07-04 22:07:05,252 - hyperparser.py - Scheduler optimality property found.
+2023-07-04 22:07:05,252 - hyperparser.py - Parsing structural constraints (if any)
+2023-07-04 22:07:05,252 - hyperparser.py - Found the following structural equality constraints: [('goal', ['sched']), ('!goal & up & right & down & left & treasure & memory=0', ['sched']), ('!goal & up & right & down & left & treasure & memory=1', ['sched']), ('!goal & up & right & down & left & !treasure & memory=0', ['sched']), ('!goal & up & right & down & left & !treasure & memory=1', ['sched']), ('!goal & up & right & down & !left & treasure & memory=0', ['sched']), ('!goal & up & right & down & !left & treasure & memory=1', ['sched']), ('!goal & up & right & down & !left & !treasure & memory=0', ['sched']), ('!goal & up & right & down & !left & !treasure & memory=1', ['sched']), ('!goal & up & right & !down & left & treasure & memory=0', ['sched']), ('!goal & up & right & !down & left & treasure & memory=1', ['sched']), ('!goal & up & right & !down & left & !treasure & memory=0', ['sched']), ('!goal & up & right & !down & left & !treasure & memory=1', ['sched']), ('!goal & up & right & !down & !left & treasure & memory=0', ['sched']), ('!goal & up & right & !down & !left & treasure & memory=1', ['sched']), ('!goal & up & right & !down & !left & !treasure & memory=0', ['sched']), ('!goal & up & right & !down & !left & !treasure & memory=1', ['sched']), ('!goal & up & !right & down & left & treasure & memory=0', ['sched']), ('!goal & up & !right & down & left & treasure & memory=1', ['sched']), ('!goal & up & !right & down & left & !treasure & memory=0', ['sched']), ('!goal & up & !right & down & left & !treasure & memory=1', ['sched']), ('!goal & up & !right & down & !left & treasure & memory=0', ['sched']), ('!goal & up & !right & down & !left & treasure & memory=1', ['sched']), ('!goal & up & !right & down & !left & !treasure & memory=0', ['sched']), ('!goal & up & !right & down & !left & !treasure & memory=1', ['sched']), ('!goal & up & !right & !down & left & treasure & memory=0', ['sched']), ('!goal & up & !right & !down & left & treasure & memory=1', ['sched']), ('!goal & up & !right & !down & left & !treasure & memory=0', ['sched']), ('!goal & up & !right & !down & left & !treasure & memory=1', ['sched']), ('!goal & up & !right & !down & !left & treasure & memory=0', ['sched']), ('!goal & up & !right & !down & !left & treasure & memory=1', ['sched']), ('!goal & up & !right & !down & !left & !treasure & memory=0', ['sched']), ('!goal & up & !right & !down & !left & !treasure & memory=1', ['sched']), ('!goal & !up & right & down & left & treasure & memory=0', ['sched']), ('!goal & !up & right & down & left & treasure & memory=1', ['sched']), ('!goal & !up & right & down & left & !treasure & memory=0', ['sched']), ('!goal & !up & right & down & left & !treasure & memory=1', ['sched']), ('!goal & !up & right & down & !left & treasure & memory=0', ['sched']), ('!goal & !up & right & down & !left & treasure & memory=1', ['sched']), ('!goal & !up & right & down & !left & !treasure & memory=0', ['sched']), ('!goal & !up & right & down & !left & !treasure & memory=1', ['sched']), ('!goal & !up & right & !down & left & treasure & memory=0', ['sched']), ('!goal & !up & right & !down & left & treasure & memory=1', ['sched']), ('!goal & !up & right & !down & left & !treasure & memory=0', ['sched']), ('!goal & !up & right & !down & left & !treasure & memory=1', ['sched']), ('!goal & !up & right & !down & !left & treasure & memory=0', ['sched']), ('!goal & !up & right & !down & !left & treasure & memory=1', ['sched']), ('!goal & !up & right & !down & !left & !treasure & memory=0', ['sched']), ('!goal & !up & right & !down & !left & !treasure & memory=1', ['sched']), ('!goal & !up & !right & down & left & treasure & memory=0', ['sched']), ('!goal & !up & !right & down & left & treasure & memory=1', ['sched']), ('!goal & !up & !right & down & left & !treasure & memory=0', ['sched']), ('!goal & !up & !right & down & left & !treasure & memory=1', ['sched']), ('!goal & !up & !right & down & !left & treasure & memory=0', ['sched']), ('!goal & !up & !right & down & !left & treasure & memory=1', ['sched']), ('!goal & !up & !right & down & !left & !treasure & memory=0', ['sched']), ('!goal & !up & !right & down & !left & !treasure & memory=1', ['sched']), ('!goal & !up & !right & !down & left & treasure & memory=0', ['sched']), ('!goal & !up & !right & !down & left & treasure & memory=1', ['sched']), ('!goal & !up & !right & !down & left & !treasure & memory=0', ['sched']), ('!goal & !up & !right & !down & left & !treasure & memory=1', ['sched']), ('!goal & !up & !right & !down & !left & treasure & memory=0', ['sched']), ('!goal & !up & !right & !down & !left & treasure & memory=1', ['sched']), ('!goal & !up & !right & !down & !left & !treasure & memory=0', ['sched']), ('!goal & !up & !right & !down & !left & !treasure & memory=1', ['sched']), ('goal', ['sched1']), ('!goal & up & right & down & left & treasure & memory=0', ['sched1']), ('!goal & up & right & down & left & treasure & memory=1', ['sched1']), ('!goal & up & right & down & left & !treasure & memory=0', ['sched1']), ('!goal & up & right & down & left & !treasure & memory=1', ['sched1']), ('!goal & up & right & down & !left & treasure & memory=0', ['sched1']), ('!goal & up & right & down & !left & treasure & memory=1', ['sched1']), ('!goal & up & right & down & !left & !treasure & memory=0', ['sched1']), ('!goal & up & right & down & !left & !treasure & memory=1', ['sched1']), ('!goal & up & right & !down & left & treasure & memory=0', ['sched1']), ('!goal & up & right & !down & left & treasure & memory=1', ['sched1']), ('!goal & up & right & !down & left & !treasure & memory=0', ['sched1']), ('!goal & up & right & !down & left & !treasure & memory=1', ['sched1']), ('!goal & up & right & !down & !left & treasure & memory=0', ['sched1']), ('!goal & up & right & !down & !left & treasure & memory=1', ['sched1']), ('!goal & up & right & !down & !left & !treasure & memory=0', ['sched1']), ('!goal & up & right & !down & !left & !treasure & memory=1', ['sched1']), ('!goal & up & !right & down & left & treasure & memory=0', ['sched1']), ('!goal & up & !right & down & left & treasure & memory=1', ['sched1']), ('!goal & up & !right & down & left & !treasure & memory=0', ['sched1']), ('!goal & up & !right & down & left & !treasure & memory=1', ['sched1']), ('!goal & up & !right & down & !left & treasure & memory=0', ['sched1']), ('!goal & up & !right & down & !left & treasure & memory=1', ['sched1']), ('!goal & up & !right & down & !left & !treasure & memory=0', ['sched1']), ('!goal & up & !right & down & !left & !treasure & memory=1', ['sched1']), ('!goal & up & !right & !down & left & treasure & memory=0', ['sched1']), ('!goal & up & !right & !down & left & treasure & memory=1', ['sched1']), ('!goal & up & !right & !down & left & !treasure & memory=0', ['sched1']), ('!goal & up & !right & !down & left & !treasure & memory=1', ['sched1']), ('!goal & up & !right & !down & !left & treasure & memory=0', ['sched1']), ('!goal & up & !right & !down & !left & treasure & memory=1', ['sched1']), ('!goal & up & !right & !down & !left & !treasure & memory=0', ['sched1']), ('!goal & up & !right & !down & !left & !treasure & memory=1', ['sched1']), ('!goal & !up & right & down & left & treasure & memory=0', ['sched1']), ('!goal & !up & right & down & left & treasure & memory=1', ['sched1']), ('!goal & !up & right & down & left & !treasure & memory=0', ['sched1']), ('!goal & !up & right & down & left & !treasure & memory=1', ['sched1']), ('!goal & !up & right & down & !left & treasure & memory=0', ['sched1']), ('!goal & !up & right & down & !left & treasure & memory=1', ['sched1']), ('!goal & !up & right & down & !left & !treasure & memory=0', ['sched1']), ('!goal & !up & right & down & !left & !treasure & memory=1', ['sched1']), ('!goal & !up & right & !down & left & treasure & memory=0', ['sched1']), ('!goal & !up & right & !down & left & treasure & memory=1', ['sched1']), ('!goal & !up & right & !down & left & !treasure & memory=0', ['sched1']), ('!goal & !up & right & !down & left & !treasure & memory=1', ['sched1']), ('!goal & !up & right & !down & !left & treasure & memory=0', ['sched1']), ('!goal & !up & right & !down & !left & treasure & memory=1', ['sched1']), ('!goal & !up & right & !down & !left & !treasure & memory=0', ['sched1']), ('!goal & !up & right & !down & !left & !treasure & memory=1', ['sched1']), ('!goal & !up & !right & down & left & treasure & memory=0', ['sched1']), ('!goal & !up & !right & down & left & treasure & memory=1', ['sched1']), ('!goal & !up & !right & down & left & !treasure & memory=0', ['sched1']), ('!goal & !up & !right & down & left & !treasure & memory=1', ['sched1']), ('!goal & !up & !right & down & !left & treasure & memory=0', ['sched1']), ('!goal & !up & !right & down & !left & treasure & memory=1', ['sched1']), ('!goal & !up & !right & down & !left & !treasure & memory=0', ['sched1']), ('!goal & !up & !right & down & !left & !treasure & memory=1', ['sched1']), ('!goal & !up & !right & !down & left & treasure & memory=0', ['sched1']), ('!goal & !up & !right & !down & left & treasure & memory=1', ['sched1']), ('!goal & !up & !right & !down & left & !treasure & memory=0', ['sched1']), ('!goal & !up & !right & !down & left & !treasure & memory=1', ['sched1']), ('!goal & !up & !right & !down & !left & treasure & memory=0', ['sched1']), ('!goal & !up & !right & !down & !left & treasure & memory=1', ['sched1']), ('!goal & !up & !right & !down & !left & !treasure & memory=0', ['sched1']), ('!goal & !up & !right & !down & !left & !treasure & memory=1', ['sched1'])]
+2023-07-04 22:07:05,252 - hyperparser.py - Loading sketch from /home/francesco/HyperProject/eval/qest/Opacity/./larger-4+mem/sketch.templ...
+2023-07-04 22:07:05,252 - hyperparser.py - Assuming a sketch in a PRISM format ...
+2023-07-04 22:07:05,253 - hyperparser.py - Warning. One formula token is contained in another: current_treasure vs treasure. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 22:07:05,292 - hyperparser.py - The model has 2 initial states...
+2023-07-04 22:07:05,292 - hyperparser.py - Instantiating the properties for the quantified initial states
+2023-07-04 22:07:05,292 - hyperparser.py - initial states for s0: [0]
+2023-07-04 22:07:05,292 - hyperparser.py - initial states for s0 after restrictions: [0]
+2023-07-04 22:07:05,293 - hyperparser.py - initial states for s1: [1]
+2023-07-04 22:07:05,293 - hyperparser.py - initial states for s1 after restrictions: [1]
+2023-07-04 22:07:05,293 - hyperparser.py - Assuming an hyperproperty with index 0...
+2023-07-04 22:07:05,293 - hyperparser.py - HyperProperty Parsing failed: assuming a property for string R{0}{"rew"}>=138 [F goal] at index 0... 
+2023-07-04 22:07:05,294 - hyperparser.py - Assuming an hyperproperty with index 1...
+2023-07-04 22:07:05,294 - hyperparser.py - HyperProperty Parsing failed: assuming a property for string R{1}{"rew"}>=138 [F goal] at index 1... 
+2023-07-04 22:07:05,294 - hyperparser.py - Assuming an hyperproperty with index 2...
+2023-07-04 22:07:05,295 - hyperparser.py - Assuming an hyperproperty with index 3...
+2023-07-04 22:07:05,295 - hyperparser.py - Found the following specification:
+ constraints: R[exp]{"rew"}>=138 [F (sink)][0] -- bound: [0];
+R[exp]{"rew"}>=138 [F (sink)][1] -- bound: [0];
+R[exp]{"rew"}=? [F (sink)][1] <built-in function le> R[exp]{"rew"}=? [F (sink)][0] -- min_distance: 0;
+R[exp]{"rew"}=? [F (sink)][0] <built-in function le> R[exp]{"rew"}=? [F (sink)][1] -- min_distance: 0.
+ Optimality objective: none.
+ Scheduler Optimality hyperobjective: Maximizing  scheduler difference.
+ 
+2023-07-04 22:07:05,295 - hypersketch.py - Processing actions and Initializing the quotient and the design space...
+2023-07-04 22:07:05,325 - hyperquotient.py - Constructed quotient MDP having 864 states and 2272 actions.
+2023-07-04 22:07:45,220 - hypersketch.py - Sketch has 64 holes
+2023-07-04 22:07:45,220 - hypersketch.py - Design space size: 172462464674787958108367218731066064896
+2023-07-04 22:07:45,221 - hypersketch.py - Design space: !goal & up & !right & !down & !left & !treasure & memory=0: {{'up0'},{'up1'}} - scheduler(s): ['sched'];
+!goal & up & !right & !down & !left & !treasure & memory=0: {{'up0'},{'up1'}} - scheduler(s): ['sched1'];
+!goal & up & !right & down & !left & !treasure & memory=0: {{'up0'},{'do0'},{'up1'},{'do1'}} - scheduler(s): ['sched'];
+!goal & up & !right & down & !left & !treasure & memory=1: {{'up0'},{'do0'},{'up1'},{'do1'}} - scheduler(s): ['sched'];
+!goal & up & !right & !down & !left & !treasure & memory=1: {{'up0'},{'up1'}} - scheduler(s): ['sched'];
+!goal & up & !right & down & !left & !treasure & memory=0: {{'up0'},{'do0'},{'up1'},{'do1'}} - scheduler(s): ['sched1'];
+!goal & up & !right & down & !left & !treasure & memory=1: {{'up0'},{'do0'},{'up1'},{'do1'}} - scheduler(s): ['sched1'];
+!goal & up & !right & !down & !left & !treasure & memory=1: {{'up0'},{'up1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & down & !left & !treasure & memory=0: {{'ri0'},{'do0'},{'ri1'},{'do1'}} - scheduler(s): ['sched'];
+!goal & !up & right & down & !left & !treasure & memory=1: {{'ri0'},{'do0'},{'ri1'},{'do1'}} - scheduler(s): ['sched'];
+!goal & !up & right & down & !left & !treasure & memory=0: {{'ri0'},{'do0'},{'ri1'},{'do1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & down & !left & !treasure & memory=1: {{'ri0'},{'do0'},{'ri1'},{'do1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & left & !treasure & memory=0: {{'ri0'},{'le0'},{'ri1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & right & !down & left & !treasure & memory=1: {{'ri0'},{'le0'},{'ri1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & right & !down & left & !treasure & memory=0: {{'ri0'},{'le0'},{'ri1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & left & !treasure & memory=1: {{'ri0'},{'le0'},{'ri1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & up & right & down & left & !treasure & memory=0: {{'up0'},{'ri0'},{'do0'},{'le0'},{'up1'},{'ri1'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & up & right & down & left & !treasure & memory=1: {{'up0'},{'ri0'},{'do0'},{'le0'},{'up1'},{'ri1'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & up & right & down & left & !treasure & memory=0: {{'up0'},{'ri0'},{'do0'},{'le0'},{'up1'},{'ri1'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & up & right & down & left & !treasure & memory=1: {{'up0'},{'ri0'},{'do0'},{'le0'},{'up1'},{'ri1'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & up & !right & down & !left & treasure & memory=0: {{'up0'},{'do0'},{'up1'},{'do1'}} - scheduler(s): ['sched'];
+!goal & up & !right & down & !left & treasure & memory=1: {{'up0'},{'do0'},{'up1'},{'do1'}} - scheduler(s): ['sched'];
+!goal & up & !right & down & !left & treasure & memory=0: {{'up0'},{'do0'},{'up1'},{'do1'}} - scheduler(s): ['sched1'];
+!goal & up & !right & down & !left & treasure & memory=1: {{'up0'},{'do0'},{'up1'},{'do1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & down & left & !treasure & memory=0: {{'ri0'},{'do0'},{'le0'},{'ri1'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & right & down & left & !treasure & memory=1: {{'ri0'},{'do0'},{'le0'},{'ri1'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & up & right & !down & !left & !treasure & memory=0: {{'up0'},{'ri0'},{'up1'},{'ri1'}} - scheduler(s): ['sched'];
+!goal & up & right & !down & !left & !treasure & memory=1: {{'up0'},{'ri0'},{'up1'},{'ri1'}} - scheduler(s): ['sched'];
+!goal & !up & right & down & left & !treasure & memory=0: {{'ri0'},{'do0'},{'le0'},{'ri1'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & down & left & !treasure & memory=1: {{'ri0'},{'do0'},{'le0'},{'ri1'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & up & right & !down & !left & !treasure & memory=0: {{'up0'},{'ri0'},{'up1'},{'ri1'}} - scheduler(s): ['sched1'];
+!goal & up & right & !down & !left & !treasure & memory=1: {{'up0'},{'ri0'},{'up1'},{'ri1'}} - scheduler(s): ['sched1'];
+!goal & up & !right & !down & left & !treasure & memory=0: {{'up0'},{'le0'},{'up1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & up & !right & !down & left & !treasure & memory=1: {{'up0'},{'le0'},{'up1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & up & right & !down & left & !treasure & memory=0: {{'up0'},{'ri0'},{'le0'},{'up1'},{'ri1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & up & right & !down & left & !treasure & memory=1: {{'up0'},{'ri0'},{'le0'},{'up1'},{'ri1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & right & !down & left & treasure & memory=0: {{'ri0'},{'le0'},{'ri1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & right & !down & left & treasure & memory=1: {{'ri0'},{'le0'},{'ri1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & up & !right & !down & left & !treasure & memory=0: {{'up0'},{'le0'},{'up1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & up & !right & !down & left & !treasure & memory=1: {{'up0'},{'le0'},{'up1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & up & right & !down & left & !treasure & memory=0: {{'up0'},{'ri0'},{'le0'},{'up1'},{'ri1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & up & right & !down & left & !treasure & memory=1: {{'up0'},{'ri0'},{'le0'},{'up1'},{'ri1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & left & treasure & memory=0: {{'ri0'},{'le0'},{'ri1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & left & treasure & memory=1: {{'ri0'},{'le0'},{'ri1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & !left & !treasure & memory=0: {{'ri0'},{'ri1'}} - scheduler(s): ['sched'];
+!goal & !up & right & !down & !left & !treasure & memory=1: {{'ri0'},{'ri1'}} - scheduler(s): ['sched'];
+!goal & !up & right & !down & !left & !treasure & memory=0: {{'ri0'},{'ri1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & !left & !treasure & memory=1: {{'ri0'},{'ri1'}} - scheduler(s): ['sched1'];
+!goal & !up & !right & down & left & !treasure & memory=0: {{'do0'},{'le0'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & !right & down & left & !treasure & memory=1: {{'do0'},{'le0'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & !right & down & left & !treasure & memory=0: {{'do0'},{'le0'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & !right & down & left & !treasure & memory=1: {{'do0'},{'le0'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & up & right & down & !left & !treasure & memory=0: {{'up0'},{'ri0'},{'do0'},{'up1'},{'ri1'},{'do1'}} - scheduler(s): ['sched'];
+!goal & up & right & down & !left & !treasure & memory=1: {{'up0'},{'ri0'},{'do0'},{'up1'},{'ri1'},{'do1'}} - scheduler(s): ['sched'];
+!goal & !up & !right & down & left & treasure & memory=0: {{'do0'},{'le0'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & !right & down & left & treasure & memory=1: {{'do0'},{'le0'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & up & right & down & !left & !treasure & memory=0: {{'up0'},{'ri0'},{'do0'},{'up1'},{'ri1'},{'do1'}} - scheduler(s): ['sched1'];
+!goal & up & right & down & !left & !treasure & memory=1: {{'up0'},{'ri0'},{'do0'},{'up1'},{'ri1'},{'do1'}} - scheduler(s): ['sched1'];
+!goal & !up & !right & down & left & treasure & memory=0: {{'do0'},{'le0'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & !right & down & left & treasure & memory=1: {{'do0'},{'le0'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & !right & !down & left & !treasure & memory=0: {{'le0'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & !right & !down & left & !treasure & memory=1: {{'le0'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & !right & !down & left & !treasure & memory=0: {{'le0'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & !right & !down & left & !treasure & memory=1: {{'le0'},{'le1'}} - scheduler(s): ['sched1']
+2023-07-04 22:07:45,221 - hypersketch.py - Sketch parsing complete.
+2023-07-04 22:07:45,221 - hypersketch.py - Matching holes: dict_values([[0, 1], [2, 5], [3, 6], [4, 7], [8, 10], [9, 11], [12, 14], [13, 15], [16, 18], [17, 19], [20, 22], [21, 23], [24, 28], [25, 29], [26, 30], [27, 31], [32, 38], [33, 39], [34, 40], [35, 41], [36, 42], [37, 43], [44, 46], [45, 47], [48, 50], [49, 51], [52, 56], [53, 57], [54, 58], [55, 59], [60, 62], [61, 63]])
+2023-07-04 22:07:45,221 - cli.py - Synthetizing an MDP scheduler wrt a hyperproperty
+2023-07-04 22:07:45,221 - hypersynthesizer.py - Synthesis initiated.
+2023-07-04 22:07:47,556 - hyperproperty.py - New scheduler hyper opt = 16.
+> Progress 0.0017%, elapsed 3.0 s, iters = (375, 0)
+> Progress 0.0017%, elapsed 6.0 s, iters = (837, 0)
+> Progress 0.0017%, elapsed 9.0 s, iters = (1322, 0)
+> Progress 0.0017%, elapsed 12.0 s, iters = (1643, 0)
+2023-07-04 22:07:58,038 - hyperproperty.py - New scheduler hyper opt = 17.
+> Progress 0.0017%, elapsed 15.0 s, iters = (1962, 0)
+> Progress 0.0017%, elapsed 18.0 s, iters = (2326, 0)
+> Progress 0.0017%, elapsed 21.0 s, iters = (2728, 0)
+> Progress 0.0017%, elapsed 24.0 s, iters = (3044, 0)
+> Progress 0.0017%, elapsed 27.0 s, iters = (3404, 0)
+> Progress 0.0017%, elapsed 30.0 s, iters = (3672, 0)
+> Progress 0.0017%, elapsed 33.0 s, iters = (3905, 0)
+> Progress 0.0017%, elapsed 36.0 s, iters = (4131, 0)
+> Progress 0.0017%, elapsed 39.0 s, iters = (4380, 0)
+2023-07-04 22:08:26,768 - hyperproperty.py - New scheduler hyper opt = 18.
+> Progress 0.0017%, elapsed 42.0 s, iters = (4755, 0)
+> Progress 0.0017%, elapsed 45.0 s, iters = (5037, 0)
+> Progress 0.0017%, elapsed 48.0 s, iters = (5302, 0)
+> Progress 0.0017%, elapsed 51.0 s, iters = (5594, 0)
+> Progress 0.0017%, elapsed 54.0 s, iters = (5919, 0)
+> Progress 0.0017%, elapsed 57.0 s, iters = (6189, 0)
+> Progress 0.0017%, elapsed 60.0 s, iters = (6447, 0)
+> Progress 0.0017%, elapsed 63.0 s, iters = (6699, 0)
+> Progress 0.0198%, elapsed 66.0 s, iters = (6914, 0)
+> Progress 0.2144%, elapsed 69.0 s, iters = (7071, 0)
+> Progress 0.2373%, elapsed 72.0 s, iters = (7231, 0)
+> Progress 0.6835%, elapsed 75.0 s, iters = (7388, 0)
+> Progress 0.8026%, elapsed 78.0 s, iters = (7563, 0)
+> Progress 0.8529%, elapsed 81.0 s, iters = (7731, 0)
+> Progress 1.2329%, elapsed 84.0 s, iters = (7873, 0)
+> Progress 1.3798%, elapsed 87.0 s, iters = (8016, 0)
+> Progress 1.4994%, elapsed 90.0 s, iters = (8169, 0)
+> Progress 1.563%, elapsed 93.0 s, iters = (8333, 0)
+> Progress 1.6606%, elapsed 96.0 s, iters = (8489, 0)
+> Progress 1.6708%, elapsed 99.0 s, iters = (8687, 0)
+> Progress 1.7725%, elapsed 102.0 s, iters = (8838, 0)
+> Progress 1.8695%, elapsed 105.0 s, iters = (8999, 0)
+> Progress 2.1551%, elapsed 108.0 s, iters = (9145, 0)
+> Progress 2.3591%, elapsed 111.0 s, iters = (9300, 0)
+> Progress 2.4048%, elapsed 114.0 s, iters = (9464, 0)
+> Progress 2.5512%, elapsed 117.0 s, iters = (9620, 0)
+> Progress 2.561%, elapsed 120.0 s, iters = (9795, 0)
+> Progress 2.6339%, elapsed 123.0 s, iters = (9956, 0)
+> Progress 2.7376%, elapsed 126.0 s, iters = (10116, 0)
+> Progress 2.8249%, elapsed 129.0 s, iters = (10271, 0)
+> Progress 2.9451%, elapsed 132.0 s, iters = (10431, 0)
+> Progress 3.0216%, elapsed 135.0 s, iters = (10592, 0)
+> Progress 3.1982%, elapsed 138.0 s, iters = (10748, 0)
+> Progress 3.3657%, elapsed 141.0 s, iters = (10914, 0)
+> Progress 3.6926%, elapsed 144.0 s, iters = (11062, 0)
+> Progress 3.8391%, elapsed 147.0 s, iters = (11210, 0)
+> Progress 4.0496%, elapsed 150.0 s, iters = (11360, 0)
+> Progress 4.1725%, elapsed 153.0 s, iters = (11529, 0)
+> Progress 4.3015%, elapsed 156.0 s, iters = (11680, 0)
+> Progress 4.5928%, elapsed 159.0 s, iters = (11838, 0)
+> Progress 4.759%, elapsed 162.0 s, iters = (11996, 0)
+> Progress 5.1784%, elapsed 165.0 s, iters = (12144, 0)
+> Progress 5.4745%, elapsed 168.0 s, iters = (12303, 0)
+> Progress 5.5869%, elapsed 171.0 s, iters = (12476, 0)
+> Progress 5.9509%, elapsed 174.0 s, iters = (12628, 0)
+> Progress 6.1071%, elapsed 177.0 s, iters = (12785, 0)
+> Progress 6.311%, elapsed 180.0 s, iters = (12942, 0)
+> Progress 6.4941%, elapsed 183.0 s, iters = (13097, 0)
+> Progress 6.6314%, elapsed 186.0 s, iters = (13249, 0)
+> Progress 6.6743%, elapsed 189.0 s, iters = (13410, 0)
+2023-07-04 22:10:55,504 - hyperproperty.py - New scheduler hyper opt = 32.
+2023-07-04 22:10:56,264 - hypersynthesizer.py - Pruned a non negligible family which represents the 4% of the design space
+2023-07-04 22:10:56,305 - hypersynthesizer.py - Pruned a non negligible family which represents the 12% of the design space
+2023-07-04 22:10:56,346 - hypersynthesizer.py - Pruned a non negligible family which represents the 75% of the design space
+2023-07-04 22:10:56,347 - hypersynthesizer.py - Printing synthesized assignment below:
+2023-07-04 22:10:56,347 - hypersynthesizer.py - !goal & up & !right & !down & !left & !treasure & memory=0={'up0'} - scheduler(s): ['sched'];
+!goal & up & !right & !down & !left & !treasure & memory=0={'up1'} - scheduler(s): ['sched1'];
+!goal & up & !right & down & !left & !treasure & memory=0={'up0'} - scheduler(s): ['sched'];
+!goal & up & !right & down & !left & !treasure & memory=1={'do1'} - scheduler(s): ['sched'];
+!goal & up & !right & !down & !left & !treasure & memory=1={'up0'} - scheduler(s): ['sched'];
+!goal & up & !right & down & !left & !treasure & memory=0={'do0'} - scheduler(s): ['sched1'];
+!goal & up & !right & down & !left & !treasure & memory=1={'up1'} - scheduler(s): ['sched1'];
+!goal & up & !right & !down & !left & !treasure & memory=1={'up1'} - scheduler(s): ['sched1'];
+!goal & !up & right & down & !left & !treasure & memory=0={'ri0'} - scheduler(s): ['sched'];
+!goal & !up & right & down & !left & !treasure & memory=1={'ri0'} - scheduler(s): ['sched'];
+!goal & !up & right & down & !left & !treasure & memory=0={'do0'} - scheduler(s): ['sched1'];
+!goal & !up & right & down & !left & !treasure & memory=1={'ri1'} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & left & !treasure & memory=0={'ri0'} - scheduler(s): ['sched'];
+!goal & !up & right & !down & left & !treasure & memory=1={'le0'} - scheduler(s): ['sched'];
+!goal & !up & right & !down & left & !treasure & memory=0={'le1'} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & left & !treasure & memory=1={'ri1'} - scheduler(s): ['sched1'];
+!goal & up & right & down & left & !treasure & memory=0={'up1'} - scheduler(s): ['sched'];
+!goal & up & right & down & left & !treasure & memory=1={'do1'} - scheduler(s): ['sched'];
+!goal & up & right & down & left & !treasure & memory=0={'do0'} - scheduler(s): ['sched1'];
+!goal & up & right & down & left & !treasure & memory=1={'up0'} - scheduler(s): ['sched1'];
+!goal & up & !right & down & !left & treasure & memory=0={'up0'} - scheduler(s): ['sched'];
+!goal & up & !right & down & !left & treasure & memory=1={'do1'} - scheduler(s): ['sched'];
+!goal & up & !right & down & !left & treasure & memory=0={'do0'} - scheduler(s): ['sched1'];
+!goal & up & !right & down & !left & treasure & memory=1={'up0'} - scheduler(s): ['sched1'];
+!goal & !up & right & down & left & !treasure & memory=0={'do1'} - scheduler(s): ['sched'];
+!goal & !up & right & down & left & !treasure & memory=1={'ri0'} - scheduler(s): ['sched'];
+!goal & up & right & !down & !left & !treasure & memory=0={'up0'} - scheduler(s): ['sched'];
+!goal & up & right & !down & !left & !treasure & memory=1={'ri1'} - scheduler(s): ['sched'];
+!goal & !up & right & down & left & !treasure & memory=0={'ri0'} - scheduler(s): ['sched1'];
+!goal & !up & right & down & left & !treasure & memory=1={'do0'} - scheduler(s): ['sched1'];
+!goal & up & right & !down & !left & !treasure & memory=0={'ri0'} - scheduler(s): ['sched1'];
+!goal & up & right & !down & !left & !treasure & memory=1={'up1'} - scheduler(s): ['sched1'];
+!goal & up & !right & !down & left & !treasure & memory=0={'up0'} - scheduler(s): ['sched'];
+!goal & up & !right & !down & left & !treasure & memory=1={'le1'} - scheduler(s): ['sched'];
+!goal & up & right & !down & left & !treasure & memory=0={'ri0'} - scheduler(s): ['sched'];
+!goal & up & right & !down & left & !treasure & memory=1={'up0'} - scheduler(s): ['sched'];
+!goal & !up & right & !down & left & treasure & memory=0={'le0'} - scheduler(s): ['sched'];
+!goal & !up & right & !down & left & treasure & memory=1={'le0'} - scheduler(s): ['sched'];
+!goal & up & !right & !down & left & !treasure & memory=0={'le0'} - scheduler(s): ['sched1'];
+!goal & up & !right & !down & left & !treasure & memory=1={'up0'} - scheduler(s): ['sched1'];
+!goal & up & right & !down & left & !treasure & memory=0={'up0'} - scheduler(s): ['sched1'];
+!goal & up & right & !down & left & !treasure & memory=1={'ri0'} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & left & treasure & memory=0={'le1'} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & left & treasure & memory=1={'le1'} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & !left & !treasure & memory=0={'ri0'} - scheduler(s): ['sched'];
+!goal & !up & right & !down & !left & !treasure & memory=1={'ri0'} - scheduler(s): ['sched'];
+!goal & !up & right & !down & !left & !treasure & memory=0={'ri1'} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & !left & !treasure & memory=1={'ri1'} - scheduler(s): ['sched1'];
+!goal & !up & !right & down & left & !treasure & memory=0={'do0'} - scheduler(s): ['sched'];
+!goal & !up & !right & down & left & !treasure & memory=1={'do0'} - scheduler(s): ['sched'];
+!goal & !up & !right & down & left & !treasure & memory=0={'le0'} - scheduler(s): ['sched1'];
+!goal & !up & !right & down & left & !treasure & memory=1={'le0'} - scheduler(s): ['sched1'];
+!goal & up & right & down & !left & !treasure & memory=0={'up0'} - scheduler(s): ['sched'];
+!goal & up & right & down & !left & !treasure & memory=1={'up0'} - scheduler(s): ['sched'];
+!goal & !up & !right & down & left & treasure & memory=0={'do0'} - scheduler(s): ['sched'];
+!goal & !up & !right & down & left & treasure & memory=1={'do0'} - scheduler(s): ['sched'];
+!goal & up & right & down & !left & !treasure & memory=0={'ri0'} - scheduler(s): ['sched1'];
+!goal & up & right & down & !left & !treasure & memory=1={'ri0'} - scheduler(s): ['sched1'];
+!goal & !up & !right & down & left & treasure & memory=0={'le0'} - scheduler(s): ['sched1'];
+!goal & !up & !right & down & left & treasure & memory=1={'le0'} - scheduler(s): ['sched1'];
+!goal & !up & !right & !down & left & !treasure & memory=0={'le0'} - scheduler(s): ['sched'];
+!goal & !up & !right & !down & left & !treasure & memory=1={'le0'} - scheduler(s): ['sched'];
+!goal & !up & !right & !down & left & !treasure & memory=0={'le1'} - scheduler(s): ['sched1'];
+!goal & !up & !right & !down & left & !treasure & memory=1={'le1'} - scheduler(s): ['sched1']
+2023-07-04 22:10:56,349 - hypersynthesizer.py - Double-checking specification satisfiability:
+138.40771456506226;
+138.40771028773435;
+138.40771028773435[1] <built-in function le> 138.40771456506226[0]: True;
+138.40771456506226[0] <built-in function le> 138.40771028773435[1]: True
+ No optimality constraint specified
+ Scheduler Hyperoptimality: Current optimal value: 32
+--------------------
+Synthesis summary
+constraint 1: R[exp]{"rew"}>=138 [F (sink)][0] -- bound: [0]
+constraint 2: R[exp]{"rew"}>=138 [F (sink)][1] -- bound: [0]
+constraint 3: R[exp]{"rew"}=? [F (sink)][1] <built-in function le> R[exp]{"rew"}=? [F (sink)][0] -- min_distance: 0
+constraint 4: R[exp]{"rew"}=? [F (sink)][0] <built-in function le> R[exp]{"rew"}=? [F (sink)][1] -- min_distance: 0
+Optimality objective: None
+ Scheduler Hyperoptimality objective: Maximizing  scheduler difference.
+ Indexes of formulae in OR relation with each other: [[0], [1], [2], [3]]
+
+method: AR, synthesis time: 191.04 s
+number of holes: 64, family size: 172462464674787958108367218731066064896, super quotient: 864 states / 2272 actions 
+explored: 100 %
+AR stats: avg MDP size: 570, iterations: 13522, decided families: 9065, average decided families size: 1.9025092628217095e+34, AR Sat members found: 1846776108385566720, AR Unsat Members found: 172462464674787958106520442622680498176
+
+feasible: yes
+--------------------
+
+$ python3 /home/francesco/HyperProject/paynt/paynt.py --project /home/francesco/HyperProject/eval/qest/Opacity/./larger-5 --method ar
+2023-07-04 22:10:56,564 - cli.py - This is HyperPaynt version 0.1.0.
+2023-07-04 22:10:56,564 - hyperparser.py - Loading properties from /home/francesco/HyperProject/eval/qest/Opacity/./larger-5/sketch.props ...
+2023-07-04 22:10:56,564 - hyperparser.py - Parsing scheduler quantifiers ...
+2023-07-04 22:10:56,565 - hyperparser.py - Found the following scheduler quantifiers: {'sched': 'ES', 'sched1': 'ES'}
+2023-07-04 22:10:56,565 - hyperparser.py - Parsing state quantifiers...
+2023-07-04 22:10:56,565 - hyperparser.py - Found the following state quantifiers: {'s0': ('A', 'sched'), 's1': ('A', 'sched1')}
+2023-07-04 22:10:56,565 - hyperparser.py - Parsing restrictions
+2023-07-04 22:10:56,565 - hyperparser.py - Found the following restrictions: {}
+2023-07-04 22:10:56,565 - hyperparser.py - Parsing scheduler optimality ( if required)
+2023-07-04 22:10:56,565 - hyperparser.py - Scheduler optimality property found.
+2023-07-04 22:10:56,565 - hyperparser.py - Parsing structural constraints (if any)
+2023-07-04 22:10:56,566 - hyperparser.py - Found the following structural equality constraints: [('goal', ['sched']), ('!goal & up & right  & down  & left  & treasure', ['sched']), ('!goal & up & right  & down  & left  & !treasure', ['sched']), ('!goal & up & right  & down  & !left  & treasure', ['sched']), ('!goal & up & right  & down  & !left  & !treasure', ['sched']), ('!goal & up & right  & !down  & left  & treasure', ['sched']), ('!goal & up & right  & !down  & left  & !treasure', ['sched']), ('!goal & up & right  & !down  & !left  & treasure', ['sched']), ('!goal & up & right  & !down  & !left  & !treasure', ['sched']), ('!goal & up & !right  & down  & left  & treasure', ['sched']), ('!goal & up & !right  & down  & left  & !treasure', ['sched']), ('!goal & up & !right  & down  & !left  & treasure', ['sched']), ('!goal & up & !right  & down  & !left  & !treasure', ['sched']), ('!goal & up & !right  & !down  & left  & treasure', ['sched']), ('!goal & up & !right  & !down  & left  & !treasure', ['sched']), ('!goal & up & !right  & !down  & !left  & treasure', ['sched']), ('!goal & up & !right  & !down  & !left  & !treasure', ['sched']), ('!goal & !up & right  & down  & left  & treasure', ['sched']), ('!goal & !up & right  & down  & left  & !treasure', ['sched']), ('!goal & !up & right  & down  & !left  & treasure', ['sched']), ('!goal & !up & right  & down  & !left  & !treasure', ['sched']), ('!goal & !up & right  & !down  & left  & treasure', ['sched']), ('!goal & !up & right  & !down  & left  & !treasure', ['sched']), ('!goal & !up & right  & !down  & !left  & treasure', ['sched']), ('!goal & !up & right  & !down  & !left  & !treasure', ['sched']), ('!goal & !up & !right  & down  & left  & treasure', ['sched']), ('!goal & !up & !right  & down  & left  & !treasure', ['sched']), ('!goal & !up & !right  & down  & !left  & treasure', ['sched']), ('!goal & !up & !right  & down  & !left  & !treasure', ['sched']), ('!goal & !up & !right  & !down  & left  & treasure', ['sched']), ('!goal & !up & !right  & !down  & left  & !treasure', ['sched']), ('!goal & !up & !right  & !down  & !left  & treasure', ['sched']), ('!goal & !up & !right  & !down  & !left  & !treasure', ['sched']), ('goal', ['sched1']), ('!goal & up & right  & down  & left  & treasure', ['sched1']), ('!goal & up & right  & down  & left  & !treasure', ['sched1']), ('!goal & up & right  & down  & !left  & treasure', ['sched1']), ('!goal & up & right  & down  & !left  & !treasure', ['sched1']), ('!goal & up & right  & !down  & left  & treasure', ['sched1']), ('!goal & up & right  & !down  & left  & !treasure', ['sched1']), ('!goal & up & right  & !down  & !left  & treasure', ['sched1']), ('!goal & up & right  & !down  & !left  & !treasure', ['sched1']), ('!goal & up & !right  & down  & left  & treasure', ['sched1']), ('!goal & up & !right  & down  & left  & !treasure', ['sched1']), ('!goal & up & !right  & down  & !left  & treasure', ['sched1']), ('!goal & up & !right  & down  & !left  & !treasure', ['sched1']), ('!goal & up & !right  & !down  & left  & treasure', ['sched1']), ('!goal & up & !right  & !down  & left  & !treasure', ['sched1']), ('!goal & up & !right  & !down  & !left  & treasure', ['sched1']), ('!goal & up & !right  & !down  & !left  & !treasure', ['sched1']), ('!goal & !up & right  & down  & left  & treasure', ['sched1']), ('!goal & !up & right  & down  & left  & !treasure', ['sched1']), ('!goal & !up & right  & down  & !left  & treasure', ['sched1']), ('!goal & !up & right  & down  & !left  & !treasure', ['sched1']), ('!goal & !up & right  & !down  & left  & treasure', ['sched1']), ('!goal & !up & right  & !down  & left  & !treasure', ['sched1']), ('!goal & !up & right  & !down  & !left  & treasure', ['sched1']), ('!goal & !up & right  & !down  & !left  & !treasure', ['sched1']), ('!goal & !up & !right  & down  & left  & treasure', ['sched1']), ('!goal & !up & !right  & down  & left  & !treasure', ['sched1']), ('!goal & !up & !right  & down  & !left  & treasure', ['sched1']), ('!goal & !up & !right  & down  & !left  & !treasure', ['sched1']), ('!goal & !up & !right  & !down  & left  & treasure', ['sched1']), ('!goal & !up & !right  & !down  & left  & !treasure', ['sched1']), ('!goal & !up & !right  & !down  & !left  & treasure', ['sched1']), ('!goal & !up & !right  & !down  & !left  & !treasure', ['sched1'])]
+2023-07-04 22:10:56,566 - hyperparser.py - Loading sketch from /home/francesco/HyperProject/eval/qest/Opacity/./larger-5/sketch.templ...
+2023-07-04 22:10:56,566 - hyperparser.py - Assuming a sketch in a PRISM format ...
+2023-07-04 22:10:56,617 - hyperparser.py - The model has 2 initial states...
+2023-07-04 22:10:56,617 - hyperparser.py - Instantiating the properties for the quantified initial states
+2023-07-04 22:10:56,617 - hyperparser.py - initial states for s0: [0]
+2023-07-04 22:10:56,617 - hyperparser.py - initial states for s0 after restrictions: [0]
+2023-07-04 22:10:56,618 - hyperparser.py - initial states for s1: [1]
+2023-07-04 22:10:56,618 - hyperparser.py - initial states for s1 after restrictions: [1]
+2023-07-04 22:10:56,618 - hyperparser.py - Assuming an hyperproperty with index 0...
+2023-07-04 22:10:56,618 - hyperparser.py - HyperProperty Parsing failed: assuming a property for string R{0}{"rew"}>=90 [F goal] at index 0... 
+2023-07-04 22:10:56,619 - hyperparser.py - Assuming an hyperproperty with index 1...
+2023-07-04 22:10:56,619 - hyperparser.py - HyperProperty Parsing failed: assuming a property for string R{1}{"rew"}>=90 [F goal] at index 1... 
+2023-07-04 22:10:56,620 - hyperparser.py - Assuming an hyperproperty with index 2...
+2023-07-04 22:10:56,620 - hyperparser.py - Assuming an hyperproperty with index 3...
+2023-07-04 22:10:56,621 - hyperparser.py - Found the following specification:
+ constraints: R[exp]{"rew"}>=90 [F (sink)][0] -- bound: [0];
+R[exp]{"rew"}>=90 [F (sink)][1] -- bound: [0];
+R[exp]{"rew"}=? [F (sink)][1] <built-in function le> R[exp]{"rew"}=? [F (sink)][0] -- min_distance: 0;
+R[exp]{"rew"}=? [F (sink)][0] <built-in function le> R[exp]{"rew"}=? [F (sink)][1] -- min_distance: 0.
+ Optimality objective: none.
+ Scheduler Optimality hyperobjective: Maximizing  scheduler difference.
+ 
+2023-07-04 22:10:56,621 - hypersketch.py - Processing actions and Initializing the quotient and the design space...
+2023-07-04 22:10:56,656 - hyperquotient.py - Constructed quotient MDP having 1260 states and 2008 actions.
+2023-07-04 22:12:12,162 - hypersketch.py - Sketch has 30 holes
+2023-07-04 22:12:12,162 - hypersketch.py - Design space size: 557256278016
+2023-07-04 22:12:12,162 - hypersketch.py - Design space: !goal & up & !right  & down  & !left  & !treasure: {{'up'},{'do'}} - scheduler(s): ['sched'];
+!goal & up & !right  & down  & !left  & !treasure: {{'up'},{'do'}} - scheduler(s): ['sched1'];
+!goal & !up & right  & !down  & left  & !treasure: {{'ri'},{'le'}} - scheduler(s): ['sched'];
+!goal & !up & right  & down  & !left  & !treasure: {{'ri'},{'do'}} - scheduler(s): ['sched'];
+!goal & !up & right  & !down  & left  & !treasure: {{'ri'},{'le'}} - scheduler(s): ['sched1'];
+!goal & !up & right  & down  & !left  & !treasure: {{'ri'},{'do'}} - scheduler(s): ['sched1'];
+!goal & up & right  & !down  & left  & !treasure: {{'up'},{'ri'},{'le'}} - scheduler(s): ['sched'];
+!goal & up & right  & !down  & left  & !treasure: {{'up'},{'ri'},{'le'}} - scheduler(s): ['sched1'];
+!goal & up & !right  & down  & left  & treasure: {{'up'},{'do'},{'le'}} - scheduler(s): ['sched'];
+!goal & !up & right  & down  & left  & !treasure: {{'ri'},{'do'},{'le'}} - scheduler(s): ['sched'];
+!goal & up & !right  & !down  & left  & !treasure: {{'up'},{'le'}} - scheduler(s): ['sched'];
+!goal & up & !right  & down  & left  & treasure: {{'up'},{'do'},{'le'}} - scheduler(s): ['sched1'];
+!goal & !up & right  & down  & left  & !treasure: {{'ri'},{'do'},{'le'}} - scheduler(s): ['sched1'];
+!goal & up & !right  & !down  & left  & !treasure: {{'up'},{'le'}} - scheduler(s): ['sched1'];
+!goal & up & right  & down  & !left  & !treasure: {{'up'},{'ri'},{'do'}} - scheduler(s): ['sched'];
+!goal & up & right  & down  & left  & !treasure: {{'up'},{'ri'},{'do'},{'le'}} - scheduler(s): ['sched'];
+!goal & up & right  & down  & !left  & !treasure: {{'up'},{'ri'},{'do'}} - scheduler(s): ['sched1'];
+!goal & up & right  & down  & left  & !treasure: {{'up'},{'ri'},{'do'},{'le'}} - scheduler(s): ['sched1'];
+!goal & up & !right  & down  & left  & !treasure: {{'up'},{'do'},{'le'}} - scheduler(s): ['sched'];
+!goal & !up & !right  & down  & left  & !treasure: {{'do'},{'le'}} - scheduler(s): ['sched'];
+!goal & up & right  & !down  & !left  & !treasure: {{'up'},{'ri'}} - scheduler(s): ['sched'];
+!goal & up & !right  & down  & left  & !treasure: {{'up'},{'do'},{'le'}} - scheduler(s): ['sched1'];
+!goal & !up & !right  & down  & left  & !treasure: {{'do'},{'le'}} - scheduler(s): ['sched1'];
+!goal & up & right  & !down  & !left  & !treasure: {{'up'},{'ri'}} - scheduler(s): ['sched1'];
+!goal & !up & right  & !down  & left  & treasure: {{'ri'},{'le'}} - scheduler(s): ['sched'];
+!goal & !up & right  & !down  & left  & treasure: {{'ri'},{'le'}} - scheduler(s): ['sched1'];
+!goal & !up & !right  & down  & left  & treasure: {{'do'},{'le'}} - scheduler(s): ['sched'];
+!goal & !up & !right  & down  & left  & treasure: {{'do'},{'le'}} - scheduler(s): ['sched1'];
+!goal & !up & right  & down  & left  & treasure: {{'ri'},{'do'},{'le'}} - scheduler(s): ['sched'];
+!goal & !up & right  & down  & left  & treasure: {{'ri'},{'do'},{'le'}} - scheduler(s): ['sched1']
+2023-07-04 22:12:12,162 - hypersketch.py - Sketch parsing complete.
+2023-07-04 22:12:12,162 - hypersketch.py - Matching holes: dict_values([[0, 1], [2, 4], [3, 5], [6, 7], [8, 11], [9, 12], [10, 13], [14, 16], [15, 17], [18, 21], [19, 22], [20, 23], [24, 25], [26, 27], [28, 29]])
+2023-07-04 22:12:12,162 - cli.py - Synthetizing an MDP scheduler wrt a hyperproperty
+2023-07-04 22:12:12,162 - hypersynthesizer.py - Synthesis initiated.
+2023-07-04 22:12:12,236 - hypersynthesizer.py - Pruned a non negligible family which represents the 2% of the design space
+2023-07-04 22:12:12,241 - hypersynthesizer.py - Pruned a non negligible family which represents the 5% of the design space
+2023-07-04 22:12:12,242 - hypersynthesizer.py - Pruned a non negligible family which represents the 2% of the design space
+2023-07-04 22:12:12,247 - hypersynthesizer.py - Pruned a non negligible family which represents the 5% of the design space
+2023-07-04 22:12:12,289 - hypersynthesizer.py - Pruned a non negligible family which represents the 8% of the design space
+2023-07-04 22:12:12,394 - hyperproperty.py - New scheduler hyper opt = 8.
+2023-07-04 22:12:12,411 - hypersynthesizer.py - Pruned a non negligible family which represents the 2% of the design space
+2023-07-04 22:12:12,412 - hypersynthesizer.py - Pruned a non negligible family which represents the 8% of the design space
+2023-07-04 22:12:12,414 - hypersynthesizer.py - Pruned a non negligible family which represents the 8% of the design space
+2023-07-04 22:12:12,416 - hypersynthesizer.py - Pruned a non negligible family which represents the 16% of the design space
+2023-07-04 22:12:12,421 - hypersynthesizer.py - Pruned a non negligible family which represents the 33% of the design space
+2023-07-04 22:12:12,421 - hypersynthesizer.py - Printing synthesized assignment below:
+2023-07-04 22:12:12,421 - hypersynthesizer.py - !goal & up & !right  & down  & !left  & !treasure={'up'} - scheduler(s): ['sched'];
+!goal & up & !right  & down  & !left  & !treasure={'up'} - scheduler(s): ['sched1'];
+!goal & !up & right  & !down  & left  & !treasure={'ri'} - scheduler(s): ['sched'];
+!goal & !up & right  & down  & !left  & !treasure={'ri'} - scheduler(s): ['sched'];
+!goal & !up & right  & !down  & left  & !treasure={'ri'} - scheduler(s): ['sched1'];
+!goal & !up & right  & down  & !left  & !treasure={'do'} - scheduler(s): ['sched1'];
+!goal & up & right  & !down  & left  & !treasure={'up'} - scheduler(s): ['sched'];
+!goal & up & right  & !down  & left  & !treasure={'ri'} - scheduler(s): ['sched1'];
+!goal & up & !right  & down  & left  & treasure={'up'} - scheduler(s): ['sched'];
+!goal & !up & right  & down  & left  & !treasure={'ri'} - scheduler(s): ['sched'];
+!goal & up & !right  & !down  & left  & !treasure={'up'} - scheduler(s): ['sched'];
+!goal & up & !right  & down  & left  & treasure={'up'} - scheduler(s): ['sched1'];
+!goal & !up & right  & down  & left  & !treasure={'ri'} - scheduler(s): ['sched1'];
+!goal & up & !right  & !down  & left  & !treasure={'up'} - scheduler(s): ['sched1'];
+!goal & up & right  & down  & !left  & !treasure={'ri'} - scheduler(s): ['sched'];
+!goal & up & right  & down  & left  & !treasure={'up'} - scheduler(s): ['sched'];
+!goal & up & right  & down  & !left  & !treasure={'ri'} - scheduler(s): ['sched1'];
+!goal & up & right  & down  & left  & !treasure={'ri'} - scheduler(s): ['sched1'];
+!goal & up & !right  & down  & left  & !treasure={'up'} - scheduler(s): ['sched'];
+!goal & !up & !right  & down  & left  & !treasure={'do'} - scheduler(s): ['sched'];
+!goal & up & right  & !down  & !left  & !treasure={'up'} - scheduler(s): ['sched'];
+!goal & up & !right  & down  & left  & !treasure={'up'} - scheduler(s): ['sched1'];
+!goal & !up & !right  & down  & left  & !treasure={'le'} - scheduler(s): ['sched1'];
+!goal & up & right  & !down  & !left  & !treasure={'ri'} - scheduler(s): ['sched1'];
+!goal & !up & right  & !down  & left  & treasure={'ri'} - scheduler(s): ['sched'];
+!goal & !up & right  & !down  & left  & treasure={'le'} - scheduler(s): ['sched1'];
+!goal & !up & !right  & down  & left  & treasure={'do'} - scheduler(s): ['sched'];
+!goal & !up & !right  & down  & left  & treasure={'le'} - scheduler(s): ['sched1'];
+!goal & !up & right  & down  & left  & treasure={'ri'} - scheduler(s): ['sched'];
+!goal & !up & right  & down  & left  & treasure={'do'} - scheduler(s): ['sched1']
+2023-07-04 22:12:12,423 - hypersynthesizer.py - Double-checking specification satisfiability:
+91.83792494690304;
+91.83792494690303;
+91.83792494690303[1] <built-in function le> 91.83792494690304[0]: True;
+91.83792494690304[0] <built-in function le> 91.83792494690303[1]: True
+ No optimality constraint specified
+ Scheduler Hyperoptimality: Current optimal value: 8
+--------------------
+Synthesis summary
+constraint 1: R[exp]{"rew"}>=90 [F (sink)][0] -- bound: [0]
+constraint 2: R[exp]{"rew"}>=90 [F (sink)][1] -- bound: [0]
+constraint 3: R[exp]{"rew"}=? [F (sink)][1] <built-in function le> R[exp]{"rew"}=? [F (sink)][0] -- min_distance: 0
+constraint 4: R[exp]{"rew"}=? [F (sink)][0] <built-in function le> R[exp]{"rew"}=? [F (sink)][1] -- min_distance: 0
+Optimality objective: None
+ Scheduler Hyperoptimality objective: Maximizing  scheduler difference.
+ Indexes of formulae in OR relation with each other: [[0], [1], [2], [3]]
+
+method: AR, synthesis time: 0.26 s
+number of holes: 30, family size: 557256278016, super quotient: 1260 states / 2008 actions 
+explored: 100 %
+AR stats: avg MDP size: 209, iterations: 43, decided families: 31, average decided families size: 17976008968.258064, AR Sat members found: 1327104, AR Unsat Members found: 557254950912
+
+feasible: yes
+--------------------
+
+$ python3 /home/francesco/HyperProject/paynt/paynt.py --project /home/francesco/HyperProject/eval/qest/Opacity/./larger-4 --method ar
+2023-07-04 22:12:12,617 - cli.py - This is HyperPaynt version 0.1.0.
+2023-07-04 22:12:12,618 - hyperparser.py - Loading properties from /home/francesco/HyperProject/eval/qest/Opacity/./larger-4/sketch.props ...
+2023-07-04 22:12:12,618 - hyperparser.py - Parsing scheduler quantifiers ...
+2023-07-04 22:12:12,618 - hyperparser.py - Found the following scheduler quantifiers: {'sched': 'ES', 'sched1': 'ES'}
+2023-07-04 22:12:12,618 - hyperparser.py - Parsing state quantifiers...
+2023-07-04 22:12:12,618 - hyperparser.py - Found the following state quantifiers: {'s0': ('A', 'sched'), 's1': ('A', 'sched1')}
+2023-07-04 22:12:12,618 - hyperparser.py - Parsing restrictions
+2023-07-04 22:12:12,618 - hyperparser.py - Found the following restrictions: {}
+2023-07-04 22:12:12,618 - hyperparser.py - Parsing scheduler optimality ( if required)
+2023-07-04 22:12:12,618 - hyperparser.py - Scheduler optimality property found.
+2023-07-04 22:12:12,619 - hyperparser.py - Parsing structural constraints (if any)
+2023-07-04 22:12:12,619 - hyperparser.py - Found the following structural equality constraints: [('goal', ['sched']), ('!goal & up & right  & down  & left  & treasure', ['sched']), ('!goal & up & right  & down  & left  & !treasure', ['sched']), ('!goal & up & right  & down  & !left  & treasure', ['sched']), ('!goal & up & right  & down  & !left  & !treasure', ['sched']), ('!goal & up & right  & !down  & left  & treasure', ['sched']), ('!goal & up & right  & !down  & left  & !treasure', ['sched']), ('!goal & up & right  & !down  & !left  & treasure', ['sched']), ('!goal & up & right  & !down  & !left  & !treasure', ['sched']), ('!goal & up & !right  & down  & left  & treasure', ['sched']), ('!goal & up & !right  & down  & left  & !treasure', ['sched']), ('!goal & up & !right  & down  & !left  & treasure', ['sched']), ('!goal & up & !right  & down  & !left  & !treasure', ['sched']), ('!goal & up & !right  & !down  & left  & treasure', ['sched']), ('!goal & up & !right  & !down  & left  & !treasure', ['sched']), ('!goal & up & !right  & !down  & !left  & treasure', ['sched']), ('!goal & up & !right  & !down  & !left  & !treasure', ['sched']), ('!goal & !up & right  & down  & left  & treasure', ['sched']), ('!goal & !up & right  & down  & left  & !treasure', ['sched']), ('!goal & !up & right  & down  & !left  & treasure', ['sched']), ('!goal & !up & right  & down  & !left  & !treasure', ['sched']), ('!goal & !up & right  & !down  & left  & treasure', ['sched']), ('!goal & !up & right  & !down  & left  & !treasure', ['sched']), ('!goal & !up & right  & !down  & !left  & treasure', ['sched']), ('!goal & !up & right  & !down  & !left  & !treasure', ['sched']), ('!goal & !up & !right  & down  & left  & treasure', ['sched']), ('!goal & !up & !right  & down  & left  & !treasure', ['sched']), ('!goal & !up & !right  & down  & !left  & treasure', ['sched']), ('!goal & !up & !right  & down  & !left  & !treasure', ['sched']), ('!goal & !up & !right  & !down  & left  & treasure', ['sched']), ('!goal & !up & !right  & !down  & left  & !treasure', ['sched']), ('!goal & !up & !right  & !down  & !left  & treasure', ['sched']), ('!goal & !up & !right  & !down  & !left  & !treasure', ['sched']), ('goal', ['sched1']), ('!goal & up & right  & down  & left  & treasure', ['sched1']), ('!goal & up & right  & down  & left  & !treasure', ['sched1']), ('!goal & up & right  & down  & !left  & treasure', ['sched1']), ('!goal & up & right  & down  & !left  & !treasure', ['sched1']), ('!goal & up & right  & !down  & left  & treasure', ['sched1']), ('!goal & up & right  & !down  & left  & !treasure', ['sched1']), ('!goal & up & right  & !down  & !left  & treasure', ['sched1']), ('!goal & up & right  & !down  & !left  & !treasure', ['sched1']), ('!goal & up & !right  & down  & left  & treasure', ['sched1']), ('!goal & up & !right  & down  & left  & !treasure', ['sched1']), ('!goal & up & !right  & down  & !left  & treasure', ['sched1']), ('!goal & up & !right  & down  & !left  & !treasure', ['sched1']), ('!goal & up & !right  & !down  & left  & treasure', ['sched1']), ('!goal & up & !right  & !down  & left  & !treasure', ['sched1']), ('!goal & up & !right  & !down  & !left  & treasure', ['sched1']), ('!goal & up & !right  & !down  & !left  & !treasure', ['sched1']), ('!goal & !up & right  & down  & left  & treasure', ['sched1']), ('!goal & !up & right  & down  & left  & !treasure', ['sched1']), ('!goal & !up & right  & down  & !left  & treasure', ['sched1']), ('!goal & !up & right  & down  & !left  & !treasure', ['sched1']), ('!goal & !up & right  & !down  & left  & treasure', ['sched1']), ('!goal & !up & right  & !down  & left  & !treasure', ['sched1']), ('!goal & !up & right  & !down  & !left  & treasure', ['sched1']), ('!goal & !up & right  & !down  & !left  & !treasure', ['sched1']), ('!goal & !up & !right  & down  & left  & treasure', ['sched1']), ('!goal & !up & !right  & down  & left  & !treasure', ['sched1']), ('!goal & !up & !right  & down  & !left  & treasure', ['sched1']), ('!goal & !up & !right  & down  & !left  & !treasure', ['sched1']), ('!goal & !up & !right  & !down  & left  & treasure', ['sched1']), ('!goal & !up & !right  & !down  & left  & !treasure', ['sched1']), ('!goal & !up & !right  & !down  & !left  & treasure', ['sched1']), ('!goal & !up & !right  & !down  & !left  & !treasure', ['sched1'])]
+2023-07-04 22:12:12,619 - hyperparser.py - Loading sketch from /home/francesco/HyperProject/eval/qest/Opacity/./larger-4/sketch.templ...
+2023-07-04 22:12:12,619 - hyperparser.py - Assuming a sketch in a PRISM format ...
+2023-07-04 22:12:12,619 - hyperparser.py - Warning. One formula token is contained in another: current_treasure vs treasure. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 22:12:12,645 - hyperparser.py - The model has 2 initial states...
+2023-07-04 22:12:12,645 - hyperparser.py - Instantiating the properties for the quantified initial states
+2023-07-04 22:12:12,645 - hyperparser.py - initial states for s0: [0]
+2023-07-04 22:12:12,645 - hyperparser.py - initial states for s0 after restrictions: [0]
+2023-07-04 22:12:12,645 - hyperparser.py - initial states for s1: [1]
+2023-07-04 22:12:12,645 - hyperparser.py - initial states for s1 after restrictions: [1]
+2023-07-04 22:12:12,645 - hyperparser.py - Assuming an hyperproperty with index 0...
+2023-07-04 22:12:12,646 - hyperparser.py - HyperProperty Parsing failed: assuming a property for string R{0}{"rew"}>=60 [F goal] at index 0... 
+2023-07-04 22:12:12,646 - hyperparser.py - Assuming an hyperproperty with index 1...
+2023-07-04 22:12:12,647 - hyperparser.py - HyperProperty Parsing failed: assuming a property for string R{1}{"rew"}>=60 [F goal] at index 1... 
+2023-07-04 22:12:12,647 - hyperparser.py - Assuming an hyperproperty with index 2...
+2023-07-04 22:12:12,647 - hyperparser.py - Assuming an hyperproperty with index 3...
+2023-07-04 22:12:12,648 - hyperparser.py - Found the following specification:
+ constraints: R[exp]{"rew"}>=60 [F (sink)][0] -- bound: [0];
+R[exp]{"rew"}>=60 [F (sink)][1] -- bound: [0];
+R[exp]{"rew"}=? [F (sink)][1] <built-in function le> R[exp]{"rew"}=? [F (sink)][0] -- min_distance: 0;
+R[exp]{"rew"}=? [F (sink)][0] <built-in function le> R[exp]{"rew"}=? [F (sink)][1] -- min_distance: 0.
+ Optimality objective: none.
+ Scheduler Optimality hyperobjective: Maximizing  scheduler difference.
+ 
+2023-07-04 22:12:12,648 - hypersketch.py - Processing actions and Initializing the quotient and the design space...
+2023-07-04 22:12:12,665 - hyperquotient.py - Constructed quotient MDP having 432 states and 676 actions.
+2023-07-04 22:12:21,574 - hypersketch.py - Sketch has 26 holes
+2023-07-04 22:12:21,574 - hypersketch.py - Design space size: 3057647616
+2023-07-04 22:12:21,574 - hypersketch.py - Design space: !goal & up & !right  & down  & !left  & !treasure: {{'up'},{'do'}} - scheduler(s): ['sched'];
+!goal & up & !right  & down  & !left  & !treasure: {{'up'},{'do'}} - scheduler(s): ['sched1'];
+!goal & !up & right  & down  & !left  & !treasure: {{'ri'},{'do'}} - scheduler(s): ['sched'];
+!goal & !up & right  & down  & !left  & !treasure: {{'ri'},{'do'}} - scheduler(s): ['sched1'];
+!goal & !up & right  & !down  & left  & !treasure: {{'ri'},{'le'}} - scheduler(s): ['sched'];
+!goal & !up & right  & !down  & left  & !treasure: {{'ri'},{'le'}} - scheduler(s): ['sched1'];
+!goal & up & right  & down  & left  & !treasure: {{'up'},{'ri'},{'do'},{'le'}} - scheduler(s): ['sched'];
+!goal & up & right  & down  & left  & !treasure: {{'up'},{'ri'},{'do'},{'le'}} - scheduler(s): ['sched1'];
+!goal & up & !right  & down  & !left  & treasure: {{'up'},{'do'}} - scheduler(s): ['sched'];
+!goal & up & !right  & down  & !left  & treasure: {{'up'},{'do'}} - scheduler(s): ['sched1'];
+!goal & !up & right  & down  & left  & !treasure: {{'ri'},{'do'},{'le'}} - scheduler(s): ['sched'];
+!goal & up & right  & !down  & !left  & !treasure: {{'up'},{'ri'}} - scheduler(s): ['sched'];
+!goal & !up & right  & down  & left  & !treasure: {{'ri'},{'do'},{'le'}} - scheduler(s): ['sched1'];
+!goal & up & right  & !down  & !left  & !treasure: {{'up'},{'ri'}} - scheduler(s): ['sched1'];
+!goal & up & !right  & !down  & left  & !treasure: {{'up'},{'le'}} - scheduler(s): ['sched'];
+!goal & up & right  & !down  & left  & !treasure: {{'up'},{'ri'},{'le'}} - scheduler(s): ['sched'];
+!goal & !up & right  & !down  & left  & treasure: {{'ri'},{'le'}} - scheduler(s): ['sched'];
+!goal & up & !right  & !down  & left  & !treasure: {{'up'},{'le'}} - scheduler(s): ['sched1'];
+!goal & up & right  & !down  & left  & !treasure: {{'up'},{'ri'},{'le'}} - scheduler(s): ['sched1'];
+!goal & !up & right  & !down  & left  & treasure: {{'ri'},{'le'}} - scheduler(s): ['sched1'];
+!goal & !up & !right  & down  & left  & !treasure: {{'do'},{'le'}} - scheduler(s): ['sched'];
+!goal & !up & !right  & down  & left  & !treasure: {{'do'},{'le'}} - scheduler(s): ['sched1'];
+!goal & up & right  & down  & !left  & !treasure: {{'up'},{'ri'},{'do'}} - scheduler(s): ['sched'];
+!goal & !up & !right  & down  & left  & treasure: {{'do'},{'le'}} - scheduler(s): ['sched'];
+!goal & up & right  & down  & !left  & !treasure: {{'up'},{'ri'},{'do'}} - scheduler(s): ['sched1'];
+!goal & !up & !right  & down  & left  & treasure: {{'do'},{'le'}} - scheduler(s): ['sched1']
+2023-07-04 22:12:21,574 - hypersketch.py - Sketch parsing complete.
+2023-07-04 22:12:21,574 - hypersketch.py - Matching holes: dict_values([[0, 1], [2, 3], [4, 5], [6, 7], [8, 9], [10, 12], [11, 13], [14, 17], [15, 18], [16, 19], [20, 21], [22, 24], [23, 25]])
+2023-07-04 22:12:21,574 - cli.py - Synthetizing an MDP scheduler wrt a hyperproperty
+2023-07-04 22:12:21,574 - hypersynthesizer.py - Synthesis initiated.
+2023-07-04 22:12:21,624 - hypersynthesizer.py - Pruned a non negligible family which represents the 2% of the design space
+2023-07-04 22:12:21,659 - hypersynthesizer.py - Pruned a non negligible family which represents the 2% of the design space
+2023-07-04 22:12:21,715 - hypersynthesizer.py - Pruned a non negligible family which represents the 2% of the design space
+2023-07-04 22:12:21,735 - hypersynthesizer.py - Pruned a non negligible family which represents the 4% of the design space
+2023-07-04 22:12:21,754 - hypersynthesizer.py - Pruned a non negligible family which represents the 2% of the design space
+2023-07-04 22:12:21,757 - hypersynthesizer.py - Pruned a non negligible family which represents the 2% of the design space
+2023-07-04 22:12:21,761 - hypersynthesizer.py - Pruned a non negligible family which represents the 4% of the design space
+2023-07-04 22:12:21,833 - hypersynthesizer.py - Pruned a non negligible family which represents the 2% of the design space
+2023-07-04 22:12:21,953 - hyperproperty.py - New scheduler hyper opt = 6.
+2023-07-04 22:12:21,983 - hypersynthesizer.py - Pruned a non negligible family which represents the 2% of the design space
+2023-07-04 22:12:21,985 - hypersynthesizer.py - Pruned a non negligible family which represents the 4% of the design space
+2023-07-04 22:12:21,986 - hypersynthesizer.py - Pruned a non negligible family which represents the 2% of the design space
+2023-07-04 22:12:21,987 - hypersynthesizer.py - Pruned a non negligible family which represents the 4% of the design space
+2023-07-04 22:12:22,025 - hypersynthesizer.py - Pruned a non negligible family which represents the 4% of the design space
+2023-07-04 22:12:22,042 - hypersynthesizer.py - Pruned a non negligible family which represents the 2% of the design space
+2023-07-04 22:12:22,043 - hypersynthesizer.py - Pruned a non negligible family which represents the 2% of the design space
+2023-07-04 22:12:22,044 - hypersynthesizer.py - Pruned a non negligible family which represents the 4% of the design space
+2023-07-04 22:12:22,066 - hypersynthesizer.py - Pruned a non negligible family which represents the 2% of the design space
+2023-07-04 22:12:22,071 - hypersynthesizer.py - Pruned a non negligible family which represents the 4% of the design space
+2023-07-04 22:12:22,072 - hypersynthesizer.py - Pruned a non negligible family which represents the 2% of the design space
+2023-07-04 22:12:22,073 - hypersynthesizer.py - Pruned a non negligible family which represents the 4% of the design space
+2023-07-04 22:12:22,094 - hypersynthesizer.py - Pruned a non negligible family which represents the 8% of the design space
+2023-07-04 22:12:22,096 - hypersynthesizer.py - Pruned a non negligible family which represents the 8% of the design space
+2023-07-04 22:12:22,098 - hypersynthesizer.py - Pruned a non negligible family which represents the 8% of the design space
+2023-07-04 22:12:22,098 - hypersynthesizer.py - Printing synthesized assignment below:
+2023-07-04 22:12:22,098 - hypersynthesizer.py - !goal & up & !right  & down  & !left  & !treasure={'up'} - scheduler(s): ['sched'];
+!goal & up & !right  & down  & !left  & !treasure={'up'} - scheduler(s): ['sched1'];
+!goal & !up & right  & down  & !left  & !treasure={'ri'} - scheduler(s): ['sched'];
+!goal & !up & right  & down  & !left  & !treasure={'ri'} - scheduler(s): ['sched1'];
+!goal & !up & right  & !down  & left  & !treasure={'ri'} - scheduler(s): ['sched'];
+!goal & !up & right  & !down  & left  & !treasure={'ri'} - scheduler(s): ['sched1'];
+!goal & up & right  & down  & left  & !treasure={'up'} - scheduler(s): ['sched'];
+!goal & up & right  & down  & left  & !treasure={'up'} - scheduler(s): ['sched1'];
+!goal & up & !right  & down  & !left  & treasure={'do'} - scheduler(s): ['sched'];
+!goal & up & !right  & down  & !left  & treasure={'do'} - scheduler(s): ['sched1'];
+!goal & !up & right  & down  & left  & !treasure={'ri'} - scheduler(s): ['sched'];
+!goal & up & right  & !down  & !left  & !treasure={'up'} - scheduler(s): ['sched'];
+!goal & !up & right  & down  & left  & !treasure={'ri'} - scheduler(s): ['sched1'];
+!goal & up & right  & !down  & !left  & !treasure={'ri'} - scheduler(s): ['sched1'];
+!goal & up & !right  & !down  & left  & !treasure={'up'} - scheduler(s): ['sched'];
+!goal & up & right  & !down  & left  & !treasure={'ri'} - scheduler(s): ['sched'];
+!goal & !up & right  & !down  & left  & treasure={'ri'} - scheduler(s): ['sched'];
+!goal & up & !right  & !down  & left  & !treasure={'le'} - scheduler(s): ['sched1'];
+!goal & up & right  & !down  & left  & !treasure={'ri'} - scheduler(s): ['sched1'];
+!goal & !up & right  & !down  & left  & treasure={'le'} - scheduler(s): ['sched1'];
+!goal & !up & !right  & down  & left  & !treasure={'do'} - scheduler(s): ['sched'];
+!goal & !up & !right  & down  & left  & !treasure={'le'} - scheduler(s): ['sched1'];
+!goal & up & right  & down  & !left  & !treasure={'up'} - scheduler(s): ['sched'];
+!goal & !up & !right  & down  & left  & treasure={'do'} - scheduler(s): ['sched'];
+!goal & up & right  & down  & !left  & !treasure={'ri'} - scheduler(s): ['sched1'];
+!goal & !up & !right  & down  & left  & treasure={'le'} - scheduler(s): ['sched1']
+2023-07-04 22:12:22,100 - hypersynthesizer.py - Double-checking specification satisfiability:
+61.37161608256334;
+61.371616082563314;
+61.371616082563314[1] <built-in function le> 61.37161608256334[0]: True;
+61.37161608256334[0] <built-in function le> 61.371616082563314[1]: True
+ No optimality constraint specified
+ Scheduler Hyperoptimality: Current optimal value: 6
+--------------------
+Synthesis summary
+constraint 1: R[exp]{"rew"}>=60 [F (sink)][0] -- bound: [0]
+constraint 2: R[exp]{"rew"}>=60 [F (sink)][1] -- bound: [0]
+constraint 3: R[exp]{"rew"}=? [F (sink)][1] <built-in function le> R[exp]{"rew"}=? [F (sink)][0] -- min_distance: 0
+constraint 4: R[exp]{"rew"}=? [F (sink)][0] <built-in function le> R[exp]{"rew"}=? [F (sink)][1] -- min_distance: 0
+Optimality objective: None
+ Scheduler Hyperoptimality objective: Maximizing  scheduler difference.
+ Indexes of formulae in OR relation with each other: [[0], [1], [2], [3]]
+
+method: AR, synthesis time: 0.52 s
+number of holes: 26, family size: 3057647616, super quotient: 432 states / 676 actions 
+explored: 100 %
+AR stats: avg MDP size: 183, iterations: 96, decided families: 67, average decided families size: 45636531.58208955, AR Sat members found: 9216, AR Unsat Members found: 3057638400
+
+feasible: yes
+--------------------
+
+$ python3 /home/francesco/HyperProject/paynt/paynt.py --project /home/francesco/HyperProject/eval/qest/Opacity/./larger-5+mem --method ar
+2023-07-04 22:12:22,276 - cli.py - This is HyperPaynt version 0.1.0.
+2023-07-04 22:12:22,276 - hyperparser.py - Loading properties from /home/francesco/HyperProject/eval/qest/Opacity/./larger-5+mem/sketch.props ...
+2023-07-04 22:12:22,276 - hyperparser.py - Parsing scheduler quantifiers ...
+2023-07-04 22:12:22,276 - hyperparser.py - Found the following scheduler quantifiers: {'sched': 'ES', 'sched1': 'ES'}
+2023-07-04 22:12:22,276 - hyperparser.py - Parsing state quantifiers...
+2023-07-04 22:12:22,276 - hyperparser.py - Found the following state quantifiers: {'s0': ('A', 'sched'), 's1': ('A', 'sched1')}
+2023-07-04 22:12:22,276 - hyperparser.py - Parsing restrictions
+2023-07-04 22:12:22,276 - hyperparser.py - Found the following restrictions: {}
+2023-07-04 22:12:22,277 - hyperparser.py - Parsing scheduler optimality ( if required)
+2023-07-04 22:12:22,277 - hyperparser.py - Scheduler optimality property found.
+2023-07-04 22:12:22,277 - hyperparser.py - Parsing structural constraints (if any)
+2023-07-04 22:12:22,277 - hyperparser.py - Found the following structural equality constraints: [('goal', ['sched']), ('!goal & up & right & down & left & treasure & memory=0', ['sched']), ('!goal & up & right & down & left & treasure & memory=1', ['sched']), ('!goal & up & right & down & left & !treasure & memory=0', ['sched']), ('!goal & up & right & down & left & !treasure & memory=1', ['sched']), ('!goal & up & right & down & !left & treasure & memory=0', ['sched']), ('!goal & up & right & down & !left & treasure & memory=1', ['sched']), ('!goal & up & right & down & !left & !treasure & memory=0', ['sched']), ('!goal & up & right & down & !left & !treasure & memory=1', ['sched']), ('!goal & up & right & !down & left & treasure & memory=0', ['sched']), ('!goal & up & right & !down & left & treasure & memory=1', ['sched']), ('!goal & up & right & !down & left & !treasure & memory=0', ['sched']), ('!goal & up & right & !down & left & !treasure & memory=1', ['sched']), ('!goal & up & right & !down & !left & treasure & memory=0', ['sched']), ('!goal & up & right & !down & !left & treasure & memory=1', ['sched']), ('!goal & up & right & !down & !left & !treasure & memory=0', ['sched']), ('!goal & up & right & !down & !left & !treasure & memory=1', ['sched']), ('!goal & up & !right & down & left & treasure & memory=0', ['sched']), ('!goal & up & !right & down & left & treasure & memory=1', ['sched']), ('!goal & up & !right & down & left & !treasure & memory=0', ['sched']), ('!goal & up & !right & down & left & !treasure & memory=1', ['sched']), ('!goal & up & !right & down & !left & treasure & memory=0', ['sched']), ('!goal & up & !right & down & !left & treasure & memory=1', ['sched']), ('!goal & up & !right & down & !left & !treasure & memory=0', ['sched']), ('!goal & up & !right & down & !left & !treasure & memory=1', ['sched']), ('!goal & up & !right & !down & left & treasure & memory=0', ['sched']), ('!goal & up & !right & !down & left & treasure & memory=1', ['sched']), ('!goal & up & !right & !down & left & !treasure & memory=0', ['sched']), ('!goal & up & !right & !down & left & !treasure & memory=1', ['sched']), ('!goal & up & !right & !down & !left & treasure & memory=0', ['sched']), ('!goal & up & !right & !down & !left & treasure & memory=1', ['sched']), ('!goal & up & !right & !down & !left & !treasure & memory=0', ['sched']), ('!goal & up & !right & !down & !left & !treasure & memory=1', ['sched']), ('!goal & !up & right & down & left & treasure & memory=0', ['sched']), ('!goal & !up & right & down & left & treasure & memory=1', ['sched']), ('!goal & !up & right & down & left & !treasure & memory=0', ['sched']), ('!goal & !up & right & down & left & !treasure & memory=1', ['sched']), ('!goal & !up & right & down & !left & treasure & memory=0', ['sched']), ('!goal & !up & right & down & !left & treasure & memory=1', ['sched']), ('!goal & !up & right & down & !left & !treasure & memory=0', ['sched']), ('!goal & !up & right & down & !left & !treasure & memory=1', ['sched']), ('!goal & !up & right & !down & left & treasure & memory=0', ['sched']), ('!goal & !up & right & !down & left & treasure & memory=1', ['sched']), ('!goal & !up & right & !down & left & !treasure & memory=0', ['sched']), ('!goal & !up & right & !down & left & !treasure & memory=1', ['sched']), ('!goal & !up & right & !down & !left & treasure & memory=0', ['sched']), ('!goal & !up & right & !down & !left & treasure & memory=1', ['sched']), ('!goal & !up & right & !down & !left & !treasure & memory=0', ['sched']), ('!goal & !up & right & !down & !left & !treasure & memory=1', ['sched']), ('!goal & !up & !right & down & left & treasure & memory=0', ['sched']), ('!goal & !up & !right & down & left & treasure & memory=1', ['sched']), ('!goal & !up & !right & down & left & !treasure & memory=0', ['sched']), ('!goal & !up & !right & down & left & !treasure & memory=1', ['sched']), ('!goal & !up & !right & down & !left & treasure & memory=0', ['sched']), ('!goal & !up & !right & down & !left & treasure & memory=1', ['sched']), ('!goal & !up & !right & down & !left & !treasure & memory=0', ['sched']), ('!goal & !up & !right & down & !left & !treasure & memory=1', ['sched']), ('!goal & !up & !right & !down & left & treasure & memory=0', ['sched']), ('!goal & !up & !right & !down & left & treasure & memory=1', ['sched']), ('!goal & !up & !right & !down & left & !treasure & memory=0', ['sched']), ('!goal & !up & !right & !down & left & !treasure & memory=1', ['sched']), ('!goal & !up & !right & !down & !left & treasure & memory=0', ['sched']), ('!goal & !up & !right & !down & !left & treasure & memory=1', ['sched']), ('!goal & !up & !right & !down & !left & !treasure & memory=0', ['sched']), ('!goal & !up & !right & !down & !left & !treasure & memory=1', ['sched']), ('goal', ['sched1']), ('!goal & up & right & down & left & treasure & memory=0', ['sched1']), ('!goal & up & right & down & left & treasure & memory=1', ['sched1']), ('!goal & up & right & down & left & !treasure & memory=0', ['sched1']), ('!goal & up & right & down & left & !treasure & memory=1', ['sched1']), ('!goal & up & right & down & !left & treasure & memory=0', ['sched1']), ('!goal & up & right & down & !left & treasure & memory=1', ['sched1']), ('!goal & up & right & down & !left & !treasure & memory=0', ['sched1']), ('!goal & up & right & down & !left & !treasure & memory=1', ['sched1']), ('!goal & up & right & !down & left & treasure & memory=0', ['sched1']), ('!goal & up & right & !down & left & treasure & memory=1', ['sched1']), ('!goal & up & right & !down & left & !treasure & memory=0', ['sched1']), ('!goal & up & right & !down & left & !treasure & memory=1', ['sched1']), ('!goal & up & right & !down & !left & treasure & memory=0', ['sched1']), ('!goal & up & right & !down & !left & treasure & memory=1', ['sched1']), ('!goal & up & right & !down & !left & !treasure & memory=0', ['sched1']), ('!goal & up & right & !down & !left & !treasure & memory=1', ['sched1']), ('!goal & up & !right & down & left & treasure & memory=0', ['sched1']), ('!goal & up & !right & down & left & treasure & memory=1', ['sched1']), ('!goal & up & !right & down & left & !treasure & memory=0', ['sched1']), ('!goal & up & !right & down & left & !treasure & memory=1', ['sched1']), ('!goal & up & !right & down & !left & treasure & memory=0', ['sched1']), ('!goal & up & !right & down & !left & treasure & memory=1', ['sched1']), ('!goal & up & !right & down & !left & !treasure & memory=0', ['sched1']), ('!goal & up & !right & down & !left & !treasure & memory=1', ['sched1']), ('!goal & up & !right & !down & left & treasure & memory=0', ['sched1']), ('!goal & up & !right & !down & left & treasure & memory=1', ['sched1']), ('!goal & up & !right & !down & left & !treasure & memory=0', ['sched1']), ('!goal & up & !right & !down & left & !treasure & memory=1', ['sched1']), ('!goal & up & !right & !down & !left & treasure & memory=0', ['sched1']), ('!goal & up & !right & !down & !left & treasure & memory=1', ['sched1']), ('!goal & up & !right & !down & !left & !treasure & memory=0', ['sched1']), ('!goal & up & !right & !down & !left & !treasure & memory=1', ['sched1']), ('!goal & !up & right & down & left & treasure & memory=0', ['sched1']), ('!goal & !up & right & down & left & treasure & memory=1', ['sched1']), ('!goal & !up & right & down & left & !treasure & memory=0', ['sched1']), ('!goal & !up & right & down & left & !treasure & memory=1', ['sched1']), ('!goal & !up & right & down & !left & treasure & memory=0', ['sched1']), ('!goal & !up & right & down & !left & treasure & memory=1', ['sched1']), ('!goal & !up & right & down & !left & !treasure & memory=0', ['sched1']), ('!goal & !up & right & down & !left & !treasure & memory=1', ['sched1']), ('!goal & !up & right & !down & left & treasure & memory=0', ['sched1']), ('!goal & !up & right & !down & left & treasure & memory=1', ['sched1']), ('!goal & !up & right & !down & left & !treasure & memory=0', ['sched1']), ('!goal & !up & right & !down & left & !treasure & memory=1', ['sched1']), ('!goal & !up & right & !down & !left & treasure & memory=0', ['sched1']), ('!goal & !up & right & !down & !left & treasure & memory=1', ['sched1']), ('!goal & !up & right & !down & !left & !treasure & memory=0', ['sched1']), ('!goal & !up & right & !down & !left & !treasure & memory=1', ['sched1']), ('!goal & !up & !right & down & left & treasure & memory=0', ['sched1']), ('!goal & !up & !right & down & left & treasure & memory=1', ['sched1']), ('!goal & !up & !right & down & left & !treasure & memory=0', ['sched1']), ('!goal & !up & !right & down & left & !treasure & memory=1', ['sched1']), ('!goal & !up & !right & down & !left & treasure & memory=0', ['sched1']), ('!goal & !up & !right & down & !left & treasure & memory=1', ['sched1']), ('!goal & !up & !right & down & !left & !treasure & memory=0', ['sched1']), ('!goal & !up & !right & down & !left & !treasure & memory=1', ['sched1']), ('!goal & !up & !right & !down & left & treasure & memory=0', ['sched1']), ('!goal & !up & !right & !down & left & treasure & memory=1', ['sched1']), ('!goal & !up & !right & !down & left & !treasure & memory=0', ['sched1']), ('!goal & !up & !right & !down & left & !treasure & memory=1', ['sched1']), ('!goal & !up & !right & !down & !left & treasure & memory=0', ['sched1']), ('!goal & !up & !right & !down & !left & treasure & memory=1', ['sched1']), ('!goal & !up & !right & !down & !left & !treasure & memory=0', ['sched1']), ('!goal & !up & !right & !down & !left & !treasure & memory=1', ['sched1'])]
+2023-07-04 22:12:22,277 - hyperparser.py - Loading sketch from /home/francesco/HyperProject/eval/qest/Opacity/./larger-5+mem/sketch.templ...
+2023-07-04 22:12:22,277 - hyperparser.py - Assuming a sketch in a PRISM format ...
+2023-07-04 22:12:22,278 - hyperparser.py - Warning. One formula token is contained in another: current_treasure vs treasure. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 22:12:22,379 - hyperparser.py - The model has 2 initial states...
+2023-07-04 22:12:22,379 - hyperparser.py - Instantiating the properties for the quantified initial states
+2023-07-04 22:12:22,380 - hyperparser.py - initial states for s0: [0]
+2023-07-04 22:12:22,380 - hyperparser.py - initial states for s0 after restrictions: [0]
+2023-07-04 22:12:22,381 - hyperparser.py - initial states for s1: [1]
+2023-07-04 22:12:22,381 - hyperparser.py - initial states for s1 after restrictions: [1]
+2023-07-04 22:12:22,381 - hyperparser.py - Assuming an hyperproperty with index 0...
+2023-07-04 22:12:22,382 - hyperparser.py - HyperProperty Parsing failed: assuming a property for string R{0}{"rew"}>=101 [F goal] at index 0... 
+2023-07-04 22:12:22,383 - hyperparser.py - Assuming an hyperproperty with index 1...
+2023-07-04 22:12:22,383 - hyperparser.py - HyperProperty Parsing failed: assuming a property for string R{1}{"rew"}>=101 [F goal] at index 1... 
+2023-07-04 22:12:22,383 - hyperparser.py - Assuming an hyperproperty with index 2...
+2023-07-04 22:12:22,384 - hyperparser.py - Assuming an hyperproperty with index 3...
+2023-07-04 22:12:22,384 - hyperparser.py - Found the following specification:
+ constraints: R[exp]{"rew"}>=101 [F (sink)][0] -- bound: [0];
+R[exp]{"rew"}>=101 [F (sink)][1] -- bound: [0];
+R[exp]{"rew"}=? [F (sink)][1] <built-in function le> R[exp]{"rew"}=? [F (sink)][0] -- min_distance: 0;
+R[exp]{"rew"}=? [F (sink)][0] <built-in function le> R[exp]{"rew"}=? [F (sink)][1] -- min_distance: 0.
+ Optimality objective: none.
+ Scheduler Optimality hyperobjective: Maximizing  scheduler difference.
+ 
+2023-07-04 22:12:22,384 - hypersketch.py - Processing actions and Initializing the quotient and the design space...
+2023-07-04 22:12:22,469 - hyperquotient.py - Constructed quotient MDP having 2520 states and 6772 actions.
+2023-07-04 22:17:54,799 - hypersketch.py - Sketch has 76 holes
+2023-07-04 22:17:54,799 - hypersketch.py - Design space size: 23463327920443900734737608470952059032165154816
+2023-07-04 22:17:54,800 - hypersketch.py - Design space: !goal & up & !right & down & !left & !treasure & memory=0: {{'up0'},{'do0'},{'up1'},{'do1'}} - scheduler(s): ['sched'];
+!goal & up & !right & down & !left & !treasure & memory=0: {{'up0'},{'do0'},{'up1'},{'do1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & left & !treasure & memory=0: {{'ri0'},{'le0'},{'ri1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & right & down & !left & !treasure & memory=0: {{'ri0'},{'do0'},{'ri1'},{'do1'}} - scheduler(s): ['sched'];
+!goal & !up & right & !down & left & !treasure & memory=1: {{'ri0'},{'le0'},{'ri1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & up & !right & down & !left & !treasure & memory=1: {{'up0'},{'do0'},{'up1'},{'do1'}} - scheduler(s): ['sched'];
+!goal & !up & right & down & !left & !treasure & memory=1: {{'ri0'},{'do0'},{'ri1'},{'do1'}} - scheduler(s): ['sched'];
+!goal & !up & right & !down & left & !treasure & memory=0: {{'ri0'},{'le0'},{'ri1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & down & !left & !treasure & memory=0: {{'ri0'},{'do0'},{'ri1'},{'do1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & left & !treasure & memory=1: {{'ri0'},{'le0'},{'ri1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & up & !right & down & !left & !treasure & memory=1: {{'up0'},{'do0'},{'up1'},{'do1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & down & !left & !treasure & memory=1: {{'ri0'},{'do0'},{'ri1'},{'do1'}} - scheduler(s): ['sched1'];
+!goal & up & right & !down & left & !treasure & memory=0: {{'up0'},{'ri0'},{'le0'},{'up1'},{'ri1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & up & right & !down & left & !treasure & memory=1: {{'up0'},{'ri0'},{'le0'},{'up1'},{'ri1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & up & right & !down & left & !treasure & memory=0: {{'up0'},{'ri0'},{'le0'},{'up1'},{'ri1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & up & right & !down & left & !treasure & memory=1: {{'up0'},{'ri0'},{'le0'},{'up1'},{'ri1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & up & !right & down & left & treasure & memory=0: {{'up0'},{'do0'},{'le0'},{'up1'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & up & !right & down & left & treasure & memory=1: {{'up0'},{'do0'},{'le0'},{'up1'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & right & down & left & !treasure & memory=0: {{'ri0'},{'do0'},{'le0'},{'ri1'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & right & down & left & !treasure & memory=1: {{'ri0'},{'do0'},{'le0'},{'ri1'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & up & !right & !down & left & !treasure & memory=0: {{'up0'},{'le0'},{'up1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & up & !right & !down & left & !treasure & memory=1: {{'up0'},{'le0'},{'up1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & up & !right & down & left & treasure & memory=0: {{'up0'},{'do0'},{'le0'},{'up1'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & up & !right & down & left & treasure & memory=1: {{'up0'},{'do0'},{'le0'},{'up1'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & down & left & !treasure & memory=0: {{'ri0'},{'do0'},{'le0'},{'ri1'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & down & left & !treasure & memory=1: {{'ri0'},{'do0'},{'le0'},{'ri1'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & up & !right & !down & left & !treasure & memory=0: {{'up0'},{'le0'},{'up1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & up & !right & !down & left & !treasure & memory=1: {{'up0'},{'le0'},{'up1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & up & right & down & !left & !treasure & memory=0: {{'up0'},{'ri0'},{'do0'},{'up1'},{'ri1'},{'do1'}} - scheduler(s): ['sched'];
+!goal & up & right & down & !left & !treasure & memory=1: {{'up0'},{'ri0'},{'do0'},{'up1'},{'ri1'},{'do1'}} - scheduler(s): ['sched'];
+!goal & up & right & down & left & !treasure & memory=0: {{'up0'},{'ri0'},{'do0'},{'le0'},{'up1'},{'ri1'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & up & right & down & left & !treasure & memory=1: {{'up0'},{'ri0'},{'do0'},{'le0'},{'up1'},{'ri1'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & up & right & down & !left & !treasure & memory=0: {{'up0'},{'ri0'},{'do0'},{'up1'},{'ri1'},{'do1'}} - scheduler(s): ['sched1'];
+!goal & up & right & down & !left & !treasure & memory=1: {{'up0'},{'ri0'},{'do0'},{'up1'},{'ri1'},{'do1'}} - scheduler(s): ['sched1'];
+!goal & up & right & down & left & !treasure & memory=0: {{'up0'},{'ri0'},{'do0'},{'le0'},{'up1'},{'ri1'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & up & right & down & left & !treasure & memory=1: {{'up0'},{'ri0'},{'do0'},{'le0'},{'up1'},{'ri1'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & !right & !down & left & !treasure & memory=0: {{'le0'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & !right & !down & left & !treasure & memory=1: {{'le0'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & !right & !down & left & !treasure & memory=0: {{'le0'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & !right & !down & left & !treasure & memory=1: {{'le0'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & !right & down & !left & !treasure & memory=0: {{'do0'},{'do1'}} - scheduler(s): ['sched'];
+!goal & !up & !right & down & !left & !treasure & memory=1: {{'do0'},{'do1'}} - scheduler(s): ['sched'];
+!goal & up & !right & down & left & !treasure & memory=0: {{'up0'},{'do0'},{'le0'},{'up1'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & up & !right & down & left & !treasure & memory=1: {{'up0'},{'do0'},{'le0'},{'up1'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & !right & down & left & !treasure & memory=0: {{'do0'},{'le0'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & !right & down & left & !treasure & memory=1: {{'do0'},{'le0'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & up & right & !down & !left & !treasure & memory=0: {{'up0'},{'ri0'},{'up1'},{'ri1'}} - scheduler(s): ['sched'];
+!goal & up & right & !down & !left & !treasure & memory=1: {{'up0'},{'ri0'},{'up1'},{'ri1'}} - scheduler(s): ['sched'];
+!goal & !up & !right & down & !left & !treasure & memory=0: {{'do0'},{'do1'}} - scheduler(s): ['sched1'];
+!goal & !up & !right & down & !left & !treasure & memory=1: {{'do0'},{'do1'}} - scheduler(s): ['sched1'];
+!goal & up & !right & down & left & !treasure & memory=0: {{'up0'},{'do0'},{'le0'},{'up1'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & up & !right & down & left & !treasure & memory=1: {{'up0'},{'do0'},{'le0'},{'up1'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & !right & down & left & !treasure & memory=0: {{'do0'},{'le0'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & !right & down & left & !treasure & memory=1: {{'do0'},{'le0'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & up & right & !down & !left & !treasure & memory=0: {{'up0'},{'ri0'},{'up1'},{'ri1'}} - scheduler(s): ['sched1'];
+!goal & up & right & !down & !left & !treasure & memory=1: {{'up0'},{'ri0'},{'up1'},{'ri1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & !left & !treasure & memory=0: {{'ri0'},{'ri1'}} - scheduler(s): ['sched'];
+!goal & !up & right & !down & !left & !treasure & memory=1: {{'ri0'},{'ri1'}} - scheduler(s): ['sched'];
+!goal & !up & right & !down & !left & !treasure & memory=0: {{'ri0'},{'ri1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & !left & !treasure & memory=1: {{'ri0'},{'ri1'}} - scheduler(s): ['sched1'];
+!goal & up & !right & !down & !left & !treasure & memory=0: {{'up0'},{'up1'}} - scheduler(s): ['sched'];
+!goal & up & !right & !down & !left & !treasure & memory=1: {{'up0'},{'up1'}} - scheduler(s): ['sched'];
+!goal & !up & right & !down & left & treasure & memory=0: {{'ri0'},{'le0'},{'ri1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & right & !down & left & treasure & memory=1: {{'ri0'},{'le0'},{'ri1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & up & !right & !down & !left & !treasure & memory=0: {{'up0'},{'up1'}} - scheduler(s): ['sched1'];
+!goal & up & !right & !down & !left & !treasure & memory=1: {{'up0'},{'up1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & left & treasure & memory=0: {{'ri0'},{'le0'},{'ri1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & left & treasure & memory=1: {{'ri0'},{'le0'},{'ri1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & !right & down & left & treasure & memory=0: {{'do0'},{'le0'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & !right & down & left & treasure & memory=1: {{'do0'},{'le0'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & !right & down & left & treasure & memory=0: {{'do0'},{'le0'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & !right & down & left & treasure & memory=1: {{'do0'},{'le0'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & down & left & treasure & memory=0: {{'ri0'},{'do0'},{'le0'},{'ri1'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & right & down & left & treasure & memory=1: {{'ri0'},{'do0'},{'le0'},{'ri1'},{'do1'},{'le1'}} - scheduler(s): ['sched'];
+!goal & !up & right & down & left & treasure & memory=0: {{'ri0'},{'do0'},{'le0'},{'ri1'},{'do1'},{'le1'}} - scheduler(s): ['sched1'];
+!goal & !up & right & down & left & treasure & memory=1: {{'ri0'},{'do0'},{'le0'},{'ri1'},{'do1'},{'le1'}} - scheduler(s): ['sched1']
+2023-07-04 22:17:54,800 - hypersketch.py - Sketch parsing complete.
+2023-07-04 22:17:54,800 - hypersketch.py - Matching holes: dict_values([[0, 1], [2, 7], [3, 8], [4, 9], [5, 10], [6, 11], [12, 14], [13, 15], [16, 22], [17, 23], [18, 24], [19, 25], [20, 26], [21, 27], [28, 32], [29, 33], [30, 34], [31, 35], [36, 38], [37, 39], [40, 48], [41, 49], [42, 50], [43, 51], [44, 52], [45, 53], [46, 54], [47, 55], [56, 58], [57, 59], [60, 64], [61, 65], [62, 66], [63, 67], [68, 70], [69, 71], [72, 74], [73, 75]])
+2023-07-04 22:17:54,800 - cli.py - Synthetizing an MDP scheduler wrt a hyperproperty
+2023-07-04 22:17:54,800 - hypersynthesizer.py - Synthesis initiated.
+> Progress 0.3002%, elapsed 3.0 s, iters = (66, 0)
+> Progress 1.1768%, elapsed 6.0 s, iters = (133, 0)
+> Progress 1.1965%, elapsed 9.0 s, iters = (216, 0)
+> Progress 1.6059%, elapsed 12.1 s, iters = (296, 0)
+> Progress 1.606%, elapsed 15.1 s, iters = (358, 0)
+> Progress 1.6071%, elapsed 18.0 s, iters = (431, 0)
+> Progress 1.6079%, elapsed 21.0 s, iters = (509, 0)
+> Progress 1.6108%, elapsed 24.0 s, iters = (585, 0)
+> Progress 1.6222%, elapsed 27.0 s, iters = (660, 0)
+> Progress 1.6928%, elapsed 30.0 s, iters = (731, 0)
+> Progress 1.6931%, elapsed 33.1 s, iters = (814, 0)
+> Progress 1.7365%, elapsed 36.0 s, iters = (887, 0)
+> Progress 1.9748%, elapsed 39.0 s, iters = (963, 0)
+> Progress 2.2385%, elapsed 42.1 s, iters = (1032, 0)
+> Progress 2.3288%, elapsed 45.1 s, iters = (1102, 0)
+> Progress 2.3424%, elapsed 48.1 s, iters = (1170, 0)
+> Progress 3.4884%, elapsed 51.1 s, iters = (1240, 0)
+> Progress 4.5582%, elapsed 54.0 s, iters = (1309, 0)
+> Progress 4.5615%, elapsed 57.0 s, iters = (1396, 0)
+> Progress 5.1641%, elapsed 60.0 s, iters = (1470, 0)
+> Progress 5.1803%, elapsed 63.2 s, iters = (1547, 0)
+> Progress 5.3029%, elapsed 66.0 s, iters = (1620, 0)
+> Progress 5.3035%, elapsed 69.0 s, iters = (1691, 0)
+2023-07-04 22:19:05,298 - hyperproperty.py - New scheduler hyper opt = 20.
+2023-07-04 22:19:05,369 - hyperproperty.py - New scheduler hyper opt = 21.
+2023-07-04 22:19:06,205 - hyperproperty.py - New scheduler hyper opt = 22.
+> Progress 5.3035%, elapsed 72.0 s, iters = (1954, 0)
+> Progress 5.3035%, elapsed 75.0 s, iters = (2328, 0)
+> Progress 5.3035%, elapsed 78.0 s, iters = (2683, 0)
+> Progress 5.3035%, elapsed 81.0 s, iters = (3033, 0)
+> Progress 5.3035%, elapsed 84.0 s, iters = (3431, 0)
+> Progress 5.3035%, elapsed 87.0 s, iters = (3881, 0)
+> Progress 5.3035%, elapsed 90.0 s, iters = (4128, 0)
+> Progress 5.3035%, elapsed 93.0 s, iters = (4214, 0)
+> Progress 5.3035%, elapsed 96.1 s, iters = (4328, 0)
+> Progress 5.3036%, elapsed 99.0 s, iters = (4417, 0)
+> Progress 5.3048%, elapsed 102.0 s, iters = (4495, 0)
+> Progress 5.3048%, elapsed 105.0 s, iters = (4613, 0)
+> Progress 5.3054%, elapsed 108.0 s, iters = (4699, 0)
+> Progress 5.3105%, elapsed 111.1 s, iters = (4792, 0)
+> Progress 5.3116%, elapsed 114.1 s, iters = (4866, 0)
+> Progress 5.3184%, elapsed 117.0 s, iters = (4946, 0)
+> Progress 5.324%, elapsed 120.1 s, iters = (5027, 0)
+> Progress 5.3658%, elapsed 123.0 s, iters = (5101, 0)
+> Progress 5.3666%, elapsed 126.0 s, iters = (5180, 0)
+> Progress 5.3733%, elapsed 129.0 s, iters = (5257, 0)
+> Progress 5.4247%, elapsed 132.1 s, iters = (5339, 0)
+> Progress 5.6134%, elapsed 135.0 s, iters = (5413, 0)
+> Progress 5.7024%, elapsed 138.0 s, iters = (5486, 0)
+> Progress 6.9923%, elapsed 141.0 s, iters = (5560, 0)
+> Progress 6.9927%, elapsed 144.1 s, iters = (5643, 0)
+> Progress 7.0038%, elapsed 147.0 s, iters = (5720, 0)
+> Progress 10.0933%, elapsed 150.0 s, iters = (5792, 0)
+> Progress 10.8154%, elapsed 153.0 s, iters = (5863, 0)
+> Progress 12.1612%, elapsed 156.1 s, iters = (5931, 0)
+> Progress 13.1709%, elapsed 159.0 s, iters = (5990, 0)
+> Progress 13.2152%, elapsed 162.1 s, iters = (6058, 0)
+> Progress 13.4985%, elapsed 165.0 s, iters = (6120, 0)
+> Progress 15.0607%, elapsed 168.1 s, iters = (6183, 0)
+> Progress 18.686%, elapsed 171.0 s, iters = (6243, 0)
+2023-07-04 22:20:48,544 - hypersynthesizer.py - Pruned a non negligible family which represents the 4% of the design space
+> Progress 25.0%, elapsed 174.0 s, iters = (6308, 0)
+> Progress 25.1368%, elapsed 177.0 s, iters = (6375, 0)
+> Progress 25.1605%, elapsed 180.0 s, iters = (6445, 0)
+> Progress 26.2387%, elapsed 183.0 s, iters = (6513, 0)
+> Progress 26.9552%, elapsed 186.0 s, iters = (6583, 0)
+> Progress 28.8194%, elapsed 189.1 s, iters = (6637, 0)
+> Progress 28.8199%, elapsed 192.1 s, iters = (6716, 0)
+> Progress 28.82%, elapsed 195.1 s, iters = (6786, 0)
+> Progress 28.863%, elapsed 198.1 s, iters = (6859, 0)
+> Progress 28.8849%, elapsed 201.0 s, iters = (6927, 0)
+> Progress 28.9062%, elapsed 204.0 s, iters = (6999, 0)
+> Progress 28.9072%, elapsed 207.1 s, iters = (7078, 0)
+> Progress 28.9074%, elapsed 210.0 s, iters = (7148, 0)
+> Progress 32.2916%, elapsed 213.1 s, iters = (7223, 0)
+> Progress 35.4189%, elapsed 216.0 s, iters = (7273, 0)
+> Progress 35.677%, elapsed 219.0 s, iters = (7347, 0)
+> Progress 35.9467%, elapsed 222.0 s, iters = (7410, 0)
+> Progress 37.5435%, elapsed 225.0 s, iters = (7470, 0)
+> Progress 37.5446%, elapsed 228.0 s, iters = (7547, 0)
+> Progress 37.5452%, elapsed 231.0 s, iters = (7636, 0)
+> Progress 37.5483%, elapsed 234.1 s, iters = (7707, 0)
+> Progress 37.551%, elapsed 237.0 s, iters = (7783, 0)
+> Progress 37.5597%, elapsed 240.0 s, iters = (7856, 0)
+> Progress 37.6305%, elapsed 243.0 s, iters = (7935, 0)
+> Progress 37.6739%, elapsed 246.0 s, iters = (8016, 0)
+> Progress 37.8255%, elapsed 249.0 s, iters = (8101, 0)
+> Progress 38.1759%, elapsed 252.0 s, iters = (8171, 0)
+> Progress 38.1947%, elapsed 255.1 s, iters = (8237, 0)
+> Progress 38.2747%, elapsed 258.0 s, iters = (8303, 0)
+> Progress 38.3216%, elapsed 261.0 s, iters = (8368, 0)
+> Progress 40.2832%, elapsed 264.1 s, iters = (8443, 0)
+> Progress 41.2959%, elapsed 267.0 s, iters = (8513, 0)
+> Progress 41.301%, elapsed 270.1 s, iters = (8576, 0)
+> Progress 41.616%, elapsed 273.1 s, iters = (8646, 0)
+> Progress 43.3593%, elapsed 276.1 s, iters = (8716, 0)
+> Progress 46.8202%, elapsed 279.0 s, iters = (8784, 0)
+2023-07-04 22:22:36,131 - hypersynthesizer.py - Pruned a non negligible family which represents the 4% of the design space
+> Progress 54.6875%, elapsed 282.0 s, iters = (8844, 0)
+> Progress 58.3333%, elapsed 285.1 s, iters = (8902, 0)
+> Progress 58.8588%, elapsed 288.1 s, iters = (8967, 0)
+> Progress 59.3799%, elapsed 291.0 s, iters = (9028, 0)
+> Progress 62.3697%, elapsed 294.0 s, iters = (9095, 0)
+> Progress 72.3958%, elapsed 297.1 s, iters = (9149, 0)
+> Progress 80.2083%, elapsed 300.0 s, iters = (9203, 0)
+> Progress 92.9687%, elapsed 303.0 s, iters = (9262, 0)
+2023-07-04 22:22:58,741 - hypersynthesizer.py - Printing synthesized assignment below:
+2023-07-04 22:22:58,742 - hypersynthesizer.py - !goal & up & !right & down & !left & !treasure & memory=0={'up0'} - scheduler(s): ['sched'];
+!goal & up & !right & down & !left & !treasure & memory=0={'up0'} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & left & !treasure & memory=0={'ri0'} - scheduler(s): ['sched'];
+!goal & !up & right & down & !left & !treasure & memory=0={'ri0'} - scheduler(s): ['sched'];
+!goal & !up & right & !down & left & !treasure & memory=1={'le1'} - scheduler(s): ['sched'];
+!goal & up & !right & down & !left & !treasure & memory=1={'do1'} - scheduler(s): ['sched'];
+!goal & !up & right & down & !left & !treasure & memory=1={'do1'} - scheduler(s): ['sched'];
+!goal & !up & right & !down & left & !treasure & memory=0={'ri0'} - scheduler(s): ['sched1'];
+!goal & !up & right & down & !left & !treasure & memory=0={'do1'} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & left & !treasure & memory=1={'le1'} - scheduler(s): ['sched1'];
+!goal & up & !right & down & !left & !treasure & memory=1={'do1'} - scheduler(s): ['sched1'];
+!goal & !up & right & down & !left & !treasure & memory=1={'do1'} - scheduler(s): ['sched1'];
+!goal & up & right & !down & left & !treasure & memory=0={'up0'} - scheduler(s): ['sched'];
+!goal & up & right & !down & left & !treasure & memory=1={'up0'} - scheduler(s): ['sched'];
+!goal & up & right & !down & left & !treasure & memory=0={'ri0'} - scheduler(s): ['sched1'];
+!goal & up & right & !down & left & !treasure & memory=1={'ri0'} - scheduler(s): ['sched1'];
+!goal & up & !right & down & left & treasure & memory=0={'up0'} - scheduler(s): ['sched'];
+!goal & up & !right & down & left & treasure & memory=1={'up0'} - scheduler(s): ['sched'];
+!goal & !up & right & down & left & !treasure & memory=0={'ri0'} - scheduler(s): ['sched'];
+!goal & !up & right & down & left & !treasure & memory=1={'le1'} - scheduler(s): ['sched'];
+!goal & up & !right & !down & left & !treasure & memory=0={'up0'} - scheduler(s): ['sched'];
+!goal & up & !right & !down & left & !treasure & memory=1={'up0'} - scheduler(s): ['sched'];
+!goal & up & !right & down & left & treasure & memory=0={'up0'} - scheduler(s): ['sched1'];
+!goal & up & !right & down & left & treasure & memory=1={'up0'} - scheduler(s): ['sched1'];
+!goal & !up & right & down & left & !treasure & memory=0={'ri0'} - scheduler(s): ['sched1'];
+!goal & !up & right & down & left & !treasure & memory=1={'le1'} - scheduler(s): ['sched1'];
+!goal & up & !right & !down & left & !treasure & memory=0={'up0'} - scheduler(s): ['sched1'];
+!goal & up & !right & !down & left & !treasure & memory=1={'le0'} - scheduler(s): ['sched1'];
+!goal & up & right & down & !left & !treasure & memory=0={'ri0'} - scheduler(s): ['sched'];
+!goal & up & right & down & !left & !treasure & memory=1={'do1'} - scheduler(s): ['sched'];
+!goal & up & right & down & left & !treasure & memory=0={'up0'} - scheduler(s): ['sched'];
+!goal & up & right & down & left & !treasure & memory=1={'up0'} - scheduler(s): ['sched'];
+!goal & up & right & down & !left & !treasure & memory=0={'ri0'} - scheduler(s): ['sched1'];
+!goal & up & right & down & !left & !treasure & memory=1={'do1'} - scheduler(s): ['sched1'];
+!goal & up & right & down & left & !treasure & memory=0={'ri0'} - scheduler(s): ['sched1'];
+!goal & up & right & down & left & !treasure & memory=1={'ri0'} - scheduler(s): ['sched1'];
+!goal & !up & !right & !down & left & !treasure & memory=0={'le0'} - scheduler(s): ['sched'];
+!goal & !up & !right & !down & left & !treasure & memory=1={'le0'} - scheduler(s): ['sched'];
+!goal & !up & !right & !down & left & !treasure & memory=0={'le1'} - scheduler(s): ['sched1'];
+!goal & !up & !right & !down & left & !treasure & memory=1={'le1'} - scheduler(s): ['sched1'];
+!goal & !up & !right & down & !left & !treasure & memory=0={'do0'} - scheduler(s): ['sched'];
+!goal & !up & !right & down & !left & !treasure & memory=1={'do0'} - scheduler(s): ['sched'];
+!goal & up & !right & down & left & !treasure & memory=0={'up0'} - scheduler(s): ['sched'];
+!goal & up & !right & down & left & !treasure & memory=1={'le1'} - scheduler(s): ['sched'];
+!goal & !up & !right & down & left & !treasure & memory=0={'do0'} - scheduler(s): ['sched'];
+!goal & !up & !right & down & left & !treasure & memory=1={'do0'} - scheduler(s): ['sched'];
+!goal & up & right & !down & !left & !treasure & memory=0={'up0'} - scheduler(s): ['sched'];
+!goal & up & right & !down & !left & !treasure & memory=1={'up0'} - scheduler(s): ['sched'];
+!goal & !up & !right & down & !left & !treasure & memory=0={'do1'} - scheduler(s): ['sched1'];
+!goal & !up & !right & down & !left & !treasure & memory=1={'do1'} - scheduler(s): ['sched1'];
+!goal & up & !right & down & left & !treasure & memory=0={'up0'} - scheduler(s): ['sched1'];
+!goal & up & !right & down & left & !treasure & memory=1={'le1'} - scheduler(s): ['sched1'];
+!goal & !up & !right & down & left & !treasure & memory=0={'le0'} - scheduler(s): ['sched1'];
+!goal & !up & !right & down & left & !treasure & memory=1={'le0'} - scheduler(s): ['sched1'];
+!goal & up & right & !down & !left & !treasure & memory=0={'ri0'} - scheduler(s): ['sched1'];
+!goal & up & right & !down & !left & !treasure & memory=1={'ri0'} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & !left & !treasure & memory=0={'ri0'} - scheduler(s): ['sched'];
+!goal & !up & right & !down & !left & !treasure & memory=1={'ri0'} - scheduler(s): ['sched'];
+!goal & !up & right & !down & !left & !treasure & memory=0={'ri1'} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & !left & !treasure & memory=1={'ri1'} - scheduler(s): ['sched1'];
+!goal & up & !right & !down & !left & !treasure & memory=0={'up0'} - scheduler(s): ['sched'];
+!goal & up & !right & !down & !left & !treasure & memory=1={'up0'} - scheduler(s): ['sched'];
+!goal & !up & right & !down & left & treasure & memory=0={'ri0'} - scheduler(s): ['sched'];
+!goal & !up & right & !down & left & treasure & memory=1={'ri0'} - scheduler(s): ['sched'];
+!goal & up & !right & !down & !left & !treasure & memory=0={'up1'} - scheduler(s): ['sched1'];
+!goal & up & !right & !down & !left & !treasure & memory=1={'up1'} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & left & treasure & memory=0={'le0'} - scheduler(s): ['sched1'];
+!goal & !up & right & !down & left & treasure & memory=1={'le0'} - scheduler(s): ['sched1'];
+!goal & !up & !right & down & left & treasure & memory=0={'le1'} - scheduler(s): ['sched'];
+!goal & !up & !right & down & left & treasure & memory=1={'le0'} - scheduler(s): ['sched'];
+!goal & !up & !right & down & left & treasure & memory=0={'le1'} - scheduler(s): ['sched1'];
+!goal & !up & !right & down & left & treasure & memory=1={'le0'} - scheduler(s): ['sched1'];
+!goal & !up & right & down & left & treasure & memory=0={'ri0'} - scheduler(s): ['sched'];
+!goal & !up & right & down & left & treasure & memory=1={'ri0'} - scheduler(s): ['sched'];
+!goal & !up & right & down & left & treasure & memory=0={'do0'} - scheduler(s): ['sched1'];
+!goal & !up & right & down & left & treasure & memory=1={'do0'} - scheduler(s): ['sched1']
+2023-07-04 22:22:58,746 - hypersynthesizer.py - Double-checking specification satisfiability:
+101.10219946701744;
+101.10219946701744;
+101.10219946701744[1] <built-in function le> 101.10219946701744[0]: True;
+101.10219946701744[0] <built-in function le> 101.10219946701744[1]: True
+ No optimality constraint specified
+ Scheduler Hyperoptimality: Current optimal value: 22
+--------------------
+Synthesis summary
+constraint 1: R[exp]{"rew"}>=101 [F (sink)][0] -- bound: [0]
+constraint 2: R[exp]{"rew"}>=101 [F (sink)][1] -- bound: [0]
+constraint 3: R[exp]{"rew"}=? [F (sink)][1] <built-in function le> R[exp]{"rew"}=? [F (sink)][0] -- min_distance: 0
+constraint 4: R[exp]{"rew"}=? [F (sink)][0] <built-in function le> R[exp]{"rew"}=? [F (sink)][1] -- min_distance: 0
+Optimality objective: None
+ Scheduler Hyperoptimality objective: Maximizing  scheduler difference.
+ Indexes of formulae in OR relation with each other: [[0], [1], [2], [3]]
+
+method: AR, synthesis time: 303.82 s
+number of holes: 76, family size: 23463327920443900734737608470952059032165154816, super quotient: 2520 states / 6772 actions 
+explored: 100 %
+AR stats: avg MDP size: 1572, iterations: 9278, decided families: 6329, average decided families size: 3.7072725423358984e+42, AR Sat members found: 52950225942078661066752, AR Unsat Members found: 23463327920443900734737555520726116953504088064
+
+feasible: yes
+--------------------
+

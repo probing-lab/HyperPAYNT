@@ -1,0 +1,9 @@
+Maze        variables    subformulae    Encoding Time  Solving Time
+--------  -----------  -------------  ---------------  --------------
+simple            590             21         0.222122  1.11
+larger-1         3350             51         0.984419  Time Out
+larger-2         3350             51         0.991327  Time Out
+larger-3         3350             51         0.992979  Time Out
+splash-1         1424             33         0.47674   49.25
+splash-2         3350             51         0.979812  Time Out
+train           11952             97         2.88783   Time Out

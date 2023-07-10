@@ -1,0 +1,5 @@
+Maze        AR time    AR iters  Percentage explored      Feasible instances
+--------  ---------  ----------  ---------------------  --------------------
+splash-1       0.86        1233  100 %                                     1
+larger-1    4664.26     4232030  100 %                                     4
+larger-3     168.66      148782  100 %                                  2590

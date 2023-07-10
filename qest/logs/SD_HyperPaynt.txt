@@ -1,0 +1,1353 @@
+$ python3 /home/francesco/HyperProject/paynt/paynt.py --project /home/francesco/HyperProject/eval/qest/SD/./splash-2 --method ar
+2023-07-04 14:28:44,485 - cli.py - This is HyperPaynt version 0.1.0.
+2023-07-04 14:28:44,485 - hyperparser.py - Loading properties from /home/francesco/HyperProject/eval/qest/SD/./splash-2/sketch.props ...
+2023-07-04 14:28:44,485 - hyperparser.py - Parsing scheduler quantifiers ...
+2023-07-04 14:28:44,485 - hyperparser.py - Found the following scheduler quantifiers: {'sched': 'ES'}
+2023-07-04 14:28:44,485 - hyperparser.py - Parsing state quantifiers...
+2023-07-04 14:28:44,485 - hyperparser.py - Found the following state quantifiers: {'s0': ('E', 'sched'), 's1': ('E', 'sched')}
+2023-07-04 14:28:44,485 - hyperparser.py - Parsing restrictions
+2023-07-04 14:28:44,485 - hyperparser.py - Found the following restrictions: {'s0': 'start0', 's1': 'start1'}
+2023-07-04 14:28:44,485 - hyperparser.py - Parsing scheduler optimality ( if required)
+2023-07-04 14:28:44,486 - hyperparser.py - Scheduler optimality property not found.
+2023-07-04 14:28:44,486 - hyperparser.py - Parsing structural constraints (if any)
+2023-07-04 14:28:44,486 - hyperparser.py - Found the following structural equality constraints: []
+2023-07-04 14:28:44,486 - hyperparser.py - Loading sketch from /home/francesco/HyperProject/eval/qest/SD/./splash-2/sketch.templ...
+2023-07-04 14:28:44,486 - hyperparser.py - Assuming a sketch in a PRISM format ...
+2023-07-04 14:28:44,486 - hyperparser.py - Warning. One formula token is contained in another: yu vs u. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:28:44,486 - hyperparser.py - Warning. One formula token is contained in another: xr vs r. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:28:44,486 - hyperparser.py - Warning. One formula token is contained in another: yd vs d. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:28:44,486 - hyperparser.py - Warning. One formula token is contained in another: xl vs l. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:28:44,486 - hyperparser.py - Warning. One formula token is contained in another: bad vs d. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:28:44,486 - hyperparser.py - Warning. One formula token is contained in another: splashy vs l. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:28:44,486 - hyperparser.py - Warning. One formula token is contained in another: good vs d. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:28:44,504 - hyperparser.py - The model has 2 initial states...
+2023-07-04 14:28:44,504 - hyperparser.py - Instantiating the properties for the quantified initial states
+2023-07-04 14:28:44,504 - hyperparser.py - initial states for s0: [0, 1]
+2023-07-04 14:28:44,504 - hyperparser.py - initial states for s0 after restrictions: [1]
+2023-07-04 14:28:44,504 - hyperparser.py - initial states for s1: [0, 1]
+2023-07-04 14:28:44,504 - hyperparser.py - initial states for s1 after restrictions: [0]
+2023-07-04 14:28:44,504 - hyperparser.py - Assuming an hyperproperty with index 0...
+2023-07-04 14:28:44,505 - hyperparser.py - Found the following specification:
+ constraints: P=? [F "target"][0] <built-in function lt> P=? [F "target"][1] -- min_distance: 0.
+ Optimality objective: none.
+ Scheduler Optimality hyperobjective: none
+ 
+2023-07-04 14:28:44,505 - hypersketch.py - Processing actions and Initializing the quotient and the design space...
+2023-07-04 14:28:44,518 - hyperquotient.py - Constructed quotient MDP having 25 states and 82 actions.
+2023-07-04 14:28:44,520 - hypersketch.py - Sketch has 19 holes
+2023-07-04 14:28:44,520 - hypersketch.py - Design space size: 274877906944
+2023-07-04 14:28:44,520 - hypersketch.py - Design space: [x=4	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=0	& y=3]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=2]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=3	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=0	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=3]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=3	& y=2]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=2	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=3	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=1	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=1	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=2	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=2	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=3	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=0	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=1	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=0	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched']
+2023-07-04 14:28:44,520 - hypersketch.py - Sketch parsing complete.
+2023-07-04 14:28:44,520 - hypersketch.py - Matching holes: defaultdict(<class 'list'>, {})
+2023-07-04 14:28:44,520 - cli.py - Synthetizing an MDP scheduler wrt a hyperproperty
+2023-07-04 14:28:44,520 - hypersynthesizer.py - Synthesis initiated.
+> Progress 8.1459%, elapsed 3.0 s, iters = (3566, 0)
+> Progress 8.5441%, elapsed 6.0 s, iters = (7066, 0)
+> Progress 9.3784%, elapsed 9.0 s, iters = (10564, 0)
+> Progress 9.5678%, elapsed 12.0 s, iters = (14107, 0)
+> Progress 10.3195%, elapsed 15.0 s, iters = (17523, 0)
+> Progress 10.7065%, elapsed 18.0 s, iters = (20730, 0)
+> Progress 10.7675%, elapsed 21.0 s, iters = (23918, 0)
+> Progress 10.8206%, elapsed 24.0 s, iters = (27193, 0)
+> Progress 10.8826%, elapsed 27.0 s, iters = (30342, 0)
+> Progress 10.9308%, elapsed 30.0 s, iters = (33239, 0)
+> Progress 14.819%, elapsed 33.0 s, iters = (36593, 0)
+> Progress 16.9489%, elapsed 36.0 s, iters = (40047, 0)
+> Progress 18.2315%, elapsed 39.0 s, iters = (43563, 0)
+> Progress 18.5466%, elapsed 42.0 s, iters = (47115, 0)
+> Progress 18.6527%, elapsed 45.0 s, iters = (50766, 0)
+> Progress 18.7023%, elapsed 48.0 s, iters = (54386, 0)
+> Progress 18.7471%, elapsed 51.0 s, iters = (57733, 0)
+> Progress 19.5157%, elapsed 54.0 s, iters = (61206, 0)
+> Progress 20.1331%, elapsed 57.0 s, iters = (64687, 0)
+> Progress 20.7153%, elapsed 60.0 s, iters = (68005, 0)
+> Progress 20.8353%, elapsed 63.0 s, iters = (71635, 0)
+> Progress 20.8906%, elapsed 66.0 s, iters = (75211, 0)
+> Progress 21.0435%, elapsed 69.0 s, iters = (78701, 0)
+> Progress 21.1075%, elapsed 72.0 s, iters = (82302, 0)
+> Progress 21.1287%, elapsed 75.0 s, iters = (85874, 0)
+> Progress 21.1546%, elapsed 78.0 s, iters = (89424, 0)
+> Progress 21.3478%, elapsed 81.0 s, iters = (92901, 0)
+> Progress 21.3887%, elapsed 84.0 s, iters = (96157, 0)
+> Progress 21.4229%, elapsed 87.0 s, iters = (99520, 0)
+> Progress 21.4419%, elapsed 90.0 s, iters = (102737, 0)
+> Progress 21.4515%, elapsed 93.0 s, iters = (106091, 0)
+> Progress 21.4706%, elapsed 96.0 s, iters = (109476, 0)
+> Progress 22.3839%, elapsed 99.0 s, iters = (112731, 0)
+> Progress 22.7715%, elapsed 102.0 s, iters = (116326, 0)
+> Progress 22.8657%, elapsed 105.0 s, iters = (119836, 0)
+> Progress 22.8949%, elapsed 108.0 s, iters = (123311, 0)
+> Progress 23.0179%, elapsed 111.0 s, iters = (126773, 0)
+> Progress 23.1278%, elapsed 114.0 s, iters = (130239, 0)
+> Progress 23.1723%, elapsed 117.0 s, iters = (133618, 0)
+> Progress 23.2313%, elapsed 120.0 s, iters = (136862, 0)
+> Progress 23.4714%, elapsed 123.0 s, iters = (140406, 0)
+> Progress 23.5839%, elapsed 126.0 s, iters = (144040, 0)
+> Progress 23.6778%, elapsed 129.0 s, iters = (147232, 0)
+> Progress 24.0748%, elapsed 132.0 s, iters = (150770, 0)
+> Progress 24.2804%, elapsed 135.0 s, iters = (154402, 0)
+> Progress 24.3659%, elapsed 138.0 s, iters = (157927, 0)
+> Progress 24.4478%, elapsed 141.0 s, iters = (161072, 0)
+> Progress 24.4713%, elapsed 144.0 s, iters = (164428, 0)
+> Progress 24.5126%, elapsed 147.0 s, iters = (167705, 0)
+> Progress 24.5574%, elapsed 150.0 s, iters = (170549, 0)
+> Progress 24.6686%, elapsed 153.0 s, iters = (173944, 0)
+> Progress 24.7116%, elapsed 156.0 s, iters = (177253, 0)
+> Progress 24.7576%, elapsed 159.0 s, iters = (180562, 0)
+> Progress 24.8658%, elapsed 162.0 s, iters = (183751, 0)
+> Progress 24.9166%, elapsed 165.0 s, iters = (186446, 0)
+> Progress 24.9601%, elapsed 168.0 s, iters = (189202, 0)
+> Progress 24.9786%, elapsed 171.0 s, iters = (191534, 0)
+> Progress 28.3993%, elapsed 174.0 s, iters = (194383, 0)
+> Progress 32.1109%, elapsed 177.0 s, iters = (197715, 0)
+> Progress 32.6855%, elapsed 180.0 s, iters = (200999, 0)
+> Progress 38.5452%, elapsed 183.0 s, iters = (204188, 0)
+> Progress 39.6008%, elapsed 186.0 s, iters = (207372, 0)
+> Progress 41.0062%, elapsed 189.0 s, iters = (210576, 0)
+> Progress 42.7998%, elapsed 192.0 s, iters = (213822, 0)
+> Progress 44.116%, elapsed 195.0 s, iters = (217173, 0)
+> Progress 44.2128%, elapsed 198.0 s, iters = (220543, 0)
+> Progress 44.4266%, elapsed 201.0 s, iters = (224032, 0)
+> Progress 45.5435%, elapsed 204.0 s, iters = (227480, 0)
+> Progress 45.661%, elapsed 207.0 s, iters = (231031, 0)
+> Progress 45.7593%, elapsed 210.0 s, iters = (234438, 0)
+> Progress 45.8459%, elapsed 213.0 s, iters = (237879, 0)
+> Progress 45.9525%, elapsed 216.0 s, iters = (241257, 0)
+> Progress 46.0029%, elapsed 219.0 s, iters = (244506, 0)
+> Progress 46.0645%, elapsed 222.0 s, iters = (247497, 0)
+> Progress 46.1099%, elapsed 225.0 s, iters = (250614, 0)
+> Progress 46.1943%, elapsed 228.0 s, iters = (253565, 0)
+> Progress 46.2692%, elapsed 231.0 s, iters = (256837, 0)
+> Progress 46.358%, elapsed 234.0 s, iters = (260081, 0)
+> Progress 46.4905%, elapsed 237.0 s, iters = (263119, 0)
+> Progress 46.5563%, elapsed 240.0 s, iters = (266082, 0)
+> Progress 46.6506%, elapsed 243.0 s, iters = (269542, 0)
+> Progress 46.7229%, elapsed 246.0 s, iters = (272776, 0)
+> Progress 46.8476%, elapsed 249.0 s, iters = (275957, 0)
+> Progress 46.8988%, elapsed 252.0 s, iters = (278911, 0)
+> Progress 46.9422%, elapsed 255.0 s, iters = (281528, 0)
+> Progress 46.9833%, elapsed 258.0 s, iters = (284166, 0)
+> Progress 47.0679%, elapsed 261.0 s, iters = (287178, 0)
+> Progress 47.1658%, elapsed 264.0 s, iters = (289755, 0)
+> Progress 47.4441%, elapsed 267.0 s, iters = (292450, 0)
+> Progress 48.3038%, elapsed 270.0 s, iters = (295823, 0)
+> Progress 48.4594%, elapsed 273.0 s, iters = (299182, 0)
+> Progress 48.6495%, elapsed 276.0 s, iters = (302546, 0)
+> Progress 48.7995%, elapsed 279.0 s, iters = (305835, 0)
+> Progress 48.9877%, elapsed 282.0 s, iters = (309148, 0)
+> Progress 49.1186%, elapsed 285.0 s, iters = (312229, 0)
+> Progress 49.3047%, elapsed 288.0 s, iters = (315619, 0)
+> Progress 49.4032%, elapsed 291.0 s, iters = (318542, 0)
+> Progress 49.5365%, elapsed 294.0 s, iters = (321731, 0)
+> Progress 49.6576%, elapsed 297.0 s, iters = (325062, 0)
+> Progress 49.8668%, elapsed 300.0 s, iters = (328092, 0)
+> Progress 52.5274%, elapsed 303.0 s, iters = (331013, 0)
+> Progress 52.7038%, elapsed 306.0 s, iters = (334422, 0)
+> Progress 52.8122%, elapsed 309.0 s, iters = (337702, 0)
+> Progress 52.9512%, elapsed 312.0 s, iters = (340851, 0)
+> Progress 53.0887%, elapsed 315.0 s, iters = (343894, 0)
+> Progress 53.3155%, elapsed 318.0 s, iters = (347122, 0)
+> Progress 53.5217%, elapsed 321.0 s, iters = (350151, 0)
+> Progress 53.6079%, elapsed 324.0 s, iters = (352462, 0)
+> Progress 53.6762%, elapsed 327.0 s, iters = (355411, 0)
+> Progress 53.7491%, elapsed 330.0 s, iters = (357985, 0)
+> Progress 53.8256%, elapsed 333.0 s, iters = (360507, 0)
+> Progress 54.0048%, elapsed 336.0 s, iters = (363604, 0)
+> Progress 54.1403%, elapsed 339.0 s, iters = (366936, 0)
+> Progress 54.353%, elapsed 342.0 s, iters = (370308, 0)
+> Progress 54.4155%, elapsed 345.0 s, iters = (373528, 0)
+> Progress 54.5912%, elapsed 348.0 s, iters = (376860, 0)
+> Progress 54.6725%, elapsed 351.0 s, iters = (380056, 0)
+> Progress 54.7796%, elapsed 354.0 s, iters = (383177, 0)
+> Progress 54.906%, elapsed 357.0 s, iters = (386244, 0)
+> Progress 55.017%, elapsed 360.0 s, iters = (389172, 0)
+> Progress 55.0872%, elapsed 363.0 s, iters = (391725, 0)
+> Progress 55.202%, elapsed 366.0 s, iters = (394613, 0)
+> Progress 55.3987%, elapsed 369.0 s, iters = (397886, 0)
+> Progress 55.5353%, elapsed 372.0 s, iters = (400852, 0)
+> Progress 55.6211%, elapsed 375.0 s, iters = (403522, 0)
+> Progress 55.7962%, elapsed 378.0 s, iters = (406410, 0)
+> Progress 55.8614%, elapsed 381.0 s, iters = (408972, 0)
+> Progress 55.9499%, elapsed 384.0 s, iters = (411419, 0)
+> Progress 56.037%, elapsed 387.0 s, iters = (414054, 0)
+> Progress 56.105%, elapsed 390.0 s, iters = (416311, 0)
+> Progress 56.198%, elapsed 393.0 s, iters = (418639, 0)
+> Progress 56.2947%, elapsed 396.0 s, iters = (420997, 0)
+> Progress 56.4349%, elapsed 399.0 s, iters = (423881, 0)
+> Progress 56.6294%, elapsed 402.0 s, iters = (426952, 0)
+> Progress 56.8229%, elapsed 405.0 s, iters = (429932, 0)
+> Progress 57.0758%, elapsed 408.0 s, iters = (433166, 0)
+> Progress 57.1339%, elapsed 411.0 s, iters = (436216, 0)
+> Progress 57.179%, elapsed 414.0 s, iters = (438963, 0)
+> Progress 57.2557%, elapsed 417.0 s, iters = (441549, 0)
+> Progress 57.3068%, elapsed 420.0 s, iters = (444131, 0)
+> Progress 57.4501%, elapsed 423.0 s, iters = (446766, 0)
+> Progress 57.5944%, elapsed 426.0 s, iters = (449221, 0)
+> Progress 57.6835%, elapsed 429.0 s, iters = (451704, 0)
+> Progress 57.7756%, elapsed 432.0 s, iters = (453964, 0)
+> Progress 58.6981%, elapsed 435.0 s, iters = (456579, 0)
+> Progress 59.2857%, elapsed 438.0 s, iters = (460278, 0)
+> Progress 59.32%, elapsed 441.0 s, iters = (463904, 0)
+> Progress 59.3509%, elapsed 444.0 s, iters = (467361, 0)
+> Progress 59.4064%, elapsed 447.0 s, iters = (470802, 0)
+> Progress 59.5117%, elapsed 450.0 s, iters = (474284, 0)
+> Progress 59.554%, elapsed 453.0 s, iters = (477728, 0)
+> Progress 59.6002%, elapsed 456.0 s, iters = (481005, 0)
+> Progress 59.6544%, elapsed 459.0 s, iters = (484398, 0)
+> Progress 59.7789%, elapsed 462.0 s, iters = (487831, 0)
+> Progress 60.0353%, elapsed 465.0 s, iters = (491339, 0)
+> Progress 60.3319%, elapsed 468.0 s, iters = (494683, 0)
+> Progress 61.1053%, elapsed 471.0 s, iters = (497967, 0)
+> Progress 61.9247%, elapsed 474.0 s, iters = (501291, 0)
+> Progress 62.2367%, elapsed 477.0 s, iters = (504560, 0)
+> Progress 62.582%, elapsed 480.0 s, iters = (507812, 0)
+> Progress 63.1192%, elapsed 483.0 s, iters = (511004, 0)
+> Progress 63.2639%, elapsed 486.0 s, iters = (514440, 0)
+> Progress 63.3865%, elapsed 489.0 s, iters = (517968, 0)
+> Progress 63.4664%, elapsed 492.0 s, iters = (521479, 0)
+> Progress 63.6036%, elapsed 495.0 s, iters = (524943, 0)
+> Progress 63.8235%, elapsed 498.0 s, iters = (528119, 0)
+> Progress 64.0206%, elapsed 501.0 s, iters = (531359, 0)
+> Progress 64.1004%, elapsed 504.0 s, iters = (534915, 0)
+> Progress 64.1766%, elapsed 507.0 s, iters = (538443, 0)
+> Progress 64.4856%, elapsed 510.0 s, iters = (541764, 0)
+> Progress 64.6118%, elapsed 513.0 s, iters = (545177, 0)
+> Progress 64.7873%, elapsed 516.0 s, iters = (548771, 0)
+> Progress 64.8554%, elapsed 519.0 s, iters = (552261, 0)
+> Progress 64.8705%, elapsed 522.0 s, iters = (555580, 0)
+> Progress 64.8891%, elapsed 525.0 s, iters = (559059, 0)
+> Progress 64.9066%, elapsed 528.0 s, iters = (562448, 0)
+> Progress 64.9238%, elapsed 531.0 s, iters = (565835, 0)
+> Progress 64.9535%, elapsed 534.0 s, iters = (569378, 0)
+> Progress 64.9703%, elapsed 537.0 s, iters = (572555, 0)
+> Progress 64.9946%, elapsed 540.0 s, iters = (576011, 0)
+> Progress 65.0188%, elapsed 543.0 s, iters = (579429, 0)
+> Progress 65.0408%, elapsed 546.0 s, iters = (582709, 0)
+> Progress 65.0581%, elapsed 549.0 s, iters = (585932, 0)
+> Progress 65.1138%, elapsed 552.0 s, iters = (589473, 0)
+> Progress 65.1446%, elapsed 555.0 s, iters = (592887, 0)
+> Progress 65.1592%, elapsed 558.0 s, iters = (596002, 0)
+> Progress 65.1782%, elapsed 561.0 s, iters = (599242, 0)
+> Progress 65.1929%, elapsed 564.0 s, iters = (602641, 0)
+> Progress 65.2158%, elapsed 567.0 s, iters = (605984, 0)
+> Progress 65.2414%, elapsed 570.0 s, iters = (609252, 0)
+> Progress 65.2649%, elapsed 573.0 s, iters = (612479, 0)
+> Progress 65.2875%, elapsed 576.0 s, iters = (615554, 0)
+> Progress 65.3528%, elapsed 579.0 s, iters = (619122, 0)
+> Progress 65.4361%, elapsed 582.0 s, iters = (622612, 0)
+> Progress 65.456%, elapsed 585.0 s, iters = (625906, 0)
+> Progress 65.4818%, elapsed 588.0 s, iters = (629024, 0)
+> Progress 65.5078%, elapsed 591.0 s, iters = (632217, 0)
+> Progress 65.5287%, elapsed 594.0 s, iters = (635641, 0)
+> Progress 65.5522%, elapsed 597.0 s, iters = (638964, 0)
+> Progress 65.5906%, elapsed 600.0 s, iters = (642260, 0)
+> Progress 65.6327%, elapsed 603.0 s, iters = (645550, 0)
+> Progress 65.6697%, elapsed 606.0 s, iters = (648750, 0)
+> Progress 65.6952%, elapsed 609.0 s, iters = (651967, 0)
+> Progress 65.7297%, elapsed 612.0 s, iters = (655019, 0)
+> Progress 65.7648%, elapsed 615.0 s, iters = (658527, 0)
+> Progress 65.7874%, elapsed 618.0 s, iters = (661954, 0)
+> Progress 65.8178%, elapsed 621.0 s, iters = (664966, 0)
+> Progress 65.8428%, elapsed 624.0 s, iters = (668483, 0)
+> Progress 65.8603%, elapsed 627.0 s, iters = (671820, 0)
+> Progress 65.8907%, elapsed 630.0 s, iters = (675166, 0)
+> Progress 65.9152%, elapsed 633.0 s, iters = (678392, 0)
+> Progress 65.939%, elapsed 636.0 s, iters = (681593, 0)
+> Progress 65.973%, elapsed 639.0 s, iters = (684889, 0)
+> Progress 66.0416%, elapsed 642.0 s, iters = (688499, 0)
+> Progress 66.0714%, elapsed 645.0 s, iters = (691913, 0)
+> Progress 66.1118%, elapsed 648.0 s, iters = (695092, 0)
+> Progress 66.1492%, elapsed 651.0 s, iters = (698043, 0)
+> Progress 66.1949%, elapsed 654.0 s, iters = (701359, 0)
+> Progress 66.2526%, elapsed 657.0 s, iters = (704797, 0)
+> Progress 66.3173%, elapsed 660.0 s, iters = (708122, 0)
+> Progress 66.3567%, elapsed 663.0 s, iters = (711294, 0)
+> Progress 66.3985%, elapsed 666.0 s, iters = (714480, 0)
+> Progress 66.4399%, elapsed 669.0 s, iters = (717973, 0)
+> Progress 66.4848%, elapsed 672.0 s, iters = (721341, 0)
+> Progress 66.5173%, elapsed 675.0 s, iters = (724569, 0)
+> Progress 66.5406%, elapsed 678.0 s, iters = (727692, 0)
+> Progress 66.6283%, elapsed 681.0 s, iters = (731201, 0)
+> Progress 66.6762%, elapsed 684.0 s, iters = (734463, 0)
+> Progress 66.7467%, elapsed 687.0 s, iters = (738011, 0)
+> Progress 66.7986%, elapsed 690.0 s, iters = (741465, 0)
+> Progress 66.8143%, elapsed 693.0 s, iters = (744728, 0)
+> Progress 66.841%, elapsed 696.0 s, iters = (748078, 0)
+> Progress 66.8606%, elapsed 699.0 s, iters = (751264, 0)
+> Progress 66.8745%, elapsed 702.0 s, iters = (754129, 0)
+> Progress 66.8921%, elapsed 705.0 s, iters = (757480, 0)
+> Progress 66.9085%, elapsed 708.0 s, iters = (760724, 0)
+> Progress 66.9252%, elapsed 711.0 s, iters = (763954, 0)
+> Progress 66.9512%, elapsed 714.0 s, iters = (767184, 0)
+> Progress 66.9708%, elapsed 717.0 s, iters = (770225, 0)
+> Progress 66.9903%, elapsed 720.0 s, iters = (773178, 0)
+> Progress 67.0146%, elapsed 723.0 s, iters = (776354, 0)
+> Progress 67.033%, elapsed 726.0 s, iters = (779321, 0)
+> Progress 67.0993%, elapsed 729.0 s, iters = (782436, 0)
+> Progress 67.1582%, elapsed 732.0 s, iters = (785887, 0)
+> Progress 67.1876%, elapsed 735.0 s, iters = (789322, 0)
+> Progress 67.2241%, elapsed 738.0 s, iters = (792576, 0)
+> Progress 67.3037%, elapsed 741.0 s, iters = (796022, 0)
+> Progress 67.3647%, elapsed 744.0 s, iters = (799150, 0)
+> Progress 67.5287%, elapsed 747.0 s, iters = (802482, 0)
+> Progress 67.6731%, elapsed 750.0 s, iters = (805824, 0)
+> Progress 67.7783%, elapsed 753.0 s, iters = (809295, 0)
+> Progress 67.8982%, elapsed 756.0 s, iters = (812479, 0)
+> Progress 67.9738%, elapsed 759.0 s, iters = (815372, 0)
+> Progress 68.0303%, elapsed 762.0 s, iters = (818037, 0)
+> Progress 68.0837%, elapsed 765.0 s, iters = (821317, 0)
+> Progress 68.1182%, elapsed 768.0 s, iters = (824652, 0)
+> Progress 68.2395%, elapsed 771.0 s, iters = (827856, 0)
+> Progress 68.2806%, elapsed 774.0 s, iters = (830842, 0)
+> Progress 68.3236%, elapsed 777.0 s, iters = (833875, 0)
+> Progress 69.882%, elapsed 780.0 s, iters = (836919, 0)
+> Progress 72.1076%, elapsed 783.0 s, iters = (840187, 0)
+> Progress 72.317%, elapsed 786.0 s, iters = (843197, 0)
+> Progress 72.8305%, elapsed 789.0 s, iters = (846597, 0)
+> Progress 72.9916%, elapsed 792.0 s, iters = (849587, 0)
+> Progress 73.0673%, elapsed 795.0 s, iters = (852442, 0)
+> Progress 73.2184%, elapsed 798.0 s, iters = (855331, 0)
+> Progress 73.3438%, elapsed 801.0 s, iters = (857957, 0)
+> Progress 73.5462%, elapsed 804.0 s, iters = (860906, 0)
+> Progress 73.8237%, elapsed 807.0 s, iters = (863949, 0)
+> Progress 74.1909%, elapsed 810.0 s, iters = (867368, 0)
+> Progress 74.522%, elapsed 813.0 s, iters = (870962, 0)
+> Progress 74.6554%, elapsed 816.0 s, iters = (874349, 0)
+> Progress 74.8584%, elapsed 819.0 s, iters = (877811, 0)
+> Progress 75.0457%, elapsed 822.0 s, iters = (881321, 0)
+> Progress 75.1991%, elapsed 825.0 s, iters = (884830, 0)
+> Progress 75.3503%, elapsed 828.0 s, iters = (888388, 0)
+> Progress 75.6574%, elapsed 831.0 s, iters = (891873, 0)
+> Progress 76.3427%, elapsed 834.0 s, iters = (895028, 0)
+> Progress 77.209%, elapsed 837.0 s, iters = (898444, 0)
+> Progress 77.2575%, elapsed 840.0 s, iters = (901498, 0)
+> Progress 77.3644%, elapsed 843.0 s, iters = (904989, 0)
+> Progress 77.4004%, elapsed 846.0 s, iters = (908047, 0)
+> Progress 77.4934%, elapsed 849.0 s, iters = (911308, 0)
+> Progress 77.5508%, elapsed 852.0 s, iters = (914240, 0)
+> Progress 77.6641%, elapsed 855.0 s, iters = (917563, 0)
+> Progress 77.805%, elapsed 858.0 s, iters = (921018, 0)
+> Progress 77.9257%, elapsed 861.0 s, iters = (924232, 0)
+> Progress 78.0479%, elapsed 864.0 s, iters = (927795, 0)
+> Progress 78.1925%, elapsed 867.0 s, iters = (931410, 0)
+> Progress 78.3212%, elapsed 870.0 s, iters = (934702, 0)
+> Progress 78.4706%, elapsed 873.0 s, iters = (938054, 0)
+> Progress 78.7181%, elapsed 876.0 s, iters = (941384, 0)
+> Progress 78.8284%, elapsed 879.0 s, iters = (944577, 0)
+> Progress 79.148%, elapsed 882.0 s, iters = (947446, 0)
+> Progress 79.7807%, elapsed 885.0 s, iters = (950667, 0)
+> Progress 80.3642%, elapsed 888.0 s, iters = (953899, 0)
+> Progress 81.7559%, elapsed 891.0 s, iters = (957032, 0)
+> Progress 82.5783%, elapsed 894.0 s, iters = (960311, 0)
+> Progress 83.6345%, elapsed 897.0 s, iters = (963547, 0)
+> Progress 84.0732%, elapsed 900.0 s, iters = (966691, 0)
+> Progress 85.3761%, elapsed 903.0 s, iters = (969906, 0)
+> Progress 85.9429%, elapsed 906.0 s, iters = (972936, 0)
+> Progress 85.984%, elapsed 909.0 s, iters = (976266, 0)
+> Progress 86.0291%, elapsed 912.0 s, iters = (979698, 0)
+> Progress 86.0868%, elapsed 915.0 s, iters = (983236, 0)
+> Progress 86.1758%, elapsed 918.0 s, iters = (986744, 0)
+> Progress 86.2042%, elapsed 921.0 s, iters = (990025, 0)
+> Progress 86.2442%, elapsed 924.0 s, iters = (993322, 0)
+> Progress 86.2776%, elapsed 927.0 s, iters = (996494, 0)
+> Progress 86.3324%, elapsed 930.0 s, iters = (999662, 0)
+> Progress 86.3523%, elapsed 933.0 s, iters = (1002937, 0)
+> Progress 86.3917%, elapsed 936.0 s, iters = (1005941, 0)
+> Progress 86.4153%, elapsed 939.0 s, iters = (1008771, 0)
+> Progress 86.4315%, elapsed 942.0 s, iters = (1011901, 0)
+> Progress 86.458%, elapsed 945.0 s, iters = (1014915, 0)
+> Progress 86.5116%, elapsed 948.0 s, iters = (1018392, 0)
+> Progress 86.5441%, elapsed 951.0 s, iters = (1021866, 0)
+> Progress 86.5822%, elapsed 954.0 s, iters = (1025212, 0)
+> Progress 86.6297%, elapsed 957.0 s, iters = (1028407, 0)
+> Progress 86.6807%, elapsed 960.0 s, iters = (1031941, 0)
+> Progress 86.7324%, elapsed 963.0 s, iters = (1035432, 0)
+> Progress 86.7856%, elapsed 966.0 s, iters = (1038866, 0)
+> Progress 86.8094%, elapsed 969.0 s, iters = (1042159, 0)
+> Progress 86.8657%, elapsed 972.0 s, iters = (1045463, 0)
+> Progress 86.9519%, elapsed 975.0 s, iters = (1048844, 0)
+> Progress 86.9755%, elapsed 978.0 s, iters = (1051840, 0)
+> Progress 86.9986%, elapsed 981.0 s, iters = (1054894, 0)
+> Progress 87.0274%, elapsed 984.0 s, iters = (1058132, 0)
+> Progress 87.0913%, elapsed 987.0 s, iters = (1061065, 0)
+> Progress 87.1365%, elapsed 990.0 s, iters = (1064229, 0)
+> Progress 87.1964%, elapsed 993.0 s, iters = (1067612, 0)
+> Progress 87.2381%, elapsed 996.0 s, iters = (1070714, 0)
+> Progress 87.28%, elapsed 999.0 s, iters = (1073855, 0)
+> Progress 87.3361%, elapsed 1002.0 s, iters = (1077139, 0)
+> Progress 87.4241%, elapsed 1005.0 s, iters = (1080429, 0)
+> Progress 87.5074%, elapsed 1008.0 s, iters = (1083783, 0)
+> Progress 87.5685%, elapsed 1011.0 s, iters = (1087101, 0)
+> Progress 87.6163%, elapsed 1014.0 s, iters = (1090355, 0)
+> Progress 87.648%, elapsed 1017.0 s, iters = (1093538, 0)
+> Progress 87.7064%, elapsed 1020.0 s, iters = (1096454, 0)
+> Progress 87.7872%, elapsed 1023.0 s, iters = (1099711, 0)
+> Progress 87.8286%, elapsed 1026.0 s, iters = (1102778, 0)
+> Progress 87.8671%, elapsed 1029.0 s, iters = (1105758, 0)
+> Progress 87.8922%, elapsed 1032.0 s, iters = (1108584, 0)
+> Progress 87.943%, elapsed 1035.0 s, iters = (1111727, 0)
+> Progress 87.9793%, elapsed 1038.0 s, iters = (1114841, 0)
+> Progress 88.0581%, elapsed 1041.0 s, iters = (1118128, 0)
+> Progress 88.0917%, elapsed 1044.0 s, iters = (1120954, 0)
+> Progress 88.1318%, elapsed 1047.0 s, iters = (1123803, 0)
+> Progress 88.2295%, elapsed 1050.0 s, iters = (1127093, 0)
+> Progress 88.2722%, elapsed 1053.0 s, iters = (1130084, 0)
+> Progress 88.3251%, elapsed 1056.0 s, iters = (1133410, 0)
+> Progress 88.3527%, elapsed 1059.0 s, iters = (1136575, 0)
+> Progress 88.4091%, elapsed 1062.0 s, iters = (1139775, 0)
+> Progress 88.4337%, elapsed 1065.0 s, iters = (1142859, 0)
+> Progress 88.4547%, elapsed 1068.0 s, iters = (1145966, 0)
+> Progress 88.5255%, elapsed 1071.0 s, iters = (1149052, 0)
+> Progress 88.6462%, elapsed 1074.0 s, iters = (1152373, 0)
+> Progress 88.7819%, elapsed 1077.0 s, iters = (1155531, 0)
+> Progress 88.8222%, elapsed 1080.0 s, iters = (1158757, 0)
+> Progress 88.8361%, elapsed 1083.0 s, iters = (1161868, 0)
+> Progress 88.8756%, elapsed 1086.0 s, iters = (1165177, 0)
+> Progress 88.8945%, elapsed 1089.0 s, iters = (1168386, 0)
+> Progress 88.9927%, elapsed 1092.0 s, iters = (1171611, 0)
+> Progress 89.0948%, elapsed 1095.0 s, iters = (1174559, 0)
+> Progress 89.1261%, elapsed 1098.0 s, iters = (1177623, 0)
+> Progress 89.1815%, elapsed 1101.0 s, iters = (1180853, 0)
+> Progress 89.2138%, elapsed 1104.0 s, iters = (1183807, 0)
+> Progress 89.2507%, elapsed 1107.0 s, iters = (1186807, 0)
+> Progress 89.3049%, elapsed 1110.0 s, iters = (1189657, 0)
+> Progress 89.3791%, elapsed 1113.0 s, iters = (1192921, 0)
+> Progress 89.4326%, elapsed 1116.0 s, iters = (1195781, 0)
+> Progress 89.461%, elapsed 1119.0 s, iters = (1198723, 0)
+> Progress 89.497%, elapsed 1122.0 s, iters = (1202081, 0)
+> Progress 89.5298%, elapsed 1125.0 s, iters = (1205358, 0)
+> Progress 89.5637%, elapsed 1128.0 s, iters = (1208567, 0)
+> Progress 89.6186%, elapsed 1131.0 s, iters = (1211763, 0)
+> Progress 89.6766%, elapsed 1134.0 s, iters = (1214856, 0)
+> Progress 89.7354%, elapsed 1137.0 s, iters = (1218342, 0)
+> Progress 89.7885%, elapsed 1140.0 s, iters = (1221834, 0)
+> Progress 89.8294%, elapsed 1143.0 s, iters = (1225239, 0)
+> Progress 89.8703%, elapsed 1146.0 s, iters = (1228595, 0)
+> Progress 89.9465%, elapsed 1149.0 s, iters = (1231936, 0)
+> Progress 90.0632%, elapsed 1152.0 s, iters = (1235258, 0)
+> Progress 90.1318%, elapsed 1155.0 s, iters = (1238653, 0)
+> Progress 90.1604%, elapsed 1158.0 s, iters = (1241881, 0)
+> Progress 90.2177%, elapsed 1161.0 s, iters = (1245196, 0)
+> Progress 90.2751%, elapsed 1164.0 s, iters = (1248438, 0)
+> Progress 90.3268%, elapsed 1167.0 s, iters = (1251534, 0)
+> Progress 90.3866%, elapsed 1170.0 s, iters = (1254923, 0)
+> Progress 90.4253%, elapsed 1173.0 s, iters = (1258273, 0)
+> Progress 90.4642%, elapsed 1176.0 s, iters = (1261586, 0)
+> Progress 90.508%, elapsed 1179.0 s, iters = (1264652, 0)
+> Progress 90.6264%, elapsed 1182.0 s, iters = (1267962, 0)
+> Progress 90.6664%, elapsed 1185.0 s, iters = (1271208, 0)
+> Progress 90.6997%, elapsed 1188.0 s, iters = (1274249, 0)
+> Progress 90.8073%, elapsed 1191.0 s, iters = (1277417, 0)
+> Progress 90.8465%, elapsed 1194.0 s, iters = (1280521, 0)
+> Progress 90.9173%, elapsed 1197.0 s, iters = (1283653, 0)
+> Progress 90.9563%, elapsed 1200.0 s, iters = (1286071, 0)
+> Progress 91.0848%, elapsed 1203.0 s, iters = (1289172, 0)
+> Progress 91.433%, elapsed 1206.0 s, iters = (1292768, 0)
+> Progress 91.4858%, elapsed 1209.0 s, iters = (1296004, 0)
+> Progress 91.5698%, elapsed 1212.0 s, iters = (1299354, 0)
+> Progress 91.6574%, elapsed 1215.0 s, iters = (1302638, 0)
+> Progress 91.702%, elapsed 1218.0 s, iters = (1306086, 0)
+> Progress 91.7475%, elapsed 1221.0 s, iters = (1309510, 0)
+> Progress 91.8128%, elapsed 1224.0 s, iters = (1312778, 0)
+> Progress 91.889%, elapsed 1227.0 s, iters = (1316057, 0)
+> Progress 91.9315%, elapsed 1230.0 s, iters = (1319267, 0)
+> Progress 92.0279%, elapsed 1233.0 s, iters = (1322526, 0)
+> Progress 92.0965%, elapsed 1236.0 s, iters = (1325549, 0)
+> Progress 92.1263%, elapsed 1239.0 s, iters = (1328672, 0)
+> Progress 92.162%, elapsed 1242.0 s, iters = (1332083, 0)
+> Progress 92.2128%, elapsed 1245.0 s, iters = (1335457, 0)
+> Progress 92.2843%, elapsed 1248.0 s, iters = (1338693, 0)
+> Progress 92.4438%, elapsed 1251.0 s, iters = (1341988, 0)
+> Progress 92.5436%, elapsed 1254.0 s, iters = (1345254, 0)
+> Progress 92.5685%, elapsed 1257.0 s, iters = (1348436, 0)
+> Progress 92.6064%, elapsed 1260.0 s, iters = (1351637, 0)
+> Progress 92.6431%, elapsed 1263.0 s, iters = (1354522, 0)
+> Progress 92.6847%, elapsed 1266.0 s, iters = (1357575, 0)
+> Progress 92.712%, elapsed 1269.0 s, iters = (1360910, 0)
+> Progress 92.7381%, elapsed 1272.0 s, iters = (1364198, 0)
+> Progress 92.8218%, elapsed 1275.0 s, iters = (1367335, 0)
+> Progress 92.8969%, elapsed 1278.0 s, iters = (1370418, 0)
+> Progress 92.9786%, elapsed 1281.0 s, iters = (1373259, 0)
+> Progress 93.1947%, elapsed 1284.0 s, iters = (1376878, 0)
+> Progress 93.3226%, elapsed 1287.0 s, iters = (1380375, 0)
+> Progress 93.431%, elapsed 1290.0 s, iters = (1383537, 0)
+> Progress 93.5217%, elapsed 1293.0 s, iters = (1386750, 0)
+> Progress 93.563%, elapsed 1296.0 s, iters = (1390123, 0)
+> Progress 93.6513%, elapsed 1299.0 s, iters = (1393530, 0)
+> Progress 93.6861%, elapsed 1302.0 s, iters = (1396751, 0)
+> Progress 93.7264%, elapsed 1305.0 s, iters = (1400123, 0)
+> Progress 93.8673%, elapsed 1308.0 s, iters = (1403237, 0)
+> Progress 93.9605%, elapsed 1311.0 s, iters = (1406307, 0)
+> Progress 94.0948%, elapsed 1314.0 s, iters = (1409413, 0)
+> Progress 94.2159%, elapsed 1317.0 s, iters = (1412815, 0)
+> Progress 94.3121%, elapsed 1320.0 s, iters = (1416064, 0)
+> Progress 94.3552%, elapsed 1323.0 s, iters = (1419145, 0)
+> Progress 94.3851%, elapsed 1326.0 s, iters = (1422006, 0)
+> Progress 94.4215%, elapsed 1329.0 s, iters = (1425094, 0)
+> Progress 94.4816%, elapsed 1332.0 s, iters = (1428336, 0)
+> Progress 94.5283%, elapsed 1335.0 s, iters = (1431635, 0)
+> Progress 94.5921%, elapsed 1338.0 s, iters = (1434740, 0)
+> Progress 94.6433%, elapsed 1341.0 s, iters = (1437909, 0)
+> Progress 94.6903%, elapsed 1344.0 s, iters = (1440886, 0)
+> Progress 94.7719%, elapsed 1347.0 s, iters = (1444000, 0)
+> Progress 95.0242%, elapsed 1350.0 s, iters = (1447422, 0)
+> Progress 95.2066%, elapsed 1353.0 s, iters = (1450744, 0)
+> Progress 95.4395%, elapsed 1356.0 s, iters = (1454275, 0)
+> Progress 95.5158%, elapsed 1359.0 s, iters = (1457829, 0)
+> Progress 95.7267%, elapsed 1362.0 s, iters = (1461163, 0)
+> Progress 95.8418%, elapsed 1365.0 s, iters = (1464659, 0)
+> Progress 95.9687%, elapsed 1368.0 s, iters = (1467773, 0)
+> Progress 96.0778%, elapsed 1371.0 s, iters = (1470729, 0)
+> Progress 96.2139%, elapsed 1374.0 s, iters = (1474192, 0)
+> Progress 96.3106%, elapsed 1377.0 s, iters = (1477637, 0)
+> Progress 96.3973%, elapsed 1380.0 s, iters = (1480701, 0)
+> Progress 96.4356%, elapsed 1383.0 s, iters = (1483850, 0)
+> Progress 96.4678%, elapsed 1386.0 s, iters = (1486869, 0)
+> Progress 96.5055%, elapsed 1389.0 s, iters = (1490015, 0)
+> Progress 96.5544%, elapsed 1392.0 s, iters = (1492796, 0)
+> Progress 96.6077%, elapsed 1395.0 s, iters = (1496141, 0)
+> Progress 96.6506%, elapsed 1398.0 s, iters = (1499530, 0)
+> Progress 96.7025%, elapsed 1401.0 s, iters = (1502787, 0)
+> Progress 96.7741%, elapsed 1404.0 s, iters = (1505963, 0)
+> Progress 96.8163%, elapsed 1407.0 s, iters = (1509182, 0)
+> Progress 96.8693%, elapsed 1410.0 s, iters = (1512535, 0)
+> Progress 96.9377%, elapsed 1413.0 s, iters = (1515745, 0)
+> Progress 97.0096%, elapsed 1416.0 s, iters = (1518819, 0)
+> Progress 97.1328%, elapsed 1419.0 s, iters = (1521969, 0)
+> Progress 97.3428%, elapsed 1422.0 s, iters = (1525347, 0)
+> Progress 97.5717%, elapsed 1425.0 s, iters = (1528911, 0)
+> Progress 97.7462%, elapsed 1428.0 s, iters = (1532396, 0)
+> Progress 97.8933%, elapsed 1431.0 s, iters = (1535932, 0)
+> Progress 98.0075%, elapsed 1434.0 s, iters = (1538815, 0)
+> Progress 98.1381%, elapsed 1437.0 s, iters = (1542037, 0)
+> Progress 98.3177%, elapsed 1440.0 s, iters = (1545399, 0)
+> Progress 98.4796%, elapsed 1443.0 s, iters = (1548735, 0)
+> Progress 98.5673%, elapsed 1446.0 s, iters = (1551828, 0)
+> Progress 98.6798%, elapsed 1449.0 s, iters = (1554890, 0)
+> Progress 98.7126%, elapsed 1452.0 s, iters = (1558116, 0)
+> Progress 98.7493%, elapsed 1455.0 s, iters = (1561065, 0)
+> Progress 98.7763%, elapsed 1458.0 s, iters = (1563655, 0)
+> Progress 98.8266%, elapsed 1461.0 s, iters = (1566874, 0)
+> Progress 98.8801%, elapsed 1464.0 s, iters = (1570084, 0)
+> Progress 98.9205%, elapsed 1467.0 s, iters = (1572815, 0)
+> Progress 98.9692%, elapsed 1470.0 s, iters = (1575685, 0)
+> Progress 98.9964%, elapsed 1473.0 s, iters = (1577912, 0)
+> Progress 99.0743%, elapsed 1476.0 s, iters = (1580875, 0)
+> Progress 99.1883%, elapsed 1479.0 s, iters = (1583889, 0)
+> Progress 99.2428%, elapsed 1482.0 s, iters = (1587011, 0)
+> Progress 99.3305%, elapsed 1485.0 s, iters = (1589767, 0)
+> Progress 99.3646%, elapsed 1488.0 s, iters = (1592771, 0)
+> Progress 99.4138%, elapsed 1491.0 s, iters = (1595872, 0)
+> Progress 99.4645%, elapsed 1494.0 s, iters = (1598942, 0)
+> Progress 99.529%, elapsed 1497.0 s, iters = (1602048, 0)
+> Progress 99.6103%, elapsed 1500.0 s, iters = (1605085, 0)
+> Progress 99.663%, elapsed 1503.0 s, iters = (1608318, 0)
+> Progress 99.7004%, elapsed 1506.0 s, iters = (1611510, 0)
+> Progress 99.7393%, elapsed 1509.0 s, iters = (1614385, 0)
+> Progress 99.7748%, elapsed 1512.0 s, iters = (1617353, 0)
+> Progress 99.8397%, elapsed 1515.0 s, iters = (1620662, 0)
+> Progress 99.8996%, elapsed 1518.0 s, iters = (1623584, 0)
+> Progress 99.9469%, elapsed 1521.0 s, iters = (1626194, 0)
+> Progress 99.9891%, elapsed 1524.0 s, iters = (1628731, 0)
+2023-07-04 14:54:10,104 - hypersynthesizer.py - Printing synthesized assignment below:
+2023-07-04 14:54:10,104 - hypersynthesizer.py - None
+--------------------
+Synthesis summary
+constraint 1: P=? [F "target"][0] <built-in function lt> P=? [F "target"][1] -- min_distance: 0
+Optimality objective: None
+ Scheduler Hyperoptimality objective: None
+ Indexes of formulae in OR relation with each other: [[0]]
+
+method: AR, synthesis time: 1524.58 s
+number of holes: 19, family size: 274877906944, super quotient: 25 states / 82 actions 
+explored: 100 %
+AR stats: avg MDP size: 25, iterations: 1629212, decided families: 1174750, average decided families size: 233988.42897978294, AR Sat members found: 0, AR Unsat Members found: 274877906944
+
+feasible: no
+--------------------
+
+$ python3 /home/francesco/HyperProject/paynt/paynt.py --project /home/francesco/HyperProject/eval/qest/SD/./splash-1 --method ar
+2023-07-04 14:54:10,288 - cli.py - This is HyperPaynt version 0.1.0.
+2023-07-04 14:54:10,288 - hyperparser.py - Loading properties from /home/francesco/HyperProject/eval/qest/SD/./splash-1/sketch.props ...
+2023-07-04 14:54:10,288 - hyperparser.py - Parsing scheduler quantifiers ...
+2023-07-04 14:54:10,288 - hyperparser.py - Found the following scheduler quantifiers: {'sched': 'ES'}
+2023-07-04 14:54:10,288 - hyperparser.py - Parsing state quantifiers...
+2023-07-04 14:54:10,288 - hyperparser.py - Found the following state quantifiers: {'s0': ('E', 'sched'), 's1': ('E', 'sched')}
+2023-07-04 14:54:10,288 - hyperparser.py - Parsing restrictions
+2023-07-04 14:54:10,289 - hyperparser.py - Found the following restrictions: {'s0': 'start0', 's1': 'start1'}
+2023-07-04 14:54:10,289 - hyperparser.py - Parsing scheduler optimality ( if required)
+2023-07-04 14:54:10,289 - hyperparser.py - Scheduler optimality property not found.
+2023-07-04 14:54:10,289 - hyperparser.py - Parsing structural constraints (if any)
+2023-07-04 14:54:10,289 - hyperparser.py - Found the following structural equality constraints: []
+2023-07-04 14:54:10,289 - hyperparser.py - Loading sketch from /home/francesco/HyperProject/eval/qest/SD/./splash-1/sketch.templ...
+2023-07-04 14:54:10,289 - hyperparser.py - Assuming a sketch in a PRISM format ...
+2023-07-04 14:54:10,289 - hyperparser.py - Warning. One formula token is contained in another: yu vs u. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,289 - hyperparser.py - Warning. One formula token is contained in another: xr vs r. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,289 - hyperparser.py - Warning. One formula token is contained in another: yd vs d. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,289 - hyperparser.py - Warning. One formula token is contained in another: xl vs l. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,289 - hyperparser.py - Warning. One formula token is contained in another: bad vs d. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,289 - hyperparser.py - Warning. One formula token is contained in another: splashy vs l. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,289 - hyperparser.py - Warning. One formula token is contained in another: good vs d. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,307 - hyperparser.py - The model has 2 initial states...
+2023-07-04 14:54:10,307 - hyperparser.py - Instantiating the properties for the quantified initial states
+2023-07-04 14:54:10,307 - hyperparser.py - initial states for s0: [0, 1]
+2023-07-04 14:54:10,307 - hyperparser.py - initial states for s0 after restrictions: [1]
+2023-07-04 14:54:10,307 - hyperparser.py - initial states for s1: [0, 1]
+2023-07-04 14:54:10,308 - hyperparser.py - initial states for s1 after restrictions: [0]
+2023-07-04 14:54:10,308 - hyperparser.py - Assuming an hyperproperty with index 0...
+2023-07-04 14:54:10,308 - hyperparser.py - Found the following specification:
+ constraints: P=? [F "target"][0] <built-in function lt> P=? [F "target"][1] -- min_distance: 0.
+ Optimality objective: none.
+ Scheduler Optimality hyperobjective: none
+ 
+2023-07-04 14:54:10,308 - hypersketch.py - Processing actions and Initializing the quotient and the design space...
+2023-07-04 14:54:10,321 - hyperquotient.py - Constructed quotient MDP having 16 states and 52 actions.
+2023-07-04 14:54:10,323 - hypersketch.py - Sketch has 12 holes
+2023-07-04 14:54:10,323 - hypersketch.py - Design space size: 16777216
+2023-07-04 14:54:10,323 - hypersketch.py - Design space: [x=3	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=0	& y=2]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=3	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=2	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=0	& y=3]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=3	& y=2]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=2	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=1	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=1	& y=3]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=3	& y=3]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=0	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=2	& y=3]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched']
+2023-07-04 14:54:10,323 - hypersketch.py - Sketch parsing complete.
+2023-07-04 14:54:10,323 - hypersketch.py - Matching holes: defaultdict(<class 'list'>, {})
+2023-07-04 14:54:10,323 - cli.py - Synthetizing an MDP scheduler wrt a hyperproperty
+2023-07-04 14:54:10,323 - hypersynthesizer.py - Synthesis initiated.
+2023-07-04 14:54:10,325 - hypersynthesizer.py - Pruned a non negligible family which represents the 6% of the design space
+2023-07-04 14:54:10,368 - hypersynthesizer.py - Printing synthesized assignment below:
+2023-07-04 14:54:10,368 - hypersynthesizer.py - [x=3	& y=0]={'left'} - scheduler(s): ['sched'];
+[x=0	& y=2]={'up'} - scheduler(s): ['sched'];
+[x=3	& y=1]={'left'} - scheduler(s): ['sched'];
+[x=2	& y=0]={'left'} - scheduler(s): ['sched'];
+[x=0	& y=3]={'right'} - scheduler(s): ['sched'];
+[x=3	& y=2]={'down'} - scheduler(s): ['sched'];
+[x=2	& y=1]={'left'} - scheduler(s): ['sched'];
+[x=1	& y=0]={'left'} - scheduler(s): ['sched'];
+[x=1	& y=3]={'right'} - scheduler(s): ['sched'];
+[x=3	& y=3]={'down'} - scheduler(s): ['sched'];
+[x=0	& y=0]={'up'} - scheduler(s): ['sched'];
+[x=2	& y=3]={'right'} - scheduler(s): ['sched']
+2023-07-04 14:54:10,368 - hypersynthesizer.py - Double-checking specification satisfiability:
+0.5196179829876049[0] <built-in function lt> 0.5271625986939773[1]: True
+ No optimality constraint specified
+ No scheduler hyperoptimalty constraint specified
+--------------------
+Synthesis summary
+constraint 1: P=? [F "target"][0] <built-in function lt> P=? [F "target"][1] -- min_distance: 0
+Optimality objective: None
+ Scheduler Hyperoptimality objective: None
+ Indexes of formulae in OR relation with each other: [[0]]
+
+method: AR, synthesis time: 0.04 s
+number of holes: 12, family size: 16777216, super quotient: 16 states / 52 actions 
+explored: 10 %
+AR stats: avg MDP size: 16, iterations: 63, decided families: 44, average decided families size: 39187.59090909091, AR Sat members found: 0, AR Unsat Members found: 1724254
+
+feasible: yes
+--------------------
+
+$ python3 /home/francesco/HyperProject/paynt/paynt.py --project /home/francesco/HyperProject/eval/qest/SD/./larger-3 --method ar
+2023-07-04 14:54:10,540 - cli.py - This is HyperPaynt version 0.1.0.
+2023-07-04 14:54:10,540 - hyperparser.py - Loading properties from /home/francesco/HyperProject/eval/qest/SD/./larger-3/sketch.props ...
+2023-07-04 14:54:10,540 - hyperparser.py - Parsing scheduler quantifiers ...
+2023-07-04 14:54:10,540 - hyperparser.py - Found the following scheduler quantifiers: {'sched': 'ES'}
+2023-07-04 14:54:10,540 - hyperparser.py - Parsing state quantifiers...
+2023-07-04 14:54:10,540 - hyperparser.py - Found the following state quantifiers: {'s0': ('E', 'sched'), 's1': ('E', 'sched')}
+2023-07-04 14:54:10,540 - hyperparser.py - Parsing restrictions
+2023-07-04 14:54:10,540 - hyperparser.py - Found the following restrictions: {'s0': 'start0', 's1': 'start1'}
+2023-07-04 14:54:10,540 - hyperparser.py - Parsing scheduler optimality ( if required)
+2023-07-04 14:54:10,541 - hyperparser.py - Scheduler optimality property not found.
+2023-07-04 14:54:10,541 - hyperparser.py - Parsing structural constraints (if any)
+2023-07-04 14:54:10,541 - hyperparser.py - Found the following structural equality constraints: []
+2023-07-04 14:54:10,541 - hyperparser.py - Loading sketch from /home/francesco/HyperProject/eval/qest/SD/./larger-3/sketch.templ...
+2023-07-04 14:54:10,541 - hyperparser.py - Assuming a sketch in a PRISM format ...
+2023-07-04 14:54:10,541 - hyperparser.py - Warning. One formula token is contained in another: yu vs u. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,541 - hyperparser.py - Warning. One formula token is contained in another: xr vs r. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,541 - hyperparser.py - Warning. One formula token is contained in another: yd vs d. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,541 - hyperparser.py - Warning. One formula token is contained in another: xl vs l. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,541 - hyperparser.py - Warning. One formula token is contained in another: bad vs d. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,558 - hyperparser.py - The model has 2 initial states...
+2023-07-04 14:54:10,558 - hyperparser.py - Instantiating the properties for the quantified initial states
+2023-07-04 14:54:10,558 - hyperparser.py - initial states for s0: [0, 1]
+2023-07-04 14:54:10,558 - hyperparser.py - initial states for s0 after restrictions: [1]
+2023-07-04 14:54:10,558 - hyperparser.py - initial states for s1: [0, 1]
+2023-07-04 14:54:10,558 - hyperparser.py - initial states for s1 after restrictions: [0]
+2023-07-04 14:54:10,558 - hyperparser.py - Assuming an hyperproperty with index 0...
+2023-07-04 14:54:10,559 - hyperparser.py - Found the following specification:
+ constraints: P=? [F "target"][0] <built-in function lt> P=? [F "target"][1] -- min_distance: 0.
+ Optimality objective: none.
+ Scheduler Optimality hyperobjective: none
+ 
+2023-07-04 14:54:10,559 - hypersketch.py - Processing actions and Initializing the quotient and the design space...
+2023-07-04 14:54:10,571 - hyperquotient.py - Constructed quotient MDP having 25 states and 79 actions.
+2023-07-04 14:54:10,573 - hypersketch.py - Sketch has 18 holes
+2023-07-04 14:54:10,573 - hypersketch.py - Design space size: 68719476736
+2023-07-04 14:54:10,573 - hypersketch.py - Design space: [x=2	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=0	& y=3]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=2	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=3	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=1	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=0	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=3	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=1	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=0	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=1	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=0	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=2	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=2]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=3	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=3]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched']
+2023-07-04 14:54:10,573 - hypersketch.py - Sketch parsing complete.
+2023-07-04 14:54:10,573 - hypersketch.py - Matching holes: defaultdict(<class 'list'>, {})
+2023-07-04 14:54:10,573 - cli.py - Synthetizing an MDP scheduler wrt a hyperproperty
+2023-07-04 14:54:10,573 - hypersynthesizer.py - Synthesis initiated.
+2023-07-04 14:54:10,685 - hypersynthesizer.py - Printing synthesized assignment below:
+2023-07-04 14:54:10,685 - hypersynthesizer.py - [x=2	& y=0]={'left'} - scheduler(s): ['sched'];
+[x=0	& y=3]={'up'} - scheduler(s): ['sched'];
+[x=2	& y=1]={'left'} - scheduler(s): ['sched'];
+[x=3	& y=0]={'right'} - scheduler(s): ['sched'];
+[x=1	& y=0]={'left'} - scheduler(s): ['sched'];
+[x=0	& y=4]={'right'} - scheduler(s): ['sched'];
+[x=3	& y=1]={'left'} - scheduler(s): ['sched'];
+[x=1	& y=1]={'up'} - scheduler(s): ['sched'];
+[x=4	& y=0]={'up'} - scheduler(s): ['sched'];
+[x=0	& y=0]={'up'} - scheduler(s): ['sched'];
+[x=1	& y=4]={'right'} - scheduler(s): ['sched'];
+[x=4	& y=1]={'left'} - scheduler(s): ['sched'];
+[x=0	& y=1]={'up'} - scheduler(s): ['sched'];
+[x=2	& y=4]={'right'} - scheduler(s): ['sched'];
+[x=4	& y=2]={'down'} - scheduler(s): ['sched'];
+[x=3	& y=4]={'right'} - scheduler(s): ['sched'];
+[x=4	& y=3]={'down'} - scheduler(s): ['sched'];
+[x=4	& y=4]={'down'} - scheduler(s): ['sched']
+2023-07-04 14:54:10,686 - hypersynthesizer.py - Double-checking specification satisfiability:
+0.23342029890835844[0] <built-in function lt> 0.347240764478636[1]: True
+ No optimality constraint specified
+ No scheduler hyperoptimalty constraint specified
+--------------------
+Synthesis summary
+constraint 1: P=? [F "target"][0] <built-in function lt> P=? [F "target"][1] -- min_distance: 0
+Optimality objective: None
+ Scheduler Hyperoptimality objective: None
+ Indexes of formulae in OR relation with each other: [[0]]
+
+method: AR, synthesis time: 0.11 s
+number of holes: 18, family size: 68719476736, super quotient: 25 states / 79 actions 
+explored: 10 %
+AR stats: avg MDP size: 25, iterations: 120, decided families: 86, average decided families size: 82764347.53488372, AR Sat members found: 0, AR Unsat Members found: 7117733888
+
+feasible: yes
+--------------------
+
+$ python3 /home/francesco/HyperProject/paynt/paynt.py --project /home/francesco/HyperProject/eval/qest/SD/./train --method ar
+2023-07-04 14:54:10,861 - cli.py - This is HyperPaynt version 0.1.0.
+2023-07-04 14:54:10,861 - hyperparser.py - Loading properties from /home/francesco/HyperProject/eval/qest/SD/./train/sketch.props ...
+2023-07-04 14:54:10,861 - hyperparser.py - Parsing scheduler quantifiers ...
+2023-07-04 14:54:10,861 - hyperparser.py - Found the following scheduler quantifiers: {'sched': 'ES'}
+2023-07-04 14:54:10,861 - hyperparser.py - Parsing state quantifiers...
+2023-07-04 14:54:10,862 - hyperparser.py - Found the following state quantifiers: {'s0': ('E', 'sched'), 's1': ('E', 'sched')}
+2023-07-04 14:54:10,862 - hyperparser.py - Parsing restrictions
+2023-07-04 14:54:10,862 - hyperparser.py - Found the following restrictions: {'s0': 'start0', 's1': 'start1'}
+2023-07-04 14:54:10,862 - hyperparser.py - Parsing scheduler optimality ( if required)
+2023-07-04 14:54:10,862 - hyperparser.py - Scheduler optimality property not found.
+2023-07-04 14:54:10,862 - hyperparser.py - Parsing structural constraints (if any)
+2023-07-04 14:54:10,862 - hyperparser.py - Found the following structural equality constraints: []
+2023-07-04 14:54:10,862 - hyperparser.py - Loading sketch from /home/francesco/HyperProject/eval/qest/SD/./train/sketch.templ...
+2023-07-04 14:54:10,862 - hyperparser.py - Assuming a sketch in a PRISM format ...
+2023-07-04 14:54:10,862 - hyperparser.py - Warning. One formula token is contained in another: yu vs u. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,862 - hyperparser.py - Warning. One formula token is contained in another: xr vs r. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,862 - hyperparser.py - Warning. One formula token is contained in another: yd vs d. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,862 - hyperparser.py - Warning. One formula token is contained in another: xl vs l. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,863 - hyperparser.py - Warning. One formula token is contained in another: bad vs d. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,863 - hyperparser.py - Warning. One formula token is contained in another: trainD vs r. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,863 - hyperparser.py - Warning. One formula token is contained in another: trainR vs r. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,863 - hyperparser.py - Warning. One formula token is contained in another: good vs d. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,863 - hyperparser.py - Warning. One formula token is contained in another: splashy vs l. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:10,882 - hyperparser.py - The model has 2 initial states...
+2023-07-04 14:54:10,882 - hyperparser.py - Instantiating the properties for the quantified initial states
+2023-07-04 14:54:10,882 - hyperparser.py - initial states for s0: [0, 1]
+2023-07-04 14:54:10,883 - hyperparser.py - initial states for s0 after restrictions: [1]
+2023-07-04 14:54:10,883 - hyperparser.py - initial states for s1: [0, 1]
+2023-07-04 14:54:10,883 - hyperparser.py - initial states for s1 after restrictions: [0]
+2023-07-04 14:54:10,883 - hyperparser.py - Assuming an hyperproperty with index 0...
+2023-07-04 14:54:10,884 - hyperparser.py - Found the following specification:
+ constraints: P=? [F "target"][0] <built-in function lt> P=? [F "target"][1] -- min_distance: 0.
+ Optimality objective: none.
+ Scheduler Optimality hyperobjective: none
+ 
+2023-07-04 14:54:10,884 - hypersketch.py - Processing actions and Initializing the quotient and the design space...
+2023-07-04 14:54:10,897 - hyperquotient.py - Constructed quotient MDP having 48 states and 99 actions.
+2023-07-04 14:54:10,899 - hypersketch.py - Sketch has 17 holes
+2023-07-04 14:54:10,899 - hypersketch.py - Design space size: 17179869184
+2023-07-04 14:54:10,899 - hypersketch.py - Design space: [x=6	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=1	& y=5]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=6	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=5	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=6	& y=2]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=5	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=6	& y=3]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=5	& y=2]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=3	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=6	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=2]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=2	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=6	& y=5]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=3	& y=2]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=1	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched']
+2023-07-04 14:54:10,899 - hypersketch.py - Sketch parsing complete.
+2023-07-04 14:54:10,899 - hypersketch.py - Matching holes: defaultdict(<class 'list'>, {})
+2023-07-04 14:54:10,899 - cli.py - Synthetizing an MDP scheduler wrt a hyperproperty
+2023-07-04 14:54:10,899 - hypersynthesizer.py - Synthesis initiated.
+2023-07-04 14:54:11,250 - hypersynthesizer.py - Pruned a non negligible family which represents the 3% of the design space
+2023-07-04 14:54:12,049 - hypersynthesizer.py - Pruned a non negligible family which represents the 3% of the design space
+> Progress 49.462%, elapsed 3.0 s, iters = (3449, 0)
+> Progress 75.0058%, elapsed 6.0 s, iters = (6823, 0)
+2023-07-04 14:54:18,063 - hypersynthesizer.py - Pruned a non negligible family which represents the 2% of the design space
+2023-07-04 14:54:18,453 - hypersynthesizer.py - Pruned a non negligible family which represents the 2% of the design space
+> Progress 99.6601%, elapsed 9.0 s, iters = (10086, 0)
+2023-07-04 14:54:20,043 - hypersynthesizer.py - Printing synthesized assignment below:
+2023-07-04 14:54:20,043 - hypersynthesizer.py - None
+--------------------
+Synthesis summary
+constraint 1: P=? [F "target"][0] <built-in function lt> P=? [F "target"][1] -- min_distance: 0
+Optimality objective: None
+ Scheduler Hyperoptimality objective: None
+ Indexes of formulae in OR relation with each other: [[0]]
+
+method: AR, synthesis time: 9.14 s
+number of holes: 17, family size: 17179869184, super quotient: 48 states / 99 actions 
+explored: 100 %
+AR stats: avg MDP size: 48, iterations: 10236, decided families: 7585, average decided families size: 2264979.457350033, AR Sat members found: 0, AR Unsat Members found: 17179869184
+
+feasible: no
+--------------------
+
+$ python3 /home/francesco/HyperProject/paynt/paynt.py --project /home/francesco/HyperProject/eval/qest/SD/./simple --method ar
+2023-07-04 14:54:20,234 - cli.py - This is HyperPaynt version 0.1.0.
+2023-07-04 14:54:20,234 - hyperparser.py - Loading properties from /home/francesco/HyperProject/eval/qest/SD/./simple/sketch.props ...
+2023-07-04 14:54:20,234 - hyperparser.py - Parsing scheduler quantifiers ...
+2023-07-04 14:54:20,234 - hyperparser.py - Found the following scheduler quantifiers: {'sched': 'ES'}
+2023-07-04 14:54:20,234 - hyperparser.py - Parsing state quantifiers...
+2023-07-04 14:54:20,235 - hyperparser.py - Found the following state quantifiers: {'s0': ('E', 'sched'), 's1': ('E', 'sched')}
+2023-07-04 14:54:20,235 - hyperparser.py - Parsing restrictions
+2023-07-04 14:54:20,235 - hyperparser.py - Found the following restrictions: {'s0': 'start0', 's1': 'start1'}
+2023-07-04 14:54:20,235 - hyperparser.py - Parsing scheduler optimality ( if required)
+2023-07-04 14:54:20,235 - hyperparser.py - Scheduler optimality property not found.
+2023-07-04 14:54:20,235 - hyperparser.py - Parsing structural constraints (if any)
+2023-07-04 14:54:20,235 - hyperparser.py - Found the following structural equality constraints: []
+2023-07-04 14:54:20,235 - hyperparser.py - Loading sketch from /home/francesco/HyperProject/eval/qest/SD/./simple/sketch.templ...
+2023-07-04 14:54:20,235 - hyperparser.py - Assuming a sketch in a PRISM format ...
+2023-07-04 14:54:20,235 - hyperparser.py - Warning. One formula token is contained in another: yu vs u. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:20,236 - hyperparser.py - Warning. One formula token is contained in another: xr vs r. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:20,236 - hyperparser.py - Warning. One formula token is contained in another: yd vs d. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:20,236 - hyperparser.py - Warning. One formula token is contained in another: xl vs l. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:20,236 - hyperparser.py - Warning. One formula token is contained in another: bad vs d. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:20,254 - hyperparser.py - The model has 2 initial states...
+2023-07-04 14:54:20,254 - hyperparser.py - Instantiating the properties for the quantified initial states
+2023-07-04 14:54:20,254 - hyperparser.py - initial states for s0: [0, 1]
+2023-07-04 14:54:20,255 - hyperparser.py - initial states for s0 after restrictions: [1]
+2023-07-04 14:54:20,255 - hyperparser.py - initial states for s1: [0, 1]
+2023-07-04 14:54:20,255 - hyperparser.py - initial states for s1 after restrictions: [0]
+2023-07-04 14:54:20,255 - hyperparser.py - Assuming an hyperproperty with index 0...
+2023-07-04 14:54:20,256 - hyperparser.py - Found the following specification:
+ constraints: P=? [F "target"][0] <built-in function lt> P=? [F "target"][1] -- min_distance: 0.
+ Optimality objective: none.
+ Scheduler Optimality hyperobjective: none
+ 
+2023-07-04 14:54:20,256 - hypersketch.py - Processing actions and Initializing the quotient and the design space...
+2023-07-04 14:54:20,269 - hyperquotient.py - Constructed quotient MDP having 10 states and 31 actions.
+2023-07-04 14:54:20,270 - hypersketch.py - Sketch has 7 holes
+2023-07-04 14:54:20,270 - hypersketch.py - Design space size: 16384
+2023-07-04 14:54:20,270 - hypersketch.py - Design space: [x=2	& y=2]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=0	& y=3]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=2	& y=3]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=2	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=1	& y=3]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=3	& y=3]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=3]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched']
+2023-07-04 14:54:20,270 - hypersketch.py - Sketch parsing complete.
+2023-07-04 14:54:20,270 - hypersketch.py - Matching holes: defaultdict(<class 'list'>, {})
+2023-07-04 14:54:20,270 - cli.py - Synthetizing an MDP scheduler wrt a hyperproperty
+2023-07-04 14:54:20,270 - hypersynthesizer.py - Synthesis initiated.
+2023-07-04 14:54:20,272 - hypersynthesizer.py - Pruned a non negligible family which represents the 6% of the design space
+2023-07-04 14:54:20,274 - hypersynthesizer.py - Pruned a non negligible family which represents the 3% of the design space
+2023-07-04 14:54:20,274 - hypersynthesizer.py - Pruned a non negligible family which represents the 3% of the design space
+2023-07-04 14:54:20,276 - hypersynthesizer.py - Pruned a non negligible family which represents the 2% of the design space
+2023-07-04 14:54:20,277 - hypersynthesizer.py - Pruned a non negligible family which represents the 2% of the design space
+2023-07-04 14:54:21,484 - hypersynthesizer.py - Printing synthesized assignment below:
+2023-07-04 14:54:21,484 - hypersynthesizer.py - None
+--------------------
+Synthesis summary
+constraint 1: P=? [F "target"][0] <built-in function lt> P=? [F "target"][1] -- min_distance: 0
+Optimality objective: None
+ Scheduler Hyperoptimality objective: None
+ Indexes of formulae in OR relation with each other: [[0]]
+
+method: AR, synthesis time: 1.21 s
+number of holes: 7, family size: 16384, super quotient: 10 states / 31 actions 
+explored: 100 %
+AR stats: avg MDP size: 10, iterations: 1709, decided families: 1194, average decided families size: 13.721943048576215, AR Sat members found: 0, AR Unsat Members found: 16384
+
+feasible: no
+--------------------
+
+$ python3 /home/francesco/HyperProject/paynt/paynt.py --project /home/francesco/HyperProject/eval/qest/SD/./larger-2 --method ar
+2023-07-04 14:54:21,666 - cli.py - This is HyperPaynt version 0.1.0.
+2023-07-04 14:54:21,666 - hyperparser.py - Loading properties from /home/francesco/HyperProject/eval/qest/SD/./larger-2/sketch.props ...
+2023-07-04 14:54:21,666 - hyperparser.py - Parsing scheduler quantifiers ...
+2023-07-04 14:54:21,666 - hyperparser.py - Found the following scheduler quantifiers: {'sched': 'ES'}
+2023-07-04 14:54:21,666 - hyperparser.py - Parsing state quantifiers...
+2023-07-04 14:54:21,666 - hyperparser.py - Found the following state quantifiers: {'s0': ('E', 'sched'), 's1': ('E', 'sched')}
+2023-07-04 14:54:21,666 - hyperparser.py - Parsing restrictions
+2023-07-04 14:54:21,666 - hyperparser.py - Found the following restrictions: {'s0': 'start0', 's1': 'start1'}
+2023-07-04 14:54:21,667 - hyperparser.py - Parsing scheduler optimality ( if required)
+2023-07-04 14:54:21,667 - hyperparser.py - Scheduler optimality property not found.
+2023-07-04 14:54:21,667 - hyperparser.py - Parsing structural constraints (if any)
+2023-07-04 14:54:21,667 - hyperparser.py - Found the following structural equality constraints: []
+2023-07-04 14:54:21,667 - hyperparser.py - Loading sketch from /home/francesco/HyperProject/eval/qest/SD/./larger-2/sketch.templ...
+2023-07-04 14:54:21,667 - hyperparser.py - Assuming a sketch in a PRISM format ...
+2023-07-04 14:54:21,667 - hyperparser.py - Warning. One formula token is contained in another: yu vs u. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:21,667 - hyperparser.py - Warning. One formula token is contained in another: xr vs r. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:21,667 - hyperparser.py - Warning. One formula token is contained in another: yd vs d. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:21,667 - hyperparser.py - Warning. One formula token is contained in another: xl vs l. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:21,667 - hyperparser.py - Warning. One formula token is contained in another: bad vs d. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 14:54:21,684 - hyperparser.py - The model has 2 initial states...
+2023-07-04 14:54:21,684 - hyperparser.py - Instantiating the properties for the quantified initial states
+2023-07-04 14:54:21,684 - hyperparser.py - initial states for s0: [0, 1]
+2023-07-04 14:54:21,684 - hyperparser.py - initial states for s0 after restrictions: [1]
+2023-07-04 14:54:21,684 - hyperparser.py - initial states for s1: [0, 1]
+2023-07-04 14:54:21,684 - hyperparser.py - initial states for s1 after restrictions: [0]
+2023-07-04 14:54:21,684 - hyperparser.py - Assuming an hyperproperty with index 0...
+2023-07-04 14:54:21,685 - hyperparser.py - Found the following specification:
+ constraints: P=? [F "target"][0] <built-in function lt> P=? [F "target"][1] -- min_distance: 0.
+ Optimality objective: none.
+ Scheduler Optimality hyperobjective: none
+ 
+2023-07-04 14:54:21,685 - hypersketch.py - Processing actions and Initializing the quotient and the design space...
+2023-07-04 14:54:21,697 - hyperquotient.py - Constructed quotient MDP having 25 states and 79 actions.
+2023-07-04 14:54:21,699 - hypersketch.py - Sketch has 18 holes
+2023-07-04 14:54:21,699 - hypersketch.py - Design space size: 68719476736
+2023-07-04 14:54:21,699 - hypersketch.py - Design space: [x=4	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=0	& y=3]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=2]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=3	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=0	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=3]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=2	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=3	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=1	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=1	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=2	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=2	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=3	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=0	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=1	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=0	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched']
+2023-07-04 14:54:21,699 - hypersketch.py - Sketch parsing complete.
+2023-07-04 14:54:21,699 - hypersketch.py - Matching holes: defaultdict(<class 'list'>, {})
+2023-07-04 14:54:21,699 - cli.py - Synthetizing an MDP scheduler wrt a hyperproperty
+2023-07-04 14:54:21,699 - hypersynthesizer.py - Synthesis initiated.
+> Progress 8.1508%, elapsed 3.0 s, iters = (3467, 0)
+> Progress 8.7214%, elapsed 6.0 s, iters = (6984, 0)
+> Progress 9.5388%, elapsed 9.0 s, iters = (10131, 0)
+> Progress 9.892%, elapsed 12.0 s, iters = (13481, 0)
+> Progress 10.2782%, elapsed 15.0 s, iters = (15664, 0)
+> Progress 10.7113%, elapsed 18.0 s, iters = (18493, 0)
+> Progress 10.9273%, elapsed 21.0 s, iters = (21653, 0)
+> Progress 16.5219%, elapsed 24.0 s, iters = (24950, 0)
+> Progress 17.4712%, elapsed 27.0 s, iters = (28204, 0)
+> Progress 17.8284%, elapsed 30.0 s, iters = (31421, 0)
+> Progress 18.9296%, elapsed 33.0 s, iters = (33661, 0)
+> Progress 20.3945%, elapsed 36.0 s, iters = (37228, 0)
+> Progress 21.4653%, elapsed 39.0 s, iters = (40833, 0)
+> Progress 22.8135%, elapsed 42.0 s, iters = (44449, 0)
+> Progress 23.059%, elapsed 45.0 s, iters = (47948, 0)
+> Progress 23.3541%, elapsed 48.0 s, iters = (51162, 0)
+> Progress 23.7276%, elapsed 51.0 s, iters = (54850, 0)
+> Progress 24.3694%, elapsed 54.0 s, iters = (58337, 0)
+> Progress 24.7582%, elapsed 57.0 s, iters = (61795, 0)
+> Progress 24.9292%, elapsed 60.0 s, iters = (64920, 0)
+> Progress 26.1667%, elapsed 63.0 s, iters = (67975, 0)
+> Progress 28.5747%, elapsed 66.0 s, iters = (70862, 0)
+> Progress 29.5244%, elapsed 69.0 s, iters = (73656, 0)
+> Progress 32.9747%, elapsed 72.0 s, iters = (76759, 0)
+> Progress 41.1467%, elapsed 75.0 s, iters = (79744, 0)
+> Progress 43.5646%, elapsed 78.0 s, iters = (82840, 0)
+> Progress 44.2958%, elapsed 81.0 s, iters = (86392, 0)
+> Progress 44.5647%, elapsed 84.0 s, iters = (89683, 0)
+> Progress 45.1901%, elapsed 87.0 s, iters = (92679, 0)
+> Progress 45.5708%, elapsed 90.0 s, iters = (95595, 0)
+> Progress 45.7323%, elapsed 93.0 s, iters = (98769, 0)
+> Progress 45.854%, elapsed 96.0 s, iters = (102162, 0)
+> Progress 45.9662%, elapsed 99.0 s, iters = (105124, 0)
+> Progress 46.076%, elapsed 102.0 s, iters = (107383, 0)
+> Progress 46.174%, elapsed 105.0 s, iters = (109624, 0)
+> Progress 46.2738%, elapsed 108.0 s, iters = (112548, 0)
+> Progress 46.5057%, elapsed 111.0 s, iters = (115430, 0)
+> Progress 46.6791%, elapsed 114.0 s, iters = (118521, 0)
+> Progress 46.8935%, elapsed 117.0 s, iters = (121729, 0)
+> Progress 47.0341%, elapsed 120.0 s, iters = (124280, 0)
+> Progress 47.1343%, elapsed 123.0 s, iters = (126560, 0)
+> Progress 47.2502%, elapsed 126.0 s, iters = (129502, 0)
+> Progress 48.323%, elapsed 129.0 s, iters = (132692, 0)
+> Progress 48.5771%, elapsed 132.0 s, iters = (135607, 0)
+> Progress 48.9848%, elapsed 135.0 s, iters = (138994, 0)
+> Progress 49.3847%, elapsed 138.0 s, iters = (141873, 0)
+> Progress 49.6477%, elapsed 141.0 s, iters = (144976, 0)
+> Progress 49.8642%, elapsed 144.0 s, iters = (147655, 0)
+> Progress 50.6822%, elapsed 147.0 s, iters = (150569, 0)
+> Progress 51.475%, elapsed 150.0 s, iters = (153423, 0)
+> Progress 52.4959%, elapsed 153.0 s, iters = (156010, 0)
+> Progress 52.8561%, elapsed 156.0 s, iters = (158968, 0)
+> Progress 53.0535%, elapsed 159.0 s, iters = (162236, 0)
+> Progress 53.3718%, elapsed 162.0 s, iters = (165190, 0)
+> Progress 53.4797%, elapsed 165.0 s, iters = (167370, 0)
+> Progress 53.5962%, elapsed 168.0 s, iters = (170012, 0)
+> Progress 53.7655%, elapsed 171.0 s, iters = (173076, 0)
+> Progress 53.8503%, elapsed 174.0 s, iters = (176335, 0)
+> Progress 54.0119%, elapsed 177.0 s, iters = (179371, 0)
+> Progress 54.1029%, elapsed 180.0 s, iters = (182059, 0)
+> Progress 54.4129%, elapsed 183.0 s, iters = (184724, 0)
+> Progress 54.6529%, elapsed 186.0 s, iters = (187438, 0)
+> Progress 54.8025%, elapsed 189.0 s, iters = (189924, 0)
+> Progress 54.8965%, elapsed 192.0 s, iters = (192785, 0)
+> Progress 55.0283%, elapsed 195.0 s, iters = (195590, 0)
+> Progress 55.1235%, elapsed 198.0 s, iters = (198432, 0)
+> Progress 55.2163%, elapsed 201.0 s, iters = (200629, 0)
+> Progress 55.2989%, elapsed 204.0 s, iters = (203939, 0)
+> Progress 55.4217%, elapsed 207.0 s, iters = (206674, 0)
+> Progress 55.4935%, elapsed 210.0 s, iters = (209490, 0)
+> Progress 55.5429%, elapsed 213.0 s, iters = (211988, 0)
+> Progress 55.5811%, elapsed 216.0 s, iters = (214408, 0)
+> Progress 55.7427%, elapsed 219.0 s, iters = (217102, 0)
+> Progress 56.0418%, elapsed 222.0 s, iters = (219248, 0)
+> Progress 56.2174%, elapsed 225.0 s, iters = (221728, 0)
+> Progress 56.4616%, elapsed 228.0 s, iters = (224551, 0)
+> Progress 56.5773%, elapsed 231.0 s, iters = (227514, 0)
+> Progress 56.6786%, elapsed 234.0 s, iters = (230054, 0)
+> Progress 56.9641%, elapsed 237.0 s, iters = (232611, 0)
+> Progress 57.1091%, elapsed 240.0 s, iters = (234790, 0)
+> Progress 57.1614%, elapsed 243.0 s, iters = (237367, 0)
+> Progress 57.2417%, elapsed 246.0 s, iters = (240251, 0)
+> Progress 57.3037%, elapsed 249.0 s, iters = (243285, 0)
+> Progress 57.3919%, elapsed 252.0 s, iters = (246047, 0)
+> Progress 57.4589%, elapsed 255.0 s, iters = (248458, 0)
+> Progress 57.5418%, elapsed 258.0 s, iters = (251221, 0)
+> Progress 57.607%, elapsed 261.0 s, iters = (253195, 0)
+> Progress 57.6796%, elapsed 264.0 s, iters = (255370, 0)
+> Progress 57.7729%, elapsed 267.0 s, iters = (258124, 0)
+> Progress 58.5184%, elapsed 270.0 s, iters = (260679, 0)
+> Progress 58.9647%, elapsed 273.0 s, iters = (263941, 0)
+> Progress 59.2113%, elapsed 276.0 s, iters = (266736, 0)
+> Progress 59.3962%, elapsed 279.0 s, iters = (269440, 0)
+> Progress 59.7423%, elapsed 282.0 s, iters = (271949, 0)
+> Progress 59.9704%, elapsed 285.0 s, iters = (274803, 0)
+> Progress 60.1147%, elapsed 288.0 s, iters = (277519, 0)
+> Progress 60.3653%, elapsed 291.0 s, iters = (280317, 0)
+> Progress 60.4412%, elapsed 294.0 s, iters = (282173, 0)
+> Progress 62.7672%, elapsed 297.0 s, iters = (285494, 0)
+> Progress 63.4346%, elapsed 300.0 s, iters = (289087, 0)
+> Progress 63.9822%, elapsed 303.0 s, iters = (292610, 0)
+> Progress 64.5092%, elapsed 306.0 s, iters = (296272, 0)
+> Progress 64.9305%, elapsed 309.0 s, iters = (299620, 0)
+> Progress 65.075%, elapsed 312.0 s, iters = (302964, 0)
+> Progress 65.3041%, elapsed 315.0 s, iters = (306476, 0)
+> Progress 65.4327%, elapsed 318.0 s, iters = (309758, 0)
+> Progress 65.6074%, elapsed 321.0 s, iters = (312863, 0)
+> Progress 65.7541%, elapsed 324.0 s, iters = (316157, 0)
+> Progress 66.0609%, elapsed 327.0 s, iters = (319605, 0)
+> Progress 66.2837%, elapsed 330.0 s, iters = (322995, 0)
+> Progress 66.5842%, elapsed 333.0 s, iters = (326171, 0)
+> Progress 66.6923%, elapsed 336.0 s, iters = (329614, 0)
+> Progress 66.9511%, elapsed 339.0 s, iters = (332963, 0)
+> Progress 67.276%, elapsed 342.0 s, iters = (336451, 0)
+> Progress 67.4718%, elapsed 345.0 s, iters = (339745, 0)
+> Progress 67.6956%, elapsed 348.0 s, iters = (343304, 0)
+> Progress 67.8626%, elapsed 351.0 s, iters = (346723, 0)
+> Progress 68.0955%, elapsed 354.0 s, iters = (350036, 0)
+> Progress 68.2323%, elapsed 357.0 s, iters = (353274, 0)
+> Progress 69.398%, elapsed 360.0 s, iters = (356422, 0)
+> Progress 71.1385%, elapsed 363.0 s, iters = (359192, 0)
+> Progress 71.5202%, elapsed 366.0 s, iters = (362348, 0)
+> Progress 71.9847%, elapsed 369.0 s, iters = (365314, 0)
+> Progress 72.29%, elapsed 372.0 s, iters = (368116, 0)
+> Progress 72.6011%, elapsed 375.0 s, iters = (371015, 0)
+> Progress 72.9993%, elapsed 378.0 s, iters = (374100, 0)
+> Progress 73.4257%, elapsed 381.0 s, iters = (377075, 0)
+> Progress 73.8832%, elapsed 384.0 s, iters = (380111, 0)
+> Progress 74.4361%, elapsed 387.0 s, iters = (383115, 0)
+> Progress 74.9374%, elapsed 390.0 s, iters = (385543, 0)
+> Progress 75.107%, elapsed 393.0 s, iters = (387839, 0)
+> Progress 75.2111%, elapsed 396.0 s, iters = (390014, 0)
+> Progress 75.2738%, elapsed 399.0 s, iters = (391547, 0)
+> Progress 75.5157%, elapsed 402.0 s, iters = (394128, 0)
+> Progress 75.693%, elapsed 405.0 s, iters = (396486, 0)
+> Progress 75.8625%, elapsed 408.0 s, iters = (398875, 0)
+> Progress 76.015%, elapsed 411.0 s, iters = (401530, 0)
+> Progress 76.1384%, elapsed 414.0 s, iters = (403389, 0)
+> Progress 76.2268%, elapsed 417.0 s, iters = (404859, 0)
+> Progress 80.1885%, elapsed 420.0 s, iters = (407224, 0)
+> Progress 82.672%, elapsed 423.0 s, iters = (410413, 0)
+> Progress 84.3215%, elapsed 426.0 s, iters = (413824, 0)
+> Progress 84.7018%, elapsed 429.0 s, iters = (417268, 0)
+> Progress 85.0048%, elapsed 432.0 s, iters = (420612, 0)
+> Progress 85.3478%, elapsed 435.0 s, iters = (423565, 0)
+> Progress 85.8311%, elapsed 438.0 s, iters = (426680, 0)
+> Progress 85.9331%, elapsed 441.0 s, iters = (429753, 0)
+> Progress 86.541%, elapsed 444.0 s, iters = (433145, 0)
+> Progress 87.059%, elapsed 447.0 s, iters = (436412, 0)
+> Progress 87.5228%, elapsed 450.0 s, iters = (439628, 0)
+> Progress 87.8715%, elapsed 453.0 s, iters = (442384, 0)
+> Progress 89.0163%, elapsed 456.0 s, iters = (445337, 0)
+> Progress 89.4325%, elapsed 459.0 s, iters = (448284, 0)
+> Progress 89.8091%, elapsed 462.0 s, iters = (451564, 0)
+> Progress 90.0836%, elapsed 465.0 s, iters = (454605, 0)
+> Progress 90.2147%, elapsed 468.0 s, iters = (457779, 0)
+> Progress 90.7062%, elapsed 471.0 s, iters = (460918, 0)
+> Progress 91.2894%, elapsed 474.0 s, iters = (464272, 0)
+> Progress 91.3984%, elapsed 477.0 s, iters = (467555, 0)
+> Progress 91.5399%, elapsed 480.0 s, iters = (470721, 0)
+> Progress 92.1991%, elapsed 483.0 s, iters = (474127, 0)
+> Progress 92.3945%, elapsed 486.0 s, iters = (477567, 0)
+> Progress 92.5612%, elapsed 489.0 s, iters = (480845, 0)
+> Progress 92.9996%, elapsed 492.0 s, iters = (484140, 0)
+> Progress 93.2106%, elapsed 495.0 s, iters = (487398, 0)
+> Progress 93.3891%, elapsed 498.0 s, iters = (490512, 0)
+> Progress 93.5414%, elapsed 501.0 s, iters = (493601, 0)
+> Progress 93.7759%, elapsed 504.0 s, iters = (496639, 0)
+> Progress 94.0389%, elapsed 507.0 s, iters = (500096, 0)
+> Progress 94.2936%, elapsed 510.0 s, iters = (503295, 0)
+> Progress 94.5102%, elapsed 513.0 s, iters = (506276, 0)
+> Progress 94.683%, elapsed 516.0 s, iters = (509399, 0)
+> Progress 94.9665%, elapsed 519.0 s, iters = (512455, 0)
+> Progress 95.3966%, elapsed 522.0 s, iters = (515601, 0)
+> Progress 95.5041%, elapsed 525.0 s, iters = (518558, 0)
+> Progress 95.8109%, elapsed 528.0 s, iters = (521556, 0)
+> Progress 95.9386%, elapsed 531.0 s, iters = (524372, 0)
+> Progress 96.0884%, elapsed 534.0 s, iters = (527497, 0)
+> Progress 96.4108%, elapsed 537.0 s, iters = (530765, 0)
+> Progress 96.7864%, elapsed 540.0 s, iters = (533935, 0)
+> Progress 97.0096%, elapsed 543.0 s, iters = (537101, 0)
+> Progress 97.2676%, elapsed 546.0 s, iters = (540260, 0)
+> Progress 97.5843%, elapsed 549.0 s, iters = (543278, 0)
+> Progress 97.7294%, elapsed 552.0 s, iters = (546438, 0)
+> Progress 97.8517%, elapsed 555.0 s, iters = (549509, 0)
+> Progress 98.0672%, elapsed 558.0 s, iters = (552535, 0)
+> Progress 98.2057%, elapsed 561.0 s, iters = (555513, 0)
+> Progress 98.3479%, elapsed 564.0 s, iters = (558491, 0)
+> Progress 98.4832%, elapsed 567.0 s, iters = (560867, 0)
+> Progress 98.8544%, elapsed 570.0 s, iters = (563762, 0)
+> Progress 99.2833%, elapsed 573.0 s, iters = (566901, 0)
+> Progress 99.4837%, elapsed 576.0 s, iters = (569818, 0)
+> Progress 99.8641%, elapsed 579.0 s, iters = (572882, 0)
+2023-07-04 15:04:03,328 - hypersynthesizer.py - Printing synthesized assignment below:
+2023-07-04 15:04:03,328 - hypersynthesizer.py - None
+--------------------
+Synthesis summary
+constraint 1: P=? [F "target"][0] <built-in function lt> P=? [F "target"][1] -- min_distance: 0
+Optimality objective: None
+ Scheduler Hyperoptimality objective: None
+ Indexes of formulae in OR relation with each other: [[0]]
+
+method: AR, synthesis time: 581.01 s
+number of holes: 18, family size: 68719476736, super quotient: 25 states / 79 actions 
+explored: 100 %
+AR stats: avg MDP size: 25, iterations: 574858, decided families: 415042, average decided families size: 165572.34384953813, AR Sat members found: 0, AR Unsat Members found: 68719476736
+
+feasible: no
+--------------------
+
+$ python3 /home/francesco/HyperProject/paynt/paynt.py --project /home/francesco/HyperProject/eval/qest/SD/./larger-1 --method ar
+2023-07-04 15:04:03,509 - cli.py - This is HyperPaynt version 0.1.0.
+2023-07-04 15:04:03,509 - hyperparser.py - Loading properties from /home/francesco/HyperProject/eval/qest/SD/./larger-1/sketch.props ...
+2023-07-04 15:04:03,509 - hyperparser.py - Parsing scheduler quantifiers ...
+2023-07-04 15:04:03,509 - hyperparser.py - Found the following scheduler quantifiers: {'sched': 'ES'}
+2023-07-04 15:04:03,509 - hyperparser.py - Parsing state quantifiers...
+2023-07-04 15:04:03,509 - hyperparser.py - Found the following state quantifiers: {'s0': ('E', 'sched'), 's1': ('E', 'sched')}
+2023-07-04 15:04:03,509 - hyperparser.py - Parsing restrictions
+2023-07-04 15:04:03,509 - hyperparser.py - Found the following restrictions: {'s0': 'start0', 's1': 'start1'}
+2023-07-04 15:04:03,509 - hyperparser.py - Parsing scheduler optimality ( if required)
+2023-07-04 15:04:03,510 - hyperparser.py - Scheduler optimality property not found.
+2023-07-04 15:04:03,510 - hyperparser.py - Parsing structural constraints (if any)
+2023-07-04 15:04:03,510 - hyperparser.py - Found the following structural equality constraints: []
+2023-07-04 15:04:03,510 - hyperparser.py - Loading sketch from /home/francesco/HyperProject/eval/qest/SD/./larger-1/sketch.templ...
+2023-07-04 15:04:03,510 - hyperparser.py - Assuming a sketch in a PRISM format ...
+2023-07-04 15:04:03,510 - hyperparser.py - Warning. One formula token is contained in another: yu vs u. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 15:04:03,510 - hyperparser.py - Warning. One formula token is contained in another: xr vs r. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 15:04:03,510 - hyperparser.py - Warning. One formula token is contained in another: yd vs d. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 15:04:03,510 - hyperparser.py - Warning. One formula token is contained in another: xl vs l. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 15:04:03,510 - hyperparser.py - Warning. One formula token is contained in another: bad vs d. This may cause disruption or unintended behaviours when parsing structural constraints.
+2023-07-04 15:04:03,526 - hyperparser.py - The model has 2 initial states...
+2023-07-04 15:04:03,527 - hyperparser.py - Instantiating the properties for the quantified initial states
+2023-07-04 15:04:03,527 - hyperparser.py - initial states for s0: [0, 1]
+2023-07-04 15:04:03,527 - hyperparser.py - initial states for s0 after restrictions: [1]
+2023-07-04 15:04:03,527 - hyperparser.py - initial states for s1: [0, 1]
+2023-07-04 15:04:03,527 - hyperparser.py - initial states for s1 after restrictions: [0]
+2023-07-04 15:04:03,527 - hyperparser.py - Assuming an hyperproperty with index 0...
+2023-07-04 15:04:03,528 - hyperparser.py - Found the following specification:
+ constraints: P=? [F "target"][0] <built-in function lt> P=? [F "target"][1] -- min_distance: 0.
+ Optimality objective: none.
+ Scheduler Optimality hyperobjective: none
+ 
+2023-07-04 15:04:03,528 - hypersketch.py - Processing actions and Initializing the quotient and the design space...
+2023-07-04 15:04:03,540 - hyperquotient.py - Constructed quotient MDP having 25 states and 82 actions.
+2023-07-04 15:04:03,542 - hypersketch.py - Sketch has 19 holes
+2023-07-04 15:04:03,542 - hypersketch.py - Design space size: 274877906944
+2023-07-04 15:04:03,542 - hypersketch.py - Design space: [x=4	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=0	& y=3]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=2]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=3	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=0	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=3]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=3	& y=2]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=2	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=3	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=1	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=4	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=1	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=2	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=2	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=3	& y=4]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=0	& y=1]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=1	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched'];
+[x=0	& y=0]: {{'up'},{'right'},{'down'},{'left'}} - scheduler(s): ['sched']
+2023-07-04 15:04:03,542 - hypersketch.py - Sketch parsing complete.
+2023-07-04 15:04:03,542 - hypersketch.py - Matching holes: defaultdict(<class 'list'>, {})
+2023-07-04 15:04:03,542 - cli.py - Synthetizing an MDP scheduler wrt a hyperproperty
+2023-07-04 15:04:03,542 - hypersynthesizer.py - Synthesis initiated.
+> Progress 3.361%, elapsed 3.0 s, iters = (3229, 0)
+> Progress 6.2345%, elapsed 6.0 s, iters = (6421, 0)
+> Progress 7.3161%, elapsed 9.0 s, iters = (9779, 0)
+> Progress 7.8558%, elapsed 12.0 s, iters = (12778, 0)
+> Progress 8.1049%, elapsed 15.0 s, iters = (16432, 0)
+> Progress 8.3736%, elapsed 18.0 s, iters = (20033, 0)
+> Progress 8.471%, elapsed 21.0 s, iters = (23629, 0)
+> Progress 8.5682%, elapsed 24.0 s, iters = (26937, 0)
+> Progress 8.5769%, elapsed 27.0 s, iters = (30239, 0)
+> Progress 8.5929%, elapsed 30.0 s, iters = (33567, 0)
+> Progress 8.7232%, elapsed 33.0 s, iters = (36993, 0)
+> Progress 8.9206%, elapsed 36.0 s, iters = (40097, 0)
+> Progress 9.1148%, elapsed 39.0 s, iters = (42886, 0)
+> Progress 9.173%, elapsed 42.0 s, iters = (45869, 0)
+> Progress 9.2794%, elapsed 45.0 s, iters = (48842, 0)
+> Progress 9.3957%, elapsed 48.0 s, iters = (52130, 0)
+> Progress 9.446%, elapsed 51.0 s, iters = (55490, 0)
+> Progress 9.4789%, elapsed 54.0 s, iters = (58554, 0)
+> Progress 9.4954%, elapsed 57.0 s, iters = (61126, 0)
+> Progress 9.5598%, elapsed 60.0 s, iters = (64509, 0)
+> Progress 9.5676%, elapsed 63.0 s, iters = (67908, 0)
+> Progress 9.5704%, elapsed 66.0 s, iters = (71375, 0)
+> Progress 9.574%, elapsed 69.0 s, iters = (74704, 0)
+> Progress 9.5778%, elapsed 72.0 s, iters = (77917, 0)
+> Progress 9.5901%, elapsed 75.0 s, iters = (81360, 0)
+> Progress 9.5998%, elapsed 78.0 s, iters = (84727, 0)
+> Progress 9.6075%, elapsed 81.0 s, iters = (87739, 0)
+> Progress 9.616%, elapsed 84.0 s, iters = (90930, 0)
+> Progress 9.9579%, elapsed 87.0 s, iters = (93821, 0)
+> Progress 10.1272%, elapsed 90.0 s, iters = (96282, 0)
+> Progress 10.1645%, elapsed 93.0 s, iters = (98683, 0)
+> Progress 10.2048%, elapsed 96.0 s, iters = (100322, 0)
+> Progress 10.2157%, elapsed 99.0 s, iters = (102317, 0)
+> Progress 10.2305%, elapsed 102.0 s, iters = (103912, 0)
+> Progress 10.2626%, elapsed 105.0 s, iters = (105649, 0)
+> Progress 10.2664%, elapsed 108.0 s, iters = (106991, 0)
+> Progress 10.274%, elapsed 111.0 s, iters = (108794, 0)
+> Progress 10.2755%, elapsed 114.0 s, iters = (110502, 0)
+> Progress 10.3703%, elapsed 117.0 s, iters = (112818, 0)
+> Progress 10.4308%, elapsed 120.0 s, iters = (115835, 0)
+> Progress 10.5099%, elapsed 123.0 s, iters = (118675, 0)
+> Progress 10.5721%, elapsed 126.0 s, iters = (121413, 0)
+> Progress 10.606%, elapsed 129.0 s, iters = (123866, 0)
+> Progress 10.7201%, elapsed 132.0 s, iters = (126743, 0)
+> Progress 10.7353%, elapsed 135.0 s, iters = (129588, 0)
+> Progress 10.7375%, elapsed 138.0 s, iters = (131773, 0)
+> Progress 10.7415%, elapsed 141.0 s, iters = (134100, 0)
+> Progress 10.7557%, elapsed 144.0 s, iters = (137315, 0)
+> Progress 10.7623%, elapsed 147.0 s, iters = (140013, 0)
+> Progress 10.7706%, elapsed 150.0 s, iters = (143030, 0)
+> Progress 10.8014%, elapsed 153.0 s, iters = (146106, 0)
+> Progress 10.8481%, elapsed 156.0 s, iters = (149147, 0)
+> Progress 10.8679%, elapsed 159.0 s, iters = (152104, 0)
+> Progress 10.884%, elapsed 162.0 s, iters = (154517, 0)
+> Progress 10.889%, elapsed 165.0 s, iters = (156610, 0)
+> Progress 10.8973%, elapsed 168.0 s, iters = (159199, 0)
+> Progress 10.9117%, elapsed 171.0 s, iters = (162479, 0)
+> Progress 10.9175%, elapsed 174.0 s, iters = (165284, 0)
+> Progress 10.925%, elapsed 177.0 s, iters = (167967, 0)
+> Progress 10.9348%, elapsed 180.0 s, iters = (170850, 0)
+> Progress 12.0951%, elapsed 183.0 s, iters = (173510, 0)
+> Progress 15.0502%, elapsed 186.0 s, iters = (176722, 0)
+> Progress 15.9613%, elapsed 189.0 s, iters = (179742, 0)
+> Progress 16.18%, elapsed 192.0 s, iters = (182220, 0)
+2023-07-04 15:07:17,741 - hypersynthesizer.py - Printing synthesized assignment below:
+2023-07-04 15:07:17,741 - hypersynthesizer.py - [x=4	& y=1]={'down'} - scheduler(s): ['sched'];
+[x=0	& y=3]={'up'} - scheduler(s): ['sched'];
+[x=4	& y=2]={'left'} - scheduler(s): ['sched'];
+[x=3	& y=1]={'left'} - scheduler(s): ['sched'];
+[x=4	& y=0]={'left'} - scheduler(s): ['sched'];
+[x=0	& y=4]={'right'} - scheduler(s): ['sched'];
+[x=4	& y=3]={'down'} - scheduler(s): ['sched'];
+[x=3	& y=2]={'down'} - scheduler(s): ['sched'];
+[x=2	& y=1]={'left'} - scheduler(s): ['sched'];
+[x=3	& y=0]={'left'} - scheduler(s): ['sched'];
+[x=1	& y=4]={'right'} - scheduler(s): ['sched'];
+[x=4	& y=4]={'down'} - scheduler(s): ['sched'];
+[x=1	& y=1]={'up'} - scheduler(s): ['sched'];
+[x=2	& y=0]={'left'} - scheduler(s): ['sched'];
+[x=2	& y=4]={'right'} - scheduler(s): ['sched'];
+[x=3	& y=4]={'right'} - scheduler(s): ['sched'];
+[x=0	& y=1]={'up'} - scheduler(s): ['sched'];
+[x=1	& y=0]={'left'} - scheduler(s): ['sched'];
+[x=0	& y=0]={'up'} - scheduler(s): ['sched']
+2023-07-04 15:07:17,742 - hypersynthesizer.py - Double-checking specification satisfiability:
+0.3106445485788348[0] <built-in function lt> 0.3184165862081275[1]: True
+ No optimality constraint specified
+ No scheduler hyperoptimalty constraint specified
+--------------------
+Synthesis summary
+constraint 1: P=? [F "target"][0] <built-in function lt> P=? [F "target"][1] -- min_distance: 0
+Optimality objective: None
+ Scheduler Hyperoptimality objective: None
+ Indexes of formulae in OR relation with each other: [[0]]
+
+method: AR, synthesis time: 194.12 s
+number of holes: 19, family size: 274877906944, super quotient: 25 states / 82 actions 
+explored: 16 %
+AR stats: avg MDP size: 25, iterations: 183843, decided families: 133850, average decided families size: 336499.543309675, AR Sat members found: 0, AR Unsat Members found: 45040463872
+
+feasible: yes
+--------------------
+
