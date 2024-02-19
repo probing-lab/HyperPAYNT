@@ -62,17 +62,17 @@ class ConfigInstall(install):
 
 
 setup(
-    name="paynt",
+    name="HyperPAYNT",
     version=obtain_version(),
-    author="Sebastian Junges",
-    author_email="sebastian.junges@cs.rwth-aachen.de",
-    maintainer="Sebastian Junges",
-    maintainer_email="sebastian.junges@cs.rwth-aachen.de",
+    author="Francesco Pontiggia",
+    author_email="francesco.pontiggia@tuwien.ac.at",
+    maintainer="Francesco Pontiggia",
+    maintainer_email="francesco.pontiggia@tuwien.ac.at",
     license="GPLv3",
     url="https://github.com/randriu/synthesis",
-    description="PAYNT (Probabilistic progrAm sYNThesizer)",
+    description="HyperPAYNT (Probabilistic progrAm sYNThesizer for Hyperproperties)",
     long_description=
-    "PAYNT (Probabilistic progrAm sYNThesizer) is a tool for automated synthesis of probabilistic programs.",
+    "PAYNT (Probabilistic progrAm sYNThesizer) is a tool for automated synthesis of probabilistic programs given probabilistic hyperproperties as specifications.",
     packages=["paynt", "paynt.sketch", "paynt.synthesizers"],
     install_requires=['click', 'stormpy', 'z3-solver'],
     extras_require={},
