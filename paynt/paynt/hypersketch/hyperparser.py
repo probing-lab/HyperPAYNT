@@ -27,7 +27,6 @@ class HyperParser:
     def __init__(self):
         self.sched_quant_dict = {}
         self.state_quant_dict = {}
-        self.state_range_dict = {}
         self.state_quant_restrictions = {}
 
         # to optimize the AR splitting
