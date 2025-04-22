@@ -214,7 +214,7 @@ class HyperParser:
         assert n_sched_quants >= 1
         with open(path, "r") as f:
             lines = f.readlines()
-            self.parse_formulas(lines)
+            self.parse_formulas_and_check_init(lines)
             f.close()
 
         # perform the "duplication trick"
@@ -236,16 +236,29 @@ class HyperParser:
         else:
             return stormpy.parse_prism_program(path, prism_compat=True)
 
-    def parse_formulas(self, lines):
+    def parse_formulas_and_check_init(self, lines):
         formula_re = re.compile(r'formula(.*?)\=(.*);$')
+        sched_quant_re = re.compile(r'(.*?)sched_quant(.*?)$')
+        init_re = re.compile(r'(.*?)init(.*?)endinit(.*?)$')
+        has_init_statement = False
         for line in lines:
-            match = formula_re.search(line.replace(' ', ''))
-            if match is not None:
+            formula_match = formula_re.search(line.replace(' ', ''))
+            sched_quant_match = sched_quant_re.search(line.replace(' ', ''))
+            init_re_match = init_re.search(line.replace(' ', ''))
+
+            if sched_quant_match is not None:
+                raise Exception(f"\"sched_quant\" is a reserved word in HyperPAYNT, and it is not allowed in input PRISM files: {line}")
+            if init_re_match is not None:
+                has_init_statement = True
+            if formula_match is not None:
                 for f in self.parsed_formulas:
-                    if match.group(1) in f or f in match.group(1):
-                        logger.info(f"Warning. One formula token is contained in another: {match.group(1)} vs {f}. "
+                    if formula_match.group(1) in f or f in formula_match.group(1):
+                        logger.info(f"Warning. One formula token is contained in another: {formula_match.group(1)} vs {f}. "
                                     f"This may cause disruption or unintended behaviours when parsing structural constraints.")
-                self.parsed_formulas[match.group(1)] = match.group(2)
+                self.parsed_formulas[formula_match.group(1)] = formula_match.group(2)
+        if not has_init_statement:
+            raise Exception("Could not find a \"init ... endinit\" construct."
+                            " HyperPAYNT requires initial states to be explicitly defined via a \"init ... endinit\" construct.")
 
     # "horizontally" means to add some more properties in disjunction with the ones found in the current line
     def grow_horizontally(self, line, state_name, initial_states):
