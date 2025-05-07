@@ -1,5 +1,5 @@
 # HyperPAYNT
-Synthesizing controllers for Probabilistic HyperProperties on MDP. This repository contains the tool and experiments presented in the following publication: 
+This repository contains the tool and experiments presented in the following publication: 
 - Roman Andriushchenko, Ezio Bartocci, Milan Ceska, Francesco Pontiggia, Sarah Sallinger, Deductive Controller Synthesis for Probabilistic Hyperproperties (QEST'23).
 
 A Zenodo docker container to reproduce the experiments is available [here](https://zenodo.org/records/7966215). 
